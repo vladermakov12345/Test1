@@ -5,7 +5,7 @@ if (typeof require === 'function') {
 describe("sqrt", function() {
 
   it("should compute the square root of 4 as 2", function() {
-    assert.equal(Math.sqrt(4), 2);
+    assert.equal(Math.sqrt(4), 3);
   });
 
 });
