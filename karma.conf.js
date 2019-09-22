@@ -32,7 +32,11 @@ module.exports = function (config) {
             'karma-firefox-launcher',
             'karma-ie-launcher',
             'karma-safari-launcher',
-            'karma-detect-browsers'
+            'karma-detect-browsers',
+	      'karma-jasmine',
+        'karma-webpack'
+
+
         ]
     });
 }
