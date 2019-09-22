@@ -1,7 +1,7 @@
 module.exports = function (config) {
     config.set({
         frameworks: [
-            'mocha',
+            'jasmine',
             'chai',
             'detectBrowsers'
         ],
@@ -10,12 +10,12 @@ module.exports = function (config) {
             'test/sqrt.js'
         ],
 
-        client: {
-            mocha: {
-                reporter: 'html',
-                ui: 'bdd'
-            }
-        },
+//        client: {
+//            mocha: {
+//                reporter: 'html',
+//                ui: 'bdd'
+//            }
+//        },
 
         singleRun: true,
         colors: true,
@@ -26,7 +26,7 @@ module.exports = function (config) {
         },
 
         plugins: [
-            'karma-mocha',
+//            'karma-mocha',
             'karma-chai',
             'karma-chrome-launcher',
             'karma-firefox-launcher',
