@@ -1,0 +1,845 @@
+
+
+<div ng-controller="homepageController as home" ng-cloak>
+
+    <!-- booking:mobile xs & sm -->
+    <div class="d-xs-block d-sm-none">
+        <div id="home-image-container-mobile" style="position: relative;width:100%;">
+            <div style="background-image: url('https://accessiblego.azureedge.net/img/background_beach.jpg');background-position:left;padding:1em;margin:0px;min-height:16em;height:auto;">
+                <div style="position:absolute;bottom:1em;max-width:90%;z-index:51;text-align: left;color:#fff;font-family: Source Sans Pro;">
+                    <span style="font-size:2.35em;font-weight: 800;line-height:1;">Accessible Travel Made Smart</span>
+                    <br/>
+                    <span style="font-size:1.15em;font-weight: 500;line-height:1;">Get accessibility details and community reviews for hotels, flights and more.</span>
+                </div>
+            </div>
+            <div style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;height: 100%;opacity: .40;background-color: #000;"></div>
+        </div>
+        <bookbox type="hotels" city=""></bookbox>
+    </div>
+
+    <!-- booking: desktop -->
+    <div id="home-booking" class="d-none d-sm-block section-wrapper" style="margin-top:2.25em;align-items:flex-start; /*center causes strange behavior on homepage in IE & Firefox */">
+        <div id="home-image-container-desktop" style="position: relative;width:100%;">
+            <img 
+            src="https://accessiblego.azureedge.net/img/background_beach.jpg" aria-hidden="true" alt=""
+                style="height:30em;width:100%;z-index:40;min-height: 31em;" />
+            <div style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;height: 100%;opacity: .30;background-color: #000;"></div>
+        </div>
+
+        <!-- v3 homepage version -->
+        <div ng-if="home.version==='v3'" style="width: 66.438em;margin-left: auto ;margin-right: auto;">
+            <div style="position:absolute;top:10em;max-width:66.438em;width:100%;z-index:51;text-align: left;color:#fff;font-family: Source Sans Pro;padding:0 2em;">
+                <span style="font-size:2.75em;font-weight: 800;xline-height:1;">Accessible Travel Made Smart</span>
+                <br/>
+                <span style="font-size:1.75em;font-weight: 500;line-height:1;">Get accessibility details and community reviews for hotels, flights and more.</span>
+            </div>
+            <div id="home-booking-search">
+
+                <!-- select a section -->
+                <div id="home-book-sections">
+                    <h1 id="home-booking-caption" style="text-align: left;">Book Accessible Travel</h1>
+                    <div id="home-book-hotels">
+                        <button id="home-book-hotel-button" class="home-book-button" ng-class="home.isHotelSectionSelected() ? 'home-book-button-active' : 'home-book-button-normal'"
+                            ng-click="home.setBookingSection('hotels')"
+                            xonClick="home.dataLayerService.push('pageview');">
+                            <img ng-src="{{home.image_hotelsWhite}}" ng-if="home.isHotelSectionSelected()" alt="" />
+                            <img ng-src="{{home.image_hotelsBlack}}" ng-if="!home.isHotelSectionSelected()" alt="" /> &nbsp;Hotels
+                        </button>
+                    </div>
+                    <div id="home-book-flights">
+                        <button id="home-book-flights-button" class="home-book-button" ng-class="home.isFlightSectionSelected() ? 'home-book-button-active' : 'home-book-button-normal'"
+                            ng-click="home.setBookingSection('flights')" 
+                            xonClick="ga('send', 'event', 'homepage_links','click','oldVer_bookbar_flight')">
+                            <img ng-src="{{home.image_flightsWhite}}" ng-if="home.isFlightSectionSelected()" alt="" />
+                            <img ng-src="{{home.image_flightsBlack}}" ng-if="!home.isFlightSectionSelected()" alt="" /> &nbsp;Flights
+                        </button>
+                    </div>
+                    <div id="home-book-cruises">
+                        <button id="home-book-cruises-button" class="home-book-button" ng-class="home.isCruiseSectionSelected() ? 'home-book-button-active' : 'home-book-button-normal'"
+                            ng-click="home.goCruising()"
+                            xonClick="ga('send', 'event', 'homepage_links','click','oldVer_bookbar_cruise')"
+                            xng-click="home.setBookingSection('cruises')">
+                            <img ng-src="{{home.image_cruisesWhite}}" ng-if="home.isCruiseSectionSelected()" alt="" />
+                            <img ng-src="{{home.image_cruisesBlack}}" ng-if="!home.isCruiseSectionSelected()" alt="" /> &nbsp;Cruises
+                        </button>
+                    </div>
+<!--                     <div id="home-book-insurance">
+                        <button id="home-book-insurance-button" class="home-book-button" ng-class="home.isInsuranceSectionSelected() ? 'home-book-button-active' : 'home-book-button-normal'"
+                            ng-click="home.setBookingSection('insurance')" 
+                            xonClick="ga('send', 'event', 'homepage_links','click','oldVer_bookbar_insurance')">
+                            <img ng-src="{{home.image_insuranceWhite}}" ng-if="home.isInsuranceSectionSelected()" alt="" />
+                            <img ng-src="{{home.image_insuranceBlack}}" ng-if="!home.isInsuranceSectionSelected()" alt="" /> &nbsp;Insurance
+                        </button>
+                    </div> -->
+                    <div id="home-book-cars">
+                        <button id="home-book-cars-button" class="home-book-button" ng-class="home.selectedBookingSection==='cars' ? 'home-book-button-active' : 'home-book-button-normal'"
+                            ng-click="home.setBookingSection('cars')" 
+                            xonClick="ga('send', 'event', 'homepage_links','click','oldVer_bookbar_cars')">
+                            <img ng-src="{{home.image_carsWhite}}" ng-if="home.selectedBookingSection=='cars'" alt="" />
+                            <img ng-src="{{home.image_carsBlack}}" ng-if="home.selectedBookingSection!='cars'" alt="" /> &nbsp;Cars
+                        </button>
+                    </div>
+                </div>
+
+                <!-- section: hotels -->
+                <div id="home-booking-form-hotels" class="home-booking-form input-group" ng-show="home.isHotelSectionSelected()" style="display: flex;flex-direction: row;flex-wrap:none;height:8px;">
+                    <!-- filler b/c other tabs need a selection row here -->
+                </div>
+
+                <div
+                    id="home-booking-form-hotels"
+                    class="home-booking-form input-group"
+                    ng-show="home.isHotelSectionSelected()"
+                    style="display: flex;flex-direction: row;flex-wrap:none;justify-content: space-between;">
+                    <div style="flex-shrink:2;flex-grow:2;text-align: left;width:100%;">
+                        <!-- <label for="home-booking-form-hotels_destination" style="font-weight: 400;">Where are you going?</label><br />
+					  <input id="home-booking-form-hotels_destination" ng-model="hotel_destination" type="text" class="home-booking-form-input" placeholder="City, Airport, Point of Interest, Hotel Name, or U.S. Zip Code" style="width:27em;"> -->
+
+                        <where-picker
+                            id="hotels-where"
+                            label="Where are you going?"
+                            placeholder="Enter a city, airport, or hotel"
+                            ng-model="home.hotelDestination"
+                            include-hotels="Y"
+                            include-cities="Y"
+                            include-airports="Y"
+                            include-directories="N">
+                        </where-picker>
+                    </div>
+
+                    <div style="flex-shrink:1;text-align: left;">
+                        <!-- <label for="home-booking-form-hotels_checkin" style="font-weight: 400;">Check-in</label><br />
+				  		<input id="home-booking-form-hotels_checkin" ng-model="hotel_checkin" type="date" class="home-booking-form-input" placeholder="Choose Date" style="width:11.275em;" /> -->
+                        <date-picker id="checkin" label="Check-in" placeholder="Choose Date" ng-model="home.hotelDateCheckin" />
+                    </div>
+
+                    <div style="flex-shrink:1;text-align: left;">
+                        <!-- <label for="home-booking-form-hotels_checkout" style="font-weight: 400;">Check-out</label><br />
+						<input id="home-booking-form-hotels_checkout" ng-model="hotel_checkout" type="date" class="home-booking-form-input" placeholder="Choose Date" style="width:11.275em;" /> -->
+                        <date-picker id="checkout" label="Check-out" placeholder="Choose Date" min-date="{{home.hotelDateCheckin.toUTCString()}}"
+                            ng-model="home.hotelDateCheckout" />
+                    </div>
+
+                    <div style="flex-shrink:1;">
+                        <hotel-search-guests
+                            label="Adults"
+                            ng-model="home.hotelSearchRooms"
+                            min="1"
+                            max="9" />
+                    </div>
+
+                    <div style="flex-shrink:1;" class="p-0">
+                        <hotel-search-guests
+                            label="Adults"
+                            ng-model="home.hotelSearchAdults"
+                            min="1"
+                            max="{{home.hotelSearchAdultsMax}}"
+                        />
+                    </div>
+                    <div style="flex-shrink:1;" class="p-0">
+                        <hotel-search-guests
+                            label="Children"
+                            ng-model="home.hotelSearchChildren"
+                            min="0"
+                            max="{{home.hotelSearchChildrenMax}}"
+                        />
+                    </div>
+
+
+                    <div style="align-self: flex-end;">
+                        <button
+                            id="home-booking-form-hotels_searchbutton"
+                            class="home-booking-form-searchbutton"
+                            type="button"
+                            style="height:1.5em;xmargin-top: 5px;"
+                            ng-click="home.searchHotels()"
+                            aria-label="Search Hotels"
+                            ng-class="{'buttonDisableClass':hotels.isButtonDisable}">GO</button>
+                    </div>
+
+                    <!-- <div style="text-align: right;width:110px;">
+                        <br />
+                        <img ng-src="{{home.image_poweredByPPN}}" alt="" />
+                    </div> -->
+                </div>
+
+
+
+                <!-- section: flights -->
+                <div id="home-booking-form-flights" class="home-booking-form input-group" ng-show="home.isFlightSectionSelected()" style="display: flex;flex-direction: row;flex-wrap:none;">
+                    <button id="home-book-flights-ways" class="home-book-button" ng-class="home.selectedFlightWay==='RoundTrip' ? 'home-book-button-active' : 'home-book-button-normal'"
+                        ng-click="home.setFlightWay('RoundTrip')">
+                        Roundtrip</button>
+
+                    <button id="home-book-flights-ways" class="home-book-button" ng-class="home.selectedFlightWay==='OneWay' ? 'home-book-button-active' : 'home-book-button-normal'"
+                        ng-click="home.setFlightWay('OneWay')">
+                        One way</button>
+                </div>
+
+                <div id="home-booking-form-flights" class="home-booking-form input-group" ng-show="home.isFlightSectionSelected()" style="display: flex;flex-direction: row;flex-wrap:none;">
+                    <div style="flex-grow:3;text-align: left;">
+                        <where-picker id="flights_departure_location" label="From" placeholder="Enter a City or Airport" ng-model="home.flights_departure_location"
+                            include-hotels="N" include-cities="Y" include-airports="Y" is-for-flights="Y" include-directories="N" style="max-width:8.250em;">
+                        </where-picker>
+                    </div>
+                    <div style="flex-grow:3;text-align: left;">
+                        <where-picker id="flights_arrival_location" label="To" placeholder="Enter a City or Airport" ng-model="home.flights_arrival_location"
+                            include-hotels="N" include-cities="Y" include-airports="Y" is-for-flights="Y" include-directories="N" style="max-width:8.250em;">
+                        </where-picker>
+                    </div>
+                    <div style="flex-shrink:1;text-align: left;">
+                        <date-picker id="departing" label="Departing" placeholder="mm/dd/yyyy" style="width:5.75em;" ng-model="home.flights_departure_date"
+                        />
+                    </div>
+                    <div style="flex-shrink:1;text-align: left;" ng-show="home.selectedFlightWay==='RoundTrip'">
+                        <date-picker id="returning" label="Returning" placeholder="mm/dd/yyyy" min-date="{{home.flights_departure_date.toUTCString()}}"
+                            ng-model="home.flights_return_date" />
+                    </div>
+                    <div style="flex-shrink:1;">
+                        <air-select-persons ng-model="home.flights_adults" label="Adults" options="[1,2,3,4,5,6,7,8]" />
+                    </div>
+                    <div style="flex-shrink:1;">
+                        <air-select-persons ng-model="home.flights_children" label="Children" options="[0,1,2,3,4,5,6,7,8]" />
+                    </div>
+                    <!-- <div style="flex-shrink:1;">
+						<label for="home-booking-form-flights_cabin">Cabin Class</label><br />
+					  	<input id="home-booking-form-flights_cabin" ng-model="flights_cabin" type="select" class="home-booking-form-input" placeholder="Select" style="width:6.875em;" />
+					</div> -->
+                    <div style="align-self: flex-end;">
+                        <button
+                            id="home-booking-form-flights_searchbutton"
+                            class="home-booking-form-searchbutton"
+                            type="button"
+                            style="height:1.5em;xmargin-top: 5px;"
+                            ng-click="home.searchFlights()"
+                            aria-label="Search Flights"
+                            ng-class="{'buttonDisableClass':hotels.isButtonDisable}">GO</button>
+
+                        <!-- <input id="home-booking-form-flights_searchbutton" class="home-booking-form-searchbutton" type="button" value="GO"
+                            ng-click="home.searchFlights()"
+                            xonClick="ga('send', 'event', 'homepage_links','click','oldVer_bookbar_hotel_submit')" aria-label="Searcg Flights" /> -->
+                    </div>
+
+                    <!-- <div style="text-align: right;width:110px;">
+                        <br />
+                        <img ng-src="{{home.image_poweredByPPN}}" alt="" />
+                    </div> -->
+                </div>
+
+
+                <!-- section: cruises -->
+                <form id="formCruise" ng-submit="home.searchCruises()">
+                    <div id="home-booking-form-cruises" class="home-booking-form input-group" ng-show="home.isCruiseSectionSelected()" style="display: flex;flex-direction: row;flex-wrap:wrap;">
+                        <div style="text-align: left;">
+                            <label for="home-booking-form-cruises_destination">Search (optional)
+                                <!-- Where are you going? -->
+                            </label>
+                            <br />
+                            <input id="home-booking-form-cruises_destination" ng-model="home.cruiseSearchText" type="text" class="home-booking-form-input"
+                                placeholder="" style="width:13em;">
+                        </div>
+
+                        <!--
+					<div>
+					  <label for="home-booking-form-cruises_line">Which cruise line?</label><br />
+					  <input id="home-booking-form-cruises_line" type="text" class="home-booking-form-input" placeholder="" style="width:13em;">
+					</div>
+
+					<div>
+				  		<label for="home-booking-form-cruises_uszip">U.S. Zip code</label><br />
+				  		<input id="home-booking-form-cruises_uszip" type="date" class="home-booking-form-input" placeholder="Choose Date" style="width:6.75em;" />
+				  	</div>
+
+					<div>
+						<label for="home-booking-form-cruises_departure-date">Departure Date</label><br />
+						<input id="home-booking-form-cruises_departure-date" type="date" class="home-booking-form-input" placeholder="Choose Date" style="width:7.375em;" />
+				  	</div>
+
+					<div>
+				  		<label for="home-booking-form-cruises_length">Cruise Length</label><br />
+				  		<input id="home-booking-form-cruises_length" type="number" class="home-booking-form-input" placeholder="" style="width:7.875em;" />
+			  		</div>
+
+					<div>
+				  		<label for="home-booking-form-cruises_55plus">55 years or older?</label><br />
+				  		<input id="home-booking-form-cruises_55plus" type="number" class="home-booking-form-input" placeholder="" style="width:7.25em;" />
+			  		</div>
+			  		-->
+
+                        <div style="margin-left: auto;">
+                            <br />
+                            <input id="home-booking-form-cruises_searchbutton" class="home-booking-form-searchbutton" type="button" value="submit" ng-click="home.searchCruises()" aria-label="Search Cruises" />
+                        </div>
+                    </div>
+                </form>
+
+
+                <!-- section: insurance
+                <div id="home-booking-form-insurance" class="home-booking-form input-group" style="display: flex;flex-direction: row;flex-wrap:wrap;"
+                    ng-show="home.isInsuranceSectionSelected()">
+                    <div>
+                        <label for="home-booking-form-insurance_destination">State of residency</label>
+                        <br />
+                        <input id="home-booking-form-insurance_destination" type="text" class="home-booking-form-input" placeholder="" style="width:16.75em;">
+                    </div>
+
+                    <div>
+                        <label for="home-booking-form-insurance_line">Destination country</label>
+                        <br />
+                        <input id="home-booking-form-insurance_line" type="text" class="home-booking-form-input" placeholder="" style="width:16.750em;">
+                    </div>
+
+                    <div>
+                        <label for="home-booking-form-insurance_departure-date">Departing</label>
+                        <br />
+                        <input id="home-booking-form-insurance_departure-date" type="date" class="home-booking-form-input" placeholder="Choose Date"
+                            style="width:10.125em;" />
+                    </div>
+
+                    <div>
+                        <label for="home-booking-form-insurance_arrival-date">Returning</label>
+                        <br />
+                        <input id="home-booking-form-insurance_arrival-date" type="date" class="home-booking-form-input" placeholder="Choose Date"
+                            style="width::10.125em;" />
+                    </div>
+
+                    <div style="margin-left: auto;margin-top: auto;">
+                        <input id="home-booking-form-insurance_searchbutton" class="home-booking-form-searchbutton" type="button" value="Search"
+                            ng-click="home.searchInsurance()" />
+                    </div>
+                </div>
+                 -->
+
+
+                <!-- section: cars -->
+                <div id="home-booking-form-hotels" class="home-booking-form input-group" ng-show="home.isCarSectionSelected()" style="display: flex;flex-direction: row;flex-wrap:none;height:31px;">
+                    <!-- filler b/c other tabs need a selection row here -->
+                </div>
+                <div id="home-booking-form-cars" class="home-booking-form input-group" ng-show="home.isCarSectionSelected()" style="display: flex;flex-direction: row;flex-wrap:none;">
+                    <!-- pick up -->
+                    <div style="flex-grow:3;text-align: left;">
+                        <where-picker id="cars_pickup_location" label="Picking up" placeholder="Enter a city or airport" ng-model="home.cars_pickup_location"
+                            include-hotels="N" include-cities="Y" include-airports="Y" include-directories="N" style="max-width:8.250em;">
+                        </where-picker>
+                    </div>
+                    <div style="flex-shrink:1;text-align: left;">
+                        <date-picker id="cars_pickup_date" label="Pick-up date" placeholder="mm/dd/yyyy" style="width:2.75em;" ng-model="home.cars_pickup_date"
+                        />
+                    </div>
+                    <div style="flex-shrink:1;text-align: left;">
+                        <time-picker label="Pick-up time" ng-model="home.cars_pickup_time" default-time="9:30 AM" />
+                    </div>
+
+                    <!-- drop off -->
+                    <div style="flex-grow:3;text-align: left;">
+                        <where-picker id="cars_dropoff_location" label="Dropping off" placeholder="Enter a city or airport" ng-model="home.cars_dropoff_location"
+                            include-hotels="N" include-cities="Y" include-airports="Y" include-directories="N" style="max-width:8.250em;">
+                        </where-picker>
+                    </div>
+                    <div style="flex-shrink:1;text-align: left;">
+                        <date-picker id="cars_dropoff_date" label="Drop-off date" placeholder="mm/dd/yyyy" style="width:5.75em;" min-date="{{home.cars_pickup_date.toUTCString()}}"
+                            ng-model="home.cars_dropoff_date" />
+                    </div>
+                    <div style="flex-shrink:1;text-align: left;">
+                        <time-picker label="Drop-off time" ng-model="home.cars_dropoff_time" default-time="9:30 AM" />
+                    </div>
+                    <div style="margin-left: auto;margin-top:1.7em;">
+                        <input id="home-booking-form-cars_searchbutton" class="home-booking-form-searchbutton" type="button" value="GO" ng-click="home.searchCars()" aria-label="Search Rental Cars" />
+                    </div>
+                    <!-- <div style="text-align: right;width:110px;">
+		      			<label>&nbsp;</label><br />
+						<img
+							ng-src="{{home.image_poweredByPPN}}"
+							alt="" />
+					</div> -->
+                </div>
+
+                <!-- validation errors -->
+                <div style="color: red;font-weight:600;text-align: left;" ng-if="home.errs.length>0">
+                    <div ng-repeat="err in home.errs | limitTo:1">
+                        {{err}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<!--Homepage Showcase start-->
+	<div ng-if="home.version==='v3'" class="" style="margin:1.875em 0;">
+		<div style="width:100%;max-width: 66.438em;margin-left: auto ;margin-right: auto;">
+			<div class="wrapper-common wrapper-row" style="justify-content:center;">
+				<div style="width:21.25em;text-align: left;margin-right:1.750em;">
+					<!-- <span class="semibold25" style="color:#29807c;">Accessible Travel:</span>
+					<br />
+
+					<span class="semibold24" style="color:#29807c;">Bookings. Reviews. Community.</span>
+					<br />
+
+					<div style="margin-bottom: .625em;"></div>
+
+					<span class="light18">A travel platform for people with disabilities offering bookings, reviews, service providers, travel inspiration and
+						community
+					</span> -->
+
+
+				</div>
+
+
+
+
+				<!-- article carousel :: begin -->
+				<div class="d-none d-xs-block d-sm-none" style="max-width:40em;border:1px solid #ccc;">
+
+
+
+
+				</div>
+				<!-- article carousel :: end -->
+
+			</div>
+		</div>
+
+
+		<div class="lower-sec">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-3 ">
+						<div class="inner-tabs">
+							<ul class="nav nav-tabs">
+								<li class="nav-item">
+									<a class="nav-link active" data-toggle="tab" href="#bookings">
+										<span>
+											<img ng-src="{{home.image_bookingw}}" class="img-responsive black-icon" alt="">
+											<img ng-src="{{home.image_booking}}" class="img-responsive white-icon" alt="">
+										</span>
+										<b>Bookings</b>
+									</a>
+								</li>
+
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#reviews">
+										<span>
+											<img ng-src="{{home.image_reviews}}" class="img-responsive black-icon" alt="">
+											<img ng-src="{{home.image_reviewsw}}" class="img-responsive white-icon" alt="">
+										</span>
+										<b>Reviews</b>
+									</a>
+
+								</li>
+
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#resources">
+										<span>
+											<img ng-src="{{home.image_travel}}" class="img-responsive black-icon" alt="">
+											<img ng-src="{{home.image_travelw}}" class="img-responsive white-icon" alt="">
+										</span>
+										<b>Trip Resources</b>
+									</a>
+								</li>
+
+
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#ideas">
+										<span>
+											<img ng-src="{{home.image_idea}}" class="img-responsive black-icon" alt="">
+											<img ng-src="{{home.image_ideaw}}" class="img-responsive white-icon" alt="">
+										</span>
+										<b>Travel Ideas</b>
+									</a>
+								</li>
+
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#community">
+										<span>
+											<img ng-src="{{home.image_community}}" class="img-responsive black-icon" alt="">
+											<img ng-src="{{home.image_communityw}}" class="img-responsive white-icon" alt="">
+										</span>
+										<b>Community</b>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- Tab Content Starts -->
+					<div class="col-sm-9">
+						<div class="tab-content">
+
+							<!-- Tab 1 -->
+							<div id="bookings" class="tab-pane fade in active container">
+								<div class="rite-text">
+									<h4>Search accessible hotels across the world's largest travel network.
+										<span>
+											<img class="img-responsive" ng-src="{{home.image_iconi}}" alt="" aria-hidden="true">
+											<div class="tool-tipp">
+												<p>Booking data provided by the Priceline Partner Network, offering the same rates as booking.com. Accessiblity details are only available on accessibleGO.com</p>
+											</div>
+										</span>
+									</h4>
+									<p>You get an extra layer of accessibility details for 3000+ U.S. hotels. Details are based on more than 40 distinct accessibility criteria.</p>
+
+									<a ui-sref="hotels" class="try-btn">Try it out</a>
+
+									<div class="showcase-sec">
+                                        <a ui-sref="hotels">
+										  <h5>Accessibility Details Available!</h5>
+                                        </a>
+
+
+										<div class="place-sec">
+											<div class="place-img">
+												<img src="https://mobileimg.priceline.com/htlimg/1465/1465803/thumbnail-150-square.jpg" class="img-responsive" alt="Example hotel room photo">
+											</div>
+											<div class="title-show">
+                                                <a ui-sref="hotels">
+    												<h2>Villas of Grand Cypress</h2>
+    												<h3>One North Jacaranda, Orlando, FL, United States</h3>
+                                                </a>
+												<!--
+                                                <div class="star sec">
+													<span>
+														<i class="fa fa-star" aria-hidden="true"></i>
+													</span>
+													<span>
+														<i class="fa fa-star" aria-hidden="true"></i>
+													</span>
+													<span>
+														<i class="fa fa-star" aria-hidden="true"></i>
+													</span>
+													<span>
+														<i class="fa fa-star" aria-hidden="true"></i>
+													</span>
+													<span>
+														<i class="fa fa-star" aria-hidden="true"></i>
+													</span>
+													<p>Wonderful, 9.2 / 252</p>
+												</div>
+
+												<div class="categ">
+													<a>Business Center</a>
+													<a>Fitness Center or Spa</a>
+												</div>
+                                                -->
+											</div>
+
+										</div>
+
+										<div class="lower-showcase">
+											<div class="bracket-sec">
+												<h6>Only on
+													<br> accessibleGO
+												</h6>
+											</div>
+											<div class="access-points">
+												<img ng-src="{{home.image_brace}}" class="img-responsive" aria-hidden="true" alt="only on accessibleGO">
+												<ul>
+													<li>
+														<b>Accessible Features</b>
+													</li>
+													<li>Accessible entrance</li>
+													<li>Accessible lobby restroom</li>
+													<li>Designated accessible parking</li>
+													<li>Service animals permitted</li>
+													<li>Roll-in shower</li>
+													<li>Wide doorway for room - 32"</li>
+													<li>+7 more</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+                                    
+
+								</div>
+							</div>
+							<!-- Tab 2 -->
+							<div id="reviews" class="tab-pane fade container">
+								<div class="rite-text">
+									<h4>Read accessibility reviews from other travelers with disabilities</h4>
+									<p>Find reviews for hotels, attractions and travel services (airlines coming soon).</p>
+
+									<h5>
+                                        <span class="italic-span">Write reviews, get rewards!</span>
+                                    </h5>
+									<a ui-sref="review" class="try-btn">Learn more</a>
+
+									<div class="img-rvsec up-animation desk-img">
+										<a ui-sref="review">
+											<img class="img-responsive"
+                                            src="https://accessiblego.azureedge.net/travel/hotel-review-desk.png"
+                                            alt="Sample article on travel ideas" aria-hidden="true" role="presentation">
+										</a>
+									</div>
+									<div class="img-rvsec up-animation mob-img">
+										<a ui-sref="review">
+											<img class="img-responsive"
+                                            src="https://accessiblego.azureedge.net/travel/hotel-review-mob.png"
+                                            alt="Sample article on travel ideas" aria-hidden="true" role="presentation">
+										</a>
+									</div>
+
+									<!-- <div class="rv-box">
+											<div class="star sec">
+												<span><i class="fa fa-star" aria-hidden="true"></i></span>
+												<span><i class="fa fa-star" aria-hidden="true"></i></span>
+												<span><i class="fa fa-star" aria-hidden="true"></i></span>
+												<span><i class="fa fa-star" aria-hidden="true"></i></span>
+												<span><i class="fa fa-star" aria-hidden="true"></i></span>
+												<p>5/5 Overall</p>
+											</div>
+
+											<div class="rv-h">
+												<h4>Wonderfull experience <span>December 2016</span></h4>
+
+												<p>This is a stuning hotel that makes you relax. Accessible rooms are avialable with an nland or harbor view. Hotel offers 24-hour personlized assistance which is a big plus if you have a disability. The spa is the exceptional and the rooftop deck with glass side enclosure, overlooking the sea, is just incredible. Staff is accommodating and pleasant.  </p>
+											</div>
+
+											<div class="suitable-points">
+												<h4>This hotel is suitable for:</h4>
+												<ul>
+													<li>Visitors who are wheelchair users</li>
+													<li>Visitors who are blind or have low vision</li>
+													<li>Visitors with mobility disabilities</li>
+												</ul>
+											</div>
+											
+											<div class="rv-table">
+												<table class="table-bordered">
+													<tbody>
+														<tr>
+															<th>Entrance and Main Areas</th>
+															<th>parking</th>
+															<th>Elevator</th>
+															<th>Restuarant</th>
+															<th>Room</th>
+															<th>Pool</th>
+															<th>Fitness Centre</th>
+															<th>Bussiness Centre</th>
+														</tr>
+														<tr>
+															<td><span><i class="fa fa-check" aria-hidden="true"></i></span></td>
+															<td><span><i class="fa fa-check" aria-hidden="true"></i></span></td>
+															<td><span><i class="fa fa-check" aria-hidden="true"></i></span></td>
+															<td><span><i class="fa fa-check" aria-hidden="true"></i></span></td>
+															<td><span><i class="fa fa-check" aria-hidden="true"></i></span></td>
+															<td><span><i class="fa fa-check" aria-hidden="true"></i></span></td>
+															<td><span><i class="fa fa-check" aria-hidden="true"></i></span></td>
+															<td><span><i class="fa fa-check" aria-hidden="true"></i></span></td>
+															
+														</tr>
+													</tbody>
+												</table>
+											</div>
+
+
+										</div> -->
+
+								</div>
+							</div>
+							<!-- Tab 3 -->
+							<div id="resources" class="tab-pane fade container">
+								<div class="rite-text">
+									<h4>Everything you need to plan your accessible trip</h4>
+									<p>See recommended accessible itineraries, top attractions, caregivers, accessible transportation, tour companies and equipment rental.</p>
+
+									<a ui-sref="tripPlanner" class="try-btn">Explore now</a>
+
+									<div class="explore-sec">
+										<ul class="">
+											<li>
+                                                <a ui-sref="tripPlanner({city: 'New_York', type: 'Attractions', category: 'Museums_and_Galleries' })">
+													<span>
+														<img class="img-responsive" ng-src="{{home.image_attractions}}" alt="Attractions">
+													</span> Attractions
+                                                </a>
+											</li>
+											<li>
+                                                <a ui-sref="tripPlanner({city: 'New_York', type: 'Caregiver_Agencies'})">
+													<span>
+														<img class="img-responsive" ng-src="{{home.image_caregivers}}" alt="Caregivers">
+													</span> Caregivers</a>
+											</li>
+											<li>
+                                                <a ui-sref="tripPlanner({city: 'New_York', type: 'Tour_Companies' })">
+													<span>
+														<img class="img-responsive" ng-src="{{home.image_tourCompanies}}" alt="Tour Companies">
+													</span> Tour Companies</a>
+											</li>
+											<li>
+                                                <a ui-sref="tripPlanner({city: 'New_York', type: 'Itineraries' })">
+													<span>
+														<img class="img-responsive" ng-src="{{home.image_itineraries}}" alt="Itineraries">
+													</span> Itineraries</a>
+											</li>
+											<li>
+                                                <a ui-sref="tripPlanner({city: 'New_York', type: 'Transportation' })">
+													<span>
+														<img class="img-responsive" ng-src="{{home.image_transportation}}" alt="Transportation">
+													</span> Transportation</a>
+											</li>
+											<li>
+                                                <a ui-sref="tripPlanner({city: 'New_York', type: 'Equipment_Rental' })">
+													<span>
+														<img class="img-responsive" ng-src="{{home.image_equipmentRental}}" alt="Equipment Rental">
+													</span> Equipment Rental</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<!-- Tab 4 -->
+							<div id="ideas" class="tab-pane fade container">
+								<div class="rite-text">
+									<h4>Inspire your next great adventure</h4>
+									<p>Top 10 accessible attractions, hotels and itineraries for major U.S. cities. Plus seasonal and interest articles
+										for great accessible travel ideas.</p>
+
+									<a ui-sref="ideas" class="try-btn">Find Inspiration</a>
+
+									<div class="img-rvsec up-animation desk-img">
+										<a ui-sref="ideas">
+											<img class="img-responsive"
+                                            src="https://accessiblego.azureedge.net/travel/ideas-articles.png"
+                                            alt="Sample article on travel ideas" aria-hidden="true" role="presentation" />
+                                        </a>
+									</div>
+									<div class="img-rvsec up-animation mob-img">
+										<a ui-sref="ideas">
+										  <img
+                                            class="img-responsive"
+                                            src="https://accessiblego.azureedge.net/travel/top-hotels-mob.png"
+                                            alt="Sample article on travel ideas"
+                                            aria-hidden="true"
+                                            role="presentation" />
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!-- Tab 5 -->
+							<div id="community" class="tab-pane fade container">
+								<div class="rite-text">
+									<h4>Get in touch with like-minded travelers</h4>
+									<p>Ask accessiblity questions or share feedback on travel articles. Tap into the power of the disability  community.</p>
+
+									<h5>
+                                        <span class="italic-span">Helpful comments win you swag!</span>
+                                    </h5>
+
+									<a ui-sref="articles({title:'Accessible_Trails_in_Southern_California'})" class="try-btn">Learn more</a>
+								</div>
+
+								<div class="d-none d-xs-block d-sm-none img-rvsec up-animation desk-img">
+									<a ui-sref="articles({title:'Accessible_Trails_in_Southern_California'})">
+										<img class="img-responsive" ng-src="{{home.image_commentDesk}}" alt="Sample article on accessible trails in Southern California" aria-hidden="true" role="presentation">
+									</a>
+								</div>
+
+								<div class="d-none d-xs-block d-sm-none img-rvsec up-animation mob-img">
+									<a ui-sref="articles({title:'Accessible_Trails_in_Southern_California'})">
+										<img class="img-responsive" ng-src="{{home.image_commentMob}}" alt="Sample article on accessible trails in Southern California" aria-hidden="true" role="presentation">
+									</a>
+								</div>
+
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Homepage Showcase start-->
+
+    <trip-planner cityoptions="home.cityoptions" istripplannerpage="false" />
+
+    <!-- travel ideas: begin -->
+    <div id="skipLinkContent"></div>
+    <div id="home-inspiration" class="section-wrapper">
+
+        <!-- caption & search box -->
+        <div id="home-inspiration-topline">
+            <div id="home-inspiration-caption" style="margin-right:1.5em;">
+                <a ui-sref="ideas" style="color:#000;text-decoration: none;">Travel ideas by location</a>
+            </div>
+            <br>
+
+            <!-- search -->
+            <div style="background-color:#d8d8d8;">
+                <idea-search-box id="ideaSearch" />
+            </div>
+        </div>
+
+
+    <!-- choose from areas :: begin -->
+        <!-- DESKTOP -->
+        <div class="d-none d-sm-block" id="home-inspiration-areas">
+            <button id="home-inspiration-areas-all" class="home-inspiration-areas-button" ng-class="home.isInspirationAllSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+                ng-click="home.setInspirationSection('')" 
+                xonClick="ga('send', 'event', 'homepage_links','click','travelIdeas_all')">
+                &nbsp;All</button>
+            <button
+                id="home-inspiration-areas-northeast"
+                class="home-inspiration-areas-button"
+                ng-class="home.isInspirationNorthEastSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+                ng-click="home.setInspirationSection('Northeast')" 
+                xonClick="ga('send', 'event', 'homepage_links','click','travelIdeas_northeast')">
+                &nbsp;Northeast</button>
+            <button id="home-inspiration-areas-midwest" class="home-inspiration-areas-button" ng-class="home.isInspirationMidWestSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+                ng-click="home.setInspirationSection('Midwest')" 
+                xonClick="ga('send', 'event', 'homepage_links','click','travelIdeas_midwest')">
+                &nbsp;Midwest</button>
+            <button id="home-inspiration-areas-southeast" class="home-inspiration-areas-button" ng-class="home.isInspirationSouthEastSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+                ng-click="home.setInspirationSection('Southeast')" 
+                xonClick="ga('send', 'event', 'homepage_links','click','travelIdeas_southeast')">
+                &nbsp;Southeast</button>
+            <button id="home-inspiration-areas-southwest" class="home-inspiration-areas-button" ng-class="home.isInspirationSouthWestSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+                ng-click="home.setInspirationSection('Southwest')" 
+                xonClick="ga('send', 'event', 'homepage_links','click','travelIdeas_southwest')">
+                &nbsp;Southwest</button>
+            <button id="home-inspiration-areas-northwest" class="home-inspiration-areas-button" ng-class="home.isInspirationNorthWestSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+                ng-click="home.setInspirationSection('Northwest')" 
+                xonClick="ga('send', 'event', 'homepage_links','click','travelIdeas_northwest')">
+                &nbsp;Northwest</button>
+            <button id="home-inspiration-areas-west" class="home-inspiration-areas-button" ng-class="home.isInspirationWestSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+                ng-click="home.setInspirationSection('West')" 
+                xonClick="ga('send', 'event', 'homepage_links','click','travelIdeas_west')">
+                &nbsp;West</button>
+        </div>
+
+        <!-- MOBILE -->
+        <div class="d-none d-md-block">
+            <!-- TODO: DROPDOWN -->
+        </div>
+
+    <!-- choose from areas :: end -->
+
+
+        <div>
+            <!-- MOBILE: inspiration boxes -->
+            <div xclass="d-xs-block d-md-none" id="home-inspiration-boxes" style="justify-content: space-between;;">
+                <articlebox ng-repeat="box in home.inspiration_boxes | filter: home.selectedInspirationSection : (home.selectedInspirationSection!=='') | limitTo:home.inspirationBoxLimit"
+                    articleid="{{box.Id}}" introimageid="{{box.IntroImage.Id}}" title="{{box.Title}}" urlsafetitle="{{box.URLSafeTitle}}" />
+            </div>
+
+            <!-- DESKTOP: inspiration boxes -->
+            <div ng-if="ever" class="d-none d-md-block" id="home-inspiration-boxes" style="justify-content: space-between;">
+                <articlebox ng-repeat="box in home.inspiration_boxes | filter: home.selectedInspirationSection : (home.selectedInspirationSection!=='') | limitTo:home.inspirationBoxLimit"
+                    articleid="{{box.Id}}" introimageid="{{box.IntroImage.Id}}" title="{{box.Title}}" urlsafetitle="{{box.URLSafeTitle}}" />
+            </div>
+
+            <div>
+                <span class="input-group-btn">
+                    <a ui-sref="ideas" 
+                    xonClick="ga('send', 'event', 'homepage_links','click','travelIdeas_viewMoreIdeas')" id="home-subscribe-link"
+                        class="btn btn-default" style="border:0px;" aria-label="View more travel ideas" type="button">View more ideas</a>
+                </span>
+            </div>
+
+        </div>
+    </div>
+    <!-- travel ideas: end -->
+
+
+
+</div>

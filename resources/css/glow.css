@@ -1,0 +1,77 @@
+﻿/* glow style */
+@-webkit-keyframes glow {
+    0% {
+        opacity: 0; /*start*/
+    }
+    15% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;  /*destination*/
+    }
+}
+.glow {
+    
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.5);
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    content: "";
+    border-radius: 3px;
+}
+
+#glowsection {
+    -webkit-animation-name:             glow;
+    -webkit-animation-duration:         3.5s;
+    x-webkit-animation-iteration-count:  infinite;
+    -webkit-animation-timing-function:    ease-in-out;
+        background: orange;
+        text-align: left;
+        font-size: 16px;
+        color: white;
+        line-height: 20px;
+        opacity: 0;
+    }
+
+/* specs for background glow*/
+.my-repeat-animation.ng-enter, 
+.my-repeat-animation.ng-leave, 
+.my-repeat-animation.ng-move {
+  -webkit-transition: 1s ease-out all;
+  transition: 1s ease-out all;
+  position:relative;
+}
+
+/* when an item is entered to the list */
+.my-repeat-animation.ng-enter {
+  left:0px;
+  opacity:1;
+  background: rgba(255,255,255,0.5);
+}
+.my-repeat-animation.ng-enter.ng-enter-active {
+  left:0;
+  opacity:1;
+  background: orange;  /*rgba(255,255,255,0.5);*/
+}
+
+/* when an item is removed from list */
+.my-repeat-animation.ng-leave {
+  left:0;
+  opacity:.5;
+}
+.my-repeat-animation.ng-leave.ng-leave-active {
+  left:0px;
+  opacity:0;
+}
+
+/* when an item is added or removed from list */
+.my-repeat-animation.ng-move {
+  opacity:0.5;
+}
+.my-repeat-animation.ng-move.ng-move-active {
+  opacity:1;
+}
+

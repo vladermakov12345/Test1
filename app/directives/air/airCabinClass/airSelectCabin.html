@@ -1,0 +1,27 @@
+<label id="label_select-cabin" class="light16" for="select-cabin-button-{{vm.id}}">{{vm.label}}</label>
+<div class="btn-group" style="width:100%;border:1px solid #ccc;xmin-height:50px;" uib-dropdown>
+      <button
+        id="select-cabin-button-{{vm.id}}"
+        name="select-cabin-button-{{vm.id}}"
+        type="button"
+        class=""
+        aria-labelledby="label_select-cabin"
+        style="min-height:48px;min-width:3em;border:0;width:100%;padding:0px;background-color: #fff;"
+        uib-dropdown-toggle >
+      	<span style="margin-right:1em;">{{vm.selectedValue}}</span>
+        <span class="caret"></span>
+        <span class="sr-only">Split button!</span>
+      </button>
+      <ul
+      	class="dropdown-menu m-0 p-0"
+      	uib-dropdown-menu
+        role="menu">
+      	<li 
+          role="menuitem"
+          class="dropdown-item"
+          ng-repeat="entry in vm.options track by entry"
+          ng-click="vm.setCabin(entry)">
+          <span style="color:#000;">{{entry}}</span>
+        </li>
+      </ul>
+</div>

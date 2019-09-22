@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html data-ng-app="app" lang="en" data-ng-strict-di data-ng-csp="no-unsafe-eval;">
+
+<head data-mm-meta-tags>
+
+    <meta charset="UTF-8" />
+
+    <!-- do no supress pinch-zoom -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, minimum-scale=.25, user-scalable=yes" />
+
+    <!-- angular base route reference -->
+    <base href="/" />
+
+    <!-- preconnections -->
+    <link rel="preconnect" href="https://accessiblego.azureedge.net" crossorigin>
+    <link rel="preconnect" href="https://accessiblego.z20.web.core.windows.net" crossorigin>
+
+    <!-- fonts (http://ashton.codes/preload-google-fonts-using-resource-hints/) -->
+    <!-- original : <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" /> -->
+    <link
+        rel="preload"
+        href="web/af7ae505a9eed503f8b8e6982036873e.woff2"
+        as="font"
+        crossorigin="anonymous" />
+    <link
+        rel="preload"
+        href="https://accessiblego.z20.web.core.windows.net/i/fonts/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu.woff2"
+        as="font"
+        crossorigin="anonymous"
+        integrity="sha384-e1EmcgsVWGSnMTZEr3vdPwqVCjCgi2pDzVGeIWAoYSupK3ceUa7506ZlQp2Uv3E7" />
+    <link
+        rel="preload"
+        href="https://accessiblego.z20.web.core.windows.net/i/fonts/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"
+        as="font"
+        crossorigin="anonymous" />
+
+    <style>
+        /* latin */
+        @font-face {
+          font-family: 'Source Sans Pro';
+          font-style: normal;
+          font-weight: 400;
+          src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url('https://accessiblego.z20.web.core.windows.net/i/fonts/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2') format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        /* latin */
+        @font-face {
+          font-family: 'Source Sans Pro';
+          font-style: normal;
+          font-weight: 600;
+          src: local('Source Sans Pro SemiBold'), local('SourceSansPro-SemiBold'), url('https://accessiblego.z20.web.core.windows.net/i/fonts/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu.woff2') format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+    </style>
+
+
+    <!-- preloads :: header/footer -->
+    <link
+        rel="preload"
+        href="https://accessiblego.z20.web.core.windows.net/i/logo/logo_175_42_trans.png"
+        as="image" />
+    <link
+        rel="preload"
+        href="https://accessiblego.z20.web.core.windows.net/i/header/plan.png"
+        as="image" />
+    <link
+        rel="preload"
+        href="https://accessiblego.z20.web.core.windows.net/i/header/reserve.png"
+        as="image" />
+    <link
+        rel="preload"
+        href="https://accessiblego.z20.web.core.windows.net/i/header/share.png"
+        as="image" />
+
+    <!-- preload - remove until we implement ocLazyLoad
+    <link rel="preload" href="web/app.bundle.css" as="style" type="text/css" charset="utf-8" />
+    <link rel="preload" href="web/app.bundle.js" as="script" type="text/javascript" charset="utf-8" />
+    <link rel="preload" href="web/vendor.bundle.css" as="style" type="text/css" charset="utf-8" />
+    <link rel="preload" href="web/vendor.bundle.js" as="script" type="text/javascript" charset="utf-8" />
+    -->
+
+    <!-- for sentry -->
+    <!-- <script src="https://cdn.ravenjs.com/3.26.2/angular/raven.min.js" async=""></script> -->
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="https://accessiblego.azureedge.net/img/common/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="https://accessiblego.azureedge.net/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://accessiblego.azureedge.net/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://accessiblego.azureedge.net/img/favicons/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://accessiblego.azureedge.net/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="https://accessiblego.z20.web.core.windows.net/i/favicons/site.webmanifest">
+    <link rel="mask-icon" href="https://accessiblego.azureedge.net/img/favicons/safari-pinned-tab.svg" color="#000000">
+    <!-- <link rel="shortcut icon" href="https://accessiblego.azureedge.net/img/favicons/favicon.ico?v=RyQe9klwR8" type="image/x-icon" /> -->
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="https://accessiblego.azureedge.net/img/favicons/mstile-144x144.png">
+    <meta name="msapplication-config" content="https://accessiblego.azureedge.net/img/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#3b3f45">
+
+    <!-- network solutions browser icon -->
+    <!-- <link rel="icon" type="image/png" href="https://accessiblego.azureedge.net/img/common/favicon-lock.png"> -->
+
+    
+    <!-- google ad services -->
+    <!-- <script src="http://www.googleadservices.com/pagead/conversion_async.js" charset="utf-8"></script> -->
+
+    <!-- google search console verification -->
+    <meta name="google-site-verification" content="MSQax1J7wJsvyBL8kYl8OUVsnfCwUvOLXY7torTfzFI" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "accessibleGO",
+      "url": "https://accessibleGO.com",
+      "logo": "https://accessiblego.azureedge.net/logos/logo_500_116_black.png"
+    }
+    </script>
+
+    <!-- preloads :: home -->
+    <link
+        rel="preload"
+        href="https://accessiblego.z20.web.core.windows.net/i/jumbotron/home.jpg"
+        as="image" />
+    <link
+        rel="preload"
+        href="https://accessiblego.z20.web.core.windows.net/i/community/community-bgd.jpg"
+        as="image" />
+    <link
+        rel="preload"
+        href="https://accessiblego.z20.web.core.windows.net/i/jumbotron/badge.png"
+        as="image" />
+    <link
+        rel="preload"
+        href="https://accessiblego.z20.web.core.windows.net/i/cities/cities-bgd.jpg"
+        as="image" />
+
+
+    <link
+        rel="prefetch"
+        href="https://accessiblego.azureedge.net/data/partners.json"
+        as="fetch"
+        type="application/json"
+        charset="utf-8"
+        integrity="sha384-0kawgIJ3ROYO4aMEGWR2F/n8dck+p8PCYXpIA30J7Qe/EAa/4Dksov60kCNaKfjI"
+        crossorigin="anonymous" />
+
+    <link
+        rel="prefetch"
+        href="https://accessiblego.azureedge.net/data/hotelAccessibilityData.json"
+        as="fetch"
+        charset="utf-8"
+        integrity="sha384-KiiYOQg/H4DJgNXAwcrnCzu4UJ7F+cuYuz2Kezz98kDmXI71fdhl2w7oRIknXemC"
+        crossorigin="anonymous" />
+    
+    <!-- <script data-jsd-embedded data-key="cf2cede8-6ce1-4abf-8304-df1c2e17ac1f" data-base-url="https://jsd-widget.atlassian.com" src="https://jsd-widget.atlassian.com/assets/embed.js"></script> -->
+</head>
+
+<body
+    data-ng-controller="mainController as main"
+    data-ng-cloak
+    id="bodyElement"
+    data-ng-class="{textSizeSmall: textSizeOption=='small', textSizeDefault: textSizeOption=='medium', textSizeLarge: textSizeOption=='large', constrastGrayscale: colorTheme==='gray', show_Mnav: main.isActive == true}"
+    xng-click="updateFocusElement()">
+    <!-- intentionally first in body tag -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TQZ2PHB" height="0" width="0" style="display:none;visibility:hidden">
+        </iframe>
+    </noscript>
+
+    <button type="button" role="button" ng-click="backToTopFun()" id="backToTop_Btn" aria-expanded="false" value="Go to top" aria-label="Go to top">
+        <span id="BackButton_inner" class="fa fa-chevron-up" style="margin-top: -5px;display: block;"></span>
+    </button>
+
+<header class="header">
+    <div class="container-fluid top">
+        <div class="row">
+            <div class="container">
+
+                <!-- SKIP LINKS -->
+                <a class="skip sr-only sr-only-focusable" href="#main-content-skip-point">Skip to main content</a>
+
+                <div class="row">
+
+                    <div class="col logo">
+
+                        <!-- logo -->
+                        <div class="navbar-brand" id="">
+                            <a data-ui-sref="home" style="color:#fff;">
+                                <img
+                                    hide-until-good
+                                    ng-src="{{env.cdn_static}}/i/logo/logo_175_42_trans.png"
+                                    alt="accessibleGO - Making travel more accessible, together." />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-auto user-controls">
+
+                        <div class="vertical-middle">
+                            <!-- login -->
+                            <span ng-show="!isAuthenticated" class="login">
+                                 <button type="button" role="button" class="" ng-click="main.showLoginModal()">Log in</button>
+                            </span>
+
+
+                            <!-- join -->
+                            <span ng-show="!isAuthenticated" class="join">
+                                    <button type="button" role="button" class="" ng-click="main.showJoinModal()">Join</button>
+                            </span>
+
+                            <!-- authenticated :: account options dropdown -->
+                            <span ng-show="isAuthenticated" class="user-menu">
+                                <div class="dropdown">
+                                    <button
+                                        id="user-menu"
+                                        type="button"
+                                        role="button"
+                                        class="btn btn-secondary dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        aria-label="Account options" aria-haspopup="true" aria-expanded="false" ng-bind-html="main.userService.getFormattedName().split(' ')[0]">
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a class="dropdown-item" role="menuitem" tabindex="-1" data-ui-sref="accountPageUi({t:'profile'})">Profile</a>
+                                        <a class="dropdown-item" role="menuitem" tabindex="-1" data-ui-sref="accountPageUi({t:'bookings'})">Bookings</a>
+                                        <a class="dropdown-item" role="menuitem" tabindex="-1" data-ui-sref="accountPageUi({t:'favorites'})">Favorites</a>
+                                        <a class="dropdown-item" role="menuitem" tabindex="-1" data-ui-sref="accountPageUi({t:'reviews'})">Reviews</a>
+                                        <a class="dropdown-item" role="menuitem" tabindex="-1" data-ui-sref="accountPageUi({t:'club'})">clubGO</a>
+                                        <a class="dropdown-item" role="menuitem" tabindex="-1" data-ui-sref="accountPageUi({t:'settings'})">Settings</a>
+                                        <a class="dropdown-item" ng-click="main.signout()">Sign Out</a>
+                                    </div>
+                                </div>
+                            </span>
+
+
+
+                            <!--
+                            <span ng-show="isAuthenticated" class="currency mobile-hide">
+                            -->
+
+                            <!-- authenticated :: account currency dropdown -->
+                            <!-- <span ng-show="isAuthenticated" class="currency mobile-hide">
+
+                                <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="currencyMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    USD $
+                                </button>
+                                  <div class="dropdown-menu" aria-labelledby="currencymenu">
+                                    <a class="dropdown-item" href="#">GBP £</a>
+                                    <a class="dropdown-item" href="#">EU €</a>
+                                  </div>
+                                </div>
+                            </span> -->
+
+                            <!-- authenticated :: account language dropdown -->
+                            <!-- <span ng-show="isAuthenticated" class="language mobile-hide">
+                                <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" id="languageMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i><img src="web/public/resources/uk-flag.png"></i> ENG
+                                </button>
+                                  <div class="dropdown-menu" aria-labelledby="languageMenu">
+                                    <a class="dropdown-item" href="#">FR</a>
+                                    <a class="dropdown-item" href="#">IT</a>
+                                  </div>
+                                </div>
+
+                            </span>
+
+
+                            </span> -->
+
+
+                            <!-- general search-->
+                            <span class="search mobile-hide">
+                                <div class="dropdown">
+                                    <button
+                                        class="btn dropdown-toggle"
+                                        type="button"
+                                        role="button"
+                                        id="searchMenu"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                        aria-label="Search site">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+
+                                        <label for="searchInput" style="color:#fff;">Search our site:</label>
+                                        <input id="searchInput" name="searchInput" type="text" aria-label="Search our site" title="Search" placeholder="Search..." ng-model="navBarSearchForm.searchString" input-detection="moveToDisplayText()" ng-keypress="handleKeyPress($event)"/>
+
+                                        <button type="submit" role="button" ng-click="navBarSearchClick()" aria-label="Search">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+
+                                        <div class="close-dropdown-button">
+                                            <button
+                                                type="button"
+                                                role="button"
+                                                class="toggle"
+                                                data-toggle="dropdown"
+                                                data-target="#searchMenu"
+                                                aria-expanded="true"
+                                                aria-haspopup="true"
+                                                aria-label="Close">Done
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+
+                            <!-- accessibility links :: font -->
+                            <span class="toggle-font mobile-hide">
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle text-bold" type="button" role="button" id="fontMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Aa</button>
+                                    <div class="dropdown-menu" aria-labelledby="fontMenu">
+                                        <div class="dropdown-item">
+                                            <input id="textInputOption1_mobile" class="textSizeSetting" ng-class="{textSizeSettingActive:textSizeOption=='small'}" type="button" ng-click="setBaseTextSize('small')" value="A" style="font-size:1em;" title="small" aria-label="small font" />
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <input class="textSizeSetting" type="button" ng-class="{textSizeSettingActive:textSizeOption=='medium'}" ng-click="setBaseTextSize('medium')" value="A" style="font-size:1.5em;" title="medium" aria-label="medium font" />
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <input class="textSizeSetting" type="button" ng-class="{textSizeSettingActive:textSizeOption=='large'}" ng-click="setBaseTextSize('large')"  value="A" style="font-size:2em;" title="large" xinput-detection="moveToDisplayContrast()" aria-label="large font" />
+                                        </div>
+                                        <div class="close-dropdown-button">
+                                            <button type="button" role="button" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-target="searchMenu">Done</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+
+                            <!-- accessibility links :: contrast -->
+                            <span class="toggle-contrast mobile-hide">
+                                <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" role="button" id="contrastMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="Adjust contrast" aria-label="Adjust contrast"><i class="fa fa-adjust"></i></button>
+                                    <div class="dropdown-menu">
+                                        <div style="color:#fff;">Grayscale</div>
+                                        <div class="dropdown-item">
+                                            <input id="option-contrast-off" class="constrastSetting" type="button" ng-class="{constrastSettingActive:colorTheme=='default'}" ng-click="setColorTheme('default')" style="background-color: #ffffff;color:#000000;" value="Off"
+                                            aria-labelledby="label-contrast-grayscale" />
+                                        </div>
+                                        <div class="dropdown-item float-right">
+                                            <input id="label-contrast-grayscale-on" class="constrastSetting" type="button" ng-class="{constrastSettingActive:colorTheme=='gray'}" ng-click="setColorTheme('gray')" style="background-color: lightgray;color:black;" value="On" 
+                                            aria-labelledby="label-contrast-grayscale" />
+                                        </div>
+                                        <div class="close-dropdown-button">
+                                            <button
+                                                type="button"
+                                                role="button"
+                                                class="btn"
+                                                data-toggle="dropdown"
+                                                aria-haspopup="true"
+                                                aria-expanded="true"
+                                                data-target="searchMenu">Done
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+
+                            <!-- ellipsis -->
+                            <span class="toggle">
+                                <button
+                                    class="toggle"
+                                    type="button"
+                                    role="button"
+                                    data-toggle="collapse"
+                                    data-target="#navbarSupportedContent"
+                                    aria-controls="navbarSupportedContent"
+                                    aria-expanded="false"
+                                    aria-label="Toggle navigation">&#183;&#183;&#183;</button>
+                            </span>
+
+
+
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                                <div class="container">
+
+                                    <div class="row">
+
+                                        <div class="col">
+                                            <input name="searchInput" type="text" aria-label="Search" title="Search" placeholder="Search" ng-model="navBarSearchForm.searchString" input-detection="moveToDisplayText()" ng-keypress="handleKeyPress($event)" />
+                                        </div>
+
+                                        <div class="col submit-button">
+                                            <button
+                                                type="submit"
+                                                role="button">
+                                                <img
+                                                    ng-src="{{env.cdn_static}}/i/header/search-black.png"
+                                                    alt="Search accessiblego.com"
+                                                    aria-hidden="false" />
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+
+                                    <!--
+                                    <div class="row">
+                                    -->
+
+                                    <!-- user options: currency -->
+                                    <!-- <div class="row">
+
+
+                                        <div class="col col-8">
+
+                                            <label>Change currency</label>
+
+                                        </div>
+
+                                        <div class="col col-4 currency switcher">
+
+                                            <div class="dropdown">
+                                                <button class="btn dropdown-toggle" type="button" id="currencySwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    USD
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="currencySwitcher">
+                                                    <a class="dropdown-item" href="#">YPN</a>
+                                                    <a class="dropdown-item" href="#">GBP</a>
+                                                    <a class="dropdown-item" href="#">EUR</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div
+
+                                    </div> -->
+
+
+                                    <!-- user options: language -->
+                                    <!-- <div class="row">
+
+                                        <div class="col col-8">
+
+                                            <label>Language</label>
+
+                                        </div>
+
+                                        <div class="col col-4 language switcher">
+
+                                            <div class="dropdown">
+                                                <button class="btn dropdown-toggle" type="button" id="languageSwitcher" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    EN
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="languageSwitcher">
+                                                    <a class="dropdown-item" href="#">GB</a>
+                                                    <a class="dropdown-item" href="#">DE</a>
+                                                    <a class="dropdown-item" href="#">FR</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div> -->
+
+
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <label id="setting-font-size">Font Size</label>
+                                        </div>
+                                        <div class="col col-auto acc-view">
+                                            <input
+                                                type="button"
+                                                class="textSizeSetting"
+                                                data-ng-class="{textSizeSettingActive:textSizeOption=='small'}"
+                                                data-ng-click="setBaseTextSize('small')"
+                                                value="A"
+                                                aria-label="setting-font-size-small"
+                                                style="font-size:16px;" />
+                                            <input
+                                                type="button"
+                                                class="textSizeSetting"
+                                                data-ng-class="{textSizeSettingActive:textSizeOption=='medium'}"
+                                                data-ng-click="setBaseTextSize('medium')"
+                                                value="A"
+                                                aria-label="setting-font-size-medium"
+                                                style="font-size:23px;"/>
+                                            <input
+                                                type="button"
+                                                class="textSizeSetting"
+                                                data-ng-class="{textSizeSettingActive:textSizeOption=='large'}"
+                                                data-ng-click="setBaseTextSize('large')"
+                                                value="A"
+                                                style="font-size:29px;"
+                                                aria-label="setting-font-size-large"
+                                                xinput-detection="moveToDisplayContrast()" />
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col col-8">
+
+                                            <label id="setting-contrast">Grayscale</label>
+
+                                        </div>
+
+                                        <div class="col col-4 acc-view switcher">
+
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                                                <label class="btn btn-secondary active">
+                                                    <input
+                                                        ng-class="{constrastSettingActive:colorTheme=='default'}"
+                                                        ng-click="setColorTheme('default')"
+                                                        type="button"
+                                                        aria-label="Set grayscale off"
+                                                        title="On" checked>
+                                                </label>
+                                                <label class="btn btn-secondary">
+                                                    <input
+                                                        ng-class="{constrastSettingActive:colorTheme=='gray'}"
+                                                        ng-click="setColorTheme('gray')"
+                                                        type="button"
+                                                        aria-label="Set grayscale on"
+                                                        title="Off" >
+                                                </label>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-12 text-right no-gutters close-button">
+                                            <button
+                                                class="toggle"
+                                                type="button"
+                                                role="button"
+                                                data-toggle="collapse"
+                                                data-target="#navbarSupportedContent"
+                                                aria-controls="navbarSupportedContent"
+                                                aria-expanded="true"
+                                                aria-label="Toggle navigation">Done
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container-fluid bottom">
+
+        <div class="row">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="main-menu-item dropdown col col-lg-auto">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" id="planSubMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span>
+                                    <img ng-src="{{main.env.cdn_static}}/i/header/plan.png" alt="">
+                                    <span style="font-size: 19px;">Plan</span>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="planSubMenu">
+                                <ul>
+                                    <li class="">
+                                        <a
+                                            class="dropdown-item accessible-anchor-on-light"
+                                            xdata-ui-sref="tripPlanner({city:'', type: '', category:''})"
+                                            data-ui-sref="by-city"
+                                            data-ng-class="CurrentState('by-city') || CurrentState('city') || CurrentState('tripPlanner') || CurrentState('businessIndividual') ? 'currentLink' : ''">By City
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            class="dropdown-item accessible-anchor-on-light"
+                                            data-ui-sref="travel-ideas"
+                                            data-ng-class="(CurrentState('travel-ideas') || CurrentState('ideaSearch') || CurrentState('blog') || CurrentState('blogDetail') || CurrentState('blogAuthor') || CurrentState('blogMain') || CurrentState('articles')) ? 'currentLink' : ''">Travel Ideas
+                                        </a>
+                                    </li>
+                                    <!-- <li>
+                                        <a
+                                            class="dropdown-item"
+                                            data-ui-sref="blogMain"
+                                            data-ng-class="(CurrentState('blog') || CurrentState('blogDetail') || CurrentState('blogAuthor') || CurrentState('blogMain')) ? 'currentLink' : ''">Blog
+                                        </a>
+                                    </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="main-menu-item col col-lg">
+                        <div class="dropdown">
+                        <a class="dropdown-toggle" id="reserveSubMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span>
+                                    <img ng-src="{{main.env.cdn_static}}/i/header/reserve.png" alt="">
+                                    <span style="font-size: 19px;">Reserve</span>
+                                </span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="reserveSubMenu">
+                            <ul>
+                                <li>
+                                    <a
+                                        class="dropdown-item accessible-anchor-on-light"
+                                        data-ui-sref="hotels"
+                                        ng-class="CurrentState('hotels') || CurrentState('hotel') || CurrentState('reserve') ? 'currentLink' : ''">Hotels
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        class="dropdown-item accessible-anchor-on-light"
+                                        data-ui-sref="flights"
+                                        ng-class="CurrentState('flights') || CurrentState('flight_reserve') ? 'currentLink' : ''">Flights
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        class="dropdown-item accessible-anchor-on-light"
+                                        data-ui-sref="cars"
+                                        ng-class="CurrentState('cars') || CurrentState('reserveCar') ? 'currentLink' : ''">Cars
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        class="dropdown-item accessible-anchor-on-light"
+                                        data-ui-sref="cruises"
+                                        ng-class="CurrentState('cruises') ? 'currentLink' : ''">Cruises
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="main-menu-item col col-lg-auto">
+                        <div class="dropdown">
+                        <a class="dropdown-toggle" id="shareSubMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span>
+                                <img ng-src="{{main.env.cdn_static}}/i/header/share.png" alt="">
+                                    <span style="font-size: 19px;">Share</span>
+                                </span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="shareSubMenu">
+                            <ul>
+                                <li>
+                                    <a
+                                        class="dropdown-item accessible-anchor-on-light"
+                                        data-ui-sref="review"
+                                        data-ng-class="CurrentState('review') ? 'currentLink' : ''">Write Review
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        class="dropdown-item accessible-anchor-on-light"
+                                        data-ui-sref="forum-launcher"
+                                        data-ng-click="main.goToForum()"
+                                        data-ng-class="CurrentState('forum') ? 'currentLink' : ''">Forum
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+    <!-- BODY: BEGIN -->
+    <main id="maincontainer" class="group">
+        <a id="main-content-skip-point"></a>
+        <div ui-view="" ng-cloak></div>
+    </main>
+    <!-- BODY: END -->
+
+
+
+
+    <footer>
+
+        <div class="container-fluid top">
+
+            <div class="row">
+
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="col col-lg-3">
+
+                            <h2>Community</h2>
+
+                            <ul class="page-links">
+                                <li style="border-right:0;"><a data-ui-sref="forum-launcher">Travel Forum</a></li>
+                                <li style="border-right:0;"><a data-ui-sref="blogMain">Blog</a></li>
+                                <li style="border-right:0;"><a data-ui-sref="review">Write a Review</a></li>
+                                <li style="border-right:0;"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd6z2ckXJd3EsAmF7U4W5T3GVMShOZRAIkTlTC9XmGRgUuaEg/viewform" target="_win_writeBlog">Write a Blog Post</a></li>
+                                <li style="border-right:0;"><a href="https://go.accessiblego.com/thank-you-wall" target="_win_thankYouWall">Thank You Wall</a></li>
+                            </ul>
+
+
+                            <hr style="margin:2em 0;"/>
+
+
+                            <div class="xs-2">
+
+                                <h2>Connect With Us</h2>
+
+                                <div class="social-links">
+
+                                    <div>
+
+                                        <a href="https://www.facebook.com/accessiblego/" target="_win_facebook" class="facebook"  aria-label="accessibleGO on Facebook">
+                                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        </a>
+
+                                        <a href="https://www.instagram.com/accessiblego/" target="_win_instagram" class="instagram" aria-label="accessibleGO on instagram">
+                                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                                        </a>
+
+                                        <a href="https://twitter.com/accessibleGO" target="_win_twitter" class="twitter" aria-label="accessibleGO on Twitter">
+                                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                                        </a>
+
+                                        <a href="https://www.linkedin.com/company/accessiblego" target="_win_linkedin" class="linkedin" aria-label="accessibleGO on LinkedIn">
+                                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                        </a>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                            <!-- <hr>
+
+                            <div class="row">
+
+                                <a class="logo" data-ui-sref="home" style="font-size: 2em;">
+                                    <img ng-src="{{main.env.cdn_static}}/i/logo/logo-white.png" style="width:173px;margin-bottom:0px;" alt="accessibleGO logo">
+                                </a>
+                                <span>Making travel more accessible, together.</span>
+
+                            </div> -->
+
+                        </div>
+
+                        
+
+                        <div class="col col-lg-3 xs-2">
+
+                            <h2>Make it Happen</h2>
+
+                            <ul class="page-links">
+                                <li><a href="https://clubGO.accessiblego.com">clubGO</a></li>
+                                <li><a data-ui-sref="by-city">Cities</a></li>
+                                <li><a data-ui-sref="ideas">Travel Ideas</a></li>
+                                <li><a data-ui-sref="hotels">Hotels</a></li>
+                                <li><a data-ui-sref="flights">Flights</a></li>
+                                <li><a data-ui-sref="cars">Cars</a></li>
+                                <li><a data-ui-sref="cruises">Cruises</a></li>
+                            </ul>
+
+                        </div>
+
+                        <div class="col col-lg-3 xs-2">
+
+                            <h2>Good To Know</h2>
+
+                            <ul class="page-links">
+                                <li><a data-ui-sref="about">About Us</a></li>
+                                <li><a href="https://vision.accessiblego.com/">Our Vision</a></li>
+                                <li><a data-ui-sref="accessibility">Accessibility</a></li>
+                                <li><a href="https://clubgo.accessiblego.com/partners" target="_win_nonprof_partners">Non-profit Partners</a></li>
+                                <li><a data-ui-sref="partners">Business Partners</a></li>
+                                <li><a data-ui-sref="press">In the News</a></li>
+                                <li><a data-ui-sref="supportedBrowsers">Supported Browsers</a></li>
+                                <li><a data-ui-sref="contact">Contact</a></li>
+                            </ul>
+
+                        </div>
+
+                        <div class="col col-lg-3 xs-1">
+
+                                <h2>Travel Mailings</h2>
+
+                                <p class="mobile-hide" style="margin-bottom:1em;">Sign up to hear about deals, inspiration and updates.</p>
+
+                                <!-- email sign up (active campaign) -->
+                                <div>
+
+                                    <!-- <div class="_form_33 footer-email-form"></div> -->
+
+                                    <div class="_form_33" style="padding:0px;"></div>
+
+                                </div>
+
+                                <!-- <form>
+                                    <div class="form-fields">
+                                        <div class="field-wrapper">
+                                            <input type="email" placeholder="Enter email">
+                                        </div>
+                                        <button type="submit" class="btn"><i class="fa fa-check"></i></button>
+                                    </div>
+                                </form> -->
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="container-fluid bottom">
+
+            <div class="row">
+
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="col">
+
+                            <span>Copyright &copy; {{main.currentYear}}</span> <span>All Rights Reserved</span> <span>acccessiblego.com</span>
+
+                        </div>
+
+                        <div class="col col-auto">
+
+                            <span><a data-ui-sref="terms_of_use">Terms of Use</a></span>
+                            <span><a data-ui-sref="privacy_policy">Privacy Policy</a></span>
+                            <span><a data-ui-sref="sitemap">Sitemap</a></span>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col col-auto">
+
+                            <!-- site seal -->
+                            <div id="footer-siteseal" style="align-self:center;margin-top: 3em;">
+
+                                <!-- network solutions site seal -->
+                                <a href="#" onClick="window.open('https://seals.networksolutions.com/siteseal_seek/siteseal?v_shortname=NETEV&v_querytype=W&v_search=accessiblego.com&x=5&y=5','NETEV','width=450,height=500,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,copyhistory=no,resizable=no');return false;">
+                                    <img
+                                        src="https://accessiblego.z20.web.core.windows.net/i/footer/netsolsiteseal.png"
+                                        style="border:none;"
+                                        oncontextmenu="alert('This SiteSeal is protected');return false;" />
+                                </a>
+                                
+                                <!-- <script type="text/javascript">
+                                    //https://seal.networksolutions.com/siteseal/javascript/siteseal.js
+                                    function SiteSeal(img,type){
+                                        if(window.location.protocol.toLowerCase()=="https:"){var mode="https:";} else {var mode="http:";}
+                                        var host=location.host;
+                                        var baseURL=mode+"//seals.networksolutions.com/siteseal_seek/siteseal?v_shortname="+type+"&v_querytype=W&v_search="+host+"&x=5&y=5";
+                                        document.write('<a href="#" onClick=\'window.open("'+baseURL+'","'+type+'","width=450,height=500,toolbar=no,location=no,directories=no,\
+                                        status=no,menubar=no,scrollbars=no,copyhistory=no,resizable=no");return false;\'>\
+                                        <img src="'+img+'" style="border:none;" oncontextmenu="alert(\'This SiteSeal is protected\');return false;"></a>');
+                                    }
+                                    //document.addEventListener('DOMContentLoaded', function(event) {
+                                        SiteSeal("https://accessiblego.z20.web.core.windows.net/i/footer/netsolsiteseal.png", "NETEV", "none");
+                                        // ?? seal.networksolutions.com/images/evrecgreen.gif 
+                                    //});
+                                </script>  -->
+
+                                <!-- <input
+                                    type="image"
+                                    class="netSolSiteSeal"
+                                    ng-src="https://accessiblego.z20.web.core.windows.net/i/footer/netsolsiteseal.png"
+                                    oncontextmenu="alert('This SiteSeal is protected');"
+                                    ng-click="main.openSiteSeal()"
+                                    alt="View Site Seal"
+                                    aria-label="View Network Solutions site seal" /> -->
+                                <!-- <a
+                                    href="#"
+                                    onclick="window.open('https://seals.networksolutions.com/siteseal_seek/siteseal?v_shortname=NETEV&v_querytype=W&v_search=accessiblego.com&x=5&y=5','NETEV','width=450,height=500,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,copyhistory=no,resizable=no');return false;">
+
+                                    -- oncontextmenu="alert('This SiteSeal is protected');return false;" --
+                                    <img
+                                        src="https://accessiblego.z20.web.core.windows.net/i/footer/netsolsiteseal.png"
+                                        alt="Network Solutions SiteSeal for accessibleGO.com" />
+                                </a> -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- low pri render blocking -->
+
+    <!-- <script
+        src="https://seal.networksolutions.com/siteseal/javascript/siteseal.js"
+        type="text/javascript"
+        charset="utf-8"
+        crossorigin="anonymous"></script>  -->
+
+    <script
+        src="https://accessiblego.activehosted.com/f/embed.php?id=33"
+        type="text/javascript"
+        charset="utf-8"
+        defer >
+    </script>
+
+    <script type="text/javascript">
+        (function(e,t,o,n,p,r,i){e.visitorGlobalObjectAlias=n;e[e.visitorGlobalObjectAlias]=e[e.visitorGlobalObjectAlias]||function(){(e[e.visitorGlobalObjectAlias].q=e[e.visitorGlobalObjectAlias].q||[]).push(arguments)};e[e.visitorGlobalObjectAlias].l=(new Date).getTime();r=t.createElement("script");r.src=o;r.async=true;i=t.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)})(window,document,"https://diffuser-cdn.app-us1.com/diffuser/diffuser.js","vgo");
+        vgo('setAccount', '251951379');
+        vgo('setTrackByDefault', true);
+
+        vgo('process');
+    </script>
+
+    <!-- active campaign :: removed as per https://accessiblego.atlassian.net/browse/AC-297-->
+    <!-- <script type="text/javascript">
+        window.activeCampaignSiteTracker = window.activeCampaignSiteTracker || function (locationpath) {
+
+            var trackByDefault = true;  // Set to false if opt-in required
+            if (trackByDefault || /(^|; )ac_enable_tracking=([^;]+)/.test(document.cookie)) {
+                var expiration = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 365);
+                document.cookie = "ac_enable_tracking=1; expires= " + expiration + "; path=/";
+            }
+
+            var trackcmp_email = '';
+            var trackcmp = document.createElement("script");
+            trackcmp.async = true;
+            trackcmp.type = 'text/javascript';
+            trackcmp.crossorigin = 'anonymous';
+            trackcmp.src = '//trackcmp.net/visit?actid=251951379&e='
+                + encodeURIComponent(trackcmp_email)
+                + '&r='
+                + encodeURIComponent(window.location.href)   //document.referrer)
+                + '&u='
+                + encodeURIComponent(locationpath);  //window.location.href);
+            var trackcmp_s = document.getElementsByTagName("script");
+            if (trackcmp_s.length) {
+                trackcmp_s[0].parentNode.appendChild(trackcmp);
+            } else {
+                var trackcmp_h = document.getElementsByTagName("head");
+                trackcmp_h.length && trackcmp_h[0].appendChild(trackcmp);
+            }
+        };
+    </script> -->
+
+    <!-- hotjar -->
+    <!--     <script>
+            (function(h,o,t,j,a,r){
+                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                h._hjSettings={hjid:1004038,hjsv:6};
+                a=o.getElementsByTagName('head')[0];
+                r=o.createElement('script');r.async=1;
+                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+        </script> -->
+</body>
+
+</html>

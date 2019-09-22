@@ -1,0 +1,313 @@
+<div ng-controller="bookingFlightController as booking" id="oReserveFlightController" ng-cloak>
+
+	<!-- waiting -->
+	<div ng-if="booking.isValidSearchCriteria === undefined" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+	    <div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">One moment while we look that up...</div>
+	    <i class="fa fa-spinner fa-spin" style="font-size:4em;color:#299b7c;" aria-hidden="true"></i>
+	</div>
+
+	<!-- error prevent lookup -->
+	<div
+		ng-show="booking.isValidSearchCriteria === false"
+		class="wrapper-base"
+		style="height:80%;">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+			<h2>We're unable to lookup your flight booking:</h2>
+			<div
+				style="color: #000;font-weight:600;text-align: left;">
+				<ul>
+					<li ng-repeat="err in booking.errs" ng-bind-html="err" />
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- flight information -->
+	<div
+		id="bookingDetailsSection"
+		ng-show="booking.isValidSearchCriteria === true"
+		class="wrapper-common wrapper-common-width wrapper-column"
+		style="background-color:#fff;padding:1em;justify-content: flex-start;min-height: 26em;">
+
+		<!-- top summary -->
+		<h2>Thanks for booking your flight  with accessibleGO!</h2>
+		<p>A copy of your itinerary is shown below. <a href="https://secure.rezserver.com/flights/help/review/?refid=7760" target="lookup_{{booking.details.booking_id}}">Click here</a> to access your complete itinerary details.</p>
+
+		<!-- notice of email -->
+		<span
+			ng-if="booking.concern==='CONFIRM'" class="semibold14">We've sent a confirmation email to: {{booking.details.customer.email }}</span>
+
+		<!-- print -->
+		<div class="light16" style="margin-top:1em;">
+			<a
+				ng-click="booking.print()"
+				class="fa fa-print"
+				aria-hidden="true"
+				alt="print this page">
+				<span style="font-family:'Source Sans Pro', Tahoma, Geneva, sans-serif;"> print this page</span>
+			</a>
+		</div>
+
+		<div class="wrapper-common wrapper-common-width wrapper-row"
+		style="padding:0">
+
+			<!-- RENTAL CAR RESERVATION -->
+			<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					Your Flight Reservation
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-row">
+					<table
+						class="table-condensed table-responsive table-hover"
+						style="border:0px solid #ededed;">
+						<tr>
+							<td class="light16" style="vertical-align: top;min-width:6em;">
+								Booking Status:
+							</td>
+							<td class="light16">
+								<span
+									class="semibold18 text-right"
+									style="color:#469251;"
+									xng-bind-html="booking.details.book_status">Confirmed</span>
+								<i class="fa fa-check" style="color:#299b7c;vertical-align:baseline;" class="semibold18" aria-hidden="true"></i>
+								<!-- <img src="/web/public/resources/check_green.png" class="semibold18" alt="" style="vertical-align:baseline;" /> -->
+							</td>
+						</tr>
+						<tr>
+							<td class="light16">Trip Number:</td>
+							<td class="light16" ng-bind-html="booking.details.booking_id" />
+						</tr>
+						<tr>
+							<td class="light16">Airline Confirmation:</td>
+							<td class="light16" ng-bind-html="booking.details.book_status" />
+						</tr>
+						<tr>
+							<td class="light16" colspan="2">
+								<p>Please review the itinerary and passenger details below. If you see an error, contact Customer Service immediately. Flight schedules can change, please confirm your itinerary with the operating airline at lease 24 hours before departure. Airline baggage fees and other optional services may not be included in your trip cost.</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<!-- SUMMARY OF CHARGES -->
+			<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					Summary of Charges
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-row">
+					<table
+						class="table-condensed table-responsive table-striped"
+						style="border:0px solid #ededed;width:100%;">
+						<tr>
+							<td class="light18">Ticket Price:</td>
+							<td class="semibold18 pull-right">{{booking.details.price_details.display_symbol}}{{booking.details.price_details.display_base_fare | number:2}} per ticket</td>
+						</tr>
+						<tr>
+							<td class="light18"><a ng-click="booking.flightUtilities.setupModal(booking.details.popup_data.taxes_and_fees)" style="text-decoration: underline;">Taxes</a>:</td>
+							<td class="semibold18 pull-right">{{booking.details.price_details.display_symbol}}{{booking.details.price_details.display_taxes | number:2}} per ticket</td>
+						</tr>
+						<tr>
+							<td class="light18">Total per Ticket:</td>
+							<td class="semibold18 pull-right">{{booking.details.price_details.display_symbol}}{{booking.details.price_details.display_total_fare_per_ticket | number:2}} per ticket</td>
+						</tr>
+						<tr style="border-bottom: 1px solid #000;">
+							<td class="light18">Number of E-Tickets:</td>
+							<td class="semibold18 pull-right">{{booking.details.price_details.num_travellers}}</td>
+						</tr>
+						<tr>
+							<td class="light18">Total Charges:</td>
+							<td class="semibold18 pull-right">{{booking.details.price_details.display_currency}} <span class="bold24">{{booking.details.price_details.display_symbol}}{{booking.details.price_details.display_total_fare | number:2 }}</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="light18" colspan="2">
+								<p>Many airlines charge extra fees for baggage. These fees are not included in your trip cost.</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+
+			<!-- YOUR TRIP -->
+			<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					Flight Detail
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;">
+					<h4>
+						Your Trip from {{ booking.details.slice_data[0].departure.airport.city}}, {{ booking.details.slice_data[0].departure.airport.state}} {{ booking.details.slice_data[0].departure.airport.country}} to {{ booking.details.slice_data[0].arrival.airport.city}}, {{ booking.details.slice_data[0].arrival.airport.state}} {{ booking.details.slice_data[0].arrival.airport.country}}
+					</h4>
+					<h5>
+						({{booking.details.slice_data[0].departure.datetime.date_display}} <span ng-if="booking.details.search_type!=='OneWay'">- {{booking.details.slice_data[booking.details.slice_data.length-1].arrival.datetime.date_display}}</span>)
+					</h5>
+					<div class="wrapper-common wrapper-column">
+						<div ng-repeat="slice in booking.details.slice_data | orderBy: 'departure.datetime.date_time'">
+							<div ng-if="booking.details.search_type==='RoundTrip' && $index===0" style="padding: .5em;background-color:#cecece; color:#303030;border:1 solid #000" class="bold22">
+								Departing Flight: 
+							</div>
+							<div ng-if="booking.details.search_type==='RoundTrip' && $index===1" style="padding: .5em;background-color:#cecece;color:#303030;border:1 solid #000" class="bold22">
+								Returning Flight
+							</div>
+							<div ng-repeat="leg in slice.flight_data | orderBy: 'departure.datetime.date_time'">
+								<flight-slice-details ng-data="{{leg}}" search-type="{{booking.details.search_type}}"></flight-slice-details>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- PASSENGERS -->
+			<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					Passengers
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;">
+					<div ng-repeat="passenger in booking.details.passengers">
+						<h3>{{passenger.name_prefix}} {{passenger.first_name}} {{passenger.mid_name}} {{passenger.last_name}} {{passenger.name_suffix}}</h3>
+						Ticket number: Pending (Your ticket number will be available shortly.  Please view full itinerary to retrieve your ticket number)
+
+						<!-- TODO: show seat preferences -->
+					</div>
+				</div>
+			</div>
+
+			<!-- Airline Contact -->
+			<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					Airline Contact Information
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-column">
+					<table
+						ng-repeat="airline in booking.details.airline_data"
+						class="table-condensed table-responsive"
+						style="border:0px solid #ededed;">
+						<tr>
+							<td class="light16">
+								<div ng-bind-html="airline.name" />
+								<div ng-if="airline.phoneNumber" ng-bind-html="airline.phoneNumber" />
+								<div ng-if="airline.websiteUrl" ng-bind-html="airline.websiteUrl" />
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<!-- IMPORTANT INFO -->
+			<div style="background-color: #29817c;margin:1em;border:1px solid #29817c;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> Important Information
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-row">
+					<div
+						class="wrapper-common wrapper-common-width wrapper-column"
+						style="margin-top:1.125em;">
+						<!-- <span class="semibold14">{{booking.details.important_info_data.important_information.title}}</span><br> -->
+						<div ng-repeat="text in booking.details.important_info_data.important_information.paragraph_data">
+							<p ng-if="text.indexOf('#') === -1" ng-bind-html="text" />
+							<a
+								ng-if="text.indexOf('#') === 0"
+								ng-click="booking.flightUtilities.setupModal(booking.details.popup_data[booking.getPopupTag(text)])"
+								xhref="https://secure.rezserver.com/flights/help/review/?refid=7760"
+								target="_blank"
+								class="light16"
+								style="text-decoration: underline;"
+								ng-bind-html="booking.getPopupTitle(text)"></a>
+							<p ng-if="text.indexOf('#')>0">
+								<a
+									ng-click="booking.flightUtilities.setupModal(booking.details.popup_data['valid_passport'])"
+									ng-bind-html="text.replace('#check_in_START#government-issued photo ID#check_in_END#','government-issued photo ID')" />
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- NEED TO MAKE A CHANGE? -->
+			<div style="background-color: #29817c;margin:1em;border:1px solid #29817c;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					<i class="fa fa-question-circle" aria-hidden="true"></i> Need to Make a Change?
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-row">
+					<div
+						class="wrapper-common wrapper-common-width wrapper-column"
+						style="margin-top:1.125em;">
+						<!-- <span class="semibold14">{{booking.details.important_info_data.important_information.title}}</span><br> -->
+						<div ng-repeat="text in booking.details.important_info_data.need_change.paragraph_data">
+							<p ng-bind-html="text.replace('{{ airline_name }}',booking.details.airline_data[0].name).replace('#fare_rules_START#click here#fare_rules_END#','see the fare rules section below')">
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- FARE RULES -->
+			<div style="background-color: #29817c;margin:1em;border:1px solid #29817c;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					Fare Rules
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-row">
+					<div ng-repeat="section in booking.details.fare_rules_data">
+						<p ng-bind-html="section.title" />
+						<p ng-bind-html="section.text" />
+					</div>
+				</div>
+			</div>
+
+			<!-- CUSTOMER SERVICE -->
+			<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					<div ng-bind-html="booking.details.important_info_data.customer_service.title" />
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-row">
+					<div ng-repeat="paragraph in booking.details.important_info_data.customer_service.paragraph_data">
+						<p ng-bind-html="paragraph.replace('{{ booking_id }}',booking.details.booking_id).replace('{{ customer_phone }}',booking.details.customer.phone_number)" />
+					</div>
+				</div>
+			</div>
+
+			<!-- IMPORTANT 
+			<div style="background-color: #29817c;margin:1em;border:1px solid #29817c;width:100%;">
+				<div style="font-size: 1.5em;padding:.125em .75em;color:#fff;">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> Important Information
+				</div>
+				<div style="background-color: #fff;padding:1em;">
+					<b>accessibleGO Trip #:</b><br />
+					Use when looking up your reservation online, or when calling customer service.<br />
+					<b>{{booking.details.partner_name}} Confirmation #:</b><br />
+					Use when checking into the hotel<br />
+					<b>Cancellation:</b><br />
+					Please review the Cancellation Policy below under "Important Information".<br />
+					<a
+						ng-if="booking.details.actions.cancel"
+						ng-click="booking.openCancelBookingModal()" style="text-decoration: underline;">Click here to cancel your booking</a>
+				</div>
+			</div>-->
+
+
+
+
+
+
+		</div>
+
+	</div>
+
+</div>

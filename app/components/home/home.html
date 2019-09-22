@@ -1,0 +1,302 @@
+     
+<div ng-controller="homepageController as vm" ng-cloak>
+
+	<div class="main-banner">
+
+		<div class="banner-wrapper">
+
+			<div class="container">
+				<!-- MOBILE -->
+				<span class="d-table-cell d-sm-none" style="width:55%;">
+					<div style="color: #000;font-size: 1.75em;font-weight: bold;line-height: 40px;">Making Travel</div>
+					<div style="font-size: 1.65em;color: #1f635d;font-weight: bold;line-height: 24px;">More Accessible</div>
+					<div style="background: #000000;opacity: 0.51;color: #fff;line-height: 40px;font-size: 2.5em;font-weight: bold;margin-top: 4px;">TOGETHER</div>
+				</span>
+
+				<!-- DESKTOP -->
+				<span class="d-none d-sm-table-cell" style="width:65%;">
+					<h1>Accessible Travel Made Smart</h1>
+					<p class="lead">Making travel more accessible, together.</p>
+				</span>
+
+				<a ui-sref="about" class="winner-badge accessible-anchor-on-light" aria-label="accessibleGO is a winner of the 2018 Booking.com startup competition.">
+                    <img class="mobile-hide" ng-src="{{main.env.cdn_static}}/i/jumbotron/badge.png" alt="">
+				</a>
+			</div>
+
+		</div>
+
+	</div>
+
+
+	<!-- booking search bar -->
+	<div>
+		<search-bar></search-bar>
+	</div>
+
+
+	<!-- section :: intro -->
+	<div id="travel-experiences" class="container-fluid section background-white">
+
+		<div class="row">
+
+			<div class="container">
+
+				<div class="row heading">
+
+					<h2>A New Way to Travel with Disabilities</h2>
+
+					<ul>
+						<li><!-- <a ui-sref="ideas"> -->Travel Inspiration<!-- </a> --></li>
+						<li>Hotel Accessibility</li>
+						<li><!-- <a ui-sref="tripPlanner({city:'', type: '', category:''})"> -->Resource Directory<!-- </a> --></li>
+						<li>Accessibility Reviews</li>
+						<li><!-- <a ng-click="main.goToForum()"> -->Community Forum<!-- </a> --></li>
+					</ul>
+
+					<div class="green-line"></div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="row">
+
+			<div class="container">
+
+				<div class="row text-center">
+
+					<div class="col col-12 col-sm-4 col-md-4 col-lg-4">
+						<div xclass="home-travel-with-disabilities">
+							<button style="height:280px;" class="keyboard-hover-light" ui-sref="by-city" tabindex="0">
+								<div class="align-center">
+									<span>
+										<img ng-src="{{vm.env.cdn_static}}/i/header/plan.png" alt="">
+									</span>
+								</div>
+
+								<h3>Plan</h3>
+
+								<p>Accessible travel information & resources for the 30 most visited U.S. cities.</p>
+							</button>
+						</div>
+					</div>
+
+					<div class="col col-12 col-sm-4 col-md-4 col-lg-4">
+						<div xclass="home-travel-with-disabilities">
+							<button style="height:280px;" class="keyboard-hover-light" ui-sref="hotels" tabindex="0">
+								<div class="align-center">
+									<span>
+										<img ng-src="{{vm.env.cdn_static}}/i/header/reserve.png" alt="">
+									</span>
+								</div>
+								<h3>Reserve</h3>
+								<p>Reserve hotels, flights, cruises and cars. Save 10-60% on U.S. hotels through clubGO.</p>
+							</button>
+						</div>
+
+					</div>
+
+					<div class="col col-12 col-sm-4 col-md-4 col-lg-4">
+						<div xclass="home-travel-with-disabilities">
+							<button style="height:280px;" class="keyboard-hover-light" ui-sref="forum-launcher" tabindex="0">
+								<div class="align-center">
+									<span>
+										<img ng-src="{{vm.env.cdn_static}}/i/header/share.png" alt="">
+									</span>
+								</div>
+
+								<h3>Share</h3>
+								<p>Ask questions & share ideas on the travel forum. Leave reviews about hotel accessibility.</p>
+							</button>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+	<!-- section :: community -->
+	<div id="community" class="container-fluid section text-white text-center">
+
+		<div class="row">
+
+			<div class="container">
+
+				<div class="row heading">
+
+						<h2>Your Travel Community</h2>
+
+						<p style="font-size:1.5em;">Get in touch with like-minded travelers. Ask accessiblity questions or share feedback on travel articles.</p>
+
+						<ul class="mt-10">
+							<li><a class="hover-underline" ui-sref="forum-launcher" style="padding:6px;border:0px;color:#fff;">Travel Forum</a></li>
+							<li><a class="hover-underline" ui-sref="review" style="padding:6px;border:0px;color:#fff;">Accessibility Reviews</a></li>
+							<li><a class="hover-underline" ui-sref="blogMain" style="padding:6px;border:0px;color:#fff;">Community Blog</a></li>
+						</ul>
+
+					</div>
+
+				<button
+					ng-click="main.showJoinModal()"
+					class="btn button-big background-white btn-hover-ddd text-green text-bold">Join Our Community
+				</button>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+	<!-- section :: cities -->
+	<popular-cities
+		title="Popular Cities"
+		subtitle="Choose a city to see accessible travel information and resources."
+		background-img="true">
+	</popular-cities>
+
+
+	<!-- section :: testimonials -->
+	<div id="testimonials" class="container-fluid section background-light-gray">
+
+		<div class="row">
+
+			<div class="container">
+
+				<div class="row heading">
+
+					<h2>What Travelers Are Saying</h2>
+
+					<div class="green-line"></div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="row">
+
+			<div class="container">
+
+				<div class="testimonials">
+
+					<div
+						ng-repeat="testimonial in vm.testimonialData track by $index"
+						class="testimonial">
+
+						<div class="name">
+							{{testimonial.name}}
+						</div>
+
+						<div class="location">
+							{{testimonial.location}}
+						</div>
+
+						<div class="text">
+							{{testimonial.text}}
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="slick-navigation text-center">
+
+					<div class="testimonials-nav slick-navigation-wrapper"></div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+	<!-- section :: partners-->
+	<div id="partners" class="container-fluid section background-white">
+
+		<div class="row">
+
+			<div class="container">
+
+				<div class="row heading">
+
+					<h2>Our Amazing Partners</h2>
+
+					<div class="green-line"></div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="row">
+
+			<div class="container">
+
+				<div class="partners">
+					<div style="font-size:1.5em;vertical-align: middle;display: flex;flex-direction: row;justify-content: center;flex-wrap: wrap;">
+						<div
+							ng-repeat="partner in vm.partnerLogos | limitTo:vm.partnerCount track by $index"
+							class="keyboard-hover-light smaller"
+							style="margin:.25em 0;"
+							tabindex="0"
+							xng-click="vm.goToUrl(partner.url,partner.id)">
+							<img
+								ng-if="partner.img"
+								id="{{partner.id}}"
+								lazy-load="'{{partner.img}}'"
+								class="lazy-load"
+								style="color:#000;max-width:90%;max-height:150px;"
+								src=""
+								alt="Visit {{partner.alt}}"
+								aria-hidden="true" />
+						</div>
+					</div>
+
+				</div>
+
+				<div
+					ng-if="vm.partnerCount===vm.defaultPartnerCount" class="text-center">
+
+					<button
+						type="button"
+						class="all-partners btn button-big text-green text-bold"
+						xui-sref="partners"
+						data-ng-click="vm.loadAllPartners()"
+						xng-click="$state.go('partners')">See all partners</button>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+	<!-- section :: accessible travel inspiration -->
+	<travel-inspiration-articles
+		title="Find Your Inspiration"
+		subtitle=""
+		header="true"
+		content="noncity"
+		limit="6">
+	</travel-inspiration-articles>
+
+</div>

@@ -1,0 +1,558 @@
+<div ng-controller="flightSearchController as flight" ng-cloak>
+
+    <div class="wrapper-base hotels-page" style="background-color:#fff;padding-bottom:0px;">
+
+        <nav class="flex-col" aria-label="breadcrumb">
+          <ol class="breadcrumb breadcrumbs-light">
+            <li class="breadcrumb-item"><a ui-sref="home">home</a></li>
+            <li class="breadcrumb-item"><a ui-sref="flights">flights</a></li>
+            <li class="breadcrumb-item active" aria-current="page">search</li>
+          </ol>
+        </nav>
+
+        <div class="heading-wrapper">
+            <div class="container inner-heading">
+                <div class="page_heading" style="margin:0px;">
+                    <h1 class="title d-none d-sm-flex" style="align-items: center;">
+                        <i class="fa fa-plane" aria-hidden="true"></i>accessibleGO <strong>Flights</strong>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+
+    <div class="main-flights">
+        <div class="container inner-flight">
+            <div class="flights">
+                <!--<div class="row flights-result">
+                    <div class="col-md-3">
+                        <h2>
+                            <strong>Flights results</strong>
+                        </h2>
+                    </div>
+                    <div class="col-md-offset-6 col-md-3 currency-options">
+                        <select class="form-control" name="currency_options">
+                            <option value="">(USD) US dollar</option>
+                        </select>
+                    </div>
+                </div>-->
+
+                <div class="flight-search-result" style="margin-top: .5em;">
+
+                    <!-- search bar -->
+                    <div ng-if="flight.displaySeachBar===false" class="d-flex">
+                        <div class="col-lg-5 col-md-5 col-sm-6">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            {{flight.results.result.search_data[0].origin.city}}, {{flight.results.result.search_data[0].origin.state}} {{flight.results.result.search_data[0].origin.country}}
+                            - {{flight.results.result.search_data[0].destination.city}}, {{flight.results.result.search_data[0].destination.state}}
+                            {{flight.results.result.search_data[0].destination.country}}
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6">
+                            <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                            <span ng-if="flight.results.result.search_type==='OneWay'">
+                                {{ flight.utilities.getFormattedDateFromString(flight.results.result.search_data[0].departure_date) }}
+                            </span>
+                            <span ng-if="flight.results.result.search_type==='RoundTrip'">
+                                {{ flight.utilities.getFormattedDateFromString(flight.results.result.search_data[0].departure_date) }} - {{ flight.utilities.getFormattedDateFromString(flight.results.result.search_data[1].departure_date)
+                                }}
+                            </span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <span ng-if="flight.flights_adults===1">1 Adult</span>
+                            <span ng-if="flight.flights_adults>1">{{flight.flights_adults}} Adults</span>
+                            <span ng-if="flight.flights_children===1">, 1 Child</span>
+                            <span ng-if="flight.flights_children>1">, {{flight.flights_children}} Children</span>
+                        </div>
+                        <div class="col-lg-2 col-xs-6 col-sm-4 col-md-2">
+                            <button class="btn btn-default" ng-click="flight.displaySeachBar=true">Change Search</button>
+                        </div>
+                    </div>
+
+                    <!-- button :: one-way, roundtrip, multi -->
+                    <div ng-if="flight.displaySeachBar===true" style="padding: 1em;width:100%;">
+
+                        <input type="button" ng-class="flight.flightWay==='RoundTrip'?'btn btn-primary':'btn btn-default'" value="Round Trip" ng-click="flight.flightWay='RoundTrip'"
+                            xng-disabled="flight.flightWay==='RoundTrip'">
+                        <input type="button" ng-class="flight.flightWay==='OneWay'?'btn btn-primary':'btn btn-default'" value="One-way" ng-click="flight.flightWay='OneWay'"
+                            xng-disabled="flight.flightWay==='OneWay'">
+                        <!-- <input
+                            type="button"
+                            ng-class="flight.flightWay==='Multi'?'btn btn-primary':'btn btn-default'"
+                            value="Multi Destination"
+                            ng-click="flight.flightWay='Multi'"
+                            xng-disabled="flight.flightWay==='Multi'"> -->
+                        <button ng-if="flight.displaySeachBar===true && flight.showErrors" type="submit" value="cancel" class="btn btn-default pull-right"
+                            ng-if="flight.displaySeachBar===true" ng-click="flight.displaySeachBar=false">
+                            <i class="fa fa-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                    <!-- search options -->
+                    <div ng-if="flight.displaySeachBar" class="flight-search-options" style="flex-wrap:wrap;">
+                        <div xclass="flight-search-where" style="flex-basis:40%;flex-grow:1;xmaxwidth:12em;">
+                            <where-picker id="flights_departure_location" label="From" placeholder="{{ flight.flights_departure_location.display || 'Enter a City or Airport'}}"
+                                ng-model="flight.flights_departure_location"
+                                include-hotels="N"
+                                include-cities="Y"
+                                include-airports="Y"
+                                include-regions="N"
+                                is-for-flights="Y"
+                                include-directories="N"
+                                xstyle="max-width:8.250em;"
+                                on-change="flight.moveToArrivalLocation">
+                            </where-picker>
+                        </div>
+                        <div xclass="flight-search-where" style="flex-basis:40%;flex-grow:1;xmaxwidth:12em;">
+                            <where-picker id="flights_arrival_location"
+                                label="To"
+                                placeholder="{{ flight.flights_arrival_location.display || 'Enter a City or Airport'}}"
+                                ng-model="flight.flights_arrival_location"
+                                include-hotels="N"
+                                include-cities="Y"
+                                include-airports="Y"
+                                include-regions="N"
+                                is-for-flights="Y"
+                                include-directories="N"
+                                xstyle="max-width:8.250em;"
+                                on-change="flight.moveToDepartingDate">
+                            </where-picker>
+                        </div>
+                        <div
+                            xng-style="{'flex-basis': flight.flightWay==='RoundTrip'? '15%':'20%'}"
+                            style="flex-basis: 10%;"
+                            class="text-lg-center text-md-left flight-search-date flight-search-to-date">
+                            <date-picker id="departing" label="Departing" placeholder="mm/dd/yyyy" xstyle="width:4.75em;" ng-model="flight.flights_departure_date"
+                                on-change="flight.moveToReturningDate" />
+                        </div>
+                        <div
+                            style="flex-basis:10%;"
+                            ng-if="flight.flightWay==='RoundTrip'" class="text-lg-center text-md-left flight-search-date flight-search-to-date">
+                            <date-picker id="returning" label="Returning" placeholder="mm/dd/yyyy" style="width:4.75em;" ng-model="flight.flights_return_date"
+                            min-date="{{flight.flights_departure_date.toUTCString()}}" on-change="flight.moveToSelectAdults" />
+                        </div>
+                    </div>
+                    <div ng-if="flight.displaySeachBar" class="flight-search-options" style="flex-wrap:wrap;">
+                        <div class="flight-search-date flight-search-number">
+                            <air-select-persons id="flight_number_of_adults" ng-model="flight.flights_adults" label="Adults" style="width:5em;" on-change="flight.moveToSelectChild"
+                                options="[1,2,3,4,5,6,7,8]" />
+                        </div>
+                        <div class="flight-search-date flight-search-number">
+                            <air-select-persons id="flight_number_of_children" ng-model="flight.flights_children" label="Children" style="width:5em;"
+                                on-change="flight.moveToCabinClass" options="[0,1,2,3,4,5,6,7,8]" />
+                        </div>
+                        <div class="flight-search-date flight-search-number">
+                            <air-select-cabin
+                                id="flight_cabin_class"
+                                ng-model="flight.flights_cabin"
+                                label="Cabin Class"
+                                style="width:5em;"
+                                on-change="flight.moveToSubmit"
+                                options="['No Preference','Economy','Premium','Business','First']" />
+                        </div>
+                        <div style="align-self: flex-end;">
+                            <!-- <label for="flight_search_submit" class="light16" style></label> -->
+                            <input
+                                id="flight_search_submit"
+                                class="home-booking-form-searchbutton"
+                                style="margin-top:28px;"
+                                type="button"
+                                value="GO"
+                                ng-disabled="flight.isButtonDisable"
+                                ng-class="{'buttonDisableClass':flight.isButtonDisable}"
+                                ng-click="flight.submitSearch()" />
+                        </div>
+                        <!-- <div style="text-align: right;width:110px;">
+                            <label>&nbsp;</label>
+                            <br />
+                            <img ng-src="{{flight.image_poweredByPPN}}" alt="" />
+                        </div> -->
+                    </div>
+
+                    <!-- validation errors flight.displaySeachBar -->
+                    <div ng-if="flight.showErrors && flight.errs" style="color:red;font-weight:600;padding:1em;">
+                        <div ng-repeat="err in flight.errs| limitTo:1">
+                            {{err}}
+                        </div>
+                    </div>
+
+                    <!-- mobile filter -->
+                    <div
+                        id="filterBtnForMobile"
+                        class="col-xs-6 text-right d-block d-md-none offcanvas-filter">
+                        <button
+                            style="border: 1px solid #2a807d;padding: 5px 10px;background-color: #f3f3f3;text-decoration: none;"
+                            ng-click="flight.displayMobileFilter = true">
+                            Filter <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                    <!--start filters for mobile view -->
+                    <div id="myOffcanvasNav" class="offcanvas-nav d-md-none" ng-class="{'open': flight.displayMobileFilter === true}">
+                        <a href class="closebtn" ng-click="flight.displayMobileFilter = false">&times;</a>
+                        <div class="col-md-3 flights-filer">
+                            <div class="filter-category" ng-if="flight.filterCritearea.price.length">
+                                <span class="filter-type-name">Price Range</span>
+                                <div class="filter-range" ng-repeat="p in flight.filterCritearea.price" ng-if="p.count>0">
+                                    <input type="checkbox" id="{{p.list.title}}" name="price_checklist" ng-model="p.list.checked" ng-change="flight.setFilteredResults()"
+                                        class="checkbox-white">
+                                    <label for="{{p.list.title}}">{{p.list.title}} </label>
+                                    <span>({{p.count}})</span>
+                                </div>
+                            </div>
+
+                            <div class="filter-category" ng-if="flight.filterCritearea.stops.length">
+                                <span class="filter-type-name">Stops</span>
+                                <div class="filter-range" ng-repeat="s in flight.filterCritearea.stops" ng-if="s.count>0">
+                                    <input type="checkbox" ng-model="s.list.checked" ng-change="flight.setFilteredResults()" name="filter-stop" id="{{s.list.title}}">
+                                    <label for="{{s.list.title}}">{{s.list.title}}</label>
+                                    <span>({{s.count}})</span>
+                                </div>
+                            </div>
+
+                            <div class="filter-category" ng-if="flight.filterCritearea.airlineNames.length">
+                                <span class="filter-type-name">Airlines</span>
+                                <div class="filter-range" ng-repeat="airlineName in flight.filterCritearea.airlineNames | orderBy: 'name'" ng-if="airlineName.count>0">
+                                    <input type="checkbox" name="filter-airline-name" ng-model="flight.selectedAirlineTypes[airlineName.name]" id="airline_list_{{$index}}"
+                                        ng-change="flight.setFilteredResults()" class="checkbox-white">
+                                    <label for="airline_list_{{$index}}" style="text-transform: capitalize">{{airlineName.name}}</label>
+                                    <span>({{airlineName.count}})</span>
+                                </div>
+                            </div>
+
+                            <div class="filter-category" ng-if="flight.filterCritearea.takeoff.length">
+                                <span class="filter-type-name">Departing Flight</span>
+                                <br/>
+                                <span class="filter-type-name">Takeoff</span>
+                                <div class="filter-range" ng-repeat="t in flight.filterCritearea.takeoff" ng-if="t.count>0">
+                                    <input type="checkbox" name="takeOff_checklist" ng-model="t.list.checked" id="{{t.list.title}}" ng-change="flight.setFilteredResults()">
+                                    <label for="{{t.list.title}}">{{t.list.title}}</label>
+                                    <span>({{t.count}})</span>
+                                </div>
+                            </div>
+
+                            <div class="filter-category" ng-if="flight.filterCritearea.landing.length">
+                                <span class="filter-type-name">Landing</span>
+                                <div class="filter-range" ng-repeat="l in flight.filterCritearea.landing" ng-if="l.count>0">
+                                    <input type="checkbox" name="landing_checklist" id="{{l.list.title}}" ng-model="l.list.checked" ng-change="flight.setFilteredResults()">
+                                    <label for="{{l.list.title}}">{{l.list.title}}</label>
+                                    <span>({{l.count}})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end filters for mobile view -->
+                </div>
+
+                <!-- search in progress -->
+                <div ng-if="flight.searchInProgress === true" style="text-align:center;margin-top:1.75em;margin-bottom:1.75em;">
+                    <div style="font-size:2em;font-weight: 600;margin-bottom:15em;">
+                        <i class="fa fa-spinner fa-spin" aria-hidden="true" style="font-size:1em;color:#299b7c;margin-right:.25em;"></i>
+                        Searching for flights...
+                    </div>
+                </div>
+
+                <!--start filters for desktop view -->
+                <div ng-hide="flight.searchInProgress===true || flight.errs.length>0 || flight.results.result.itinerary_data.length===0"
+                    class="d-flex">
+                    <div class="col-md-3 flights-filer d-none d-md-block">
+                        <div class="filter-category" ng-if="flight.filterCritearea.price.length">
+                            <span class="filter-type-name">Price Range</span>
+                            <div class="filter-range" ng-repeat="p in flight.filterCritearea.price" ng-if="p.count>0">
+                                <input type="checkbox" id="{{p.list.title}}" name="price_checklist" ng-model="p.list.checked" ng-change="flight.setFilteredResults()"
+                                    class="checkbox-white">
+                                <label for="{{p.list.title}}">{{p.list.title}} </label>
+                                <span>({{p.count}})</span>
+                            </div>
+                        </div>
+
+                        <div class="filter-category" ng-if="flight.filterCritearea.stops.length">
+                            <span class="filter-type-name">Stops</span>
+                            <div class="filter-range" ng-repeat="s in flight.filterCritearea.stops" ng-if="s.count>0">
+                                <input type="checkbox" ng-model="s.list.checked" ng-change="flight.setFilteredResults()" name="filter-stop" id="{{s.list.title}}">
+                                <label for="{{s.list.title}}">{{s.list.title}}</label>
+                                <span>({{s.count}})</span>
+                            </div>
+                        </div>
+
+                        <div class="filter-category" ng-if="flight.filterCritearea.airlineNames.length">
+                            <span class="filter-type-name">Airlines</span>
+                            <div class="filter-range" ng-repeat="airlineName in flight.filterCritearea.airlineNames | orderBy: 'name'" ng-if="airlineName.count>0">
+                                <input type="checkbox" name="filter-airline-name" ng-model="flight.selectedAirlineTypes[airlineName.name]" id="airline_list_{{$index}}"
+                                    ng-change="flight.setFilteredResults()" class="checkbox-white">
+                                <label for="airline_list_{{$index}}" style="text-transform: capitalize">{{airlineName.name}}</label>
+                                <span>({{airlineName.count}})</span>
+                            </div>
+                        </div>
+
+                        <div class="filter-category">
+                            <span class="filter-type-name">Departing Airport</span><br/>
+                            <span class="semibold16">{{flight.results.result.search_data[0].origin.city}}, {{flight.results.result.search_data[0].origin.state}}</span><br/>
+                            <input type="checkbox" checked="checked" disabled="disabled" name="departingAirport" id="departingAirport">
+                            <label for="departingAirport" ng-bind-html="flight.results.result.search_data[0].origin.name" />
+                        </div>
+
+                        <div class="filter-category">
+                            <span class="filter-type-name">Departing Flight</span><br/>
+                            <span class="filter-type-name">Takeoff</span>
+                            <div class="filter-range" ng-repeat="t in flight.filterCritearea.takeoff" ng-if="t.count>0">
+                                <input type="checkbox" name="takeOff_checklist" ng-model="t.list.checked" id="{{t.list.title}}" ng-change="flight.setFilteredResults()">
+                                <label for="{{t.list.title}}">{{t.list.title}}</label>
+                                <span>({{t.count}})</span>
+                            </div>
+                        </div>
+                        <div class="filter-category" ng-if="flight.filterCritearea.landing.length">
+                            <span class="filter-type-name">Landing</span>
+                            <div class="filter-range" ng-repeat="l in flight.filterCritearea.landing" ng-if="l.count>0">
+                                <input type="checkbox" name="landing_checklist" id="{{l.list.title}}" ng-model="l.list.checked" ng-change="flight.setFilteredResults()">
+                                <label for="{{l.list.title}}">{{l.list.title}}</label>
+                                <span>({{l.count}})</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9 flights-list">
+                        <!-- TODO: requires alternative data from PPN
+                        <ul class="nav nav-pills nav-justified">
+                            <li>
+                                <a href="#">
+                                    <strong>Sun Nov 19</strong>
+                                    <span>No available flights</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <strong>Mon Nov 20</strong>
+                                    <span>$300</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <strong>Tue Nov 21</strong>
+                                    <span>No available flights</span>
+                                </a>
+                            </li>
+                            <li class="active active-no-flights">
+                                <a href="#">
+                                    <strong>Wed Nov 22</strong>
+                                    <span>No available flights</span>
+                                </a>
+                            </li>
+                            <li class="active active-cheapest">
+                                <a href="#">
+                                    <strong>Thu Nov 23</strong>
+                                    <span>$275</span><br/>
+                                    <span class="text-success">Cheapest</span>
+                                </a>
+                            </li>
+                            <li class="active active-cheapest-normal">
+                                <a href="#">
+                                    <strong>Fri Nov 24</strong>
+                                    <span>$290</span>
+                                </a>
+                            </li>
+                            <li class="active active-cheapest-red">
+                                <a href="#">
+                                    <strong>Sat Nov 25</strong>
+                                    <strong>$481.40</strong>
+                                    <span class="text-danger">Cheapest!</span>
+                                </a>
+                            </li>
+                        </ul>
+                        -->
+
+                        <!-- STEP 1 -->
+                        <div class="step-wrapper">
+                            <div ng-if="flight.results.result.search_type==='OneWay'" class="step-heading">Choose Your Flight to {{flight.results.result.search_data[0].destination.city}}, {{flight.results.result.search_data[0].destination.state}}
+                                {{flight.results.result.search_data[0].destination.country}}
+                            </div>
+                            <div ng-if="flight.results.result.search_type==='RoundTrip'" class="step-heading">Step-1 Choose Your Departing Flight to {{flight.results.result.search_data[0].destination.city}},
+                                {{flight.results.result.search_data[0].destination.state}} {{flight.results.result.search_data[0].destination.country}}
+                            </div>
+                        </div>
+                        <div class="sort-by">
+
+                            <div class="xcol-md-offset-6 col-sm-12">
+                                <div class="d-flex">
+
+                                    <span ng-if="filteredOptions.length===0" class="semibold18 col-xs-12 col-sm-4" style="margin-bottom:10px;">0 itineraries found.</span>
+
+                                    <span ng-if="filteredOptions.length>0" class="semibold18 col-xs-12 col-sm-4" style="margin-bottom:10px;">{{ filteredOptions.length }} itineraries found.</span>
+
+
+                                    <div class="col-sm-8">
+                                        <div class="filter-range badge_filter" ng-repeat="p in flight.filterPriceBadge track by $index">
+                                            <span class="semibold24 badge">Price: {{p.title}}
+                                                <a ng-click="flight.removeBadge(p,'price')" style="text-decoration: none;">
+                                                    <i class="fa fa-times-circle" style="color:#fff;"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="filter-range badge_filter" ng-repeat="s in flight.filterStopsBadge track by $index">
+                                            <span class="semibold24 badge">Stops: {{s.title}}
+                                                <a ng-click="flight.removeBadge(s,'stops')" style="text-decoration: none;">
+                                                    <i class="fa fa-times-circle" style="color:#fff;"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="filter-range badge_filter" ng-repeat="a in flight.filterAirlinesBadge track by $index">
+                                            <span class="semibold24 badge">Airlines: {{a.title}}
+                                                <a ng-click="flight.removeBadge(a,'airlines')" style="text-decoration: none;">
+                                                    <i class="fa fa-times-circle" style="color:#fff;"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="filter-range badge_filter" ng-repeat="t in flight.filterTakeOffBadge track by $index">
+                                            <span class="semibold24 badge">Takeoff: {{t.title}}
+                                                <a ng-click="flight.removeBadge(t,'takeOff')" style="text-decoration: none;">
+                                                    <i class="fa fa-times-circle" style="color:#fff;"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="filter-range badge_filter" ng-repeat="l in flight.filterLandingBadge track by $index">
+                                            <span class="semibold24 badge">Landing: {{l.title}}
+                                                <a ng-click="flight.removeBadge(l,'landing')" style="text-decoration: none;">
+                                                    <i class="fa fa-times-circle" style="color:#fff;"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="filteredOptions.length>0" class="main-price" style="margin-top:10px;">
+                                <div class="d-flex">
+                                    <div class="col-xs-4 lowest-inner">
+                                        <div class="text-price lowest-price">
+                                            <i class="fa fa-bolt" aria-hidden="true"></i>Lowest Price
+                                        </div>
+                                        <div class=" text-desc">from ${{flight.lowestPrice}}</div>
+                                    </div>
+                                    <div class="col-xs-4 fly">
+                                        <div class="text-price fly-non-stop">
+                                            <i class="fa fa-clock-o" aria-hidden="true"></i>Fly Non-Stop
+                                        </div>
+                                        <div class="text-desc" ng-if="flight.nonStopPrice === 10000">n/a</div>
+                                        <div class="text-desc" ng-if="flight.nonStopPrice < 10000">from ${{flight.nonStopPrice}}</div>
+                                    </div>
+                                    <div class="col-xs-4 most">
+                                        <!-- <div class="text-price most-popular"><i class="fa fa-heart" aria-hidden="true"></i>Most Popular
+                                        </div>
+                                        <div class="text-desc">from $373</div> -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- sort by -->
+                            <div ng-if="filteredOptions.length>0" class="main-price" style="border:0px;">
+                                <div class="d-flex">
+                                    <span class="col-xs-4 col-sm-2">Sort by: </span>
+                                    <select class="xform-control col-xs-8 col-sm-6" name="currency_options" ng-model="flight.sortOption">
+                                        <option value="lth">Price - Low to High</option>
+                                        <option value="htl">Price - High to Low</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div ng-repeat="option in flight.filterFlightData | orderBy: 'price_details.display_base_fare' : flight.sortOption==='htl' as filteredOptions track by $index "
+                                class="flight-available row" style="background-color: #FFFFFF;">
+                                <!-- <div class="lowest-title-available"><i class="fa fa-check-circle" aria-hidden="true"></i>Lowest Price
+                                    Flight Available!
+                                </div> -->
+                                <div class="airline-img col-md-2">
+                                    <div style="margin-top:1em;">
+                                        <div class="xflight-img">
+                                            <img ng-src="{{option.slice_data[0].airline.logo}}" alt="{{option.slice_data[0].airline.name}}" aria-hidden="true" />
+                                        </div>
+                                        <span class="img-content">{{ option.slice_data[0].airline.name }}</span>
+                                    </div>
+                                    <!-- <a href="#"><i class="fa fa-plane" aria-hidden="true"></i>Learn More&nbsp;&nbsp;</a> -->
+                                </div>
+                                <div class="airline-content col-md-7">
+                                    <div class="cotent-inner">
+                                        <div class="blog-time">
+                                            <span class="time">{{ option.slice_data[0].departure.airport.code }}
+                                                <strong>{{ option.slice_data[0].departure.datetime.time_12h }}</strong>
+                                            </span>
+                                            <span style="color: #A3A3A3; font-size: 12px;">{{ option.slice_data[0].departure.airport.city }}, {{ option.slice_data[0].departure.airport.state
+                                                }}
+                                                <br/> {{ option.slice_data[0].departure.airport.country }} </span>
+                                        </div>
+                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                        <div class="clt">
+                                            <span ng-if="$index > 0" ng-repeat="f in option.slice_data[0].flight_data">
+                                                <span ng-if="$index > 1">, </span>
+                                                {{f.departure.airport.code}}
+                                            </span>
+                                            <br/>
+                                            <span ng-if="option.slice_data[0].info.connection_count>0" style="color: #A3A3A3; font-size: 12px;">{{ option.slice_data[0].info.connection_count }} stop(s)
+                                            </span>
+                                            <!-- <span
+                                                ng-if="option.slice_data[0].info.stop_count>0"
+                                                style="color: #A3A3A3; font-size: 12px;">{{ option.slice_data[0].info.stop_count }} stop(s)
+                                            </span> -->
+                                        </div>
+                                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        <div class="lga-time">
+                                            <span class="lga">{{ option.slice_data[0].arrival.airport.code }}
+                                                <strong>{{ option.slice_data[0].arrival.datetime.time_12h }}</strong>
+                                            </span>
+                                            <span style="color: #A3A3A3; font-size: 12px;">{{ option.slice_data[0].arrival.airport.city}}, {{ option.slice_data[0].arrival.airport.state
+                                                }}
+                                                <br/> {{ option.slice_data[0].arrival.airport.country }} </span>
+                                        </div>
+                                        <div class="last-time" style="max-width:8em;">
+                                            <span class="time-4h">
+                                                <strong>
+                                                    <i class="fa fa-clock-o" aria-hidden="true"></i> {{ flight.utilities.formatDuration(option.slice_data[0].info.duration)
+                                                    }}
+                                                </strong>
+                                            </span>
+                                            <span style="font-size: 12px;" ng-repeat="note in option.slice_data[0].info.notes">
+                                                <br>
+                                                <span ng-if="note.type==='openjaw'" style="color:red;font-weight: 600;">{{note.value}}</span>
+                                                <span ng-if="note.type!=='openjaw'" style="color:green;">{{note.value}}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="part-desc">Part Operated by PSA Airline as American Eagie</div> -->
+                                </div>
+
+                                <div class="col-md-3 total-airline">
+                                    <div class="total-price">{{ option.price_details.display_symbol }} {{ option.price_details.display_total_fare_per_ticket | number:2 }}
+                                    </div>
+                                    <span class="price-desc">Total per person</span>
+                                    <div class="price-button">
+                                        <button id="home-booking-form-hotels_searchbutton" type="image" class="buttonBlue" style="margin-top:10px;min-height: 40px;"
+                                            ng-click="flight.next(option)">Select
+                                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- FLIGHT DETAILS -->
+                                <div class="flight-detail">
+                                    <span class="flight-detail-title">
+                                        <button type="image" class="btn btn-default" ng-click="flight.show_detail[$index] = !flight.show_detail[$index]" aria-hidden="true">
+                                            <i ng-if="!flight.show_detail[$index]" class="fa fa-caret-down" aria-hidden="true"></i>
+                                            <i ng-if="flight.show_detail[$index]" class="fa fa-caret-up" aria-hidden="true"></i> Flight Details
+                                        </button>
+                                    </span>
+                                    <div ng-show="flight.show_detail[$index]">
+                                        <div ng-repeat="leg in option.slice_data[0].flight_data | orderBy: 'departure.datetime.date_time'" class="d-flex">
+                                            <flight-slice-details ng-data="{{leg}}"></flight-slice-details>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--end filters for desktop view -->
+
+            </div>
+        </div>
+    </div>
+</div>

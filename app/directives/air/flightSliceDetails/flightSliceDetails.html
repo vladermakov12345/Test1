@@ -1,0 +1,61 @@
+<div>
+    <div class="airline-content col-lg-12" style="background-color:#fff;">
+        <div class="cotent-inner row" style="justify-content: space-between;">
+            <div class="airline-img col-sm-3">
+                <div class="xflight-img">
+                    <img
+                        ng-src="https://assets-cdn.rezserver.com/media/img/air_logos2/{{leg.info.marketing_airline_code}}.png"
+                        alt="" 
+                        aria-hidden="true"
+                        style="max-height:3em;"/>
+                    <!-- <img src="https://media.rezserver.com/img/air_logos/airLogo_{{leg.info.marketing_airline_code}}lg.gif" alt="" aria-hidden="true"/> -->
+                </div>
+                <!-- <span class="img-content">{{leg.info.marketing_airline }}</span> -->
+            </div>
+            <div class="blog-time col-xs-6 col-sm-3" >
+                <span class="time">{{ leg.departure.airport.code }}
+                    <strong>{{ leg.departure.datetime.time_12h }}</strong>
+                </span>
+                <span style="color: #A3A3A3; font-size: 12px;">{{ leg.departure.airport.city }}, {{ leg.departure.airport.state }} {{ leg.departure.airport.country }}
+                </span>
+            </div>
+<!--             <div class="hidden-xs col-sm-2">
+                <i class="fa fa-minus" aria-hidden="true"></i>
+                <span xclass="clt-time" ng-if="leg.info.connection_count>0" style="color: #A3A3A3; font-size: 12px;">{{ leg.info.connection_count }} connection(s)
+                </span>
+                <span ng-if="leg.info.stop_count>0" style="color: #A3A3A3; font-size: 12px;">{{ leg.info.stop_count }} stop(s)
+                </span>
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </div>
+-->
+            <div class="col-xs-6 col-sm-3">
+                <span class="lga">{{ leg.arrival.airport.code }}
+                    <strong>{{ leg.arrival.datetime.time_12h }}</strong>
+                </span>
+                <span style="color: #A3A3A3; font-size: 12px;">{{ leg.arrival.airport.city}}, {{ leg.arrival.airport.state }}
+                    {{ leg.arrival.airport.country }}
+                </span>
+            </div>
+            <div class="last-time col-xs-6 col-sm-3" xstyle="max-width:10em;">
+                <span class="pull-right">
+                    <strong>
+                        <i class="fa fa-clock-o" aria-hidden="true"></i> {{ vm.utilities.formatDuration(leg.info.duration) }}
+                    </strong>
+                </span>
+            </div>
+            <div class="col col-lg-12">
+                <span style="color: #000; font-size: 14px;">
+                    {{leg.info.marketing_airline}} - Flight {{leg.info.flight_number}} · {{leg.info.aircraft}} · {{leg.info.aircraft_type}} · {{leg.info.cabin_name}}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="" style="xpadding:.5em 0;">
+    <div ng-if="leg.info.notes.length>0" ng-repeat="note in leg.info.notes" xclass="col-md-12">
+        <div style="background-color: #FBE8CC;width:100%;padding:8px;" class="semibold14">
+            <i class="fa fa-exchange" aria-hidden="true"></i> {{note.value}}
+            <span ng-if="note.type==='connection'" class="pull-right">Layover: {{vm.utilities.formatDuration(note.duration)}}</span>
+        </div>
+    </div>
+</div>

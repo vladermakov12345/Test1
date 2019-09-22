@@ -1,0 +1,125 @@
+<div ng-controller="startController as start" ng-cloak class="welcome_main">
+
+	<div class="wrapper-common wrapper-common-width text-center">
+		<div class="top_secwelcm">
+			<h3>
+				<!-- Welcome back {{ start.userProfile.given_name }}! -->
+				Welcome aboard!
+			</h3>
+			<p>You just joined the world's fastest growing community for accessible travel. </p>
+			<span class="bordr_span"></span>
+		</div>
+
+		<div class="welcm_sec_crousal">
+			<p>
+				Here's what you can do <i>right now</i>&nbsp; to improve your travel experience and contribute to the community.
+			</p>
+
+			<div class="row" style="justify-content: center;">
+				<div ng-class="start.activeDivId == 1 ? 'col-sm-4 active' : 'col-sm-4'">
+					<div class="slide_boxes">
+						<a ui-sref="hotels">
+							<div class="img_holdr">
+								<img class="" ng-src="{{start.cta_book}}" alt="" />
+								<img class="imb_bnr" ng-src="{{start.clubgo_banner}}" alt="" />
+							</div>
+							<div class="slid_txt">
+								<h2> Book Travel </h2>
+								<p>
+									View accessibility details
+								</p>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div ng-class="start.activeDivId == 2 ? 'col-sm-4 active' : 'col-sm-4'">
+					<div  class="slide_boxes">
+						<a ui-sref="tripPlanner">
+						<div class="img_holdr">
+							<img class="" ng-src="{{start.cta_resources}}" alt="" />
+
+						</div>
+						<div class="slid_txt">
+							<h2> Find Resources </h2>
+							<p>
+								for accessible travel
+							</p>
+						</div>
+					</a>
+					</div>
+				</div>
+
+				<div ng-class="start.activeDivId == 3 ? 'col-sm-4 active' : 'col-sm-4'">
+					<div  class="slide_boxes">
+						<a ui-sref="ideas">
+						<div class="img_holdr">
+							<img class="" ng-src="{{start.cta_inspiration}}" alt="" />
+							<img class="imb_bnr img_heart" ng-src="{{start.heart_red_outline_white}}" alt="" />
+						</div>
+						<div class="slid_txt">
+							<h2> Find Inspiration </h2>
+							<p>
+								and add to your favorites
+							</p>
+						</div>
+					</a>
+					</div>
+				</div>
+
+
+			</div>
+			<div class="ol_list d-xs-block d-md-none">
+				<ol class="listol_class">
+					<li id="li_first" ng-click="start.checkedActive($event)" class="active"></li>
+					<li id="li_second" ng-click="start.checkedActive($event)" class=""></li>
+					<li id="li_third" ng-click="start.checkedActive($event)" class=""> </li>
+				</ol>
+			</div>
+			<div class="return_sec">
+				<p> or, return to the
+					<a ui-sref="home"> homepage </a>
+				</p>
+			</div>
+			<span class="bordr_span"></span>
+
+
+		</div>
+
+		<div class="top_secwelcm  community_sec">
+			<h3>
+				Community
+			</h3>
+			<p>We're changing accesssible travel for the better,
+				<strong>together! </strong>
+			</p>
+
+			<div class="comunity_list">
+				<ul>
+					<li>
+						<img class="" ng-src="{{start.icon_review}}" alt="" /> Write an
+						<a ui-sref="review"> accessibility review. </a>
+					</li>
+					<li>
+						<img class="" ng-src="{{start.icon_comment}}" alt="" /> Share comments on
+						<a ui-sref="articles({title:'4_Surprisingly_Accessible_Trips'})" > popular travel articles. </a>
+					</li>
+					<li>
+						<img class="" ng-src="{{start.icon_forum}}" alt="" /> Ask questions on our <a data-ui-sref="forum-launcher">Travel Tips forum</a>.
+					</li>
+
+				</ul>
+			</div>
+
+
+		</div>
+
+
+
+
+
+	</div>
+
+
+
+</div>

@@ -1,0 +1,830 @@
+<div ng-controller="reserveController as reserve" ng-cloak>
+
+	<!-- invalid input params: begin -->
+	<div
+		ng-show="!reserve.isBundleFound"
+		class="wrapper-base"
+		style="background-color:#bababa;height:18.125em;">
+			<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+				<h2>Hmm... something isn't right...</h2>
+				<h5>Bundle was not found</h5>
+				<div>
+					<h4><strong><a style="color:#000;" ui-sref="hotels">Go to the search page</a></strong></h4>
+				</div>
+			</div>
+	</div>
+	<!-- invalid input params: end -->
+
+
+	<!-- progress bar -->
+	<div
+		ng-show="reserve.isBundleFound"
+		class="wrapper-base"
+		style="background-color:#bababa;padding:.5em 0;xheight:8.125em;">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+		
+			<div
+				class="semibold18 lineThru wrapper-common wrapper-common-width wrapper-row"
+				style="vertical-align: center;align-self: center;margin-top:1.25em;">
+				<div style="width:33%;">
+					<span style="border-radius: 50%;background-color: #80a83f;">1</span>
+				</div>
+				<div style="width:34%;">
+					<span
+						ng-attr-style="border-radius: 50%;background-color: #80a83f;">2</span>
+					<!-- <span
+						ng-attr-style="{{ reserve.isPageState1() ? 'border-radius: 50%;' : 'border-radius: 50%;background-color: #80a83f;' }}">2</span> -->
+ 					<!-- <span style="border-radius: 50%;background-color: #80a83f;">2</span>| -->
+				</div>
+				<div style="width:33%;">
+					<span
+						ng-attr-style="{{ reserve.isPageState2() ? 'border-radius: 50%;' : 'border-radius: 50%;background-color: #80a83f;' }}">3</span>
+				</div>
+			</div>
+
+			<div
+				class="semibold18 wrapper-common wrapper-common-width wrapper-row"
+				style="width:100%;align-self: center;">
+				<div style="width:33%;text-align: center;">
+					<span>Choose Your Room</span>
+				</div>
+				<div style="width:34%;text-align: center;">
+					Enter your details
+				</div>
+				<div style="width:33%;text-align: center;">
+					Secure your booking
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- booking form -->
+	<div ng-show="reserve.isBundleFound">
+
+		<!-- waiting -->
+		<div ng-if="reserve.isWaitingContract" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+		    <div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">One moment please...</div>
+		    <i class="fa fa-spinner fa-spin" aria-hidden="true" style="font-size:4em;color:#299b7c;"></i>
+		</div>
+
+
+		<!-- breadcrumbs -->
+		<div
+			ng-if="!isAuthenticated && !reserve.isWaitingContract"
+			class="xwrapper-base"
+			style="justify-content: center;padding:0 1em;"
+			xstyle="background-color:#fff;">
+			<div
+				class="wrapper-common wrapper-common-width wrapper-row">
+				<div style="margin: .5em 0;">
+					<!-- a
+						style="color:#000;font-weight:700;text-decoration: underline;"
+						ng-click="reserve.goBackToSearchResults()">search results</a> : -->
+					<i class="fa fa-caret-left" aria-hidden="true"></i> <a
+						style="color:#000;font-size:.75em;text-decoration: underline;"
+						ng-click="reserve.goBackToRoomOptions()">back to {{reserve.contract.hotel.hotel_name}}</a>
+					<!-- <span class="bold16">reserve</span> -->
+				</div>
+			</div>
+		</div>
+		
+
+		<!-- reservation form -->
+		<div
+			ng-if="!reserve.isWaitingContract"
+			class="xwrapper-base"
+			style="background-color:#fff;">
+
+			<!-- hotel details header: begin -->
+			<div
+				class="wrapper-common wrapper-common-width wrapper-row"
+				style="flex-wrap:wrap;justify-content: space-between;flex-shrink:1;margin-top:1.125em;align-items: center;">
+
+				<!-- column 1: begin -->
+				<div
+					style="flex-basis:65%;flex-grow:1;justify-content:flex-start;align-self: flex-start;padding:1em;xminwidth: 26em;">
+
+					<!-- special requests textbox -->
+					<div
+						style="border:1px solid #00509f;background-color:#d9e5f1;padding:.5em;color:#00509f;font-size: 1em;margin-bottom: 1em;line-height: 1.25;">
+						<table style="border:0px;">
+							<tr>
+								<td style="padding-right: .5em;">
+									<i class="fa fa-wheelchair-alt fa-2x" aria-hidden="true"></i>
+								</td>
+								<td>
+									Special requests for accessibility (FREE!) <div xstyle="padding-left:1em;"><a href="#howitworks" style="text-decoration: underline;font-size: 1em;color:#00509f" >See how it works</a></div>
+								</td>
+							</tr>
+						</table>
+					</div>
+
+					<!-- PART 1: YOUR INFORMATION -->
+					<div style="border:1px solid #dddddd;padding:1em;">
+
+						<div
+						 	style="margin-bottom: 1em;">
+							<span class="number">&#9312;</span> <span class="semibold22" style="vertical-align: middle;">Your Information</span>
+							<button
+								ng-if="reserve.isPageState2()"
+								class="btn btn-default"
+								style="margin-left:3em;"
+								ng-click="reserve.goToPart1()">edit</button>
+						</div>
+
+						<!-- authentication -->
+						<div
+							ng-show="!isAuthenticated"
+							xclass="wrapper-base" style="background-color:#fff;">
+							<div
+								xclass="wrapper-common wrapper-common-width wrapper-row"
+								xstyle="justify-content: center;"
+								xstyle="flex-wrap:wrap;justify-content: space-between;flex-shrink:1;margin:1.125em;align-items: center;padding: 0 1em;">
+
+								<!-- column 1: begin -->
+								<div
+									xstyle="max-width:100%;justify-content:center;align-self: flex-start;">
+
+									<!-- <span style="font-size: 1.75em;">Please log in to continue:</span> -->
+
+									<div xstyle="border:1px solid #dddddd;padding:1em;margin-top:.5em;">
+										<span class="bold18" >
+											Already registered? <a ng-click="reserve.login()" style="text-decoration: underline;">Log In</a>
+										</span>
+										<div style="margin-top:1.25em;">&nbsp;</div>
+										<span class="bold18" >
+											Not yet registered? <a ng-click="reserve.join()" style="text-decoration: underline;">Sign Up</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- EDIT: YOUR INFORMATION -->
+						<div ng-show="isAuthenticated && reserve.isPageState1()">
+
+							<div class="form-group" style="color:red;font-size: .75em;"><i class="fa fa-asterisk" aria-hidden="true" /> indicates a required field
+							</div>
+
+							<div class="wrapper-common wrapper-common-width wrapper-row" style="width:100%;">
+								<div class="form-group" style="margin-right:1em;">
+									<label for="firstName" class="semibold14">
+										<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>First Name
+									</label>
+									<input id="firstName" type="text" class="form-control" ng-model="reserve.bookRequestParams.name_first">
+								</div>
+								<div class="form-group">
+									<label for="lastName" class="semibold14">
+										<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Last Name
+									</label>
+									<input id="lastName" type="text" class="form-control" ng-model="reserve.bookRequestParams.name_last">
+								</div>
+							</div>
+							<div class="form-group" style="width:100%;">
+								<label for="billingAddress" class="semibold14">
+									<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;" />Billing Address
+								</label>
+								<input id="billingAddress" type="text" class="form-control" style="max-width:8em;"
+								 ng-model="reserve.bookRequestParams.address_line_one">
+							</div>
+							<div class="form-group" style="width:100%;">
+								<label for="country" class="semibold14">
+									<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;" />Country
+								</label>
+								<div style="max-width:24em;">
+									<country-picker
+										id="country"
+										class="country-picker"
+										placeholder="select your country..."
+										countrydata="reserve.contract.allowed_countries_data"
+										ng-model="reserve.bookRequestHelper.countryObj"
+										selection-changed="reserve.countryChanged()"
+										style="xwidth:20em;" />
+								</div>
+							</div>
+
+							<div
+								ng-if="reserve.bookRequestHelper.countryObj.state_data.length>0"
+								class="form-group"
+								style="width:16em;margin-right:1em;">
+								<label for="state" class="semibold14">
+									<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;" />State
+								</label>
+								<div>
+									<country-picker
+										id="state"
+										class="country-picker"
+										placeholder="select your state..."
+										countrydata="reserve.bookRequestHelper.countryObj.state_data"
+										ng-model="reserve.bookRequestHelper.stateObj"
+										style="xwidth:20em;" />
+								</div>
+							</div>
+
+							<div class="form-group" style="margin-right:1em;width:100%;">
+								<label for="city" class="semibold14">
+									<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;" />City
+								</label>
+								<input id="city" type="text" class="form-control" style="max-width:16em;"
+								ng-model="reserve.bookRequestParams.address_city">
+							</div>
+							
+							<div class="form-group">
+								<label for="postalCode" class="semibold14">
+									<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;" />Zip/Postal Code
+								</label>
+								<input id="postalCode" type="text" class="form-control"
+								style="width:8em;"
+								ng-model="reserve.bookRequestParams.address_postal_code">
+							</div>
+							<div class="form-group" style="width:100%;">
+								<label for="email" class="semibold14">
+									<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;" />Email
+								</label>
+								<input
+									id="email"
+									ng-disabled="isAuthenticated"
+									ng-model="reserve.bookRequestParams.email"
+									type="text"
+									class="form-control"
+									style="max-width:16em;" />
+							</div>
+							<div class="form-group">
+								<label for="phone" class="semibold14">
+									<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;" />Phone
+								</label>
+								<input
+									id="phone"
+									type="text"
+									class="form-control"
+									style="max-width:10em;"
+								 ng-model="reserve.bookRequestParams.phone_number">
+							</div>
+							<div class="form-group">
+								<button class="btn btn-primary" ng-click="reserve.goToPart2()">Continue</button>
+							</div>
+
+							<!-- step 1 errors -->
+							<div
+								ng-if="reserve.step1errs"
+								style="color: red;font-weight:600;text-align: left;">
+								<ul>
+									<li ng-repeat="err in reserve.step1errs" ng-bind-html="err" />
+								</ul>
+							</div>
+
+						</div>
+
+						<!-- VIEW: YOUR INFORMATION -->
+						<div ng-show="reserve.isPageState2()">
+
+							<div class="wrapper-common wrapper-common-width wrapper-row" style="width:100%;">
+
+								<!-- NAME -->
+								<div class="row" style="border-bottom: 1px solid;">
+									<div class="col">
+										<span class="semibold14">Name:</span>
+									</div>
+									<div class="col" class="light14">
+										{{reserve.bookRequestParams.name_first}} {{reserve.bookRequestParams.name_last}}
+									</div>
+								</div>
+
+								<!-- ADDRESS -->
+								<div class="row" style="border-bottom: 1px solid;">
+									<div class="col">
+										<span class="semibold14">Address:</span>
+									</div>
+									<div class="col" class="light14">
+										{{reserve.bookRequestParams.address_line_one}} {{reserve.bookRequestHelper.countryObj.name}}
+										<span ng-bind-html="reserve.bookRequestParams.address_city"></span>
+										<span
+											ng-if="reserve.bookRequestHelper.countryObj.state_data"
+											ng-bind-html="reserve.bookRequestHelper.stateObj.name">
+										</span>
+										<span ng-bind-html="reserve.bookRequestParams.address_postal_code"></span>
+									</div>
+								</div>
+
+								<!-- EMAIL -->
+								<div class="row" style="border-bottom: 1px solid;">
+									<div class="col">
+										<span class="semibold14">Email:</span>
+									</div>
+									<div class="col" class="light14">
+										<span ng-bind-html="reserve.bookRequestParams.email"></span>
+									</div>
+								</div>
+
+								<!-- PHONE -->
+								<div class="row">
+									<div class="col">
+										<span class="semibold14">Phone:</span>
+									</div>
+									<div class="col" class="light14">
+										<span ng-bind-html="reserve.bookRequestParams.phone_number"></span>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+
+					<!-- PART 2 :: SPECIAL REQUESTS -->
+					<a id="howitworks" style="position: relative;top: -100px;">&nbsp;</a>
+					<div style="border:1px solid #dddddd;border-top:0;padding:1em;background-color: #d9e5f1;">
+
+						<div
+							style="margin-bottom: 1em;">
+							<span class="number" style="color:#00509f;">&#9313;</span> <span class="semibold22" style="color:#00509f;vertical-align: middle;">Special requests for accessibility (FREE)</span>
+						</div>
+
+						<div class="light20" style="color:#000;font-size: 1em;">
+							<div>
+								<span style="font-weight: 800;">
+									Within 24 - 48 hours
+								</span>
+								<span>
+									of placing your reservation, accessibleGO will contact the hotel to ensure your accessibility requests were accurately received by hotel management.
+								</span>
+							</div>
+
+							<div style="display: flex;flex-direction: row;flex-wrap:wrap;margin: 2em 0;">
+								<div style="flex-basis: 100%;">
+									<!-- request options -->
+									<div ng-repeat="request in reserve.bookRequestParams.specialRequests" class="form-check">
+										<input
+											type="checkbox"
+											class="form-check-input"
+											style="width:18px;height:18px;"
+											title="{{request.caption}}"
+											ng-model="request.checked"
+											id="specialRequest_{{request.id}}" />
+										<label for="specialRequest_{{request.id}}" class="form-check-label">{{request.caption}}</label>
+									</div>
+								</div>
+								<div style="flex-basis: 100%;padding-top: .5em;">
+									<span style="font-size:.85em;">Optional message to accessibleGO staff:</span>
+									<textarea
+										style="width:100%;"
+										rows="3"
+										maxlength="200"
+										ng-model="reserve.bookRequestParams.specialRequestText"></textarea>
+								</div>
+							</div>
+
+							<div style="padding:.5em 0;border-top: 2px solid #00509f;border-bottom: 2px solid #00509f;">
+								<img
+                                    ng-src="{{reserve.env.cdn_static}}/i/logo/only-on-accessibleGO.png"
+                                    alt="only on accessiblego.com"
+                                    aria-hidden="false"
+                                    style=" position: relative;bottom: 25px; background-color:#d9e5f1;padding-right:1em;max-width:180px;" /><br/>
+                                <div style="position: relative;bottom:20px;">
+									<span style="font-weight: 800;">
+										We do our best
+									</span>
+									<span>
+										to communicate with the hotel so they understand your needs.  While this free service has a great track record, we cannot guarantee that the accessible room and features you’ve requested will be available in all cases.  We alert you immediately if there is an issue.
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- PART 3 :: CREDIT CARD -->
+					<div style="border:1px solid #dddddd;border-top:0;padding:1em;">
+
+						<!-- HEADER: CC INFORMATION -->
+						<div ng-show="reserve.isPageState1()">
+							<span class="number" style="color:#757575">&#9314;</span> <span class="semibold22" style="color:#757575;vertical-align: middle;">Credit Card Information</span>
+						</div>
+
+						<div ng-show="reserve.isPageState2()">
+							<div style="margin-bottom: 1em;">
+								<span class="number">&#9313;</span> <span class="semibold22" style="vertical-align: middle;">Credit Card Information</span>
+							</div>
+						</div>
+
+						<div
+							ng-show="reserve.isPageState2()"
+							class="form-group"
+							style="color:red;font-size: .75em;"><i class="fa fa-asterisk" aria-hidden="true" /> indicates a required field
+						</div>
+
+						<!-- EDIT: CC INFORMATION -->
+						<div ng-show="reserve.isPageState2()">
+
+							<div class="form-group" style="width:100%;">
+								<label for="ccHolder" class="light14">
+									<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;" />Card Holder Name
+								</label>
+								<input id="ccHolder" type="text" class="form-control" style="max-width:24em;"
+								 ng-model="reserve.bookRequestParams.card_holder">
+							</div>
+
+							<div class="form-group" style="width:100%;">
+								<label for="ccType" class="light14">
+									<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;" />Card Type
+								</label>
+								<select id="ccType" type="text" class="form-control" style="max-width:24em;"
+								 ng-model="reserve.bookRequestParams.card_type">
+								 <option value="">select a card type</option>
+								 <option
+								 	ng-repeat="card in reserve.contract.allowed_cards_data"
+								 	ng-value="card.card_type"
+								 	ng-bind-html="card.name" />
+							 	</select>
+							</div>
+
+							<div class="form-group" style="width:100%;">
+								<label for="ccNumber" class="light14">
+									<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Card Number
+								</label>
+								<input id="ccNumber" type="text" class="form-control"
+									style="max-width:24em;"
+									maxlength="16" 
+									ng-model="reserve.bookRequestParams.card_number">
+							</div>
+
+							<div class="form-group">
+								<label for="ccExpMonth" class="light14">
+									<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;" />Card Expiration
+								</label>
+								<select
+								 name="ccExpMonth"
+								 id="ccExpMonth"
+								 ng-model="reserve.bookRequestHelper.expiresObj.month"
+								 style="width:10em;">
+                                    <option value="" selected="selected" disabled="disabled">Month</option>
+                                    <option value="01">01 - January</option>
+                                    <option value="02">02 - February</option>
+                                    <option value="03">03 - March</option>
+                                    <option value="04">04 - April</option>
+                                    <option value="05">05 - May</option>
+                                    <option value="06">06 - June</option>
+                                    <option value="07">07 - July</option>
+                                    <option value="08">08 - August</option>
+                                    <option value="09">09 - September</option>
+                                    <option value="10">10 - October</option>
+                                    <option value="11">11 - November</option>
+                                    <option value="12">12 - December</option>
+                                </select>
+
+                                <select
+                                	name="ccExpMonthYear"
+                                	id="ccExpMonthYear"
+                                	ng-model="reserve.bookRequestHelper.expiresObj.year"
+                                	style="width:5em;">
+                                    <option value="" selected="selected" disabled="disabled">Year</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                    <option value="2031">2031</option>
+                                    <option value="2032">2032</option>
+                                </select>
+							</div>
+
+							<div class="form-group">
+								<label for="ccCVCNum" class="light14">
+									<i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;" />CVV
+								</label> <span class="light16">(<a ng-click="reserve.openCVVModal()" style="text-decoration: underline;">last 3 or 4 digits on back of your card</a>)</span><br />
+								<input id="ccCVCNum" type="text" class="form-control"
+									style="width:4em;"
+									maxlength="4" 
+									ng-model="reserve.bookRequestParams.cvc_code" />
+                                <label for="ccCVCCode">&nbsp;</label>
+                            </div>
+
+                            <!-- comments field for special requests
+                            <div class="form-group" style="width:100%;">
+								<label for="comments" class="light14">
+									Special Requests
+								</label>
+								<textarea id="comments" type="text" class="form-control"
+									style="max-width:24em;"
+									maxlength="200"
+									ng-model="reserve.bookRequestParams.Comments">
+								</textarea>
+							</div>-->
+
+                            <div class="form-group">
+								<label for="initials" class="light14">
+									<input id="initials" type="checkbox" class="form-control"
+									style="width:1em;float: left; margin-top: -5px;"
+									xmaxlength="5" 
+									value="Y"
+									ng-model="reserve.bookRequestParams.agreed_to_terms" />
+									<div style="margin-left: 25px;">
+										I have read and agree to the <a ng-click="reserve.openTermsAndConditionsModal()" style="text-decoration: underline;">terms and conditions</a> and <a ng-click="reserve.openPrivacyPolicyModal()" style="text-decoration: underline;">privacy policy</a>
+									</div>
+								</label>
+								<div style="color:red;">Please read the hotel policies below!</div>
+							</div>
+
+							<div class="form-group">
+								<label class="light14">
+									Notice: We are working hard with our partners to enable guaranteed accessible hotel rooms. Until that happens, please call your hotel to ensure that your reservation accommodates your needs. We expect in the near future we will be able to guarantee accessible rooms without you having to call. Thank you for supporting us until we make this happen!
+								</label>
+							</div>
+
+							<div class="form-group">
+								<button
+									class="btn btn-primary"
+									type="button"
+									ng-disabled="reserve.isButtonDisable"
+								 	ng-class="{'buttonDisableClass':reserve.isButtonDisable}"
+								 	ng-click="reserve.book()"> Book Hotel Now </button>
+							</div>
+
+						</div>
+					</div>
+
+					<!-- part 1 errors -->
+					<div
+						ng-if="reserve.errs"
+						style="color: red;font-weight:600;text-align: left;">
+						<ul>
+							<li ng-repeat="err in reserve.errs" ng-bind-html="err" />
+						</ul>
+					</div>
+
+					<!-- FAQs -->
+					<div
+						xng-if="reserve.env.name === 'production'"
+						xng-include="'reserveFAQ.html'"
+						xstyle="margin-top:2em;">
+						<!-- <script src="https://www.powr.io/powr.js?external-type=html"></script> 
+ 						<div class="powr-faq" id="42b6fcc6_1543754536"></div> -->
+ 					</div>
+
+				</div>
+				<!-- column 1: end -->
+
+				<!-- column 2: begin (Summary of Charges) -->
+				<div
+					style="flex-basis:35%;flex-grow:1;padding:1em;justify-content:flex-end;align-self: flex-start;xminwidth: 16em;">
+					<span class="semibold24">Summary of Charges</span>
+
+					<table
+						id="summaryOfChargesTable"
+						class="table table-condensed xtable-responsive"
+						style="xborder:1px solid #ededed;">
+						<tr>
+							<td>&nbsp;</td>
+							<td class="light14" style="text-align: right;">(All prices are in {{reserve.contract.room_info.price_details.baseline_currency}})</td>
+						</tr>
+
+						<tr>
+							<td class="light14">
+								Room cost per night:
+							</td>
+							<td class="light14 text-right">
+								<span ng-if="reserve.contract.room_info.price_details.promo && reserve.contract.room_info.price_details.promo.display_strikeout_price>0" class="text-muted" style="text-decoration: line-through;">{{ reserve.contract.room_info.price_details.promo.display_strikeout_price }}
+								</span>
+								<a style="text-decoration: underline;" ng-click="reserve.openRatesModal(rate)"> {{ reserve.contract.room_info.price_details.display_price | currency }}</a>
+							</td>
+						</tr>
+
+						<tr>
+							<td class="light14">Nights:</td>
+							<td class="light14 text-right">{{ reserve.contract.num_nights }}</td>
+						</tr>
+
+						<tr>
+							<td class="light14">Rooms:</td>
+							<td class="light14 text-right">{{ reserve.contract.num_rooms }}</td>
+						</tr>
+
+						<tr>
+							<td class="light14">Guests:</td>
+							<td class="light14 text-right">{{ reserve.contract.num_adults + reserve.contract.num_children }}</td>
+						</tr>
+
+						<tr>
+							<td class="light14">Room Subtotal:</td>
+							<td class="light14 text-right">{{ reserve.contract.room_info.price_details.display_sub_total | currency: '$': 2 }}</td>
+						</tr>
+
+						<tr>
+							<td class="light14">
+								<a
+									ng-if="reserve.contract.taxes_and_fees_policy"
+									ng-click="reserve.openTaxesAndFeesModal()"
+									style="text-decoration: underline;">Taxes</a>
+							</td>
+							<td class="light14 text-right">
+								<span ng-bind="reserve.getTaxes(reserve.contract.room_info) | currency"/>
+							</td>
+						</tr>
+
+						<tr>
+							<td class="light14">
+								<a
+									ng-if="reserve.contract.taxes_and_fees_policy"
+									ng-click="reserve.openTaxesAndFeesModal()"
+									style="text-decoration: underline;">Property Fees</a>
+							</td>
+							<td class="light14 text-right">
+								<span ng-bind="reserve.getFees(reserve.contract.room_info) | currency"/>
+							</td>
+						</tr>
+
+					</table>
+
+
+					<!-- if resort fee, show due now/@hotel distinction -->
+					<div
+						ng-if="reserve.contract.room_info.price_details.display_property_fee>0">
+						<table
+							class="table table-condensed table-responsive"
+							style="border:0;"
+							>
+							<tr style="border:0;">
+								<td
+									ng-if="reserve.contract.rate_type==='MER' || reserve.contract.rate_type==='AGD'"
+								 	style="border:0;"
+								 	class="bold18 text-left">Due Now:
+								</td>
+								<td
+									ng-if="reserve.contract.rate_type==='PRF'"
+								 	style="border:0;"
+								 	class="bold18 text-left">Total Room Charges:
+								</td>
+
+								<td style="border:0;" class="bold18 text-right">
+									<span ng-bind="reserve.contract.room_info.price_details.display_total | currency"/>
+								</td>
+							</tr>
+							<tr style="border:0;">
+								<td
+									ng-if="reserve.contract.rate_type==='MER' || reserve.contract.rate_type==='AGD'"
+									style="border:0;"
+									class="bold18 text-left">Due at Hotel (resort fee):
+								</td>
+								<td
+									ng-if="reserve.contract.rate_type==='PRF'"
+									style="border:0;"
+									class="bold18 text-left">Resort Fee:
+								</td>
+
+								<td style="border:0;" class="bold18 text-right">
+									<span ng-bind="reserve.contract.room_info.price_details.display_property_fee | currency"/>
+								</td>
+							</tr>
+						</table>
+					</div>
+
+
+					<!-- total charges -->
+					<div style="text-align:center;">
+						<div class="bold18 lineThru">
+							<span ng-if="reserve.contract.room_info.pre_paid===0">TOTAL ESTIMATED CHARGES:</span>
+							<span ng-if="reserve.contract.room_info.pre_paid===1">TOTAL CHARGES:</span>
+						</div>
+						<div>
+							<span class="bold30">{{ reserve.getTotalCharges(reserve.contract.room_info) | currency }}</span>
+							<span class="bold16">{{ reserve.contract.room_info.price_details.baseline_currency }}</span>
+						</div>
+						<div>
+							<span
+								ng-if="reserve.contract.room_info.pre_paid===0"
+								class="light14">All charges are collected at the hotel. The US dollar estimates provided are based on the current exchange rate. The hotel will determine the final total.
+							</span>
+						</div>
+					</div>
+
+
+					<!-- hotel info -->
+					<div
+						class="wrapper-common wrapper-common-width wrapper-row"
+						style="margin:2.5em 0;align-items: center;">
+						<!-- column 1: begin -->
+						<div style="margin-right: 1em;">
+							<div ng-if="reserve.contract.hotel.thumbnail">
+								<img
+									ng-src="https:{{ reserve.contract.hotel.thumbnail.replace('https:','') }}"
+									alt="{{ reserve.contract.hotel.hotel_name }}" />
+							</div>
+						</div>
+						<div style="align-self: flex-start;">
+							<div class="semibold14" style="color:#000;">{{reserve.contract.hotel.hotel_name}}</div>
+							<div
+								class="light14"
+								ng-bind-html="reserve.hotelUtilities.getCheckDateTime(reserve.contract.check_in, reserve.contract.hotel.check_in_time)"> - </div>
+							<div
+								class="light14"
+								ng-bind-html="reserve.hotelUtilities.getCheckDateTime(reserve.contract.check_out, reserve.contract.hotel.check_out_time)"></div>
+						</div>
+					</div>
+
+					<!-- promotion details -->
+					<div
+						ng-if="reserve.contract.room_info.price_details.promo.title"
+						style="margin-top: .5em;">
+						<div class="semibold14" style="color:#80c23f;">
+							<span
+								ng-if="reserve.contract.room_info.price_details.promo.title"
+								ng-bind-html="reserve.contract.room_info.price_details.promo.title" />: 
+							<span
+								ng-if="reserve.contract.room_info.price_details.promo.description"
+								ng-bind-html="reserve.contract.room_info.price_details.promo.description" />
+							<span
+								ng-if="reserve.contract.room_info.price_details.promo.terms"
+								ng-bind-html="'('+reserve.contract.room_info.price_details.promo.terms+')'" />
+						</div>
+					</div>
+
+					<!-- rating -->
+					<div style="margin-top: .5em;">
+						<div class="semibold14">Rating:</div>
+						<div>
+							<img
+								ng-repeat="a in reserve.getArray(reserve.contract.hotel.star_rating) track by $index"
+								src="/web/public/resources/Star_Orange.png" alt="" />
+						</div>
+					</div>
+
+					<!-- address -->
+					<div style="margin-top: .5em;">
+						<div class="semibold14">Address:</div>
+						<div class="light14">
+							<span ng-if="reserve.contract.hotel.address">
+							{{ reserve.hotelUtilities.getAddress(reserve.contract.hotel.address) }}</span>
+						</div>
+					</div>
+
+					<div style="margin-top: .55em;">
+						<div class="semibold14">Room Type:</div>
+						<div class="light14">
+							<span ng-if="reserve.contract.hotel.address">
+							{{ reserve.contract.room_info.title }}</span>
+						</div>
+					</div>
+
+					<div style="margin-top: .55em;">
+						<div class="semibold14">Rate provided by:</div>
+						<div class="light14">
+							<img
+								ng-if="reserve.contract.rate_type==='MER'"
+								src="//media.rezserver.com/responsive_hotel/priceline.com-200.png" 
+								alt="Rate provided by Priceline.com." />
+							<img
+								ng-if="reserve.contract.rate_type==='AGD'"
+								src="//media.rezserver.com/responsive_hotel/agoda-200.png" 
+								alt="Rate provided by Agoda.com." />
+							<img
+								ng-if="reserve.contract.rate_type==='PRF'"
+								src="//media.rezserver.com/responsive_hotel/booking.com-87.png"
+								alt="Rate provided by Booking.com">
+
+							<!-- <img class="rs_live_rates__rate_type_image" src="https://media.rezserver.com/responsive_hotel/agoda-87.png" alt="This rate is provided by Your Brand Here.com"> -->
+						</div>
+					</div>
+
+					
+				
+				</div>
+				<!-- column 2: end -->
+
+			</div>
+
+			<!-- <strong>{{reserve.bookRequestParams}}</strong> -->
+		</div>
+		
+		<!-- important info -->
+		<div
+			ng-if="isAuthenticated && !reserve.isWaitingContract"
+			class="wrapper-base"
+			style="padding: 0 1em;xbackground-color:#d4d4d4;">
+			<div
+				class="wrapper-common wrapper-common-width wrapper-column"
+				style="margin-top:1.125em;">
+				<div ng-repeat="policy in reserve.contract.important_information.policy_data">
+					<span ng-if="policy.title!=='Cancellation Policy' && policy.title!=='Check-in Policy'" class="semibold14">{{policy.title}}</span>
+					<span ng-if="policy.title==='Cancellation Policy' || policy.title==='Check-in Policy'" style="background-color:#f0e85d;padding:3px;">
+						{{policy.title}}
+					</span>
+					<br>
+					<div class="light14" ng-bind-html="reserve.setSubstitutes(policy.paragraph_data)"></div><br>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
+</div>
+

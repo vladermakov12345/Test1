@@ -1,0 +1,46 @@
+<div ng-controller="accessibilityController as access" ng-cloak>
+	<div class="wrapper-common wrapper-common-width">
+		<div>
+			<!-- top image: begin -->
+			<img ng-src="{{access.getMainImage()}}" style="height:auto;;max-width:100%;" alt="Image of New York city" /><br />
+			<!-- top image: end -->
+		</div>
+	</div>
+
+	<div id="articles-main">
+		<div class="articles-main-flex">
+
+			<!-- COLUMN 1: BEGIN -->
+			<div style="width:38.875em;" xid="articles-main-col-content">
+				<div style="padding-bottom:1.75em">
+					<span style="font-weight: 600;font-size:1.875em;color:#299b7c;">Accessibility</span>
+				</div>
+				<div style="font-weight: 400;font-size: 1em;">
+					<p style="font-size: 1em;">We built this website to provide people with disabilities an accessible platform to learn about accessible travel opportunities, engage with a community of fellow travelers and book accessible trips.</p>
+
+					<p style="font-size: 1em;">We are committed to compliance with the World Wide Web Consortium's (W3C) Web Content Accessibility Guidelines version 2.1 (WCAG 2.1) level AA.   We are continually designing, developing and releasing features, and as result not all usability testing includes every user profile of people with disabilities in every stage. Our goal is to make the accessibleGO.com accessible to all people with disabilities.</p>
+
+					<p style="font-size: 1em;">Please note the accessibility icons in the upper right corner of the page for users to make modifications as needed to improve their experience using our site.</p>
+
+					<p style="font-size: 1em;">We welcome your feedback and suggestions.  Please let us know if you had a positive experience or if you encountered a barrier while using our website by emailing us at <a href="mailto:contact@accessibleGO.com">contact@accessibleGO.com
+					<span class="visuallyhidden">click to email us</span>
+					</a></p>
+				</div>
+			</div>
+
+			<!-- COLUMN 2: BEGIN -->
+			<div id="city-bookbox" style="margin-left:1.875em;width:16em;">
+				<bookbox type="hotels" city="{{city.city.Name}}"></bookbox>
+			</div>
+			<!-- COLUMN 2: END -->
+		</div>
+	</div>
+
+	<div id="about-articleCarousel">
+		<article-carousel />
+	</div>
+
+	<div id="about-tripplanner">
+		<trip-planner cityoptions="main.cities" isTripPlannerPage="false" />
+	</div>
+</div>

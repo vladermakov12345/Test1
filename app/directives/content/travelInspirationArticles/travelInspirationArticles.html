@@ -1,0 +1,176 @@
+	<div id="travel-inspiration" class="container-fluid section" ng-class="{'background-light-gray':tia.header==='true'}" ng-style="{'padding':tia.header==='true'?'50px 0':'15px 0'}">
+
+		<div class="row" ng-show="tia.header==='true'">
+
+			<div class="container">
+
+				<div class="heading">
+
+					<h2>{{tia.title}}</h2>
+
+					<h5 ng-if="tia.subtitle">{{tia.subtitle}}</h5>
+
+					<div class="green-line"></div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="row">
+
+			<div class="container articles-container">
+
+				<div ng-show="tia.articleFetchIsComplete===false">
+					Loading articles...
+				</div>
+
+				<div
+					ng-show="tia.articleFetchIsComplete===true"
+					class="travel-inspiration"
+					style="display: flex;flex-direction:row;flex-wrap: wrap;justify-content: space-between;">
+
+                	<a
+            			class="article accessible-input-on-white"
+            			style="box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.45);margin-bottom:16px;"
+            			ng-repeat="article in tia.articles | orderBy: 'homepageSeq' | limitTo: (tia.limit || 100)"
+            			xng-hide="$index>=tia.numVisible"
+            			ui-sref="articles({title:article.URLSafeTitle})">
+	            			<div class="article-wrapper" style="height:18em;">
+							
+								<div class="img-wrapper">
+									<img
+										xlazy-load="'{{tia.env.cdn_static}}/i/articles/article1.jpg'"
+										lazy-load="'{{tia.env.BASEURL_CONTENT}}/Image/GetImage?assetId={{article.IntroImage.Id}}&Size=mini'"
+										class="lazy-load"
+										style="xwidth: 350px;xheight: 203px;"
+										src=""
+										alt="{{article.Title}}"
+										aria-hidden="true" />
+								</div>
+								<div class="xtext" style="padding:16px;color:#000;">
+									<h3 class="text-bold" style="font-size: 1.25em;">{{article.Title}}</h3>
+									<!-- <span class="writter-name text-blue text-bold" style="font-size: 1.5em;">article.Author is not yet avail???</span> -->
+									<!-- <p style="color:#000;" ng-bind-html="article.IntroText"></p> -->
+								</div>
+							</div>
+					</a>
+
+
+<!-- 					<div class="article" style="flex-basis: 18em;">
+
+						<div class="article-wrapper" style="height:34em;">
+
+							<a ui-sref="articles({title:'5_Top_Tips_for_Mobility_Scooter_Travel'})" style="color:#000;">
+
+								<div class="img-wrapper">
+									<img
+										lazy-load="'{{tia.env.cdn_static}}/i/articles/article1.jpg'"
+										class="lazy-load"
+										src=""
+										alt="5 top tips for mobility scooter travel"
+										aria-hidden="true" />
+								</div>
+
+								<div class="text">
+
+									<h3 class="text-bold">5 Top Tips for Mobility Scooter Travel</h3>
+
+									<span class="writter-name text-blue text-bold" style="font-size: 1.5em;">Claire Szabo-Cassella</span>
+
+									<p style="color:#000;">Whether you’re going across town or around the globe, here are 5 top tips for traveling with your mobility scooter.</p>
+
+								</div>
+
+							</a>
+
+						</div>
+
+					</div>
+
+					<div class="article" style="flex-basis: 18em;">
+
+						<div class="article-wrapper" style="height:34em;">
+
+							<a ui-sref="articles({title:'Top_10_Accessible_Attractions_in_Atlanta'})" style="color:#000;">
+
+								<div class="img-wrapper">
+									<img
+										lazy-load="'{{tia.env.cdn_static}}/i/articles/article2.jpg'"
+										class="lazy-load"
+										src=""
+										alt="Top 10 accessible attractions in Atlanta"
+										aria-hidden="true" />
+								</div>
+
+								<div class="text">
+
+									<h3 class="text-bold">Top 10 Accessible Attractions in Atlanta</h3>
+
+									<span class="writter-name text-blue text-bold" style="font-size: 1.5em;">Danielle Max</span>
+
+									<p style="color:#000;">As the birthplace of the Civil Rights movement, home of the “Real Thing” and with a wheelchair-accessible transportation system, Atlanta is a great place to visit. Many of the main attractions are located close to each other, so you can easily shuttle between them.</p>
+
+								</div>
+
+							</a>
+
+						</div>
+
+					</div>
+
+					<div class="article" style="flex-basis: 18em;">
+
+						<div class="article-wrapper" style="height:34em;">
+
+							<a ui-sref="articles({title:'Museum_Use_Touch_to_Engage_All_Visitors_'})" style="color:#000;">
+
+								<div class="img-wrapper">
+
+									<img
+										lazy-load="'{{tia.env.cdn_static}}/i/articles/article3b.jpg'"
+										class="lazy-load"
+										src=""
+										alt="Museum Uses Touch to Engage All Visitors"
+										aria-hidden="true" />
+								</div>
+
+								<div class="text">
+
+									<h3 class="text-bold">Museum Uses Touch to Engage All Visitors</h3>
+
+									<span class="writter-name text-blue text-bold" style="font-size: 1.5em;">Sara Toth Stub</span>
+
+									<p style="color:#000;">For those who are blind, the shape and texture of a 3,000 year-old statue of a pharaoh at the University of Pennsylvania Museum of Archaeology and Anthropology in Philadelphia provides a gateway to experience the world of ancient Egypt.</p>
+
+								</div>
+
+							</a>
+
+						</div>
+
+					</div> -->
+
+				</div>
+
+				<div class="slick-navigation text-center">
+					<div class="travel-inspiration-nav slick-navigation-wrapper"></div>
+				</div>
+
+				<div
+					ng-show="tia.header==='true'"
+					class="text-center"
+					style="margin-top:1em;">
+					<button
+						type="button"
+						role="button"
+						class="choose-city btn button-big button-green text-white text-uppercase accessible-button-solid-dark"
+						ui-sref="travel-ideas">Discover More Travel Inspiration</button>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>

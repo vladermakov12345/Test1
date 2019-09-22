@@ -1,0 +1,89 @@
+<div class="text-center xlogin-modal register-modal" ng-controller="resetpassModalController as vm">
+
+    <div
+        ng-if="::!vm.IsEmbedded()" class="modal-header">
+        <img
+            ng-src="{{env.cdn_static}}/i/logo/logo_175_42_trans.png"
+            class="login-modal-logo modal-title" alt="accessibleGO logo">
+        <!-- <button type="button" class="close" ng-click="vm.closeModal()" aria-label="Close">&times;</button> -->
+        <button type="button" class="close p-0" data-dismiss="modal" ng-click="vm.closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+    <div
+        ng-if="!vm.isSubmitted"
+        class="modal-body wrapper-common wrapper-common-width wrapper-column p-4">
+        <div>
+            <h3>We'll email you a link to reset your password.</h3>
+        </div>
+
+        <div class="center-block xlogig-form text-left">
+            <div class="form-group" ng-show="!vm.isSubmitted">
+                <form
+                novalidate
+                ng-submit="$event.preventDefault()"
+                name="forgotpass.form"
+                >
+                    <!-- begin: email -->
+                    <div class="input-group login-input">
+                        <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                        <input ng-model="vm.email" class="form-control" data-val="true" data-val-required="The Email field is required." id="Email" name="Email" placeholder="Email" type="text">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                    </div>
+                    <!-- end: email -->
+
+                    <br />
+
+                    <!-- begin: buttons -->
+                    <div class="btm_action">
+                        <button ng-click="vm.submit()" class="btn btn-ar btn-primary"
+                            ng-disabled="vm.email===''">
+                            {{vm.isButtonDisable?'sending link':'Send Link'}}
+                            <span ng-show="vm.isButtonDisable">
+                                <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+                            </span>
+                        </button>
+                    </div>
+                    <!-- end: buttons -->
+
+                    <!-- begin: email does not exist error -->
+                    <div
+                        ng-if="vm.showEmailNotExist===true"
+                        class="panel panel-danger-dark">
+                        <br />
+                        <div class="panel-heading">
+                            <p>The email you've entered doesn't match any account.  <a ng-click="vm.goToSignUp()" style="text-decoration: underline;font-weight: 600;">Sign up for an account</a>.</p>
+                        </div>
+                    </div>
+                    <!-- end: email does not exist error -->
+
+                    <!-- begin: validation errors -->
+                    <div class="panel panel-danger-dark" ng-show="vm.errors.length>0">
+                        <br />
+                        <div class="panel-heading">
+                            <p>Please correct the following:</p>
+                            <ul ng-repeat="error in vm.errors">
+                                <li ng-bind-html="error"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end: validation errors -->
+                </form>
+            </div>
+        </div>
+
+        <p ng-if="!isAuthenticated" class="pageDesc">Or go <a ng-click="vm.goToLogin()" style="text-decoration: underline;">to Log In</a>.</p>
+    </div>
+
+    <div
+        ng-if="vm.isSubmitted"
+        class="modal-body wrapper-common wrapper-common-width wrapper-column p-4">
+        <h2>{{vm.successMessage}}</h2>
+        <div class="form-group" ng-show="vm.isSubmitted">
+            <h4 style="text-align:center;font-weight:900;margin:.5em;">Please check your email.</h4>
+            <h5>You may have signed up for accessibleGO with Facebook or Google. If you don't receive a password reset email, try logging in with Facebook or Google instead.</h5>
+        </div>
+    </div>
+
+</div>

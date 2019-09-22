@@ -1,0 +1,246 @@
+/* top line */
+  #planner {
+    background-color: #3b3f45;
+    margin: 0 0 0 0;
+    padding: 0; 
+    min-height: 14.375em;
+  }
+  .planner-topline {
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+
+    align-items: center;
+    justify-content: left;
+   
+    max-width: 60.938em;  /* 975px */
+    /* min-width: 600px;  TODO: identify a minimum viewport */
+    
+    /* mozilla & opera */
+    margin-left: auto;
+    /* mozilla & opera */
+    margin-right: auto;
+
+    background-color: #3b3f45;
+    padding-top:40px;
+  }
+  .planner-icon {
+    padding-right:8px;
+  }
+  .planner-caption {
+    font-size: 1.5em;
+    color:#ffffff;
+    padding:0px 16px;
+    border-right:1px solid #ffffff;
+    font-weight: 600; /* semibold */
+  }
+  .planner-travelingto {
+    font-size: 1.125em;
+    color:#ffffff;
+    padding:0px 16px;
+  }
+    .planner-findText {
+    font-size: 1.125em;
+    color:#ffffff;
+    padding-left: 16px;
+  }
+
+/* trip options dropdown */
+  /* search box: at rest */
+    #planner-selectcity {
+      width: 200px; /* it is imperative that width be defined here, otherwise an arbitrary width is set on the element! */
+    }
+
+    #planner-selectcity .ui-select-toggle {
+      border: 1px solid #9d9fa2;
+      border-radius: 0px !important;
+      background-color: #3b3f45;
+      color:#ffffff;
+      font-size: 16px;
+    }
+    #planner-selectcity .ui-select-toggle:focus {
+      border: 1px solid #ebd719;
+    }
+
+    #planner-selectcity .ui-select-toggle:hover {
+      text-decoration: underline;
+    }
+  /* search box: at rest: remove the blue shadow effect */
+    #planner-selectcity .btn-default-focus {
+      outline: none;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+    #planner-selectcity .form-control {
+      outline: none;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+  /* search box: when dropped down */
+    #planner-selectcity .ui-select-search {
+      width: 100%;
+      border: 1px solid #9d9fa2;
+      border-radius: 0px;
+      background-color: #3b3f45;
+      padding: 8px 12px;
+      font-size: 16px;
+      color:#ffffff;
+    }
+
+  /* dropdown - general area  */
+    #planner-selectcity .ui-select-choices {
+      background-color: #3b3f45;
+      outline: none;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+      padding-top: 0px;
+      border: 1px solid #9d9fa2;
+      border-radius: 0px;
+    }
+  /* dropdown - each item in list */
+    #planner-selectcity .ui-select-bootstrap .ui-select-choices-row>span {
+      color:#ffffff;
+    }
+    #planner-selectcity .ui-select-bootstrap .ui-select-choices-row>span:hover, {
+      color:#3b3f45;
+      background-color: #ffffff;
+    }
+    #planner-selectcity .ui-select-bootstrap .ui-select-choices-row>span:active {
+      color:#ffffff;
+      background-color: #3b3f45;
+    }
+    #planner-selectcity .ui-select-bootstrap .ui-select-choices-row.active>span {
+      color:#3b3f45;
+      background-color: #ffffff;
+    }
+
+  /* placeholder */
+    #planner-selectcity .ui-select-placeholder {
+      color: #ffffff;
+    }
+
+
+
+/* icon line */
+  #planner-options {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 0 0 0 0;
+    padding: 2.5em 0 2.125em 0;
+    align-items: center;
+    justify-content: left;
+    text-align: center;
+    max-width: 60.938em;  /* 975px */
+    
+    /* mozilla & opera */
+    margin-left: auto;
+    /* mozilla & opera */
+    margin-right: auto;
+  }
+
+  .planner-option {
+    /*padding: 0 2em;*/
+  }
+  .planner-option a {
+    border: 1px solid transparent;
+    color: #ffffff;
+    text-decoration: underline;
+    padding: .25em;
+  }
+  .planner-option a:focus {
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    outline: none;
+  }
+  .planner-option a:hover {
+    color: #3b3f45;
+    background-color: #ffffff;
+  }
+
+  .planner-option-active a {
+    text-decoration: none;
+  }
+  .planner-option-active a:active,
+  .planner-option-active a:hover,
+  .planner-option-active a:visited {
+    text-decoration: none;
+    cursor: default;
+  }
+
+  /* now the color of the link varies for each! */
+  .planner-option-active-attraction a,
+  .planner-option-active-attraction a:hover,
+  .planner-option-active-attraction a:active,
+  .planner-option-active-attraction a:visited {
+      color: #ebd719;
+      padding: 0 2em;
+  }
+  .planner-option-active-itineraries a,
+  .planner-option-active-itineraries a:hover,
+  .planner-option-active-itineraries a:active,
+  .planner-option-active-itineraries a:visited {
+      color: #80c23f;
+      padding: 0 2em;
+  }
+
+  .planner-option-active-caregivers a,
+  .planner-option-active-caregivers a:hover,
+  .planner-option-active-caregivers a:active,
+  .planner-option-active-caregivers a:visited {
+      color: #0d634e;
+      padding: 0 2em;
+  }
+
+  .planner-option-active-transportation a,
+  .planner-option-active-transportation a:hover,
+  .planner-option-active-transportation a:active,
+  .planner-option-active-transportation a:visited {
+      color: #54b1db;
+      padding: 0 2em;
+  }
+
+  .planner-option-active-tourcompanies a,
+  .planner-option-active-tourcompanies a:hover,
+  .planner-option-active-tourcompanies a:active,
+  .planner-option-active-tourcompanies a:visited {
+      color: #ec5ca4;
+      padding: 0 2em;
+  }  
+
+  .planner-option-active-equipment a,
+  .planner-option-active-equipment a:hover,
+  .planner-option-active-equipment a:active,
+  .planner-option-active-equipment a:visited {
+      color: #db6744;
+      padding: 0 2em;
+  } 
+  
+  
+
+
+/* not sure if we still need */
+    #home-planner-cityOptions {
+    color:#ffffff;
+    background-color: #3b3f45;
+    border: 1px solid #9d9fa2;
+    font-size: 18px;
+    border-radius: 0px;
+    padding: 8px 12px;
+  }
+  #home-planner-cityOptions option:hover {
+    color:#3b3f45;
+    background-color: #ffffff;
+  }
+
+  @media (max-width:767px){
+    div.planner-topline {
+      padding-left: 15px;
+      padding-right: 15px;
+  }
+  }

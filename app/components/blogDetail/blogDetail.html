@@ -1,0 +1,123 @@
+<div ng-cloak>
+    <blog-search></blog-search>
+
+    <breadcrumbs crumbs="vm.breadcrumbs"></breadcrumbs>
+
+    <div class="blogdetail">
+        <div class="container detail-inner">
+            <div class="row">
+                <div class="col-md-9 detail-content">
+                    <div class="bloggerList_MobileView d-xs-block d-md-none">
+                        <select ng-change="vm.onChangeBloggerList(selectedAuthor)" ng-model="selectedAuthor"
+                        style="          width: 100%;
+          padding: 5px;
+          text-align: center;
+          margin: 12px 0 20px;
+          outline: none;
+          text-align-last: center;">
+                            <option value="">Popular bloggers</option>
+                            <option ng-repeat="author in vm.authorData" value="{{author.last_name}}">
+                                {{author.first_name}} {{author.last_name}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- <a ui-sref="blogMain" xonclick="ga('send', 'event', 'blog_links','click','top_nav_blog')">View all blogs</a> -->
+
+                    <br />
+                    <br />
+
+                    <div class="blogdetail-title" ng-bind-html="vm.blog.title">
+                    </div>
+                    
+                    <div class="detail-info">
+                        <div class="smartblog-info">
+                            <span class="author">By: {{vm.blog.author.name }} | </span>
+                            <span class="author">{{ vm.getDate() }}</span>
+                        </div>
+                        <social-icon url="{{'https://accessiblego.com/blogDetail/'}}" slug="{{vm.blog.slug}}" title="{{vm.blog.title}}"></social-icon>
+                    </div>
+                    <div class="detail-item clearfix" style="display:flex;">
+                        <div class="left-blog col-md-3 col-sm-3">
+                            <img src="{{vm.getImageUrl()}}"
+                                 alt="" class="feat_img_small">
+                        </div>
+                        <div class="right-blog col-md-9 col-sm-9">
+                            <div class="detail-heading" ng-bind-html="vm.blog.author.name"></div>
+                            <p class="desc" ng-bind-html="vm.blog.author.bio"></p>
+                            <div class="detail-social">
+                                <!-- <span class="mail"><i class="fa fa-envelope" aria-hidden="true">&nbsp;&nbsp;{{blog.user.email}}</i></span> -->
+                                <span ng-if="vm.blog.author.facebook">
+                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                    <a href='{{vm.blog.author.facebook}}' target='author_fb_{{vm.blog.author.last_name}}' style="color:#000;">Facebook</a>
+                                </span>
+                                <span ng-if="vm.blog.author.twitter">
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                    <a href='{{vm.blog.author.twitter}}' target='author_tw_{{vm.blog.author.last_name}}' style="color:#000;">Twitter</a>
+                                </span>
+                                <span ng-if="vm.blog.author.instagram">
+                                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                                    <a href='{{vm.blog.author.instagram}}' target='author_ig_{{vm.blog.author.last_name}}' style="color:#000;">Instagram</a>
+                                </span>
+                                <span ng-if="vm.blog.author.linkedIn">
+                                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                    <a href='{{vm.blog.author.linkedIn}}' target='author_li_{{vm.blog.author.last_name}}' style="color:#000;">Linked In</a>
+                                </span>
+                                <span ng-if="vm.blog.author.website">
+                                    <i class="fa fa-globe" aria-hidden="true"></i>
+                                    <a href='{{vm.blog.author.website}}' target='author_ws_{{vm.blog.author.last_name}}' style="color:#000;">Website</a>
+                                </span>
+                                <!-- <span class="rss"><i class="fa fa-rss" aria-hidden="true">&nbsp;&nbsp;RSS</i></span> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blog-detail-main clearfix" ng-bind-html="vm.blog.content">
+                    </div>
+
+                    <!-- Active Campaign -->
+                    <div class="_form_13"></div>
+                    <script src="https://accessiblego.activehosted.com/f/embed.php?id=13"; type="text/javascript" charset="utf-8"></script>
+
+                    <!-- MUUT -->
+                    <!-- <div
+                        style="background-color:#ffffff;">
+                        <div
+                            id="muut_accessiblego">
+                        </div>
+                    </div> -->
+                    
+                </div>
+                <div class="col-md-3">
+                    <div class="blog-more">
+<!--                         <span class="blog-more-title">More in this blog</span>
+                        <ul class="blog-more-list">
+                            <li class="blog-more-item">Lorem ipsum dolor sit amet, Lorem</li>
+                            <li class="blog-more-item">Lorem ipsum dolor sit amet, Lorem</li>
+                            <li class="blog-more-item">Lorem ipsum dolor sit amet, Lorem</li>
+                            <li class="blog-more-item">Lorem ipsum dolor sit amet, Lorem</li>
+                            <li class="blog-more-item">Lorem ipsum dolor sit amet, Lorem</li>
+                        </ul> -->
+                    </div>
+
+                    <!-- popular bloggers -->
+                    <div class="popular-bloggers d-none d-md-block">
+                        <span class="blogger-title">Popular bloggers</span>
+                        <ul class="blogger-list">
+                            <li class="blogger-name" ng-repeat="author in vm.authorData">
+                                <a ui-sref="blogAuthor({ lastname: author.last_name.replace('.','') })" style='color:#000;'>{{author.first_name}} {{author.last_name}}</a>
+                            </li>
+<!--                             <li class="blogger-name" ng-click="blog.getBlogByBloggers()">John Doe</li>
+                            <li class="blogger-name" ng-click="blog.getBlogByBloggers()">Felecia Jones</li>
+                            <li class="blogger-name" ng-click="blog.getBlogByBloggers()">Rose Cole</li>
+                            <li class="blogger-name" ng-click="blog.getBlogByBloggers()">Lucy Ward</li> -->
+                        </ul>
+                    </div>
+
+                    <bookbox type="hotels" city="New York" />
+                    <!-- <span>Article box will be appear here</span> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <script src="https://accessiblego.activehosted.com/f/embed.php?id=5" type="text/javascript" charset="utf-8"></script> -->

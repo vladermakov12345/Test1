@@ -1,0 +1,110 @@
+<div ng-controller="teamController as team" ng-cloak>
+	<div class="wrapper-common wrapper-common-width">
+		<div>
+			<!-- top image: begin -->
+			<img src="{{team.getMainImage()}}" style="height:auto;;max-width:100%;" alt="" /><br />
+			<!-- top image: end -->
+		</div>
+	</div>
+
+	<div id="articles-main">
+		<div class="articles-main-flex">
+
+			<!-- COLUMN 1: BEGIN -->
+			<div style="max-width:38.875em;" xid="articles-main-col-content">
+				<div style="padding-bottom:1.75em">
+					<span style="font-weight: 600;font-size:1.875em;color:#299b7c;">Team</span>
+				</div>
+
+				<div style="
+					font-weight: 400;
+					font-size: 1em;
+				  	display: flex;
+					flex-direction: row;
+					align-self: flex-start;
+					margin-left: auto;
+					margin-right: auto;
+					flex-wrap: wrap;
+				">
+					<div style="width: 15.5em;margin-right: 1em;">
+						<img
+						  	xsrc="/web/public/resources/Miriam.jpg"
+						  	src="https://accessiblego.azureedge.net/img/team/miriam_eljas_goldman.jpg"
+						  	alt="Photo of Miriam Eljas Goldman"
+						  	style="min-width:10em;max-width:15.5em;" />
+					</div>
+					<div style="min-width:10em;max-width:15em;">
+						<strong>Miriam Eljas Goldman, cofounder and CEO</strong><br />
+						Miriam is a serial entrepreneur who started and sold a newspaper in NYC. Miriam left her managerial role in business development at a VC firm to start accessibleGO.  She is presently a mentor for new companies at several entrepreneurship programs.
+					</div>
+				</div>
+
+
+				<br />
+				<div style="
+					font-weight: 400;
+					font-size: 1em;
+				  	display: flex;
+					flex-direction: row;
+					align-self: flex-start;
+					margin-left: auto;
+					margin-right: auto;
+					flex-wrap: wrap;
+				">
+					<div style="width: 15.5em;margin-right: 1em;">
+						<img
+							xsrc="/web/public/resources/jeff.jpg"
+							src="https://accessiblego.azureedge.net/img/team/jeffrey_schlanger.jpg"
+							alt="Photo of Jeff Schlanger"
+							style="min-width:10em;max-width:15.5em;" />
+					</div>
+					<div style="min-width:10em;max-width:15em;">
+						<strong>Jeff Schlanger, cofounder and CTO</strong><br />
+						Jeff is a full-stack software engineer with 20+ years of experience in IT. Jeff sharpened his technical skills at UBS, InvestorForce, Jupitermedia, Teach for America and Ultimate Software.  Before joining accessibleGO Jeff developed customer-facing IT solutions at MagicLeap.
+					</div>
+				</div>
+
+
+				<br />
+				<div style="
+					font-weight: 400;
+					font-size: 1em;
+				  	display: flex;
+					flex-direction: row;
+					align-self: flex-start;
+					margin-left: auto;
+					margin-right: auto;
+					flex-wrap: wrap;
+				">
+					<div style="width: 15.5em;margin-right: 1em;">
+						<img
+							xsrc="/web/public/resources/jeff.jpg"
+							src="https://accessiblego.azureedge.net/img/team/daniel-keebler.jpg"
+							alt="Photo of Daniel Keebler"
+							style="min-width:10em;max-width:15.5em;" />
+					</div>
+					<div style="min-width:10em;max-width:15em;">
+						<strong>Daniel Keebler, Director of Marketing</strong><br />
+						Daniel Keebler is a digital marketing expert who combines time-tested marketing strategies with cutting edge tools.  Daniel is Google Ads certified and has studied under the world's top Facebook marketers.
+
+					</div>
+				</div>
+			</div>
+			<br />
+
+			<!-- COLUMN 2: BEGIN -->
+			<div id="city-bookbox" style="margin-left:1.875em;width:16em;">
+				<bookbox type="hotels" city="{{city.city.Name}}"></bookbox>
+			</div>
+			<!-- COLUMN 2: END -->
+		</div>
+	</div>
+
+	<div id="about-articleCarousel">
+		<article-carousel />
+	</div>
+
+	<div id="about-tripplanner">
+		<trip-planner cityoptions="main.cities" isTripPlannerPage="false" />
+	</div>
+</div>

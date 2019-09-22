@@ -1,0 +1,27 @@
+<!-- <div class="switcher">
+
+    <div class="btn-group btn-group-toggle switcher-toggle" data-toggle="buttons"
+         ng-class="{'disabled' : vm.disabled, 'on': vm.checked}">
+
+        <label class="off btn btn-secondary">
+            <input type="radio" name="options">
+        </label>
+
+        <label class="on btn btn-secondary" ng-class="{'active': vm.checked}">
+            <input type="radio" name="options">
+        </label>
+
+    </div>
+
+</div> -->
+
+<div ng-style="{'opacity':vm.disabled?'.5':'1'}">
+	<label class="switch">
+		<input
+			type="checkbox"
+			ng-model="vm.test123"
+			ng-disabled="vm.disabled"
+			ng-checked="vm.checked" />
+		<span class="slider round"></span>
+	</label>
+</div>

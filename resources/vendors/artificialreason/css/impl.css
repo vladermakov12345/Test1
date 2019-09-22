@@ -1,0 +1,46 @@
+﻿.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.btn-xlarge {
+  padding: 4px 14px;
+  font-size: 19.5px;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
+.btn-jumbo {
+  padding: 11px 19px;
+  font-size: 30.5px;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
+.vr {
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 120px;
+  border: 0;
+  border-left: 1px solid #cccccc;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.pageTitle {
+    font-size: 44px;
+    padding-top: 35px;
+    padding-bottom: 15px;
+    font-weight: 900;
+    color: #5cb85c;
+    line-height:.90;
+}
+
+.pageDesc {
+    font-weight: 400;
+    font-size: 18px;
+    color:#4d7db3;
+}

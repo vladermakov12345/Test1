@@ -1,0 +1,42 @@
+<div class="wrapper-base" style="background-color:#d8d8d8;">
+	<div
+		ng-show="articleCarousel.articleFetchIsComplete===true"
+		class="wrapper-common wrapper-common-width wrapper-column">
+		<div class="latest_head" style="margin-bottom:1.82em;">
+			<span style="font-size:1.5em;">
+				<span style="font-weight:600;color:#000;">Articles ({{articleCarousel.articleBoxes.length || 0}})</span>
+				 <!-- <span style="font-weight:400;"">Accessible Possibilities</span> -->
+			</span>
+		</div>
+		<div class="article_IdeasBoxes" style="display: flex;flex-direction: row;flex-wrap: wrap;">
+			<articlebox
+				style="margin-right:1.5em;"
+	    		ng-repeat="box in articleCarousel.articleBoxes | orderBy: 'homepageSeq'"
+	    		articleid="{{box.Id}}"
+	    		introimageid="{{box.IntroImage.Id}}"
+	    		title="{{box.Title}}"
+	    		urlsafetitle="{{box.URLSafeTitle}}" 
+	    		ng-show="articleCarousel.isInArticleBoxesToShow($index)"
+    	 />
+		</div>
+		<div
+			ng-if="articleCarousel.articleBoxes.length>articleCarousel.articleBoxesToShow.length"
+			style="align-self: center;margin-top:2.182em;">
+			<input href="#"
+                type="image"
+                src="/web/public/resources/arrow_black_left.png"
+                ng-click="articleCarousel.shiftArticleBoxesLeft()"
+                alt="Advance carousel to the left" />
+               <span style="padding: 0 2em;">{{articleCarousel.articleBoxesToShow[0]+1}}-{{articleCarousel.articleBoxesToShow[3]+1}} of {{articleCarousel.articleBoxes.length}}</span>
+			<input href="#"
+                type="image"
+                src="/web/public/resources/arrow_black_right.png"
+                ng-click="articleCarousel.shiftArticleBoxesRight()"
+                alt="Advance carousel to the right" />
+		</div>
+
+        <div ng-if="!articleCarousel.articleBoxes.length">
+            <span>No article found related to {{articleCarousel.searchString}}</span>
+        </div>
+	</div>
+</div>

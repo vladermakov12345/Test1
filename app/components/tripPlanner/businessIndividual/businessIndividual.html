@@ -1,0 +1,332 @@
+<div ng-controller="businessIndividualController as vm" ng-cloak>
+
+    <trip-planner city="vm.city" type="vm.type" cityoptions="vm.cityoptions" ng-model="vm.selectedProps" istripplannerpage="true"
+    />
+
+    <div id="tripPlanner-wrapper">
+
+        <!-- type bar: begin -->
+        <div class="tripPlanner-wrapper-main">
+            <div ng-if="vm.type && vm.type!==vm.ITINERARIES">
+                <span style="font-size:1.5em;font-weight:600;">{{vm.type}} for {{vm.city}} <!--({{vm.resultsCount}})--></span>
+            </div>
+            <div ng-if="vm.type && vm.type===vm.ITINERARIES">
+                <span style="font-size:1.5em;font-weight:600;">{{vm.type}} for {{vm.city}} <!--(1)--></span>
+            </div>
+
+
+            <!-- category bar (for attractions): begin -->
+            <div ng-if="vm.type === vm.ATTRACTIONS">
+                <div class="d-none d-xs-block d-sm-none semibold18" id="tripPlanner-categories">
+                    <select ng-options="option.text for option in vm.categoryOptions track by option.key" ng-model="vm.xsCategorySelection" ng-change="vm.setCategory(vm.xsCategorySelection.key)">
+                    </select>
+                </div>
+                <div class="d-none d-xs-block d-sm-none" id="tripPlanner-categories">
+
+                    <!-- museums and gardens -->
+                    <div class="tripPlanner-categories-common" ng-class="vm.isCatSelectedMuseumsGardens() ? 'tripPlanner-category-active' : 'tripPlanner-category'">
+                        <img ng-if="vm.isCatSelectedMuseumsGardens()" src="/web/public/resources/Museum_Green.png" aria-labelledby="{{vm.MUSEUMS_GARDENS}}"
+                        />
+                        <img ng-if="!vm.isCatSelectedMuseumsGardens()" src="/web/public/resources/Museum_Gray.png" aria-labelledby="{{vm.MUSEUMS_GARDENS}}"
+                        />
+                        <div style="margin-top:1.5em;">
+                            <a
+                                id="{{vm.MUSEUMS_GARDENS}}"
+                                ui-sref="businessIndividual({city: vm.city.replace(' ','_'), type: 'Attractions', category: vm.MUSEUMS_GARDENS,slug: vm.slug })"
+                                xng-click="vm.category=vm.MUSEUMS_GARDENS">Museums
+                                <br>and
+                                <br>Gardens</a>
+                        </div>
+                    </div>
+
+                    <!-- shopping -->
+                    <div class="tripPlanner-categories-common" ng-class="vm.isCatSelectedShopping() ? 'tripPlanner-category-active' : 'tripPlanner-category'">
+                        <img ng-if="vm.isCatSelectedShopping()" src="/web/public/resources/Shopping_Green.png" aria-labelledby="{{vm.SHOPPING}}"
+                        />
+                        <img ng-if="!vm.isCatSelectedShopping()" src="/web/public/resources/Shopping_Gray.png" aria-labelledby="{{vm.SHOPPING}}"
+                        />
+                        <div style="margin-top:1.5em;">
+                            <a
+                                id="{{vm.SHOPPING}}"
+                                ui-sref="businessIndividual({city: vm.city.replace(' ','_'), type: 'Attractions', category: vm.SHOPPING, slug: vm.slug })"
+                                xng-click="vm.category=vm.SHOPPING">Shopping</a>
+                        </div>
+                    </div>
+
+                    <!-- restaurants and bars -->
+                    <div class="tripPlanner-categories-common" ng-class="vm.isCatSelectedRestaurantsBars() ? 'tripPlanner-category-active' : 'tripPlanner-category'">
+                        <img ng-if="vm.isCatSelectedRestaurantsBars()" src="/web/public/resources/Restaurants_Green.png" aria-labelledby="{{vm.RESTAURANTS_BARS}}"
+                        />
+                        <img ng-if="!vm.isCatSelectedRestaurantsBars()" src="/web/public/resources/Restaurants_Gray.png" aria-labelledby="{{vm.RESTAURANTS_BARS}}"
+                        />
+                        <div style="margin-top:1.5em;">
+                            <a id="{{vm.RESTAURANTS_BARS}}" ui-sref="businessIndividual({city: vm.city.replace(' ','_'), type: 'Attractions', category: vm.RESTAURANTS_BARS, slug: vm.slug})"
+                                xng-click="vm.category=vm.RESTAURANTS_BARS">Restaurants
+                                <br />and Bars</a>
+                        </div>
+                    </div>
+
+                    <!-- theater cinema and music -->
+                    <div class="tripPlanner-categories-common" ng-class="vm.isCatSelectedTheaterCinemaMusic() ? 'tripPlanner-category-active' : 'tripPlanner-category'">
+                        <img ng-if="vm.isCatSelectedTheaterCinemaMusic()" src="/web/public/resources/Theater_Green.png" aria-labelledby="{{vm.THEATER_CINEMA_MUSIC}}"
+                        />
+                        <img ng-if="!vm.isCatSelectedTheaterCinemaMusic()" src="/web/public/resources/Theater_Gray.png" aria-labelledby="{{vm.THEATER_CINEMA_MUSIC}}"
+                        />
+                        <div style="margin-top:1.5em;">
+                            <a id="{{vm.THEATER_CINEMA_MUSIC}}" ui-sref="businessIndividual({city: vm.city.replace(' ','_'), type: 'Attractions', category: vm.THEATER_CINEMA_MUSIC, slug: vm.slug})"
+                                xng-click="vm.category=vm.THEATER_CINEMA_MUSIC">Theater,
+                                <br />Cinema
+                                <br />and Music</a>
+                        </div>
+                    </div>
+
+                    <!-- zoos and aquariums -->
+                    <div class="tripPlanner-categories-common" ng-class="vm.isCatSelectedZoosAquariums() ? 'tripPlanner-category-active' : 'tripPlanner-category'">
+                        <img ng-if="vm.isCatSelectedZoosAquariums()" src="/web/public/resources/Zoo_Green.png" aria-labelledby="{{vm.ZOOS_AQUARIUMS}}"
+                        />
+                        <img ng-if="!vm.isCatSelectedZoosAquariums()" src="/web/public/resources/Zoo_Gray.png" aria-labelledby="{{vm.ZOOS_AQUARIUMS}}"
+                        />
+                        <div style="margin-top:1.5em;">
+                            <a id="{{vm.ZOOS_AQUARIUMS}}" ui-sref="businessIndividual({city: vm.city.replace(' ','_'), type: 'Attractions', category: vm.ZOOS_AQUARIUMS, slug: vm.slug})"
+                                xng-click="vm.category=vm.ZOOS_AQUARIUMS">Zoos and
+                                <br />Aquariums</a>
+                        </div>
+                    </div>
+
+                    <!-- theme parks and rides -->
+                    <div class="tripPlanner-categories-common" ng-class="vm.isCatSelectedThemeParksRides() ? 'tripPlanner-category-active' : 'tripPlanner-category'">
+                        <img ng-if="vm.isCatSelectedThemeParksRides()" src="/web/public/resources/Parks_Green.png" aria-labelledby="{{vm.THEMEPARKS_RIDES}}"
+                        />
+                        <img ng-if="!vm.isCatSelectedThemeParksRides()" src="/web/public/resources/Parks_Gray.png" aria-labelledby="{{vm.THEMEPARKS_RIDES}}"
+                        />
+                        <div style="margin-top:1.5em;">
+                            <a id="{{vm.THEMEPARKS_RIDES}}" ui-sref="businessIndividual({city: vm.city.replace(' ','_'), type: 'Attractions', category: vm.THEMEPARKS_RIDES, slug: vm.slug})"
+                                xng-click="vm.category=vm.THEMEPARKS_RIDES">Theme
+                                <br />Parks and
+                                <br />Rides</a>
+                        </div>
+                    </div>
+
+                    <!-- landmarks -->
+                    <div class="tripPlanner-categories-common" ng-class="vm.isCatSelectedLandMarks() ? 'tripPlanner-category-active' : 'tripPlanner-category'">
+                        <img ng-if="vm.isCatSelectedLandMarks()" src="/web/public/resources/Landmarks_Green.png" aria-labelledby="{{vm.LANDMARKS}}"
+                        />
+                        <img ng-if="!vm.isCatSelectedLandMarks()" src="/web/public/resources/Landmarks_Gray.png" aria-labelledby="{{vm.LANDMARKS}}"
+                        />
+                        <div style="margin-top:1.5em;">
+                            <a id="{{vm.LANDMARKS}}" ui-sref="businessIndividual({city: vm.city.replace(' ','_'), type: 'Attractions', category: vm.LANDMARKS, slug: vm.slug })"
+                                xng-click="vm.category=vm.LANDMARKS">Landmarks</a>
+                        </div>
+                    </div>
+
+                    <!-- parks and outdoors -->
+                    <div class="tripPlanner-categories-common" ng-class="vm.isCatSelectedParksOutdoors() ? 'tripPlanner-category-active' : 'tripPlanner-category'">
+                        <img ng-if="vm.isCatSelectedParksOutdoors()" src="/web/public/resources/Outdoor_Green.png" aria-labelledby="{{vm.PARKS_OUTDOORS}}"
+                        />
+                        <img ng-if="!vm.isCatSelectedParksOutdoors()" src="/web/public/resources/Outdoor_Gray.png" aria-labelledby="{{vm.PARKS_OUTDOORS}}"
+                        />
+                        <div style="margin-top:1.5em;">
+                            <a id="{{vm.PARKS_OUTDOORS}}" ui-sref="businessIndividual({city: vm.city.replace(' ','_'), type: 'Attractions', category: vm.PARKS_OUTDOORS, slug: vm.slug})"
+                                xng-click="vm.category=vm.PARKS_OUTDOORS">Parks and
+                                <br />Outdoors</a>
+                        </div>
+                    </div>
+
+                    <!-- extreme sports and adventure XXXXX -->
+                    <div class="tripPlanner-categories-common" ng-class="vm.isCatSelectedExtremeSportsAdventure() ? 'tripPlanner-category-active' : 'tripPlanner-category'">
+                        <img ng-if="vm.isCatSelectedExtremeSportsAdventure()" src="/web/public/resources/Extreme_Green.png" aria-labelledby="{{vm.EXTREMESPORTS_ADVENTURE}}"
+                        />
+                        <img ng-if="!vm.isCatSelectedExtremeSportsAdventure()" src="/web/public/resources/Extreme_Gray.png" aria-labelledby="{{vm.EXTREMESPORTS_ADVENTURE}}"
+                        />
+                        <div style="margin-top:1.5em;">
+                            <a id="{{vm.EXTREMESPORTS_ADVENTURE}}" ui-sref="businessIndividual({city: vm.city.replace(' ','_'), type: 'Attractions', category: vm.EXTREMESPORTS_ADVENTURE, slug: vm.slug })"
+                                xng-click="vm.category=vm.EXTREMESPORTS_ADVENTURE">Extreme
+                                <br />Sports and
+                                <br />Adventure</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- category bar (for attractions): end -->
+
+            <!-- results section: begin -->
+            <div ng-if="vm.city && vm.type!==vm.ITINERARIES " id="tripPlanner-results-flex" style="margin-top:3.125em;">
+                <!-- COLUMN 1 -->
+                <div class="container">
+                    <div class="top_1">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="pull-right" style="margin: 5px 15px;">
+                                    <favorite-directive type="business" referenceid="{{vm.dirId}}"></favorite-directive>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 profile_left">
+                                        <div ng-if="TODO"
+                                         class="place_logo">
+                                            Please insert logo here.
+                                        </div>
+                                       
+                                        <h3 class="tripper_hd">{{vm.listing.Name}}</h3>
+
+                                        <div
+                                            ng-if="vm.averageRatings"
+                                            class="attraction-ratings business_div text-center">
+                                            <div class="rating-star" style="display: inline-block;" star-rating rating="vm.averageRatings" read-only="true" max-rating="5"></div>
+                                           <!-- <span class="span_review">({{vm.listing.reviewList.length}} Reviews)</span> -->
+                                        </div>
+                                        <h5 class="national_flag attraction-details" ng-if="vm.listing.IsNational">
+                                            <i class="fa fa-flag" aria-hidden="true"></i> National Business </h5>
+
+                                        <div class="attraction-details" ng-if="vm.listing.Address">
+                                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                            <span>{{vm.listing.Address}}</span>
+                                        </div>
+
+                                        <div class="attraction-details" ng-if="vm.listing.Email">
+                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                            <span>{{vm.listing.Email}}</span>
+                                        </div>
+
+                                        <div class="attraction-details" ng-if="vm.listing.Phone">
+                                            <i class="fa fa-phone" aria-hidden="true"></i>
+                                            <span>{{vm.listing.Phone}}</span>
+                                        </div>
+
+                                        <div class="attraction-details" ng-if="vm.listing.Facebook">
+                                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                                            <a id="goToFacebook_{{$index}}" href="{{vm.listing.Facebook}}" target="_facebookWindow">{{vm.listing.Name}}</a>
+                                        </div>
+
+                                        <div class="attraction-details" ng-if="vm.listing.Website">
+                                            <i class="fa fa-globe" aria-hidden="true"></i>
+                                            <a id="goToWebsite_{{$index}}" href="{{vm.listing.Website}}" target="_newWindow">Go to website</a>
+                                        </div>
+
+                                        <div class="attraction-details">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            <a ui-sref="reviewEntry({id:vm.listing.Id})" id="goToReview_{{$index}}">Write a Review</a>
+                                        </div>
+
+                                    </div>
+                            <div class="col-sm-9">
+                                <div class="place_div" ng-hide="vm.listing === undefined">
+                                    <figure ng-if="TODO" class="tripper_img">Please insert image here.</figure>
+                                    <div class="day_trp">
+                                            <div class="slider_div">
+                                                    <h4>About {{vm.listing.Name}} </h4>
+                                                    <p>{{vm.listing.Description}}
+                                                    </p>
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                    
+                        </div>
+                    </div>
+
+                    <!-- <div class="photo_sec">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="photo_bx">
+                                        <h4 class="sb_heding"> Day Tripper Tours Photos  </h4>
+                                        <div class="img_sec">
+                                         <img ng-src="{{vm.dayTripperToursPhoto}}" >
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                    <div class="photo_bx">
+                                            <h4 class="sb_heding"> Users Photos  </h4>
+                                            <div class="img_sec">
+                                                    <img ng-src="{{vm.userPhotos}}" >
+                                            </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div> -->
+
+                    <div class="mid_Sec">
+
+                        <div class="row">
+
+                            <!-- LEFT COL :: map and bookbox -->
+                            <div class="col-sm-3">
+
+                                <!-- google map: begin -->
+                                <div class="map_margin" ng-if="vm.listing.Address">
+                                    <h4 class="sb_heding"> Location  </h4>
+                                    
+                                    <div
+                                        map-lazy-load="https://maps.google.com/maps/api/js"
+                                        map-lazy-load-params="{{vm.googleMapsUrl}}">
+                                        <ng-map id="googleMap" center="{{vm.listing.Address}}" zoom="{{vm.getMapZoom()}}">
+                                            <marker position="{{vm.listing.Address}}"
+                                                title="{{vm.listing.Name}}" />
+                                        </ng-map>
+                                    </div>
+                                </div>
+
+                                <!-- book travel box: begin -->
+                                <div class="bookBox_margin margin_bookbox">
+                                            <h4 class="sb_heding"> Book Acccessible Travel  </h4>
+                                    <bookbox type="hotels" city="{{vm.city}}" />
+                                </div>
+
+                            </div>
+                        
+                            <!-- MIDDLE COL :: user reviews -->
+                            <div class="col-sm-9">
+                                <h4 class="sb_heding">User Reviews</h4>
+                                <div ng-if="!vm.isWaitingReviews && vm.reviews.length===0">
+                                    <h4>No reviews yet. <a ui-sref="reviewEntry({id:vm.listing.Id})" id="goToReview_{{$index}}">Be the first to review!</a></h4>
+                                </div>
+                                <div ng-repeat="review in vm.reviews track by $index">
+                                    <user-review review="{{ review }}" reviewtype="d" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- COLUMN 2 -->
+
+        </div>
+
+            <!-- results section: end -->
+
+            <!-- special case: itineraries -->
+            <div ng-if="vm.city && vm.type===vm.ITINERARIES" id="tripPlanner-results-flex" style="margin-top:3.125em">
+                <!-- Recommended Itinerary -->
+                <div style="background-color:#ffffff;display:flex; flex-direction: row;justify-content: space-between;width:100%;margin-bottom: 1.5em;">
+                    <div ng-if="vm.itinerary.IntroImage" style="width:20em;min-width:20em;">
+                        <img ng-src="{{vm.BASEURL_CONTENT}}/Image/GetImage?assetId={{vm.itinerary.IntroImage.Id}}&Size=medium" style="width:20em;min-width:20em;"
+                        />
+                        <br />
+                    </div>
+                    <div style="padding:1.5em 1em 0 1em;">
+                        <span style="font-weight: 600;font-size:1.5em;">
+                            <a style="color:#299b7c;" ui-sref="articles({title:vm.itinerary.Title.split(' ').join('_')})">{{vm.itinerary.Title}}</a>
+                        </span>
+                        <br />
+                        <div style="margin-top:.75em;"></div>
+                        <span style="font-weight: 400;" class="paragraphOverride" ng-bind-html="vm.getPreview(vm.itinerary.IntroText)"></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- type bar: end -->
+
+    </div>
+
+
+    <!-- TODO: add a call in maincontroller to get all cities so that they are loaded once and reused -->
+
+
+</div>

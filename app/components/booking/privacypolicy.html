@@ -1,0 +1,41 @@
+<div ng-controller="bookingPrivacypolicyController as privacy" ng-cloak>
+
+	<!-- waiting -->
+<!-- 	<div ng-if="booking.isValidSearchCriteria === undefined" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+	    <div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">One moment please...</div>
+	    <i class="fa fa-spinner fa-spin" style="font-size:4em;color:#299b7c;" aria-hidden="true"></i>
+	</div> -->
+
+
+	<div
+		id="bookingDetailsSection"
+		class="wrapper-common wrapper-common-width wrapper-column"
+		style="background-color:#fff;padding:1em;justify-content: flex-start;min-height: 26em;">
+		<h1>Privacy Policy</h1>
+
+		<!-- notice of email -->
+		<!-- <span class="semibold14">We've sent a confirmation email to: {{booking.details.itinerary_details.customer.email }}</span> -->
+
+		<!-- print -->
+		<div class="light16" style="margin-top:1em;">
+			<a
+				ng-click="privacy.print()"
+				class="fa fa-print"
+				aria-hidden="true"
+				alt="print this page">
+				<span style="font-family:'Source Sans Pro', Tahoma, Geneva, sans-serif;"> print this page</span>
+			</a>
+		</div>
+
+		<div>
+			<div ng-repeat="data in privacy.block_data.block_data">
+				{{data}}
+				<span ng-bind-html="data.title" class="bold16" /><br>
+				<div ng-repeat="paragraph in data.paragraph_data">
+					<span ng-bind-html="privacy.getSubstitutes(paragraph)" class="light14" /><br>
+				</div>
+				<br>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,61 @@
+<div ng-controller="aboutController as about" ng-cloak>
+
+	<div class="wrapper-common wrapper-common-width">
+		<div>
+			<!-- top image: begin -->
+			<img src="{{about.getMainImage()}}" style="height:auto;;max-width:100%;" alt="Photo of New York City" /><br />
+			<!-- top image: end -->
+		</div>
+	</div>
+
+	<div id="articles-main">
+		<div class="articles-main-flex">
+
+			<!-- COLUMN 1: BEGIN -->
+			<div style="width:38.875em;" xid="articles-main-col-content">
+				<div style="padding-top:1.75em">
+					<h1 style="font-weight: 600;font-size:1.875em;color:#299b7c;">About Us</h1>
+				</div>
+				<h2 style="font-weight: 600;font-size: 1.5em;padding-bottom:1em;" ng-bind-html="about.topParagraph"></h2>
+				<div style="font-weight: 400;font-size: 1em;">We launched accessibleGO in 2017 to solve the travel problems that millions of people with disabilities face, from difficulty finding accessible hotels to unpleasant surprises at attractions that claim to be accessible.  Our Accessible Trip Resources will change the way people with disabilities travel, offering extensive on-the-go travel resources that solve problems like finding immediate local wheelchair repair or hiring a local caregiver.   Our Accessible Travel Ideas section offers hundreds of inspiring travel stories like top ten accessible attractions and recommended itineraries for exciting and memorable trips.   Our soon-to-be released booking engine will enable your travel arrangements, offering accessible solutions.<br />
+				<br />
+				Reviews of your personal travel experiences, from hotel rooms to landmarks to accessible taxis will fuel the power of accessibleGO by creating a true community that supports one another through critical information. Imagine the security of knowing that countless travelers before you have paved the way for a smooth and pleasant accessible travel experience.<br />
+				<br />
+				Please reach out to us with suggestions, feedback and any concerns by emailing <a href="mailto:contact@accessibleGO.com">contact@accessibleGO.com
+					<span class="visuallyhidden">click to email us</span>
+				</a>
+				</div>
+
+				<br />
+				<div style="padding-top:1.75em">
+					<span style="font-weight: 600;font-size:1.875em;color:#299b7c;">The Inspiration Behind accessibleGO</span>
+				</div>
+				<div style="font-weight: 400;font-size: 1em;">accessibleGO was inspired by Emma Eljas, the mother of cofounder Miriam Eljas Goldman.  A resident of Silicon Valley, Emma was a wheelchair user with multiple sclerosis who never let life's obstacles hold her back from living life to the fullest.  Emma served as a commissioner on the Valley Transportation Authority (VTA) Disability Advisory Commission and helped make regional transportation more accessible.  With a wheelchair-lift van, Emma and her family traveled the Bay Area and took advantage of the beauty of the region.    While many venues were accessible, countless were not.  Even calling in advance, only to be told misinformation by well-intentioned employees, didn’t solve the problems.<br />
+				<br />
+				Miriam recalls an impressionable incident as a teenager where she and her mother went to a local movie theater in San Jose. Over the phone, they were told the theater was completely accessible. Upon arrival, there was a series of steps to enter the actual theater from the lobby.  Disheartened, Miriam asked the theater manager how employees could give such incorrect information.  The manager, not to be deterred, took a flimsy, cracked ramp made of fractured plywood out of a broom closet and proudly declared the theater accessible.  Knowing full well there was no way Emma’s wheelchair plus body weight would make it over the ‘ramp’, Miriam and her mother left the theater, disappointed and frustrated.<br />
+				<br />
+				Given her firsthand exposure to accessibility issues, Miriam felt compelled to follow in her mother’s footsteps, knowing that a difference could be made simply by the sharing of critical advance information just like on other travel websites where reviews are about the quality of a travel experience, not accessibility.   The vision of accessibleGO is to create a platform for travelers with disabilities to access information, share experiences and be inspired to travel the world without obstacles.<br />
+				<br />
+				<img
+					src="/web/public/resources/Miriam_and_her_mom.jpg"
+					style="height:auto;width:100%;"
+					alt="Photo of Miriam and her mother" /><br />
+				</div>
+			</div>
+			
+			<!-- COLUMN 2: BEGIN -->
+			<div id="city-bookbox" style="margin-left:1.875em;width:16em;">
+				<bookbox type="hotels" city="{{city.city.Name}}"></bookbox>
+			</div>
+			<!-- COLUMN 2: END -->
+		</div>
+	</div>
+
+	<div id="about-articleCarousel">
+		<article-carousel />
+	</div>
+
+	<div id="about-tripplanner">
+		<trip-planner cityoptions="main.cities" isTripPlannerPage="false" />
+	</div>
+</div>

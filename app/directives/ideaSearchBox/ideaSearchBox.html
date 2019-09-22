@@ -1,0 +1,34 @@
+<!-- <div class="ideaSearchBox">
+	<div>
+		<a ui-sref="city({cid: citybox.cityid})">
+    		<img ng-src="{{citybox.api_url}}/Image/GetBoxCityImage?city={{citybox.cityname}}" />
+		</a>
+	</div>
+	<div class="citybox-name">
+		<a ui-sref="city({cid: citybox.cityid})">
+			<span>{{citybox.cityname}}</span>
+		</a>
+	</div>
+</div> -->
+
+
+<div id="home-inspiration-search" class="input-group" style="position:relative;xwidth:200px;">
+    <form ng-submit="ideaSearchBoxController.searchIdeas()">
+        <input
+        	class="idea-search-textbox" style="width:15em;"
+        	name="searchInput"
+        	type="text"
+        	placeholder="Find Cities, Hotels & Attractions"
+            ng-model="ideaSearchBoxController.ideaSearchPhrase"
+            aria-label="search all travel ideas"
+            />
+        <!-- <span class="input-group-btn" style="width:20em;"> -->
+        <input
+        	type="image"
+            ng-src="https://accessiblego.z20.web.core.windows.net/i/header/search-black.png"
+        	style="position: absolute;top:0;right:0;margin:13px;width:1em;"
+        	ng-click="ideaSearchBoxController.searchIdeas()"
+            alt="Search ideas by location" />
+        <!-- </span> -->
+    </form>
+</div>

@@ -1,0 +1,64 @@
+.social-icon {
+  display: flex;
+  ul {
+    margin: 0;
+    list-style: none;
+    padding-left: 0;
+    > li {
+      display: inline-block;
+      margin: 0 2px;
+      a {
+        background: #3b3f45;
+        color: #FFFFFF;
+        border-radius: 50%;
+        display: inline-block;
+        height: 25px;
+        line-height: normal;
+        padding: 0;
+        text-align: center;
+        width: 25px;
+        &:before {
+          font-size: 12px;
+          display: inline-block;
+          font-family: FontAwesom;
+          font-weight: 400;
+          position: relative;
+          top: 1px;
+        }
+      }
+      &.twitter {
+        a {
+          &:before {
+            content: "\f099";
+            font-family: FontAwesome;
+          }
+        }
+      }
+      &.facebook {
+        a {
+          &:before {
+            content: "\f09a";
+            font-family: FontAwesome;
+          }
+        }
+      }
+      &.instagram {
+        a {
+          &:before {
+            content: "\f16d";
+            font-family: FontAwesome;
+          }
+        }
+      }
+      &.linkedin {
+        a {
+          &:before {
+            content: "\f0e1";
+            font-family: FontAwesome;
+            top: 0;
+          }
+        }
+      }
+    }
+  }
+}

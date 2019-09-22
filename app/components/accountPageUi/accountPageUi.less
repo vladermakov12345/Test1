@@ -1,0 +1,1452 @@
+ 
+ .account_ui{
+ .inner-tabs ul li a {
+    font-size: 1.4em;
+    padding: 9px 20px;
+}
+ .inner-tabs ul {
+    padding: 10px 0;
+    margin: 10px;
+    border: 1px solid #ccc;
+}
+ h2 {
+    font-size: 1.8em;
+    font-weight: 600;
+    color: #29807c;
+}
+span.msg_div {
+    background: #00509f;
+    color: #fff;
+    font-size: .5em !important;
+    font-weight: 400;
+    padding: 8px 10px;
+    display: inline-block;
+    border-radius: 4px;
+    margin-left: 30px;
+    box-shadow: 0 1px 1px #033362;
+    vertical-align: middle;
+    xwidth:100%;
+}
+.profile_pic {
+    height: 115px;
+    display: block;
+    width: 115px;
+    border-radius: 100%;
+    text-align: center;
+    xborder: 1px solid #666;
+    xpadding: 11px 0;
+    font-size: 3.5em;
+}
+.profile_sec input.input {
+    border: none;
+    border-bottom: 2px solid #c1ecea;
+    display: inline-block;
+    min-width: auto !important;
+    width: auto !important;
+    padding-bottom: 3px;
+}
+
+  .rite-text h4{
+    margin-top: 28px;
+}
+.profile_sec .media-body {
+    padding-left: 15px;
+}
+.profile_sec h4 input.input {
+    font-size: 1em;
+    color: #000;
+    font-weight: 500;
+}
+p.location_p input.input {
+    color: #222;
+    font-size: 1em;
+    font-weight: 500;
+}
+p.location_p {
+    font-weight: 600;
+}
+
+input.input:focus{
+
+    outline: none;
+}
+
+
+.profile_sec .media:first-child {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.trvl_rqirment ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.user_txt {
+    margin: 35px 0 20px;
+}
+/* 14-feb-2018 css start here=================*/
+.age_div select {
+    color: #222;
+    font-size: 1em;
+    font-weight: 500;
+    border: none;
+    border-bottom: 2px solid #c1ecea;
+    display: inline-block;
+    min-width: auto!important;
+    width: auto!important;
+    -webkit-appearance: none;
+    outline: none;
+}
+.age_div textarea.form-control {
+    color: #222;
+    font-size: 1em;
+    font-weight: 500;
+    border: none;
+    border-bottom: 2px solid #c1ecea;
+    -webkit-appearance: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0 0 10px;
+    resize: vertical;
+}
+.age_div textarea.form-control::placeholder {
+    color: #333;
+}
+.age_div p.location_p {
+    font-size: 1em;
+}
+.short_div p.location_p {
+    margin-bottom: 3px;
+}
+
+/* on-off button css start here====*/
+// Colors
+@brand-primary: #29b5a8;
+@brand-secondary: #ff8300;
+@gray: #6b7381;
+@gray-light: lighten(@gray, 15%);
+@gray-lighter: lighten(@gray, 30%);;
+
+// Button Colors
+@btn-default-color: @gray;
+@btn-default-bg: @gray-lighter;
+
+// Toggle Sizes
+@toggle-default-size: 1.5rem;
+@toggle-default-label-width: 4rem;
+@toggle-default-font-size: .75rem;
+
+
+
+.jumbotron {
+  background: @gray;
+  color: @gray-lighter;
+  h1 {
+    color: #fff;
+  }
+}
+.example {
+  .btn-toggle {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+// Mixin for Switch Colors
+// Variables: @color, @bg, @active-bg
+.toggle-color(@color: @btn-default-color; @bg: @btn-default-bg; @active-bg: @brand-primary;) {
+  color: @color;
+  background: @bg;
+  &:before,
+  &:after {
+    color: @color;
+  }
+  &.active {
+    background-color: @active-bg;
+  }
+}
+
+// Mixin for Default Switch Styles
+// Variables: @size, @margin, @color, @bg, @active-bg, @font-size
+.toggle-mixin(@size: @toggle-default-size; @margin: @toggle-default-label-width; @font-size: @toggle-default-font-size;) {
+  // color: @color;
+  // background: @bg;
+  margin: 0 @margin;
+  padding: 0;
+  position: relative;
+  border: none;
+  height: @size;
+  width: @size * 2;
+  border-radius: @size;
+  
+  &:focus,
+  &.focus {
+    &,
+    &.active {
+      outline: none;
+    }
+  }
+  
+  &:before,
+  &:after {
+    line-height: @size;
+    width: @margin;
+    text-align: center;
+    font-weight: 600;
+    // color: @color;
+    font-size: @font-size;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: absolute;
+    bottom: 0;
+    transition: opacity .25s;
+  }
+  
+  > .handle {
+    position: absolute;
+    top: (@size * .25) / 2;
+    left: (@size * .25) / 2;
+    width: @size * 1.70;
+    height: @size * 1.70;
+    border-radius: @size * .75;
+    background: #fff;
+    transition: left .25s;
+  }
+  &.active {
+    transition: background-color .25s;
+    > .handle {
+      left: @size + ((@size * .25) / 2);
+      transition: left .25s;
+    }
+    &:before {
+      opacity: .5;
+    }
+    &:after {
+      opacity: 1;
+    }
+  }
+  
+}
+
+// Apply Mixin to different sizes & colors
+.btn-toggle {
+  
+  .toggle-mixin;
+  .toggle-color;
+  
+  &.btn-lg {
+    .toggle-mixin(@size: 2.5rem; @font-size: 1rem; @margin: 5rem;);
+  }
+  
+  &.btn-sm {
+    .toggle-mixin(@font-size: .55rem; @margin: .5rem;);
+  }
+  
+  &.btn-xs {
+    .toggle-mixin(@size:1rem;@margin:0;)
+  }
+  
+  &.btn-secondary {
+    .toggle-color(@active-bg:@brand-secondary);
+  }
+}
+.btn-toggle.btn-xs{
+    height: 2rem;
+    width: 3.50rem;
+    outline: none !important;
+    vertical-align: bottom;
+    margin-right: 10px;
+}
+.btn-toggle.btn-xs.active>.handle {
+    left: 1.60rem;
+}
+button.btn.btn-xs.btn-toggle {
+    background: #4d4d4d;
+}
+button.btn.btn-xs.btn-toggle.active{
+    background: #29807c;
+}
+/* on-off button css end here====*/
+
+/* radio button css start here ================*/
+
+.age_div .btn-group.btn-group-vertical label.btn span {
+    font-size: 1.2em;
+    vertical-align: middle;
+    color: #333;
+}
+  
+  label input[type="radio"] ~ i.fa.fa-circle-o{
+      color: #c8c8c8;    display: inline;
+  }
+  label input[type="radio"] ~ i.fa.fa-dot-circle-o{
+      display: none;
+  }
+  label input[type="radio"]:checked ~ i.fa.fa-circle-o{
+      display: none;
+  }
+  label input[type="radio"]:checked ~ i.fa.fa-dot-circle-o{
+      color: #29807c;    display: inline;
+  }
+  label:hover input[type="radio"] ~ i.fa {
+  color: #29807c;
+  }
+  
+  label input[type="checkbox"] ~ i.fa.fa-square-o{
+      color: #c8c8c8;    display: inline;
+  }
+  label input[type="checkbox"] ~ i.fa.fa-check-square-o{
+      display: none;
+  }
+  label input[type="checkbox"]:checked ~ i.fa.fa-square-o{
+      display: none;
+  }
+  label input[type="checkbox"]:checked ~ i.fa.fa-check-square-o{
+      color: #7AA3CC;    display: inline;
+  }
+  label:hover input[type="checkbox"] ~ i.fa {
+  color: #7AA3CC;
+  }
+  
+  div[data-toggle="buttons"] label.active{
+      color: #7AA3CC;
+  }
+  
+  div[data-toggle="buttons"] label {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 2em;
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: top;
+  cursor: pointer;
+  background-color: none;
+  border: 0px solid 
+  #c8c8c8;
+  border-radius: 3px;
+  color: #c8c8c8;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  }
+  
+  div[data-toggle="buttons"] label:hover {
+  color: #7AA3CC;
+  }
+  
+  div[data-toggle="buttons"] label:active, div[data-toggle="buttons"] label.active {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  }
+
+  .age_div .fa-2x{
+    font-size: 1.5em;
+    vertical-align: middle;
+  }
+  .age_div .btn-group.btn-group-vertical label.btn {
+    padding: 0;
+    display: inline-block;
+    width: auto;
+    outline: none;
+    margin-right: 20px;
+}
+.age_div .btn-group {
+    margin-bottom: 12px;
+}
+/* radio button css end here ================*/  
+
+.trvl_rqirment li {
+    padding: 3px 0;
+    vertical-align: middle;
+    color: #000;
+}
+.mostly_div p.location_p {
+    margin-bottom: 4px;
+}
+
+/* Booking page css start here=================*/
+.upcome_div {
+    border-top: 1px solid #ccc;
+    margin: 28px 0 20px;
+    text-align: center;
+}
+.upcome_div h4 {
+    margin-top: -14px !important;
+}
+.upcome_div h4 span {
+    padding: 0 15px;
+    background: #fff;
+    margin-left: 0;
+    color: #000;
+    font-weight: lighter;
+}
+.booking_div a {
+    color: #29807c;
+    text-decoration: underline;
+}
+.booking_div a:nth-child(2) {
+    margin-left: 50px;
+}
+.box_div {
+    box-shadow: 3px 3px 2px 2px rgba(0, 0, 0, 0.19);
+    border: 1px solid #000;
+    padding:15px;
+    position: relative;
+}
+.booking_div h4.media-heading {
+    font-weight: lighter;
+    font-size: 1em;
+    margin: 5px 0 0;
+}
+.hotel p {
+    font-size: 1em;
+    margin-bottom: 5px;
+}
+.hotel p:last-child {margin-bottom:0;}
+.hotel p span {
+    // display: inline-block;
+    padding-left: 5px;
+}
+.hotel p span .fa {
+    color: #f90;
+    font-size: 22px;
+    vertical-align: middle;
+}
+.hotel p span i.fa.fa-star-o {
+    color: #808080;
+}
+.hotel p:last-child span i.fa.fa-star {
+    color: #00509f;
+}
+.booking_div label {
+    color: #000;
+    font-weight: 600;
+    font-size: 0.875em;
+    vertical-align: middle;
+}
+.booking_div label span {
+    font-weight: lighter;
+}
+.booking_div label.guest {
+    margin-right: 10px;
+}
+.booking_div label.guest:last-child {
+    margin-left: 0;
+}
+.booking_div label.price:first-child {
+    margin-right: 20px;
+}
+.past_div {
+    padding: 50px 0;
+}
+.past_div .upcome_div h4 {
+    font-size: 1.4em;
+}
+.past_div .hotel p:last-child span i.fa.fa-star-o {
+    color: #00509f;
+}
+.booking_div a i.fa.fa-pencil {
+    color: #f90;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.stay label {
+    font-size: 1em;
+}
+/* Booking page css end here=================*/
+
+/* 15-feb-2018 Favorites start css end here=================*/
+.tab_list {
+    margin: 18px 0 20px;
+}
+.tab_list li {
+    display: inline-block;
+}
+.tab_list ul li a {
+    font-size: 1.25em;
+    color: #000;
+    border-right: 1px solid #333;
+    padding: 0 10px;
+    display: inline-block;
+}
+.tab_list ul li:last-child a {
+    border-right: none;
+    color: #28907c;
+}
+.tab_list ul li:first-child a {
+    padding-left: 0;
+}
+.tab-content{
+    max-width: 100%;
+}
+.hotel small {
+    font-size: 0.65em;
+    margin: 10px 0;
+    display: block;
+}
+small.small_font {
+    font-size: 0.65em;
+    color: #666;
+    display: inline-block;
+}
+.box_divFav {
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    position: relative;
+}
+.right_review {
+    float: right;
+}
+.about_p p span {
+    color: #666;
+    font-size: .875em;
+    padding: 0;
+}
+.hotel p.rating_star i.fa.fa-star {
+    color: #00509f;
+}
+.box_divFav .media-left a span {
+    font-size: 1em;
+    color: #000;
+    display: block;
+    text-align: center;
+}
+.about_p p span.legend_spn {
+    margin-top: 15px;
+}
+.box_div:hover {
+    box-shadow: 3px 3px 5px 5px rgba(0,0,0,.19);
+}
+.stay.loder_img label {
+    font-weight: lighter;
+}
+.rite-text h4 .dec_spn b {
+    font-size: 1em;
+    color: #666;
+    margin-right: 15px;
+    font-weight: lighter;
+}
+.visitors_div {
+    margin-bottom: 5px;
+}
+.visitors_div span {
+    padding-right: 20px !important;
+}
+.visitors_div span:last-child {
+    padding-right: 0px !important;
+}
+.table_div table {
+    margin-bottom: 0;
+}
+.table_div tr td {
+    text-align: center;
+    font-size: 0.875em;
+    font-weight: 600;
+    color: #000;
+}
+.travel_blog h4 {
+    font-size: 1em;
+    color: #000;
+    margin: 0 0 10px !important;
+}
+.travel_blog {
+    margin-top: 38px;
+}
+ .rite-text .travel_blog h4 label span {
+    margin-left: 3px;
+    font-weight: lighter;
+}
+ .rite-text .travel_blog h4 label:first-child span {
+    margin-right: 44px;
+}
+ .rite-text .travel_blog h4 .author_name input {
+    max-width: 90px;
+}
+.start_dv{
+    margin-top: 92px;
+}
+.start_btn{
+    float: left;
+    width:195px;
+    margin-right: 60px;
+    text-align: center;
+}
+.start_btn a:first-child {
+    background: #29807c;
+    color: #fff;
+    width:100%;
+    display: flex;
+    height: 60px;
+    align-items: center;
+    vertical-align: middle;
+    font-size: 1em;
+}
+.start_btn a:first-child:hover{
+    text-decoration: none;
+    color: #fff;
+}
+.start_btn a span {
+    width: 100%;
+}
+.travel_blog:first-child .start_btn {
+    margin-right: 60px;
+}
+.start_btn a.delete_btn {
+    margin: 50px 0;
+}
+a.delete_btn {
+    display: block;
+    color: #c90000;
+    text-decoration: underline;
+}
+.we_never {
+    padding: 10px 0;
+    border-bottom: 2px solid #666;
+}
+ .rite-text h4.pass label:first-child{
+    margin-right: 10px;
+}
+ .rite-text h4.pass label input{
+    max-width: 127px;
+}
+ .rite-text h4.pass label {
+    font-size: 1em;
+    font-weight: 600;
+    color: #000;
+}
+.sub_btn {
+    padding: 10px 0 30px;
+}
+.sub_btn a {
+    display: block;
+    text-align: center;
+    max-width: 170px;
+    background: #29807c;
+    color: #fff;
+    padding: 5px 0;
+}
+ .rite-text h4.pass_field label input {
+    max-width: 100px;
+}
+ .rite-text h4.pass_field label {
+    margin-right: 25px;
+}
+ .rite-text h4.pass_field label:last-child {
+    margin-right: 0;
+}
+.profile_sec h4 input.input::placeholder {
+    color: #000;
+}
+.sub_btn2{
+    padding-top: 0;
+}
+.delete_div {
+    margin: 20px 0;
+}
+/*  JEFF: causes the showcase bookings on home page to not appear
+.showcase-sec{
+    display: none;
+}
+*/
+.sub_btn a.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+ .inner-tabs ul {
+    max-width: 230px;
+    width: 100%;
+}
+.booking_div h4.media-heading a {
+    max-width: 290px;
+    display: inline-block;
+}
+span.right_review.dec_spn {
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+.box_div .heart_img {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+.box_div .media .media-body.booking_div.hotel {
+    overflow: visible;
+}
+.box_div .media {
+    overflow: visible !important;
+}
+
+span.tooltip_spn span {
+    position: absolute;
+    top: 168%;
+    right: -12px;
+    background: #00509f;
+    z-index: 99999;
+    color: #fff;
+    padding: 10px;
+    border-radius: 3px;
+    width: 220px;
+    text-align: center;
+    display: none;
+}
+span.tooltip_spn:hover span{
+    display: block;
+}
+
+span.tooltip_spn {
+    position: relative;
+}
+
+span.tooltip_spn span:before {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid #00509f;
+    content: '2';
+    font-size: 0px;
+    position: absolute;
+    top: -15px;
+    right: 8px;
+}
+
+div#menu2 .booking_div a {
+    margin: 0px 9px 0 0;
+    display: inline-block;
+}
+div#menu2 .box_div .heart_img img.header-img {
+    position: absolute;
+    top: 5px;
+    right: 0;
+}
+div#menu2 .right_review {
+    margin: -6px 20px 0 0;
+}
+
+.about_p p span img.header-img {
+    width: 25px;
+}
+.box_div .media-left {
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* 15-feb-2018 Favorites page css end here=================*/
+@media (min-width:768px) and (max-width:991px){
+     div#home .rite-text h4 {
+        margin-top: 18px;
+    }
+     .inner-tabs ul li a{
+        font-size: 1.2em;
+    }
+    .age_div p.location_p {
+        font-size: 0.85em;
+    }
+    .age_div .btn-group.btn-group-vertical label.btn{
+        margin-right: 17px;
+    }
+    .age_div .btn-group.btn-group-vertical label.btn span{
+        font-size: 1em;
+    }
+ 
+    .rite-text p {
+        font-size: 1.15em;
+    }
+    .booking_div a {
+        font-size: 0.85em;
+    }
+    .stay label {
+        font-size: 0.8em;
+    }
+    .rite-text p.past_p, .booking_div p.past_p {
+        font-size: 0.90em !important;
+    }
+    div#menu5 span.msg_div{
+        margin: 10px 0 0;
+    }
+}
+
+@media (max-width:991px){
+    div#menu3 .booking_div h4.media-heading {
+        margin-top: 20px;
+    }
+}
+@media (max-width:767px){
+     .inner-tabs ul {
+        margin: 0!important;
+        position: fixed;
+        z-index: 999;
+        top: 58px;
+        left: 0px;
+        width: 10px;
+        border: none;
+        box-shadow: 2px 2px 3px 2px #3b3f45;
+    }
+     .inner-tabs .side_nav {
+        width: 175px;
+    }
+     .inner-tabs ul li{
+        display: block;
+        width: 100%;
+        text-align: left;
+        overflow: hidden;
+    }
+     .inner-tabs ul li a b{
+        display: inline-block;
+        font-weight: 600;
+    }
+     .inner-tabs ul li.active a {
+        color: #000;
+    }
+     .inner-tabs ul li a {
+        color: #fff;
+    }
+     .inner-tabs ul li.active a:after{
+        display: none;
+    }
+    /*
+    span.msg_div {
+        display: none;
+    }
+    */
+     .rite-text .media-body h4 {
+        margin-top: 20px;
+        font-size: 1.5em;
+        color: #000;
+    }
+     div#home .rite-text .media-body h4 {
+        margin-top: 20px;
+    }
+     .inner-tabs {
+        margin-bottom: 0;
+    }
+     h2 {
+        text-align: center;
+    }
+    p.location_p input.input {
+        color: #000;
+        font-size: 1em;
+    }
+    .rite-text p, .past_div .booking_div p {
+        font-size: 1em;
+    }
+    .profile_sec .media-body {
+        padding-left: 5px;
+    }
+    .trvl_rqirment li {
+        color: #000;
+    }
+     .rite-text h4 {
+        margin-top: 38px;
+    }
+    .user_txt span {
+        display: block;
+        margin-top: 15px;
+    }
+    /* 16-02-2018 Booking page media css start here =============*/
+    /* JEFF :: this creates too much padding in mobile
+    .tab-content {
+        padding: 0 15px 15px 25px;
+    }
+    */
+    .past_div .booking_div p{
+        font-size: 1.25em;
+    }
+    .text-right .booking_div {
+        text-align: left;
+    }
+    .booking_div a:nth-child(2) {
+        margin-left: 0;
+        float: right;
+        font-size: 1em;
+    }
+     .rite-text .media-body h4 {
+        margin-top: 0;
+        font-size: 1em;
+        color: #000;
+    }
+    .booking_div.hotel.visible-xs {
+        padding: 0 0 15px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #666;
+    }
+    .booking_div label.guest:last-child {
+        margin-right: 0;
+    }
+    .booking_div label.guest {
+        margin-right: 7px;
+    }
+    .text-right .booking_div a, .text-right .booking_div.stay label {
+        font-size: 0.80em;
+    }
+    .booking_div.hotel.visible-xs p {
+        font-size: 1em;
+        color: #000;
+    }
+    .past_div {
+        padding: 30px 0 50px;
+    }
+    .tab_list ul li a {
+        font-size: 1em;
+        padding: 0 5px;
+    }
+    /* 16-02-2018 Booking page media css end here =============*/
+
+    /* 16-02-2018 Favorites page media css start here =============*/
+    .hotel_xs {
+        padding: 0 !important;
+        border: none !important;
+        margin-bottom: 10px !important;
+    }
+    .booking_div.stay.loder_img {
+        margin-bottom: 5px;
+    }
+    .right_review {
+        float: none;
+    }
+    // .hotel p span {
+    //     display: initial;
+    // }
+    .visitors_div {
+        margin: 15px 0 10px;
+    }
+    .visitors_div p span {
+        display: block;
+    }
+     div#menu4 .rite-text h4 {
+        font-size: 0.90em;
+    }
+     div#menu4 .rite-text .travel_blog h4 label:first-child span {
+        margin-right: 9px;
+    }
+    .start_btn {
+        float: none;
+        margin-right: 0;
+        width: 100%;
+        clear: both;
+    }
+    .start_btn a:first-child{
+        width: 170px;
+        margin-bottom: 30px;
+    }
+    .start_btn a.delete_btn {
+        margin: 18px 0 18px 4.2%;
+    }
+    .start_btn a {
+        float: left;
+    }
+    div#menu4 span.msg_div, div#menu5 span.msg_div{
+        display: inline-block;
+        margin: 15px 0 0;
+    }
+    .start_dv {
+        margin-top: 60px;
+    }
+    .we_never {
+        border-bottom: 1px solid #666;
+    }
+     .rite-text h4.pass label:first-child,  .rite-text h4.pass_field label {
+        margin: 0 0 15px;
+    }
+     .rite-text h4.pass_field {
+        margin-top: 10px !important;
+    }
+     .inner-tabs ul .menu_btn a {
+        width: 53px;
+        height: 60px;
+        float: right;
+        clear: both;
+        margin: -10px -30px 0 0;
+        background: #29807c;
+        box-shadow: 2px 2px 3px 2px #3b3f45;
+        padding: 15px 0px 0 21px;
+    }
+     .inner-tabs ul .menu_btn{
+        overflow: visible;
+    }
+    .age_div textarea.form-control{
+        border-bottom: none;
+    }
+     .inner-tabs .side_nav .menu_btn a {
+        box-shadow: none;
+        float: none;
+        margin-left: 15px;
+    }
+     .inner-tabs ul a .right_arrow {
+        display: none;
+    }
+     .inner-tabs .side_nav .menu_btn a .left_arrow{
+        display: none;
+    }
+    .side_nav a .right_arrow {
+        display: block !important;
+    }
+    .side_nav a .left_arrow {
+        display: none !important;
+    }
+    /* 16-02-2018 Favorites page media css end here =============*/
+}
+/* 14-feb-2018 css end here=================*/
+/* 19-feb-2018 css start here=================*/
+
+
+.profile_sec.travel_blog .sub_btn.sub_btn2 a {
+    opacity: 1;
+}
+
+/*--New css start here --*/
+
+
+ p{
+    margin: 0 0 10px;
+}
+ .btn-toggle.btn-xs{
+    height: 20px;
+    width: 35PX;
+ }
+  .btn-toggle.btn-xs>.handle{
+ top: 1PX;
+    left: 1PX;
+    width: 17PX;
+    height: 17PX;
+    border-radius: .75rem;
+    background: #fff;
+    transition: left .25s;
+ 
+ }
+
+
+  button.btn.btn-xs.btn-toggle.active > .handle{
+    left: 16px;
+ }
+
+  .hotel p{
+    margin-bottom: 5px;
+ }
+  .hotel p:last-child{
+    margin-bottom: 0px;
+ }
+
+
+
+
+
+
+@media (min-width:768px) and (max-width:1125px)
+{
+    .box_div.box_divFav.review_cont .table-responsive {
+        overflow-x: auto;
+        min-height: .01%;
+    }
+    .box_div.box_divFav.review_cont .media-body.booking_div.hotel {
+        display: inline-block;
+        float: none;
+        width:72% !important;
+        padding-left: 20px;
+    }
+    .box_div.box_divFav.review_cont .table-responsive td {
+        min-width: 100px;
+    }
+    
+    .box_div.box_divFav.review_cont .media-left {
+        text-align: center;
+        display: inline-block;
+        float: none;
+        width: 20%;
+    }
+    
+    
+    .box_div.box_divFav.review_cont .media {
+        overflow: hidden;
+    }
+}
+
+
+@media (min-width:768px) and (max-width:997px)
+{
+    // .navbar-header {
+    //     padding: 0px 10px;
+    // }
+}
+@media (max-width: 991px) and (min-width: 768px)
+{
+    div.hotel p {
+        font-size: 1.15em;
+    }
+}
+@media (max-width:767px){
+    #xsnav li .last {
+        color: #fff;
+        font-size: 1.25em;
+        border-bottom: 1px solid #fff;
+    }
+    ul.nav.navbar-nav:nth-child(2) {
+        margin: -5px -15px;
+    }
+    div#xsnav button.btn.btn-primary:nth-child(2) {
+        margin-right:4px;
+    }
+    .booking_div label.guest:nth-child(3) {
+        margin-left:9px !important;
+    }
+    .booking_div label.price:first-child {
+        margin-right: 9px;
+    }
+    .booking_div label.guest:last-child {
+        margin-left: 18px;
+    }
+}
+@media (max-width:329px){
+    body#bodyElement h4.date_lbl label:nth-child(1) {
+        margin-bottom: 17px !important;
+    }
+    .hotel p span .fa {
+        color: #f90;
+        font-size: 22px;
+        vertical-align: middle;
+        font-size: 19px;
+    }
+}
+@media (max-width:338px)
+{
+    .booking_div label.guest:nth-child(3) {
+        margin-left: 1px!important;
+    }
+}
+@media (max-width:357px)
+{
+    span.tooltip_spn span:before {
+        left: 8px !important;
+    }
+    span.tooltip_spn span {
+        top: 137% !important;
+        right: 51px !important;
+    }
+}
+@media (max-width:335px)
+{
+    span.tooltip_spn span {
+        top: 168%!important;
+        right: 0px;
+        left: -7px;
+    }
+}
+@media (max-width:329px)
+{
+    span.tooltip_spn span {
+        top: 138%!important;
+        right:0px;
+        left: -257px;
+    }
+}
+@media (max-width: 321px)
+{
+    span.tooltip_spn span {
+        top: 166%!important;
+        right: 70px;
+        left: -8px;
+    }
+}
+/* 19-feb-2018 css end here=================*/
+
+
+
+
+
+
+
+
+.user_name {
+    font-size: 26px;
+    font-weight: 400;
+    margin: 20px 0;
+}
+
+.status_recvd {
+    font-weight: normal;
+    margin-left: 15px;
+    font-size: 17px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.status_recvd i {
+    font-weight: lighter;
+    color: #9e9e9e;
+    font-size: 27px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+p.exclusive_txt {
+    font-size: 17px;
+}
+ul.go_list {
+    list-style: none;
+    margin: 0px;
+    padding: 0;
+}
+ul.go_list li {
+    font-size: 21px;
+    line-height: normal;
+    padding: 6px 0;
+}
+
+ul.go_list li span {
+    font-weight: 700;
+    font-size: 29px;
+    display: inline-block;
+    color: #29807c;
+}
+#travler_blub hr {
+    max-width: 65%;
+    border-color: #d8d8d8;
+    margin: 30px auto;
+}
+
+.verify_sec h4 {
+    text-align: center;
+    font-weight: normal;
+    color: #111;
+    font-size: 23px;
+    margin: 32px 0 !important;
+}
+ul.nav.nav-tabs.veri_btns li{
+    width: 47%;
+    float: left;
+}
+ul.nav.nav-tabs.veri_btns li button {
+    display: block;
+    padding: 15px 20px;
+    font-size: 20px;
+    border: 1px solid #29807c;
+    color: #29807c;
+    font-weight: 600;
+    text-transform: capitalize;
+    transition: ease-in-out .5s;
+    border-radius: 0px;
+    width: 100%;
+    background: #fff;
+   
+}
+ul.nav.nav-tabs.veri_btns li button:hover, ul.nav.nav-tabs.veri_btns li button.active{
+    text-decoration: none;
+    background: #29807c;
+    color: #fff;
+}
+ul.nav.nav-tabs.veri_btns li.right_f {
+    float: right;
+}
+.veri_btns {
+    text-align: center;
+    border-bottom: none;
+}
+
+.tabpane1 {
+    padding-left: 10px;
+    border-left: 4px solid #29807c;
+    margin: 20px 0px;
+}
+.tabpane1 h5 {
+    font-size: 16px;
+}
+.tabpane1 .number {
+    font-size: 17px;
+    letter-spacing: 6px;
+    font-weight: 400;
+    color: #333;
+    padding: 3px 0;
+    margin-bottom: 15px;
+    width: 100%;
+    border: none;
+    border-bottom: 3px solid #bfe0df;
+}
+.tabpane1 .number:focus{
+    box-shadow: none;
+    outline: none;
+}
+.tabpane1 .form-control {
+    border: 2px solid #c5f1ef;
+    box-shadow: none;
+    border-radius: 0;
+    font-size: 17px;
+    vertical-align: middle;
+    line-height: normal;
+    padding: 1px 10px;
+}
+.tabpane1 label.label-control {
+    font-weight: normal;
+}
+
+.btm_action {
+    text-align: center;
+    margin: 30px 0 0;
+}
+.status_div {
+    text-align: center;
+    margin: 18px;
+}
+.recevied .status_recvd i{
+    color:#6cc557;
+}
+
+.tabpane1 .row> .col-sm-6 {
+    width: 47%;
+}
+.tabpane1 .row> .col-sm-6:nth-child(2) {
+    float: right;
+}
+
+
+.bdr_rit:after {
+    content: 'o';
+    font-size: 0px;
+    position: absolute;
+    background: #c3c3c3;
+    top: 0;
+    right: -5%;
+    height: 100%;
+    width: 1px;
+}
+.bdr_rit:before {
+    content: "OR";
+    font-size: 17px;
+    background: #fff;
+    top: 38%;
+    height: auto !important;
+    padding: 10px;
+    right: -10%;
+    z-index: 999;
+    text-transform: uppercase;
+    color: #9e9e9e;
+    position: absolute;
+}
+
+.tabpane1.tabpane2 {
+    left: 55%;
+    position: relative;
+}
+.tabpane1.tabpane2 .bdr_rit:after, .tabpane1.tabpane2 .bdr_rit:before{
+    display: none;
+}
+.verify_sec {
+    padding-bottom: 50px;
+    min-height: 300px;
+}
+div#travler_blub:after {
+    content: '2';
+    font-size: 0px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(#29807c, #29807c, #fff);
+    width: 2px;
+    color: #222;
+    height: 350px;
+}
+
+
+div#travler_blub:before {
+    content: '2';
+    font-size: 0px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(90deg, #fff,#29807c,#29807c);
+    width: 350px;
+    color: #222;
+    height: 2px;
+}
+div#travler_blub {
+    position: relative;
+}
+
+
+
+img.img_deals {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+
+
+
+
+@media (max-width:991px){
+
+    ul.nav.nav-tabs.veri_btns li button, .btm_action button.btn{
+        padding: 13px;
+        font-size: 15px;
+    }
+    img.img_deals{
+        max-width: 90px;
+    }
+}
+@media (max-width:767px){
+    .tab-content.verify_content {
+        padding-left: 0;
+    }
+    .tabpane1 .row>.col-sm-6 {
+        width: 100%;
+    }
+    .upload_sec.text-center {
+        padding: 20px 0;
+    }
+    .tabpane1.tabpane2 {
+        left: 0;
+        position: relative;
+    }
+    .veri_btns{
+        display: table;
+        width: 100%;
+    }
+    ul.nav.nav-tabs.veri_btns li{
+        float: none !important;
+        display: table-cell;
+        width: 50%;
+    }
+    div#travler_blub:before{
+        width: 150px;
+    }
+    div#travler_blub:after{
+        height: 150px;
+    }
+    div#travler_blub h2 {
+        text-align: left;
+        padding-right: 90px;
+    }
+
+
+    .bdr_rit:before, .bdr_rit:after{
+        display: none;
+    }
+}
+
+@media (max-width:550px){
+
+    ul.nav.nav-tabs.veri_btns li button {
+        padding: 6px 7px;
+        font-size: 15px;
+        min-height: 54px;
+        vertical-align: middle;
+    }
+}
+ }

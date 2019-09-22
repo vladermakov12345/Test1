@@ -1,0 +1,939 @@
+@charset "UTF-8";
+@import "lib";
+
+/* SITEWIDE: HTML/HEAD */
+  /* scales incrementally and proportionately relative to the viewport. */
+  html {
+  	/* rem unit is relative to the document root, which is the html tag */
+  	//font-size: calc(16px + 1vw) !important;
+  	
+    /* work in progress: begin */
+    height: 100%;
+    background-color: #ffffff;
+    /* work in progress: end */
+  }
+
+  p {
+  	xmargin: 1.5rem 0;
+  	font-size: 1em;
+  }
+
+  @font-face {
+        font-family: 'sourceSansProRegular';
+        /*src: url('./fonts/source-sans-pro.regular.ttf') format('truetype');*/
+        src: local('./fonts/source-sans-pro.regular.ttf') format('truetype'),
+             url('https://accessiblego.azureedge.net/img/fonts/sourceSansProRegular/source-sans-pro.regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+
+    }
+
+  /* hack for deprioritizing webpack css ordering issue */
+  #bodyElement {
+  	/* looks like you got it working with out this: padding-top: 6rem; */ 	/* 70px; without this, the fixed navbar will hide content */
+    font-family: sourceSansProRegular, 'Source Sans Pro', Tahoma, Geneva, sans-serif;
+    font-weight: 400;
+    cursor: default;  /* this ensures the default cursor type is shown even though there is an ng-click on <body> */
+  }
+
+  /* sets the cursor type for ng-click(able) */
+  [ng-click],
+  [data-ng-click],
+  [x-ng-click] {
+      cursor: pointer;
+  }
+
+
+/* SITEWIDE: font */
+.light12 {
+  font-weight: 500;
+  font-size: .750em;
+  color: #000;
+}
+.light14 {
+  font-weight: 500;
+  font-size: .875em;
+  color: #000;
+}
+.light16 {
+  font-weight: 500;
+  font-size: 1em; 
+  color: #000;
+}
+.light18 {
+  font-weight: 500;
+  font-size: 1.125em; 
+  color: #000;
+}
+.light20 {
+  font-weight: 500;
+  font-size: 1.250em; 
+  color: #000;
+}
+.light22 {
+  font-weight: 500;
+  font-size: 1.375em; 
+  color: #000;
+}
+.semibold12 {
+  font-weight: 600;
+  font-size: .750em;
+  color: #000;
+}
+.semibold14 {
+  font-weight: 600;
+  font-size: .875em;
+  color: #000;
+}
+.semibold16 {
+  font-weight: 600;
+  font-size: 1em;
+  color: #000;
+}
+.semibold18 {
+  font-weight: 600;
+  font-size: 1.125em;
+  color: #000;
+}
+.semibold22 {
+  font-weight: 600;
+  font-size: 1.3125em;
+}
+.semibold24 {
+  font-weight: 600;
+  font-size: 1.5em;
+  color: #000;
+}
+.semibold25 {
+  font-weight: 600;
+  font-size: 1.563em;
+  color: #000;
+}
+.semibold28 {
+  font-weight: 600;
+  font-size: 1.75em;
+  color: #000;
+}
+.semibold30 {
+  font-weight: 600;
+  font-size: 1.875em;
+  color: #000;
+}
+
+.bold14 {
+  font-weight: 800;
+  font-size: .875em;
+  color: #000;
+}
+.bold16 {
+  font-weight: 800;
+  font-size: 1em;
+  color: #000;
+}
+.bold18 {
+  font-weight: 800;
+  font-size: 1.125em;
+  color: #000;
+}
+.bold22 {
+  font-weight: 800;
+  font-size: 1.375em;
+  color: #000;
+}
+.bold24 {
+  font-weight: 800;
+  font-size: 1.5em;
+  color: #000;
+}
+.bold30 {
+  font-weight: 800;
+  font-size: 1.875em;
+  color: #000;
+}
+
+/* SITEWIDE: font color */
+.primaryGreen {
+  color: @primaryGreen;
+}
+.blueLight {
+  color: @blueLight;
+}
+
+/* SITEWIDE: background */
+.bgGrayF {
+  background-color: @grayF;
+}
+.bgGrayD {
+  background-color: @grayD;
+}
+.bgGrayB {
+  background-color: @grayB;
+}
+.bgGray7 {
+  background-color: #757575;
+}
+.bgGray4 {
+  background-color: #4d4d4d;
+}
+
+
+/* SITEWIDE: buttons */
+.buttonBlue {
+  border-radius:4px;
+  font-weight:600;
+  font-size: 1.125em;
+  color: #fff;
+  background-color: @primaryBlue;
+  min-height:40px;
+  border:0px;
+  outline:none;
+}
+.buttonBlue:focus {
+  border: 1px solid #000000;
+}
+
+.buttonOrange {
+  border-radius:4px;
+  font-weight:600;
+  font-size: 1.125em;
+  color: #fff;
+  background-color: @orange;
+  min-height:40px;
+  border:0px;
+  outline:none;
+}
+.buttonOrange:focus {
+  border: 1px solid #000000;
+}  
+
+
+/*
+.button {
+    flex-basis: auto;
+    flex-grow: 1;
+    border: 1px solid #bebebe;
+    color:#000;
+    padding:.188em 1.250em;
+    font-size: 1.125em;
+}
+*/
+
+
+
+/* SITEWIDE: flex wrapper */
+.wrapper-base {
+  padding-top:1.25em;
+  padding-bottom:2.5em;
+}
+
+.wrapper-common {
+  display: flex;
+  flex-wrap:wrap;
+  align-self: flex-start;
+  justify-content: flex-start;
+  
+  /* mozilla & opera */
+  margin-left: auto;
+  /* mozilla & opera */
+  margin-right: auto;
+}
+
+.wrapper-common-width {
+  max-width: 71.250em;  /* 60.938em; 975px */
+  width:100%;
+}
+
+.wrapper-row {
+  flex-direction: row;
+}
+
+.wrapper-column {
+  flex-direction: column;
+}
+
+/* SITEWIDE: for all text box placholders */
+input[type="text"].idea-search-textbox {
+  padding:.25em 1.7em .25em .35em;
+  font-size:1.25em;
+  width:194px;
+  outline: none;
+  font-weight:400;
+}
+
+input[type="text"].idea-search-textbox ~ input[type="image"] {
+  background: #fff;
+  margin: 0!important;
+  top:10px!important;
+  right: 10px!important;
+
+  @media(min-width:768px) {
+    top: 15px!important;
+  }
+
+}
+
+input[type="text"].idea-search-textbox::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #000000;
+  font-size:1.15rem;
+}
+input[type="text"].idea-search-textbox::-moz-placeholder { /* Firefox 19+ */
+  color: #000000;
+}
+input[type="text"].idea-search-textbox:-ms-input-placeholder { /* IE 10+ */
+  color: #000000;
+}
+input[type="text"].idea-search-textbox:-moz-placeholder { /* Firefox 18- */
+  color: #000000;
+}
+
+
+// /* SITEWIDE: custom button classes */
+// .btn-aqua {
+//   border-radius:0px;
+//   font-weight:600; /* semibold */
+//   font-size: 1.25em;
+//   color: #fff;
+//   background-color: #299b7c;
+//   min-height:50px;
+//   border:0px;
+//   outline:none;
+// }
+// .btn-aqua:focus {
+//   border: 1px solid #000000;
+// }
+
+/* SITEWIDE: ACCESSIBILITY */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  position: absolute !important;
+}
+.messageFocus {
+  border:3px solid @lime;
+}
+
+/* HEADER */
+.textSizeSetting {
+  background-color: @primaryGray;
+  border: 0px;
+  font-size: 1em;
+  color:#fff;
+}
+.textSizeSettingActive {
+  text-decoration: underline;
+}
+.constrastSetting {
+  border: 0px;
+  outline: none;
+}
+.constrastSetting:focus {
+  border: 2px solid red;
+}
+.constrastSettingActive {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+  /* to wrap any particular section w/ flex */
+    .section-wrapper {
+      display: -webkit-box;
+      display: -webkit-flex;
+      /* 
+       in ie edge these were a problem:
+       display: -ms-flexbox;
+       display: flex;
+       */
+      -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin: 0 0 0 0;
+      padding: 0; 
+      align-items: center;
+      justify-content: center;
+      
+      /* mozilla & opera */
+      margin-left: auto;
+      /* mozilla & opera */
+      margin-right: auto;
+
+      text-align: center; /* needed for ie edge horizontal centering */
+
+      flex-direction: column;
+  }
+
+  /* toggle text sizes */
+  .textSizeSmall {
+    font-size: 16px;
+  }
+  .textSizeDefault {
+    font-size: 20px;
+  }
+  .textSizeLarge {
+    font-size: 22px;
+  }
+
+  /* toggle contrst */
+  .constrastGrayscale {
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+  }
+
+
+
+
+
+/* header */
+#header-table {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+
+  background-color: #3b3f45;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0 0 0 0;
+  padding: 0;  
+}
+
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  min-height: 3.75em;
+  max-height: 3.75em; 
+  
+  max-width: 60.938em;  /* 975px */
+  width: 100%;  /* TODO: identify a minimum viewport */
+  
+  /* mozilla & opera */
+  margin-left: auto;
+  /* mozilla & opera */
+  margin-right: auto;
+
+  /* -webkit-flex: 1;  Safari 6.1+ */
+  /* -ms-flex: 1;  IE 10 */
+
+  /* why do we need this? removing b/c it shows as a dark strip on homepage: background-color: #3b3f45;  */
+}
+
+/* mobile navigation */
+#xsnav li .regular {
+  color:#fff;
+  border-bottom: solid 1px #fff;
+  font-size:1.25em;
+}
+#xsnav li .regular:hover {
+  color:#000;
+}
+#xsnav li .last {
+  color:#fff;
+  font-size:1.25em;
+}
+#xsnav li .last:hover {
+  color:#000;
+}
+#xsnav li .mobileTopNavLinksCurrent {
+  background-color: #e0e0e0;
+  color:#000;
+}
+
+/* JEFF: causing links to disappear in md viewport
+#header-nav-right-search {
+  padding-right:16px;
+}
+*/
+
+.pipe {
+  font-size: 26px;
+  color:#ffffff;
+}
+
+.activeNavItem {
+  border-bottom: 5px solid #ffffff;
+  margin-bottom:-5px; 
+}
+
+/*TODO: research this: HTML5 elements. Silly IE! */
+main, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display:block;
+}
+
+/* skip links */
+#skiptocontent a {
+  padding:6px;
+  position: absolute;
+  top:-1140 px;
+  left:-200px;
+  color:white;
+  border-right:1px solid white;
+  border-bottom:1px solid white;
+  border-bottom-right-radius:8px;
+  background:transparent;
+  -webkit-transition: top 1s ease-out, background 1s linear;
+    transition: top 1s ease-out, background 1s linear;
+    z-index: 100;
+}
+
+#skiptocontent a:focus {
+  position:absolute;
+  left:0px;
+  top:0px;
+  background:#BF1722;
+  outline:0;  
+  -webkit-transition: top .1s ease-in, background .5s linear;
+    transition: top .1s ease-in, background .5s linear;
+    text-decoration:underline;                      
+}
+
+.anchor{
+  display: block;
+  height: 115px; /*same height as header*/
+  margin-top: -115px; /*same height as header*/
+  visibility: hidden;
+}
+
+/*
+[href="#maincontent"] {
+  position: absolute;
+  top: 0;
+  right: 100%;
+}
+
+[href="#maincontent"]:focus {
+  right: auto;
+}
+*/
+
+
+
+
+/* expandable area: general */
+.header-wrapper-expanded {
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 179px;
+  z-index:1;
+ /* display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 100px;
+  max-height: 100px;
+  width: 60.938em;
+  max-width: 60.938em;  !* TODO: identify a minimum viewport *!
+  !* mozilla & opera *!
+  margin-left: auto;
+  !* mozilla & opera *!
+  margin-right: auto;*/
+}
+
+/* expandable area: search */
+  #header-wrapper-expanded-search {
+    /*padding: .938em 1.125em; !* 15px 18px; *!
+    background-color: #3b3f45;
+    transition: all .3s ease-in-out 0s;*/
+    /* margin-top: 1.438em;  23px; */
+
+    
+  }
+  #header-wrapper-expanded-search-text {
+    border: 1px solid #e5e5e5;
+    background-color: #FFFFFF;
+    padding: 10px 40px 10px 10px;
+    min-width: 355px;
+    color: #ffffff;
+    font-family: sourceSansProRegular, 'Source Sans Pro', Tahoma, Geneva, sans-serif;
+    font-weight: 400;
+    font-size:18px;
+    outline:none;
+    color: black;
+  }
+  #header-wrapper-expanded-search-button {
+    border: none;
+    background: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding:16px 15px;
+    border-radius: 0;
+    border-left:1px solid #e5e5e5;
+  }
+
+/* expandable area: text */
+  #header-wrapper-expanded-text, #header-wrapper-expanded-text-mobile {
+    padding:10px;
+    min-width: 150px;
+    background-color: #FFFFFF;
+    color:#333;
+    position: absolute;
+    top:100%;
+    right:140px;
+    z-index:1;
+    margin-top: 0!important;
+  }
+  .textSizeSetting:focus {
+    border: 1px solid #fff;
+    outline:none;
+  }
+  #header-nav-right-text:focus {
+    border: 1px solid #fff;
+    outline:none;
+  }
+  .header-wrapper-expanded-options {
+    padding:10px;
+    min-width: 150px;
+    background-color: #FFFFFF;
+    color:#333;
+    position: absolute;
+    top:100%;
+    right:114px;
+    z-index:1;
+    margin-top: 0!important;
+  }
+
+/* expandable area: contrast */
+  #header-wrapper-expanded-contrast {
+    padding:15px 18px;
+    background-color: #3b3f45;
+    color:#ffffff;
+    margin-top: 0!important;
+  }
+  #header-wrapper-expanded-contrast a {
+    padding:5px;
+    margin:5px;
+    font-weight:900;
+    font-size:1.3em;
+    text-decoration: none;
+  }
+  #header-wrapper-expanded-contrast a:focus {
+    text-decoration: underline;
+  }
+
+
+/* TOP CITIES */
+#home-topcities-wrapper {
+  background-color:#3b4046;
+  min-height: 13.375em;
+  padding-top:2.250em;
+  padding-bottom:2.063em;
+}
+#home-topcities {
+  display: flex;
+  flex-direction: row;
+  flex-wrap:wrap;
+  justify-content: center;
+  max-width: 60.938em;  /* 975px */
+  /* mozilla & opera */
+  margin-left: auto;
+  /* mozilla & opera */
+  margin-right: auto;
+}
+#home-topcities-caption {
+  color:#6798b6;
+  font-size: 1.5em;
+  font-weight: 600;
+  text-align:center;
+  padding-top:.5em;
+  padding-bottom:.5em; 
+}
+#home-topcities a {
+  border: 1px solid transparent;
+  color:#ffffff;
+  padding:.25em;
+}
+#home-topcities a:focus {
+  border: 1px solid #ffffff;
+  color:#ffffff;
+  outline:none;
+  text-decoration: none;
+}
+#home-topcities a:active {
+  weight: 900;
+}
+
+
+/* FOOTER */
+#footer {
+  background-color:#000000;
+  padding-top:2.250em;
+  padding-bottom:2.063em;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+#footer-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap:wrap;
+  justify-content: center;
+  max-width: 60.938em;  /* 975px */
+  /* mozilla & opera */
+  margin-left: auto;
+  /* mozilla & opera */
+  margin-right: auto;
+}
+#footer-caption {
+  color:#808080;
+  font-size: .8em;
+  padding-top:1.5em;
+}
+#footer-caption a {
+  color:#808080;
+}
+#footer-caption a:hover {
+  text-decoration:underline;
+}
+#footer-caption a:focus {
+  border: 1px solid #ffffff;
+  color:#808080;
+  outline:none;
+  text-decoration: none;
+}
+
+#footer-links {
+  color:#ffffff;
+  font-size: .8em;
+}
+#footer-links a {
+  color:#ffffff;
+  margin:0 .3125em;
+}
+#footer-links a:hover {
+  text-decoration:underline;
+}
+#footer-links a:focus {
+  border: 1px solid #ffffff;
+  color:#ffffff;
+  outline:none;
+  text-decoration: none;
+}
+
+@media (max-width:991px){
+
+  .wrapper-column articlebox {
+    margin: 0 auto !important;
+    width: 25%;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width:930px)
+{
+    #footer, #home-topcities-wrapper{
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+
+/* accessibility specific - MOVE THIS TO ANOTHER LESS ??? */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  position: absolute !important;
+}
+
+/* for overriding content inputted via rich text editor */
+.paragraphOverride p {
+  font-size:16px;
+}
+.paragraphOverride14 {
+  font-size:14px;
+}
+.paragraphOverride14 p {
+  font-size:14px;
+}
+
+/* footer: siteseal */
+.netSolSiteSeal {
+  border:1px solid green;
+}
+.netSolSiteSeal:focus {
+  border:3px solid green;
+}
+
+.lineThru {
+   width: 100%; 
+   text-align: center; 
+   border-bottom: 1px solid #000; 
+   line-height: 0.1em;
+   margin: 10px 0 20px;
+} 
+
+.lineThru span { 
+    background:#fff; 
+    padding:0 10px; 
+}
+
+@media (max-width:767px){
+  .wrapper-column articlebox {
+      width: 50%;
+  }
+  body#bodyElement .wrapper-column articlebox .articlebox {
+      max-width: 100% !important;
+  }
+  body#bodyElement .wrapper-column articlebox .articlebox img {
+      max-width: 100% !important;
+  }
+
+}
+
+@media (max-width:500px){
+  .wrapper-column articlebox {
+      width: 100%;
+      padding: 0 5px;
+      max-width: 300px;
+  }
+}
+
+
+/* todo: this needs to be removed from shared into a .less specific for dropdowns */
+.country-picker {
+  width: 100%;
+
+  #selectcountry-match {
+
+    box-shadow:none;
+    background: none;
+    outline:0;
+
+    &:focus {
+      outline:0;
+      border: none;
+      box-shadow:none;
+      background: none;
+    }
+
+    span {
+      background: none;
+      width: 100%;
+      height: 30px;
+      position: relative;
+      border:none;
+
+      &:focus {
+        outline:0;
+        border: none;
+        box-shadow:none;
+        background: none;
+      }
+
+      &.form-control {
+
+        &:after {
+          font-family: FontAwesome;
+          content:"\f0d7";
+          line-height: 20px;
+          text-align:center;
+          position: absolute;
+          width: 10px;
+          height: 20px;
+          right: 5px;
+          top: 5px;
+          background: #fff;
+        }
+
+      }
+
+
+
+      span {
+        position: absolute;
+        height: 100%;
+        left:9px;
+        top: 4px;
+      }
+    }
+
+
+
+  }
+
+}
+
+/* todo: this needs to be removed from shared into a .less specific for dropdowns */
+#stateProv {
+  width: 100%;
+
+  #selectcountry-match {
+
+    box-shadow:none;
+    background: none;
+    outline:0;
+
+    &:focus {
+      outline:0;
+      border: none;
+      box-shadow:none;
+      background: none;
+    }
+
+    span {
+      background: none;
+      width: 100%;
+      height: 30px;
+      position: relative;
+      border:none;
+
+      &:focus {
+        outline:0;
+        border: none;
+        box-shadow:none;
+        background: none;
+      }
+
+      &.form-control {
+
+        &:after {
+          font-family: FontAwesome;
+          content:"\f0d7";
+          line-height: 20px;
+          text-align:center;
+          position: absolute;
+          width: 10px;
+          height: 20px;
+          right: 5px;
+          top: 5px;
+          background: #fff;
+        }
+
+      }
+
+
+
+      span {
+        position: absolute;
+        height: 100%;
+        left:9px;
+        top: 4px;
+      }
+    }
+
+
+
+  }
+
+}
+
+
+

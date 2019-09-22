@@ -1,0 +1,121 @@
+$75
+revit.io
+revvit.io
+revved.io
+
+
+
+RECONCILE THIS
+<div ng-if="vm.IsUserAuthenticated">
+    Show This if authenticated!
+    <form id="logoutForm" method="POST" action="Account/LogOff" class="navbar-right" ng-submit="">
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", ATSIGN class = "navbar-right" })) {
+    ATSIGN Html.AntiForgeryToken()
+
+    }
+    </form>
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a id="manageLink" href="account/manage" class="btn btn-ar btn-primary" title="Manage">My Account</a>
+        </li>
+        <li>
+            <a id="logoffLink" class = "btn btn-ar btn-primary" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+        </li>
+    </ul>
+</div>
+<div ng-if="!vm.IsUserAuthenticated">
+        <button class="btn btn-ar btn-primary" data-toggle="modal" data-target="#myModal">Login</button>
+    <a id="loginLink" href="Account/Login" class="btn btn-ar btn-primary">Login</a>
+    <text>&nbsp;</text>
+    <a id="registerLink" href="Account/Register" class="btn btn-ar btn-primary">Register</a>
+</div>
+
+
+
+
+previously on splash.html page
+<button type="button" id="btnSignUp" class="btn btn-lg btn-success" onclick="window.location.href='/a';">Get Started!</button>&nbsp;&nbsp;&nbsp;
+
+
+
+            <div class="btn btn-primary" ng-click="vm.dothis()">test</div>
+
+            <!--<div class="navbar navbar-default navbar-fixed-top">-->
+            <!--<a href="index.html">Home</a>-->
+            <!--<a href="../about/about.html">About</a>-->
+            <!--<a href="../contact/contact.html">Contact</a>-->
+            <!--</div>-->
+            <!--<div class="container">-->
+            <!--<h1><span id="img_container"></span>This image required in app.module.js</h1>-->
+            <!--<h3><span><img class="bg_header_img" /></span>This image via inline CSS bg image (app.css)</h3>-->
+            <!--</div>-->
+            <!--<h2>Custom Plugin</h2>-->
+            <!--<div id="testDiv">Initial Content</div>-->
+
+
+previously in index.html but not sure what for:
+    <script type="javascript">
+
+        //jQuery to collapse the navbar on scroll
+        /*$(window).scroll(function () {
+            if ($(".navbar").offset().top > 50) {
+                $(".navbar-fixed-top").addClass("top-nav-collapse");
+            } else {
+                $(".navbar-fixed-top").removeClass("top-nav-collapse");
+            }
+        });
+        */
+
+        /*
+        Smooth scrolling para anclas   
+        $(document).on('click','a.smooth', function(e){
+            e.preventDefault();
+            var $link = $(this);
+            var anchor = $link.attr('href');
+            $('html, body').stop().animate({
+                scrollTop: $(anchor).offset().top
+            }, 1000);
+        });
+        */
+    </script>
+
+
+
+example of material ui radio button options
+
+   <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+            <div id="form-container">
+                <form id="signup-form" ng-submit="processForm()" xclass="abc" role="form">  <!-- use ng-submit to catch the form submission and use our Angular function -->
+                    <md-content>
+                        <md-input-container class="md-block">
+                            <md-radio-group ng-model="formData.option" class="md-primary">
+                              <md-radio-button value="request" class="md-primary md-align-top-left" style="font-size:20px;font-weight:800;" aria-label="?">
+                                  Get stuff<br/>
+                                  <span style="font-weight:normal;">Whether you're starting from scratch or have someone in mind, connect with trusted friends to find recommendations.</span>
+                              </md-radio-button>
+                              <md-radio-button value="recommend" class="md-primary md-align-top-left" style="font-size:20px;font-weight:800;" aria-label="?">
+                                  Help your Friends - Recommend a Provider<br/>
+                                  <span style="font-weight:normal;">Had a positive experience with a provider?  Support your friends by sending them recommendations.</span>
+                              </md-radio-button>
+                            </md-radio-group>
+                        </md-input-container>
+
+                        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                            <md-button ng-show="formData.option.length>0" class="md-primary md-raised md-hue-2" ng-click="goToSelectedOption()">Next ></md-button>
+                        </section>
+                    </md-content>
+                </form>
+            </div>            
+        </div>
+    </div>
+
+    @media(max-width:767px){}
+@media(min-width:768px){}
+@media(min-width:992px){}
+@media(min-width:1200px){}
+
+ class="form-control ng-pristine ng-untouched ng-valid"
+                                      uib-tooltip="Let's make sure your friends know it's you!"
+                                      popover-title="test" tooltip-placement="right" popover-trigger="mouseenter" tooltip-enable="!inputModel"
+                                    popover-animation="true"

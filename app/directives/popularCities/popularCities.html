@@ -1,0 +1,114 @@
+<div
+	id="cities"
+	class="container-fluid section background-white"
+	ng-style="{'background': pc.backgroundImg==='false' ? 'none':''}"
+	ng-init="pc.setDefaultNumVisible()">
+
+	<div class="row">
+
+		<div class="container">
+
+			<div class="row heading">
+
+				<h2 style="font-size:2.25em;font-weight: bold;" ng-bind-html="pc.title"></h2>
+
+				<p ng-bind-html="pc.subtitle"></p>
+
+				<div class="green-line"></div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="row">
+
+		<div class="container cities-container">
+
+			<div class="cities cities-wrapper">
+				<div
+					ng-repeat="city in pc.homepageCitiesData track by $index"
+					class="city"
+					ng-class="{'four':pc.maxHorizontal==='4'}"
+					ng-hide="$index>=pc.numVisible">
+<!-- 					<button
+						type="button"
+						class="btn btn-primary"
+						ng-click="pc.goToCity(city)">
+						Go to
+					</button> -->
+					<a
+						ng-if="pc.mode==='search'"
+						data-ui-sref="hotels({ppnid:city.ppnid, type:'city', display:city.name+', '+city.state+', '+city.country})"
+						data-ui-sref-opts="{reload: true}"
+					 	class="city-wrapper">
+						<img
+							lazy-load="'{{city.image}}'"
+							class="lazy-load"
+							src=""
+							alt=""
+							aria-hidden="true" />
+						<div class="stats">
+							<div class="city-name">{{city.name}} <span>{{city.state}}</span></div>
+							<div class="properties">
+								<p><i class="fa fa-wheelchair-alt"></i>accessibility for {{city.num_accessible_hotels}} hotels</p>
+								<p><i class="fa fa-taxi"></i>{{city.num_resources}} trip resources</p>
+								<p><i class="fa fa-users"></i>{{city.num_hotel_reviews}} hotel reviews</p>
+							</div>
+						</div>
+						<div class="city-small">{{city.name}}</div>
+					</a>
+
+					<a
+						ng-if="pc.mode!=='search'"
+						data-ui-sref="city({name:city.name, state:city.state, country:city.country})"
+						data-ui-sref-opts="{reload: false}"
+						class="city-wrapper">
+						<img
+							lazy-load="'{{city.image}}'"
+							class="lazy-load"
+							src=""
+							alt=""
+							aria-hidden="true" />
+						<div class="stats">
+							<div class="city-name">{{city.name}} <span>{{city.state}}</span></div>
+							<div class="properties">
+								<p><i class="fa fa-wheelchair-alt"></i>accessibility for {{city.num_accessible_hotels}} hotels</p>
+								<p><i class="fa fa-taxi"></i>{{city.num_resources}} trip resources</p>
+								<p><i class="fa fa-users"></i>{{city.num_hotel_reviews}} hotel reviews</p>
+							</div>
+						</div>
+						<div class="city-small">{{city.name}}</div>
+					</a>
+				</div>
+
+			</div>
+
+			<div class="slick-navigation text-center">
+
+				<div class="cities-nav slick-navigation-wrapper"></div>
+
+			</div>
+
+			<div class="text-center">
+				<button
+					type="button"
+					role="button"
+					ng-show="pc.numVisible<pc.homepageCitiesData.length"
+					class="choose-city btn button-big button-green text-white text-uppercase accessible-button-solid-dark"
+					ng-click="pc.showMoreCities()">Load More Cities</button>
+				<button
+					type="button"
+					role="button"
+					ng-show="pc.numVisible>=pc.homepageCitiesData.length"
+					class="choose-city btn button-big button-green text-white text-uppercase accessible-button-solid-dark"
+					ng-click="pc.suggestCity()">Suggest a New City</button>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

@@ -1,0 +1,63 @@
+.wherePickerInput {
+    /*	min-height:50px;
+
+     border-radius:0px;
+     font-size: 1em;
+     padding:7px 10px;
+     min-height:50px;
+     border-right:0px;
+     border-left:1px solid #ccc;
+     border-top:1px solid #ccc;
+     border-bottom:1px solid #ccc;
+     outline:0;
+     */
+}
+.wherePickerInput .ui-select-placeholder {
+color:#000 !important; 
+font-size: 14px;
+}
+
+.styleInnerSpan > span {
+	border:1px solid #ccc;
+	box-shadow:none;
+	padding:14px 12px;
+	outline:none;
+	min-height:50px;
+}
+
+.wherePickerInput input {
+	//min-height:50px;
+}
+
+/* not sure if we need these 2 */
+  .full button span {
+    background-color: limegreen;
+    border-radius: 32px;
+    color: black;
+  }
+  .partially button span {
+    background-color: orange;
+    border-radius: 32px;
+    color: black;
+  }
+
+.width2em {
+  width:1em;
+}
+
+.btn-default:hover {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+where-picker .caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: 4px dashed;
+  border-top: 4px solid\9;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}

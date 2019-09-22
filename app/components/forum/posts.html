@@ -1,0 +1,272 @@
+<div ng-controller="postsController as vm" ng-cloak>
+
+	<!-- unrecoverable errors? -->
+	<div
+		ng-show="vm.state==='unrecoverable'"
+		ng-include="'userOverridingMessage.html'">
+	</div>
+
+	<!-- pending status -->
+	<div
+		ng-show="vm.state==='pending'"
+		class="flex-col p-3"
+		style="justify-content: center;align-items:center;">
+		<h4 ng-bind-html="vm.constants.maintenance" />
+		<h3>Loading Travel Forum Posts...</h3>
+		<div class="fa-5x">
+			<i class="fa fa-spinner fa-pulse"></i>
+		</div>
+	</div>
+
+	<!-- breadcrumbs -->
+	<div
+		ng-show="vm.state==='ready'"
+		xclass="background-white" style="padding:20px 12px 0px 12px;">
+	    <nav class="flex-col" aria-label="breadcrumb" style="border-bottom:1px solid #000;">
+	      <ol class="breadcrumb breadcrumbs-light">
+	        <li class="breadcrumb-item">
+	        	<a ui-sref="home">home</a>
+	        </li>
+	        
+	        <li class="breadcrumb-item">
+	        	<a ui-sref="forum-categories">travel forum</a>
+	        </li>
+
+	        <li class="breadcrumb-item" ng-if="vm.categoryObj.categorySlug!=='themes'">
+	        	<a ui-sref="forum-subcategories({categorySlug:vm.categoryObj.categorySlug})">
+		        	{{vm.categoryObj.response.data.category.name}} Forums
+		        </a>
+	        </li>
+	        <li class="breadcrumb-item" ng-if="vm.categoryObj.categorySlug==='themes'">
+	        	<a ui-sref="forum-categories">
+		        	{{vm.categoryObj.response.data.category.name}} Forums
+		        </a>
+	        </li>
+
+			<li class="breadcrumb-item">
+				<a ui-sref="forum-topics({categorySlug:vm.categoryObj.categorySlug, subCategorySlug:vm.categoryObj.subCategorySlug})">{{vm.categoryObj.response.data.subCategory.name}} Forum
+				</a>
+			</li>
+
+	        <li class="breadcrumb-item active" aria-current="page">{{vm.categoryObj.response.data.topic.title}}</li>
+	      </ol>
+	    </nav>
+	</div>
+
+	<!-- page heading -->
+	<div
+		ng-show="vm.state==='ready'"
+		xclass="background-white" style="padding:.75em 0;">
+		<div class="flex-row">
+			<h1 class="px30 semibold30" style="color:#29807c;">{{vm.categoryObj.response.data.subCategory.name}} Travel Forum</h1>
+		</div>
+	</div>
+
+<!-- 2 columns for remainder of page -->
+	<div
+		ng-show="vm.state==='ready'"
+		class="background-light" style="padding:1.5em 0;">
+		<div class="flex-row" style="flex-wrap: wrap;justify-content: space-between;align-items: flex-start;align-content: stretch;">
+
+			<!-- LEFT COLUMN :: BEGIN -->
+			<div
+				style="flex-basis: 75%;justify-content: space-between;flex-wrap: wrap;">
+
+				<!-- topic title -->
+				<h3
+					class="px30 semibold30"
+					style="color: #29807c;padding-bottom: .5em;">{{vm.categoryObj.response.data.topic.title}}
+				</h3>
+
+				<!-- topic profile -->
+				<div style="padding:12px 16px;border:1px solid #0f0f0f;background-color:#fff;">
+					<div
+						class="flex-row"
+						style="justify-content: space-between;flex-wrap: wrap; padding:1.25em 0;color:#000;">
+
+						<!-- user detail -->
+						<div style="flex-basis: 22%;">
+							<div>
+								<img src="https://community.accessiblego.com/{{vm.posts[0].avatar_template.replace('{size}',100)}}" />
+							</div>
+							<div
+								style="margin-top:.5em;">
+								{{vm.getPostUsername(vm.posts[0].user_id)}}
+							</div>
+							<hr style="max-width: 100px;margin:6px 0;" />
+							<div>
+								Posts: {{vm.getNumPostsByUser(vm.posts[0].user_id) | number }}
+							</div>
+						</div>
+
+						<!-- post -->
+						<div style="flex-basis: 75%;">
+							<div
+								class="semibold22"
+								style="color:#29807c;">{{vm.categoryObj.response.data.topic.title}}
+							</div>
+							<div
+								class="semibold16">
+								{{vm.posts[0].updated_at | date: 'MMM-d-yyyy H:mm:ss a'}}
+							</div>							
+							<div
+								style="margin-top:1.75em;">
+								<span ng-bind-html="vm.trustHtml(vm.posts[0])" />
+							</div>
+							<div style="margin-top: 1.5em;">
+								<button
+									ng-click="vm.goToReply()"
+									xui-sref=""
+									class="btn btn-default px18"
+									style="background-color: #29807c; color:#fff;font-weight: bold;">
+									Reply
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- topic replies -->
+				<h3
+					class="px22 semibold24"
+					style="color: #29807c;padding: .5em 0;margin:1em 0;">{{vm.posts.length-1}} replies to this topic
+				</h3>
+
+				<!-- posts -->
+				<div
+					style="padding:12px 16px;margin:1em 0;border-bottom:1px solid #c0c0c0;"
+					ng-repeat="post in vm.categoryObj.response.data.posts.post_stream.posts"
+					ng-if="!$first">
+					<div
+						class="flex-row"
+						style="justify-content: space-between;flex-wrap: wrap; padding:1.25em 0;color:#000;">
+
+						<!-- user detail -->
+						<div style="flex-basis: 22%;">
+							<div>
+								<img src="https://community.accessiblego.com/{{post.avatar_template.replace('{size}',100)}}" />
+							</div>
+							<div
+								style="margin-top:.5em;">
+								{{vm.getPostUsername(post.user_id)}}
+							</div>
+							<hr style="max-width: 100px;margin:6px 0;" />
+							<div>
+								Posts: {{vm.getNumPostsByUser(post.user_id) | number }}
+							</div>
+						</div>
+
+						<!-- post -->
+						<div style="flex-basis: 75%;">
+							<div
+								class="semibold22"
+								style="color:#29807c;">{{$index}}. {{vm.categoryObj.response.data.topic.title}}
+							</div>
+							<div
+								class="semibold16">
+								{{post.updated_at | date: 'MMM-d-yyyy H:mm:ss a'}}
+							</div>
+							<div
+								style="margin-top:.75em;font-size: 1.25em;">
+								<span ng-bind-html="vm.trustHtml(post)" />
+							</div>
+							<div style="margin-top: 1.5em;">
+								<button
+									ng-click="vm.goToReply()"
+									xui-sref=""
+									class="btn btn-default px18"
+									style="background-color: #29807c; color:#fff;font-weight: bold;">
+									Reply
+								</button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- reply -->
+				<div
+					ng-show="vm.isAuthenticated"
+					style="justify-content: space-between;flex-wrap: wrap;">
+					<div style="margin:1em 0;">
+						<a
+							id="replyForm"
+							name="replyForm"
+							class="px30 semibold30"
+							style="color:#29807c;">Reply to: {{vm.categoryObj.response.data.topic.title}}</a>
+					</div>
+					<form>
+					  <!-- <div class="form-group">
+					    <label class="semibold18" for="inputSubject">Subject</label>
+					    <input
+					    	type="text"
+					    	class="form-control"
+					    	id="inputSubject"
+					    	placeholder="What is this discussion about in one brief sentence?"
+					    	ng-model="vm.subject">
+					  </div> -->
+					  <div class="form-group">
+					    <label class="semibold24" for="inputMessage">Your Message</label>
+					    <textarea
+						    class="form-control"
+						    id="inputMessage"
+						    rows="6"
+						    ng-model="vm.message">
+						</textarea>
+					  </div>
+					  <button
+					  	type="button"
+					  	ng-click="vm.createReply()"
+					  	class="btn btn-primary"
+					  	style="background-color: #29807c;">Post your reply
+					  </button>
+					  <div ng-if="vm.createReplyErrors.length>0" class="card p-2 m-2 text-danger">
+					  	<div class="card-title h3">Please correct the following errors</div>
+					  	<div class="card-body">
+						  	<ul ng-repeat="err in vm.createReplyErrors">
+						  		<li class="h4" ng-bind="err.message"></li>
+						  	</ul>
+						</div>
+					  </div>
+					</form>
+				</div>
+			</div>
+			<!-- LEFT COLUMN :: END -->
+
+			<!-- RIGHT COLUMN :: BEGIN -->
+			<div style="flex-basis:22%;">
+				<div style="margin-bottom: 1em;">
+
+					<!-- todo: accessible hotels -->
+					<span class="px18" style="color:#29807c;font-weight: bold;">
+						<!-- Accessible Hotels -->
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+<!-- 	<div  class="background-light" style="padding:12px 20px;">
+		<div>
+			<div class="table-responsive" >
+				<table class="table table-striped table-hover">
+					<thead class="bold18">
+						<td>Forum</td>
+						<td># Topics</td>
+					</thead>
+					<tbody>
+						<tr ng-repeat="post in vm.posts">
+							<td><a ui-sref="forum-topics({parentSlug:vm.parentCategory.slug, slug:category.slug})" class="semibold16" style="color:#29807c;text-decoration: underline;">{{}}</a></td>
+							<td class="light16">
+								<span ng-bind-html="{{post.cooked}}" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div> -->
+
+</div>

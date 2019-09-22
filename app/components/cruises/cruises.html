@@ -1,0 +1,185 @@
+<div ng-controller="cruisesController as cruises" ng-cloak>
+	
+	<div class="wrapper-base hotels-page" style="background-color:#fff;padding-bottom:0px;">
+
+		<nav class="flex-col" aria-label="breadcrumb" >
+		  <ol class="breadcrumb breadcrumbs-light">
+		    <li class="breadcrumb-item"><a ui-sref="home">home</a></li>
+		    <li class="breadcrumb-item"><a ui-sref="cruises">cruises</a></li>
+		    <li class="breadcrumb-item active" aria-current="page">search</li>
+		  </ol>
+		</nav>
+
+        <div class="heading-wrapper">
+            <div class="container inner-heading">
+                <div class="page_heading" style="margin:0px;">
+                    <h1 class="title d-none d-sm-flex" style="align-items: center;">
+                        <i class="fa fa-ship" aria-hidden="true"></i> accessibleGO <strong>Cruises</strong>
+                    </h1>
+                </div>
+            </div>
+        </div>
+  	</div>
+
+	<div class="wrapper-base hotels-page">
+
+		<div
+			class="wrapper-common wrapper-common-width wrapper-column"
+			xstyle="padding:1em;justify-content: flex-start;">
+			<div class="card text-white bg-success mb-3">
+				<div class="card-body" style="display: flex;flex-direction: row;">
+					<div style="padding:12px;">
+						<i class="fa fa-anchor fa-2x"></i>
+					</div>
+					<h4> We hope to offer cruise bookings in the near future.  In the meantime you can search for cruise line accessibility.</h4>
+				</div>
+			</div>
+		</div>
+		<br/>
+
+		<!-- search -->
+		<div class="wrapper-common wrapper-common-width wrapper-row" style="background-color:#fff;padding:1em;justify-content: flex-start;">
+
+			<div style="font-weight: 400;font-size: 1em;width:100%;">
+			  <label for="search" class="light16">Keyword Search:</label><br />
+			  <input
+				  id="search"
+				  ng-model="cruises.searchtext"
+				  ng-change="cruises.updateResults()"
+				  type="text"
+				  class="home-booking-form-input"
+				  placehoder="enter search keywords here"
+				  style="width:100%;border-top:0px;border-right:0px;border-left:0px;">
+			</div>
+
+			<!-- <div style="margin-left: auto;">
+	      		<input
+	      			id="home-booking-form-send_button"
+	      			class="home-booking-form-searchbutton"
+	      			type="button"
+	      			value="Search"
+	      			ng-click="cruises.search()"
+	      			aria-label="Filter Cruise Data" />
+      		</div> -->
+		</div>
+
+		<!-- filters & data -->
+		<div class="wrapper-common wrapper-common-width wrapper-row" style="justify-content: space-between;flex-shrink:1;">
+			<!-- column 1: filters -->
+			<div class="d-none.d-md-block.d-xl-none" style="width:15.75em;margin:20px 0;">
+				<fieldset>
+
+                <legend style="font-weight: 600;">Filter by</legend>
+
+                <button
+                	class="buttonBlue"
+                	name="unselectAll"
+                	ng-disabled="!cruises.isAnythingChecked()"
+                	ng-click="cruises.unselectAll()"> Unselect all</button>
+                <br /><br />
+
+                <div
+                	ng-repeat="a in cruises.amenities">
+                	<label><input type="checkbox" name="cruiseFilter" ng-model="a.checked" ng-click="cruises.updateResults()" /> <span class="light16" ng-bind-html="a.name" /></label>                	
+                </div>
+
+				<!-- <label><input type="checkbox" name="cruiseFilter" ng-model="cruises.wheelchairAccessibleStaterooms" ng-click="cruises.updateResults()" /> Wheelchair Accessible Staterooms</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.assistedBoardingAndDeparture" ng-click="cruises.updateResults()" /> Assisted Boarding and Departure</label> -->
+				<!-- <label><input type="checkbox" name="cruiseFilter" ng-model="cruises.wheelchairAccessibleRestroomsInPublicAreas" ng-click="cruises.updateResults()" /> Wheelchair Accessible Restrooms in Public Areas</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.accessibleShoreExcursions" ng-click="cruises.updateResults()" /> Accessible Shore Excursions</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.serviceAnimals" ng-click="cruises.updateResults()" /> Service Animals Welcome</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.equiptmentAvailable" ng-click="cruises.updateResults()" /> Equipment Available</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.accessibilityConsultant" ng-click="cruises.updateResults()" /> Accessibility Consutlant Available on the Cruise</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.poolLift" ng-click="cruises.updateResults()" /> Pool Lift</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.VisualTactileAlertSystemInRoom" ng-click="cruises.updateResults()" /> Visual-Tactile Alert System in Room</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.AssistiveListeningDevices" ng-click="cruises.updateResults()" /> Pagers or Assistive Listening Devices Available</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.ttyAmplifiedPhones" ng-click="cruises.updateResults()"/> TTY or Amplified Phones Available</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.closedCaptionedTV" ng-click="cruises.updateResults()" /> Close Captioned TV available</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.signLanguageInterpretingServices" ng-click="cruises.updateResults()" /> Sign Language Interpreting Services</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.orientationTour" ng-click="cruises.updateResults()" /> Orientation Tour for the Vision Impaired</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.qualifiedReaders" ng-click="cruises.updateResults()" /> Qualified Readers</label>
+				<label><input type="checkbox" name="cruiseFilter" ng-model="cruises.brailleTactileSignage" ng-click="cruises.updateResults()" /> Braille/Tactile Signage</label> -->
+
+				</fieldset>
+			</div>
+
+			<!-- column 2: data -->
+			<div style="width:41.625em; xmargin-right:.75em;">
+				<div style="font-size:1.5em;font-weight: 600;margin:20px 0;padding: 0 0 0 .9em;">
+
+					<!-- <div ng-if="cruises.filteredResults.length===0">
+						No matching results found.
+					</div> -->
+
+					<div xng-if="cruises.filteredResults.length>0" s>
+						<span style="font-weight: 600;font-size: 1.125em;">{{cruises.filteredResults.length}} matching accessible cruises departing from USA</span>	
+					</div>
+				</div>
+
+				<div
+					ng-repeat="cruise in cruises.filteredResults | orderBy: 'CruiseLine'"
+					style="border:2px solid #ccc;margin-bottom:.875em;background-color:#fff;display:flex;flex-direction: row;padding:1.25em;flex-wrap:wrap;">
+					<!-- left side title & one-liner -->
+					<div style="min-width:10em;width:100%;margin-right:1.1em;">
+						<div style="font-size:1.25em;font-weight: 600;">
+							<a style="color:#299b7c;" href="{{cruise.MainWebsite}}" target="_newWindow">{{cruise.CruiseLine}}</a><br />
+						</div>
+						<div style="margin-top:1em;" class="light16"><!--font-size:.875em;font-weight: 400;"-->
+							{{cruise.QuickDescription}}
+						</div>
+					</div>
+
+					<!-- right side contact info -->
+					<div style="font-size:.75em;margin-top:2em;border-left:1px solid #cccccc;padding-left:1.1em;width:20em 0;">
+						<table>
+
+						<tr ng-if="cruise.MailingAddress">
+						<td style="vertical-align: top;">
+							<img style="margin-right:1.125em;" src="/web/public/resources/Point_Gray.png"
+							alt="address_{{$index}}" /> 
+						</td>
+						<td>
+							<span id="address_{{$index}}">{{cruise.MailingAddress}}</span>
+						</td>
+						</tr>
+
+						<tr ng-if="cruise.AccessDepartmentEmail">
+						<td style="vertical-align: top;">
+							<img style="margin-right:1.125em;" src="/web/public/resources/Email_Gray.png"
+							alt="email_{{$index}}" />
+						</td>
+						<td>
+							<span id="email_{{$index}}" ng-bind-html="cruises.setEmail(cruise.AccessDepartmentEmail)" />
+						</td>
+						</tr>
+
+						<tr ng-if="cruise.AccessDepartmentPhoneNumber">
+						<td style="vertical-align: top;">
+							<img style="margin-right:1.125em;" src="/web/public/resources/Phone_Gray.png"
+							alt="phone_{{$index}}" />
+						</td>
+						<td>
+							<span id="phone_{{$index}}" ng-bind-html="cruise.AccessDepartmentPhoneNumber" />
+						</td>
+						</tr>
+
+						<tr ng-if="cruise.AccessibilityLink">
+						<td style="vertical-align: top;">
+							<img style="margin-right:1.125em;" src="/web/public/resources/Website_Gray.png"
+							alt="goToWebsite_{{$index}}" />
+						</td>
+						<td>
+							<a
+								id="goToWebsite_{{$index}}"
+								style="color:#000;" href="{{cruise.AccessibilityLink}}" target="_website">Go to website</a>
+						</td>
+						</tr>
+
+						</table>
+					</div>
+				</div>
+<!-- style="background-color:#fff;padding:1em;border:1px solid #b0b1b1;margin-bottom:.75em;" class="hotel-box-wrapper" -->
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,102 @@
+<!-- <div class="wrapper-common wrapper-common-width wrapper-row">
+    <div class="row">
+        <div class="col-md-10"> -->
+
+            <!-- <div class="section-heading">Attractions (21)</div> -->
+
+            <article class="attractions-item" ng-repeat="directoryEntry in businessList | orderBy:filter | startFrom :(businessListing.currentBoxSetPage)*directoriesLimit | limitTo:directoriesLimit">
+                <div class="row">
+                    <div class="col-sm-8 attraction-detail">
+                        <div class="attraction-title">
+                            <a
+                                id="goToWebsite_{{$index}}"
+                                style="color:#299b7c"
+                                ui-sref="businessIndividual({city:directoryEntry.CityName.replace(' ','_'), type: directoryEntry.Type.replace(' ','_'), category:directoryEntry.Category.replace(' ','_'), slug: directoryEntry.Slug})">{{directoryEntry.Name}} ({{directoryEntry.CityName}})
+                            </a>
+                            <div class="pull-right">
+                                <favorite-directive type="business" referenceid="{{directoryEntry.Id}}"></favorite-directive>
+                            </div>
+
+                            <!-- user reviews -->
+                            <div
+                             class="attraction-ratings"
+                             ng-if="directoryEntry.reviewList && directoryEntry.reviewList.length>0">
+                                <div
+                                    class="rating-star"
+                                    star-rating rating="businessListing.overAllRating(directoryEntry)"
+                                    read-only="true"
+                                    max-rating="5">
+                                </div>
+                                (<span>
+                                    <a
+                                        id="goToWebsite_{{$index}}_reviews"
+                                        style="color:#299b7c;text-decoration: none;"
+                                        ui-sref="businessIndividual({city:directoryEntry.CityName.replace(' ','_'), type: directoryEntry.Type.replace(' ','_'), category:directoryEntry.Category.replace(' ','_'), slug: directoryEntry.Slug})"><b>{{directoryEntry.reviewList.length}}</b> <b ng-if="directoryEntry.reviewList.length>1">Reviews</b> <b ng-if="directoryEntry.reviewList.length===1">Review</b>
+                                    </a>
+                                </span>)
+                            </div>
+
+                        </div>
+                        <div class="attraction-description">
+                            {{directoryEntry.Description}}
+                        </div>
+
+                        <div class="attraction-review">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <a id="writeReview_{{$index}}" ui-sref="reviewEntry({id:directoryEntry.Id})">Write a Review
+                            </a>
+
+                        </div>
+
+                        <div
+xng-if="TODO"
+                         class="attraction-review-desc" ng-show="directoryEntry.reviewList.length && directoryEntry.reviewList.length != undefined ">
+                            {{ directoryEntry.reviewList[0].description | limitTo: 131 }}
+                            <span ng-if="directoryEntry.reviewList[0].description.length >130">&hellip;</span>
+                            <a id="businessIndividual_{{$index}}" ui-sref="businessIndividual({city:directoryEntry.CityName.replace(' ','_'), type: directoryEntry.Type.replace(' ','_'), category:directoryEntry.Category.replace(' ','_'), slug:directoryEntry.Slug})">Read more
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+
+                        <div class="address_info">
+                            <div ng-if="directoryEntry.IsNational" class="attraction-details">
+                                <h5 class="national_flag">
+                                    <i class="fa fa-flag" aria-hidden="true"></i> National Business </h5>
+
+                            </div>
+
+                            <div ng-if="directoryEntry.Address" class="attraction-details">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                <span id="address_{{$index}}">{{directoryEntry.Address}}</span>
+                            </div>
+
+                            <div ng-if="directoryEntry.Email" class="attraction-details">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <span id="email_{{$index}}" ng-bind-html="businessListing.breakOnComma(businessListing.setEmail(directoryEntry.Email))" />
+                            </div>
+
+                            <div ng-if="directoryEntry.Phone" class="attraction-details">
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <span id="phone_{{$index}}" ng-bind-html="businessListing.breakOnComma(directoryEntry.Phone)" />
+                            </div>
+
+                            <div ng-if="directoryEntry.Facebook" class="attraction-details">
+                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                                <a id="goToFacebook_{{$index}}" href="{{directoryEntry.Facebook}}" target="_facebookWindow">{{directoryEntry.Name}}</a>
+                            </div>
+
+                            <div ng-if="directoryEntry.Website" class="attraction-details">
+                                <i class="fa fa-globe" aria-hidden="true"></i>
+                                <a id="goToWebsite_{{$index}}" href="{{directoryEntry.Website}}" target="_newWindow">Go to website</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        <!-- </div>
+    </div>
+
+</div> -->
+

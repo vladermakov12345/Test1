@@ -1,0 +1,282 @@
+<div ng-controller="reviewEntryController as reviewEntry" ng-cloak>
+
+	<!-- state :: pending -->
+	<div
+		ng-show="reviewEntry.reviewState === 'pending'"
+		class="wrapper-base"
+		style="background-color:#bababa;height:18.125em;">
+			<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+				<h2>One moment while we look up business details...</h2>
+			</div>
+	</div>
+
+	<!-- state :: no directory id -->
+	<div
+		ng-show="reviewEntry.reviewState === 'missing_business_id'"
+		ng-show="!reviewEntry.id"
+		class="wrapper-base"
+		style="background-color:#bababa;height:18.125em;">
+			<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+				<h2>No directory entry specified</h2>
+				<div>
+					<h4><strong><a style="color:#000;" ui-sref="tripPlanner">Return to the directory</a></strong></h4>
+				</div>
+			</div>
+	</div>
+
+	<!-- state :: directory id provided -->
+	<div 
+		ng-show="reviewEntry.reviewState !== 'missing_business_id'">
+		<div id="scrollDirectoryID" class="wrapper-base" style="background-color:#bababa;xheight:8.125em;">
+			<div class="wrapper-common wrapper-common-width wrapper-row">
+				<div style="margin: 0 0 1em 0;">
+					<span ng-if="reviewEntry.subjectInfo.name" class="bold18">
+						{{reviewEntry.subjectInfo.name}}
+					</span>
+					<span ng-if="reviewEntry.subjectInfo.cityname" class="light14">
+						({{reviewEntry.subjectInfo.cityname}})
+					</span>
+					<br>
+					<span ng-if="reviewEntry.subjectInfo.address" class="light14">
+						{{reviewEntry.subjectInfo.address}}<br>
+					</span>
+					
+					<span ng-if="reviewEntry.subjectInfo.description" class="light14">
+						{{reviewEntry.subjectInfo.description}}<br>
+					</span>
+					<span ng-if="reviewEntry.subjectInfo.description" class="light14">
+						{{reviewEntry.subjectInfo.website}}<br>
+					</span>
+				</div>
+				<div
+					style="text-align:center"
+					ng-if="reviewEntry.errs.length>0 && reviewEntry.id==null"
+					ng-repeat="err in reviewEntry.errs | limitTo:1">
+                	<p style="color:red">{{err}}</p>
+            	</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- state :: not logged in -->
+	<div
+		ng-show="reviewEntry.reviewState === 'unauthenticated'"
+		class="wrapper-base"
+		style="background-color:#fff;">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+			<h2>You're almost there... <img class="header-img" ng-src="{{reviewEntry.image_together_icon}}" alt="" /></h2>
+
+			<div>
+				<h4><strong>We want to give you proper credit for your accessibility review.</strong></h4>
+				<h4>Please log in (or sign up) to add a review</h4>
+			</div>
+
+			<div>
+				<input  
+	      			id="login"
+	      			style="margin-top:10px;min-height: 40px;width:10em;"
+	      			class="buttonBlue"
+	      			type="button"
+	      			value="Log in"
+	      			ng-click="reviewEntry.login()" />
+			</div>
+		</div>
+	</div>
+
+	<!-- state :: already reviewed -->
+	<div
+		ng-show="reviewEntry.reviewState === 'reviewed_already'"
+		xng-show="isAuthenticated && reviewEntry.isAlreadyReviewed()"
+		class="wrapper-base"
+		style="background-color:#fff;height:18.125em;">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">			
+			<h3>You have already submitted a review for this entry</h3>
+			Review Id: {{reviewEntry.review.reviewId}}<br>
+			Title: {{reviewEntry.review.title}}<br>
+			Description: {{reviewEntry.review.description}}<br>
+			Rating: {{reviewEntry.review.rating}} of 5 stars<br>
+		</div>
+	</div>            
+
+	<!-- state :: ready to review -->
+	<div
+		ng-show="reviewEntry.reviewState === 'show_review_form'">
+		<div
+			id='scrollRating'
+			xng-show="!reviewEntry.isAlreadyReviewed()"
+		 	class="wrapper-base">
+			<div class="wrapper-common wrapper-common-width wrapper-column">
+
+				<!-- rating -->
+				<div style="">
+					<label for="review_title" class="bold16">Overall Rating</label><br />
+				</div>
+				<div
+					ng-if="reviewEntry.errs.length>0 && reviewEntry.id !=null && reviewEntry.rating==0"
+					ng-repeat="err in reviewEntry.errs | limitTo:1">
+                    <p style="color:red">{{err}}</p>
+                </div>
+				<div style="margin: 0 0 1em 0;">
+					<div
+					 star-rating 
+					 rating="reviewEntry.rating"
+					 read-only="false"
+					 max-rating="5"
+					 ng-click="reviewEntry.errorCheck()"
+					 click="click1(param)"
+					 mouse-hover="mouseHover1(param)"
+					 mouse-leave="mouseLeave1(param)"></div>
+ 				</div>
+
+				<!-- title -->
+				<div id='scrollTitle' style="">
+					<label for="review_title"  class="bold16">Title of your review</label><br />
+				</div>
+				<div
+					ng-if="reviewEntry.errs.length>0 && reviewEntry.id !=null && reviewEntry.rating!=0 && (!reviewEntry.title || reviewEntry.title ==='')"
+					ng-repeat="err in reviewEntry.errs | limitTo:1">
+                    <p style="color:red">{{err}}</p>
+                </div>
+				<div style="margin: 0 0 1em 0;">
+					<input id="review_title" ng-change="reviewEntry.errorCheck()" type="text" ng-model="reviewEntry.title" multiple="true" style="width:30em;" maxlength="100" />
+				</div>
+
+				<!-- description -->
+				<div style="">
+					<label for="review_description" class="bold16">Your review</label><br />
+				</div>
+				<div
+					ng-if="reviewEntry.errs.length>0 && reviewEntry.id !=null && reviewEntry.rating!=0 && (reviewEntry.title && reviewEntry.title !='') && (!reviewEntry.description || reviewEntry.description ==='')"
+					ng-repeat="err in reviewEntry.errs | limitTo:1">
+                    <p style="color:red">{{err}}</p>
+                </div>
+				<div style="margin: 0 0 1em 0;">
+					<textarea id="review_description" ng-change="reviewEntry.errorCheck()" ng-model="reviewEntry.description" rows="6" cols="100%" maxlength="2000" ></textarea>
+				</div>
+
+				<!-- accessibility -->
+				<div style="margin: 0 0 1em 0;">
+					<div class="bold16" style="margin-bottom: .25em;">
+						<span ng-if="reviewEntry.subjectInfo.type==='Attractions'">This venue is suitable for:</span>
+						<span ng-if="reviewEntry.subjectInfo.type!=='Attractions'">This service provider is suitable for:</span>
+					</div>
+
+					<label for="review_suitable_wheelchairUsers">
+						<input
+							type="checkbox"
+							id="review_suitable_wheelchairUsers"
+							ng-model="reviewEntry.accWheelchairUsers" />
+							<span class="light16"> Visitors who are wheelchair users</span>
+					</label><br />
+
+					<label for="review_suitable_lowVision">
+						<input
+							type="checkbox"
+							id="review_suitable_lowVision"
+							ng-model="reviewEntry.accLowVision" />
+							<span class="light16"> Visitors who are blind or have low vision</span>
+					</label><br />
+
+					<label for="review_suitable_lowHearing">
+						<input
+							type="checkbox"
+							id="review_suitable_lowHearing"
+							ng-model="reviewEntry.accLowHearing" />
+							<span class="light16"> Visitors who are deaf or hard of hearing</span>
+					</label><br />
+
+					<label for="review_suitable_lowMobility">
+						<input
+							type="checkbox"
+							id="review_suitable_lowMobility"
+							ng-model="reviewEntry.accLowMobility" />
+							<span class="light16"> Visitors with mobility disabilities</span>
+					</label><br />
+				</div>
+
+				<div style="margin: 0 0 1em 0;">
+					<label for="review_whenTravel" class="bold16">When did you travel?</label>
+					<date-picker
+						id="review_whenTravel"
+						placeholder="Month/Year"
+						ng-model="reviewEntry.travelDate"
+						mode="month" />
+				</div>
+
+				<!-- <div ng-if="reviewEntry.subjectInfo.type==='Attractions'">
+					
+					<br>
+					<label for="review_venueAccessibility" class="bold16">Venue Accessibility <span class="semibold16" style="color:orange;">(Optional)</span></label><br>
+
+					<span class="light16" style="margin-right: 1em;">Entrance & Main Areas</span>
+					<input
+						type="radio"
+						id="review_venueAccessibility_entranceAndMainAreasYes"
+						name="entranceAndMainAreas"
+						value="Yes"
+						ng-model="reviewEntry.entranceAndMainAreas" />Yes
+					<input
+						type="radio"
+						id="review_venueAccessibility_entranceAndMainAreasNo"
+						name="entranceAndMainAreas"
+						value="No"
+						ng-model="reviewEntry.entranceAndMainAreas" />No
+					<input
+						type="radio"
+						id="review_venueAccessibility_entranceAndMainAreasNo"
+						name="entranceAndMainAreas"
+						value="NotSure"
+						ng-model="reviewEntry.entranceAndMainAreas" />Not sure
+					</div>
+ 				-->
+				<!-- submit review -->
+				<div style="padding:3px;flex-basis: 7.125em;">
+					<input
+		      			id="submitReview"
+		      			style="margin-top:10px;min-height: 40px;"
+		      			class="buttonBlue"
+		      			type="button"
+		      			value="Submit Review"
+		      			ng-click="reviewEntry.submit()" />
+				</div>
+
+				<!-- errors during submission? -->
+			    <div
+			    	ng-if="reviewEntry.errs.length>0"
+			    	class="card border-danger mb-3">
+			        <div class="card">
+			            <h3 class="card-header text-danger">Please correct the following:</h3>
+			            <div class="card-body text-danger">
+			            	<div class="card-text">
+			   					<ul ng-repeat="err in reviewEntry.errs">
+									<li>{{err}}</li>
+								</ul>
+							</div>
+			            </div>
+			        </div>
+			    </div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- state :: just submitted -->
+	<div
+		ng-show="reviewEntry.reviewState === 'submitted'"
+		class="wrapper-base"
+		style="background-color:#fff;height:18.125em;">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+			<h2>Thank you for your review!</h2>
+			<div>
+				<h3>Check out...</h3>
+				<ul>
+					<li><strong><a style="color:#000;" ui-sref="hotels">Search Hotels</a></strong></li>
+					<li><strong><a style="color:#000;" ui-sref="ideas">Read Travel Articles</a></strong></li>
+					<li><strong><a style="color:#000;" ui-sref="contact">Send us Feedback</a></strong></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+</div>

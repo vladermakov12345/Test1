@@ -1,0 +1,18 @@
+<div class="citybox">
+	<div>
+		<a ui-sref="city({name: citybox.cityname})" aria-hidden="true">
+    		<img
+    			ng-src="{{citybox.env.BASEURL_CONTENT}}/Image/GetBoxCityImage?city={{citybox.cityname}}"
+    			alt="Image for {{citybox.cityname}}" />
+		</a>
+	</div>
+	<div
+		class="citybox-name"
+		style="border-bottom:5px solid #{{citybox.color}};">
+		<a
+			style="color:#{{citybox.color}};"
+			ui-sref="city({name: citybox.cityname.replace(' ','_')})">
+			<span>{{citybox.cityname}}</span>
+		</a>
+	</div>
+</div>

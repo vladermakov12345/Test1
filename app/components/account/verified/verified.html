@@ -1,0 +1,22 @@
+<div style="padding-bottom: 50px;"></div>
+
+<div ng-controller="verifiedController as verified" ng-cloak>
+    <div class="row">
+        <div class="col-centered">
+
+            <div style="padding-bottom: 10px;"></div>
+
+            <div style="text-align:center" ng-show="verified.isConfirmed">
+                <h1 class="no-margin-top text-center">Thanks for joining!</h1>
+                <h2 class="no-margin-top text-center">Your account is confirmed.</h2>
+                <br />
+                <a class="btn btn-lg btn-success" style="margin:0 15px;" ui-sref="ideas"><span class="semibold18">Get Inspired</span></a>
+                <a class="btn btn-lg btn-success" style="margin:0 15px;" ui-sref="tripPlanner"><span class="semibold18">View Resources by City</span></a>
+                <a class="btn btn-lg btn-success" style="margin:0 15px;" ui-sref="hotels"><span class="semibold18">Book Hotels</span></a> 
+            </div>
+
+            <div style="padding-bottom: 400px;"></div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,122 @@
+/* font example */
+@font-face{
+  font-family: 'Yahfie';
+
+  /* these are loaded via url-loader */
+  src: url('../vendors/artificialreason/fonts/Yahfie/Yahfie-Heavy.ttf');
+  src: url('../vendors/artificialreason/fonts/Yahfie/Yahfie-Light.ttf');
+  src: url('../vendors/artificialreason/fonts/Yahfie/Yahfie-Normal.ttf');
+}
+
+body
+{
+    font-family: 'Open Sans', sans-serif;  /* login and register page looked different with this: "Helvetica Neue", Helvetica, Arial, sans-serif;   'Yahfie';*/
+  padding-top:0px;
+  background-color:#ffffff;
+  overflow-y: auto;
+}
+
+//.navbar{
+//    background-image: linear-gradient(to bottom,#ffffff 0, #CCCCCC 50%);
+//}
+
+.bg_header_img{
+    background: url('../img/mechanix.jpg') -131px 1px no-repeat;
+    margin-right: 15px;
+    height: 150px;
+    width: 150px;
+}
+
+@blue: #fefefe;
+
+h3{
+    border: 3px solid @blue;
+    font-size:18px;
+}
+
+//h1{
+//  //props requiring prefixing - using auto-prefixer
+//  background: linear-gradient(to, top, black, white);
+//  display:flex;
+//  transition: transform 1s;
+//
+//  -webkit-border-radius: 5px;
+//  border-radius: 5px;
+//}
+
+/* saw this on https://scotch.io/bar-talk/bootstrap-3-tips-and-tricks-you-might-not-know# */
+/*==================================================
+=            Bootstrap 3 Media Queries             =
+==================================================*/
+
+/*==========  Mobile First Method  ==========*/
+
+/* Custom, iPhone Retina */
+@media only screen and (min-width : 320px) {
+
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+    /* global navigation */
+    #mobile_nav {
+        display: none;
+    }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+
+}
+
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+
+}
+
+
+/*==========  Non-Mobile First Method  ==========*/
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 992px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 480px) {
+    /* global navigation */
+    #desktop_nav {
+        display: none;
+    }
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width : 320px) {
+
+}
+
+//we need to override some stuff in vendor.bundle.css so that it reliably applies in app.bundle.css
+//need to implement this inline as an img tag and not via background
+@logo: '../img/mechanix.jpg';
+.navbar-default .navbar-brand
+{
+  background-image: url("@{logo}");
+  background-position: left center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}

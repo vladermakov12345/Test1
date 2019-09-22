@@ -1,0 +1,18 @@
+<article class="articlebox">
+		<a
+			ui-sref="articles({title: articlebox.urlsafetitle})"
+			ng-click="ga('send', 'event', 'home_travelIdeas_links','click','article_{{articlebox.title}}')">
+    		<img
+    			ng-if="articlebox.introimageid"
+    			ng-src="{{articlebox.env.BASEURL_CONTENT}}/Image/GetImage?assetId={{articlebox.introimageid}}&Size=mini"
+    			alt="" /><br />
+			<p class="h-article">{{articlebox.title}}</p>
+			<div ng-if = "expanded == 'true'">
+				<p class="small-pp">{{articlebox.IntroText}}</p>
+				<p class="innerp" >Read More>></p>
+			</div>
+		
+		</a>
+	
+</article>
+

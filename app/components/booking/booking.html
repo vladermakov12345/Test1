@@ -1,0 +1,337 @@
+<div ng-controller="bookingHotelController as booking" ng-cloak>
+
+	<!-- waiting -->
+	<div ng-if="booking.isValidSearchCriteria === undefined" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+	    <div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">One moment please...</div>
+	    <i class="fa fa-spinner fa-spin" style="font-size:4em;color:#299b7c;" aria-hidden="true"></i>
+	</div>
+
+
+	<div
+		ng-show="booking.isValidSearchCriteria === false"
+		class="wrapper-base"
+		style="background-color:#bababa;height:18.125em;">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+			<h2>Unable to lookup your booking:</h2>
+			<div
+				style="color: #000;font-weight:600;text-align: left;">
+				<ul>
+					<li ng-repeat="err in booking.errs" ng-bind-html="err" />
+				</ul>
+			</div>
+			<br/>
+			<div class="card">
+				<div class="card-body">
+					If you have just booked and feel you have reached this message in error:
+					<ol>
+						<li>Try <a ui-sref="booking_hotel({bid: booking.bookingId, e: booking.email, c: 'VIEW'})" ui-sref-opts="{reload: true}" style="text-decoration: underline;color:#1f635d;">clicking here to refresh this page</a>.</li>
+						<li>If refreshing does not resolve the issue, <a data-ui-sref="contact" style="text-decoration: underline;color:#1f635d;">click here to contact us</a>.</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div
+		id="bookingDetailsSection"
+		ng-show="booking.isValidSearchCriteria"
+		class="wrapper-common wrapper-common-width wrapper-column"
+		style="background-color:#fff;padding:1em;justify-content: flex-start;min-height: 26em;">
+		<h3>Thanks For Booking With accessibleGO!</h3>
+
+		<!-- notice of email -->
+		<span class="semibold14">We've sent a confirmation email to: {{booking.details.itinerary_details.customer.email }}</span>
+
+		<!-- print -->
+		<div class="light16" style="margin-top:1em;">
+			<a
+				ng-click="booking.print()"
+				class="fa fa-print"
+				aria-hidden="true"
+				alt="print this page">
+				<span style="font-family:'Source Sans Pro', Tahoma, Geneva, sans-serif;"> print this page</span>
+			</a>
+		</div>
+
+		<div class="wrapper-common wrapper-common-width wrapper-row"
+		style="padding:0">
+			<div style="border:1px solid #29817c;margin:1em;border:1px solid #29817c;max-width:26em;width:100%;padding:.5em;">
+
+				<table
+					id="confirmInfoTable"
+					class="table-condensed table-responsive"
+					style="border:0px solid #ededed;">
+					<tr>
+						<td class="light18" style="vertical-align: top;width:12em;">Booking Status:</td>
+						<td class="light18">
+							<span
+								class="semibold18 text-right"
+								ng-bind-html="booking.details.itinerary.status" />
+							<i class="fa fa-check" style="color:#299b7c;vertical-align:baseline;" class="semibold18" aria-hidden="true"></i>
+							<!-- <img src="/web/public/resources/check_green.png" class="semibold18" alt="" style="vertical-align:baseline;" /> -->
+						</td>
+					</tr>
+					<tr>
+						<td class="light18">Trip Number:</td>
+						<td class="light18" ng-bind-html="booking.details.itinerary.id" />
+					</tr>
+					<tr>
+						<td class="light18">Confirmation Number:</td>
+						<td class="light18">
+							<div ng-repeat="room in booking.details.itinerary_details.room_data">
+							<!-- Room: {{$index+1}}<br /> -->
+							<!-- Room {{$index+1}}:  -->{{room.confirmation_code}}<br />
+							</div>
+						</td>
+					</tr>
+
+					<tr ng-show="booking.reviewLink">
+						<td class="light18">Review after your stay:</td>
+						<td class="light18">
+							<a ng-if="booking.reviewLink" href="{{booking.reviewLink}}" target="review">review</a>
+						</td>
+					</tr>
+
+				</table>
+			</div>
+
+			<div style="background-color: #29817c;margin:1em;border:1px solid #29817c;max-width:26em;">
+				<div style="font-size: 1.5em;padding:.125em .75em;color:#fff;">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> Important
+				</div>
+				<div style="background-color: #fff;padding:1em;">
+					<b>Trip Number:</b><br />
+					Use when looking up your reservation online, or when calling customer service.<br />
+					<b>Confirmation Number:</b><br />
+					Use when checking into the hotel<br />
+					<b>Cancellation:</b><br />
+					Please review the Cancellation Policy below under "Important Information".<br />
+					<a
+						ng-if="booking.details.actions.cancel"
+						ng-click="booking.openCancelBookingModal()" style="text-decoration: underline;">Click here to cancel your booking</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- HOTEL INFORMATION -->
+		<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;max-width:26em;">
+			<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+				Hotel Information
+			</h2>
+			<div
+				style="background-color: #fff;padding:1em;"
+				class="wrapper-common wrapper-row">
+				<div style="margin-right:1.5em;">
+					<img ng-src="https:{{booking.details.hotel.thumbnail.replace('http:')}}" alt="" />
+				</div>
+				<div style="">
+					<table
+						id="hotelInfoTable"
+						class="table-condensed table-responsive"
+						style="border:0px solid #ededed;">
+					<tr>
+						<td class="light14" style="vertical-align: top;width:6em;">Hotel Name:</td>
+						<td class="light14">
+							{{booking.details.hotel.hotel_name}}<br />
+							<img
+								class="text-right"
+								ng-repeat="a in booking.getArray(booking.details.hotel.star_rating) track by $index"
+								src="/web/public/resources/Star_Orange.png" alt="" />
+						</td>
+					</tr>
+					<tr>
+						<td class="light14" style="vertical-align: top;">Address:</td>
+						<td class="light14" ng-bind-html="booking.hotelUtilities.getAddress(booking.details.hotel.address) " />
+					</tr>
+					<tr>
+						<td class="light14">Phone:</td>
+						<td class="light14" ng-bind-html="booking.details.hotel.phone" />
+					</tr>
+					<tr>
+						<td class="light14">Hotel Info:</td>
+						<td class="light14">
+							<a
+								target="hotel_window"
+								ng-click="booking.openHotelPage()"
+								>Hotel Information</a>
+							<!-- hotel?/:hid?/:checkin?/:checkout?/:rooms?/:guests? -->
+						</td>
+					</tr>
+					<tr>
+						<td class="light14" style="vertical-align: top;">Room Type:</td>
+						<td class="light14" ng-bind-html="booking.details.itinerary_details.description" />
+					</tr>
+					<tr>
+						<td class="light14"># Nights:</td>
+						<td class="light14" ng-bind-html="booking.details.itinerary_details.num_nights" />
+					</tr>
+					<tr>
+						<td class="light14">Check In:</td>
+						<td class="light14" ng-bind-html="booking.hotelUtilities.getCheckDateTime(booking.details.itinerary.check_in, booking.details.hotel.check_in_time)" />
+					</tr>
+					<tr>
+						<td class="light14">Check Out:</td>
+						<td class="light14" ng-bind-html="booking.hotelUtilities.getCheckDateTime(booking.details.itinerary.check_out, booking.details.hotel.check_out_time)" />
+					</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- CUSTOMER INFORMATION -->
+		<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;max-width:26em;">
+			<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+				Customer Information
+			</h2>
+			<div style="background-color: #fff;padding:1em;border:0px solid #ededed;">
+				<table
+					id="custInfoTable"
+					class="table-condensed table-responsive"
+					style="border:0px solid #ededed;">
+				<tr>
+					<td class="light14" style="vertical-align: top;width:6em;">Name:</td>
+					<td class="light14">{{ booking.details.itinerary_details.customer.name }}</td>
+				</tr>
+				<tr>
+					<td class="light14">Phone:</td>
+					<td class="light14">{{ booking.details.itinerary_details.customer.phone_number }}</td>
+				</tr>
+				<tr>
+					<td class="light14" style="vertical-align: top;">Address:</td>
+					<td class="light14">{{ booking.hotelUtilities.getAddress(booking.details.itinerary_details.customer.address) }}</td>
+				</tr>
+				<tr>
+					<td class="light14">Email:</td>
+					<td class="light14">{{ booking.details.itinerary_details.customer.email }}</td>
+				</tr>
+				<tr>
+					<td class="light14">Credit Type:</td>
+					<td class="light14">{{ booking.details.itinerary_details.customer.card_type }}</td>
+				</tr>
+				<tr>
+					<td class="light14">Card:</td>
+					<td class="light14">xxxx-xxxx-xxxx-{{ booking.details.itinerary_details.customer.card_last_four }}</td>
+				</tr>
+				</table>
+			</div>
+		</div>
+
+		<!-- SUMMARY OF CHARGES -->
+		<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;max-width:26em;">
+			<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+				Summary of Charges
+			</h2>
+			<div style="background-color: #fff;padding:1em;">
+			
+				<table
+					id="summaryOfChargesTable"
+					class="table table-condensed table-responsive"
+					style="border:0px solid #ededed;">
+				<tr>
+					<!-- <td style="border-top:0px;">&nbsp;</td>= -->
+					<td colspan="2" class="light14 text-right" style="vertical-align: top;width:6em;text-align: right;border-top:0px;">All prices are in {{booking.details.price_details.display_currency}}</td>
+				</tr>
+
+				<tr>
+					<td class="light14">
+						Room cost per night:
+					</td>
+					<td class="light14 text-right">{{ booking.details.price_details.display_price | currency:'$':2 }}
+					</td>
+				</tr>
+
+				<tr>
+					<td class="light14">Nights:</td>
+					<td class="light14 text-right">{{ booking.details.itinerary_details.num_nights }}</td>
+				</tr>
+
+				<tr>
+					<td class="light14">Rooms:</td>
+					<td class="light14 text-right">{{ booking.details.itinerary_details.num_rooms }}</td>
+				</tr>
+
+				<tr>
+					<td class="light14">Guests:</td>
+					<td class="light14 text-right">{{ booking.details.itinerary_details.num_adults + booking.details.itinerary_details.num_children }}</td>
+				</tr>
+
+				<tr>
+					<td class="light14">Room Subtotal:</td>
+					<td class="light14 text-right">{{ booking.details.price_details.display_sub_total | currency: '$': 2 }}</td>
+				</tr>
+
+				<tr>
+					<td class="light14">Taxes & Fees:
+					<!-- <a ng-click="booking.openTaxesAndFeesModal()" style="text-decoration: underline;">Taxes & Fees</a> --></td>
+					<td class="light14 text-right">
+						<span
+							xng-if="reserve.contract.rate_type==='MER' || reserve.contract.rate_type==='AGD'"
+							ng-bind="booking.getTaxesAndFees(booking.details) | currency:'$':2"/>
+						<!-- <span
+							ng-if="reserve.contract.rate_type==='PRF'">May Apply</span> -->
+					</td>
+				</tr>
+
+				</table>
+
+				<!-- AGODA|Priceline -->
+				<div
+					ng-if="!booking.details.rate_type || booking.details.rate_type==='MER' || booking.details.rate_type==='AGD'"
+					style="text-align:center;">
+					<div class="semibold18 lineThru">
+						<span>TOTAL CHARGES</span>
+					</div>
+					<div>
+						<span class="semibold30">{{ booking.details.price_details.display_total | currency }}</span>
+						<span class="semibold16">{{ booking.details.price_details.booked_currency }}</span>
+					</div>
+				</div>
+
+				<!-- Booking -->
+				<div
+					ng-if="booking.details.rate_type==='PRF'"
+					style="text-align:center;">
+					<div class="semibold18 lineThru">
+						<span>TOTAL ESTIMATED HOTEL CHARGES:</span>
+					</div>
+					<div>
+						<span class="semibold30">{{ booking.details.price_details.display_total | currency }} *</span>
+						<span class="semibold14"> + applicable taxes</span>
+					</div>
+					<div>
+						<span class="light14">*The US dollar estimates provided are based on the current exchange rate.  The hotel will determine the final total.</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- IMPORTANT INFO -->
+		<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;max-width:26em;">
+			<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+				Important Information
+			</h2>
+			<div
+				style="background-color: #fff;padding:1em;"
+				xng-if="!reserve.isWaitingContract"
+				class="wrapper-base"
+				style="background-color:#d4d4d4;">
+				<div
+					class="wrapper-common wrapper-common-width wrapper-column"
+					style="margin-top:1.125em;">
+					<div ng-repeat="policy in booking.details.important_information.policy_data">
+						<span class="semibold14">{{policy.title}}</span><br>
+						<p class="light14" ng-bind-html="booking.setSubstitutes(policy.paragraph_data)"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--
+			{{booking.details}}
+		-->
+
+	</div>
+
+</div>

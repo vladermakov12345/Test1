@@ -1,0 +1,280 @@
+<div ng-controller="ideasController as ideas" ng-cloak class="IdeasClass">
+	
+	<div class="wrapper-base hotels-page" style="background-color:#fff;padding-bottom:0px;">
+
+        <nav class="flex-col" aria-label="breadcrumb">
+          <ol class="breadcrumb breadcrumbs-light">
+            <li class="breadcrumb-item"><a ui-sref="home">home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">travel ideas</li>
+          </ol>
+        </nav>
+    
+    </div>
+
+	<!-- ARTICLE SEARCH BAR: BEGIN -->
+	<div class="wrapper-base" style="background-color:#fff;min-height: 4.5em;">
+
+		<!-- white search bar: begin -->
+		<div class="wrapper-common wrapper-common-width wrapper-row accessible_div" style="justify-content: space-between;">
+
+			<div>
+				<h1 style="font-size:1.875em;color:#000;">
+				<!-- FIGURE OUT HOW TO REMOVE A FROM BEING AUTO CSSED! -->
+					<!-- <a name="skipLinkAnchor" id="skipLinkContent" tabIndex="-1"> -->
+						<span style="font-weight:600;">Accessible Travel</span> <span style="font-weight:400;display:inline-flex;">Ideas by location</span>
+					<!-- </a> -->
+					 <!-- <span style="font-weight:400;"">Accessible Possibilities</span> -->
+				</h1>
+			</div>
+			<div class="search-wrapper" style="vertical-align: center;align-self: flex-end;">
+				<idea-search-box />
+			</div>
+		</div>
+		<!-- white search bar: end -->
+	</div>
+	<!-- ARTICLE SEARCH BAR: END -->
+
+	<!-- latest: begin -->
+		<article-carousel />
+	<!-- latest: end -->
+
+	<!-- top cities:begin -->
+	<div class="wrapper-base" style="background-color:#3b4046;">
+		<div class="wrapper-common wrapper-common-width wrapper-column">
+
+			<div style="margin-bottom:1.82em;" class="wrapper-common wrapper-common-width wrapper-row">
+                <div>
+                    <span style="font-size:1.5em;">
+                        <label for="citySelectionDropdown" style="font-weight:600;color:#ffffff;" >Top Cities</label>
+                    </span>
+                </div>               
+                <div style="margin-top:5px; margin-left: 10px;">
+                    <select
+                    	id="citySelectionDropdown"
+                    	name="citySelectionDropdown"
+                    	xng-change="ideas.onChangeCity(selectedCity.Name)"
+                    	class="selectedCity-Class" 
+                        ng-model="ideas.selectedCity"
+                        ng-options="city as city.Name for city in ideas.allCities"
+                        aria-labelledby="allCitiesSearch">
+                        <option value="" disabled="disabled" selected="selected">select a city</option>
+                    </select>
+                    <button id="allCitiesSearch" ng-click="ideas.onChangeCity()">GO</button>
+               	</div>
+            </div>
+
+			<!-- <div style="margin-bottom:1.82em;">
+				<span style="font-size:1.5em;">
+					<span style="font-weight:600;color:#ffffff;">Top Cities</span>
+				</span>
+			</div> -->
+			<div class="city_div" style="display: flex;flex-direction: row;flex-wrap:wrap;">
+				<citybox
+					style="margin-right:1.5em;"
+		    		ng-repeat="city in ideas.cityBoxes"
+		    		cityid="{{city.Id}}" cityname="{{city.Name}}"
+		    		color="{{ideas.getCityBoxColor($index)}}"
+		    		ng-show="ideas.isInCityBoxesToShow($index)"
+	    	 />
+			</div>
+			<div style="align-self: center;margin-top:2.182em;" class="arrow_alignment">
+				<input href="#"
+					id=""
+                    type="image"
+                    src="/web/public/resources/arrow_white_left.png"
+                    ng-click="ideas.shiftCityBoxesLeft()"
+                    aria-label="navigate to previous image"
+                    alt="previous"
+                    />
+				<span
+					style="padding: 0 2em;color:#fff;" class="hide_text">
+					{{ideas.cityBoxesToShow[0]+1}}-{{ideas.cityBoxesToShow[3]+1}} of {{ideas.cityBoxes.length}}
+				</span>
+				<input href="#"
+					id=""
+                    type="image"
+                    src="/web/public/resources/arrow_white_right.png"
+                    ng-click="ideas.shiftCityBoxesRight()"
+                    aria-label="navigate to next image"
+                    alt="next"
+                    />
+			</div>
+		</div>
+	</div>
+	<!-- top cities:end -->
+
+	<!-- travel inspiration by location:begin -->
+	<div class="wrapper-base" style="background-color:#d8d8d8;">
+		<div class="wrapper-common wrapper-common-width wrapper-column">
+			<div class="loct_div" style="margin-bottom:1.82em;">
+				<span style="font-size:1.5em;">
+					<span style="font-weight:600;color:#000;">Travel Inspiration by location</span>
+					 <!-- <span style="font-weight:400;"">Accessible Possibilities</span> -->
+				</span>
+			</div>
+
+
+		<!-- choose from areas -->
+		<div class="d-none d-xs-block d-sm-none" id="home-inspiration-areas">
+	        <button
+	        	id="home-inspiration-areas-all"
+				class="home-inspiration-areas-button"
+				ng-class="ideas.isInspirationAllSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+				ng-click="ideas.setInspirationSection('')">
+				&nbsp;All</button>
+			<button
+	        	id="home-inspiration-areas-northeast"
+				class="home-inspiration-areas-button"
+				ng-class="ideas.isInspirationNorthEastSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+				ng-click="ideas.setInspirationSection('Northeast')">
+				&nbsp;Northeast</button>
+			<button
+	        	id="home-inspiration-areas-midwest"
+				class="home-inspiration-areas-button"
+				ng-class="ideas.isInspirationMidWestSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+				ng-click="ideas.setInspirationSection('Midwest')">
+				&nbsp;Midwest</button>
+			<button
+	        	id="home-inspiration-areas-southeast"
+				class="home-inspiration-areas-button"
+				ng-class="ideas.isInspirationSouthEastSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+				ng-click="ideas.setInspirationSection('Southeast')">
+				&nbsp;Southeast</button>
+			<button
+	        	id="home-inspiration-areas-southwest"
+				class="home-inspiration-areas-button"
+				ng-class="ideas.isInspirationSouthWestSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+				ng-click="ideas.setInspirationSection('Southwest')">
+				&nbsp;Southwest</button>
+			<button
+	        	id="home-inspiration-areas-northwest"
+				class="home-inspiration-areas-button"
+				ng-class="ideas.isInspirationNorthWestSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+				ng-click="ideas.setInspirationSection('Northwest')">
+				&nbsp;Northwest</button>
+			<button
+	        	id="home-inspiration-areas-west"
+				class="home-inspiration-areas-button"
+				ng-class="ideas.isInspirationWestSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+				ng-click="ideas.setInspirationSection('West')">
+				&nbsp;West</button>
+	    </div>
+		
+ 		<!-- inspiration dropdown and search box for mobile view :start -->
+		<div class="select_div visible-xs">
+<!--     		<div class="search-container">
+				<form action="/action_page.php">
+					<input type="text" placeholder="Search anything" name="search">
+					<button type="submit"><i class="fa fa-search"></i></button>
+				</form>
+			</div> -->
+
+			<select
+				ng-options="option.text for option in ideas.inspirationOptions track by option.key" ng-model="ideas.xsInspirationSelection"
+				ng-change="ideas.setInspirationSection(ideas.xsInspirationSelection.key)">
+			</select>
+		</div>
+		</div>
+		<!-- inspiration dropdown and search box for mobile view :end -->
+
+
+	    <!-- carousel of ideas:begin -->
+	    <div id="ideas-carousel" class="wrapper-common wrapper-common-width wrapper-row">
+	    	<div
+	    		style="width:100%;xheight:19.75em;display:flex; flex-direction: row;justify-content: space-between;margin-bottom: 1.5em;-ms-flex: 0 1 auto;flex-wrap: wrap-reverse;"
+	    		ng-repeat="box in ideas.articleBoxes | filter : ideas.selectedInspirationSection : (ideas.selectedInspirationSection!=='')"
+	    		ng-show="ideas.currentIdea === $index">
+			    <div class="order_div" style="background-color: #fff;xwidth:50%;padding:3.875em 2.125em;">
+			    	<div class="top_ten" style="height:12em;max-width:26em;">
+				    	<span style="font-size:1em;font-weight: 600;">
+				    		<!-- <a style="color:#000;" ui-sref="articles({aid: box.Id})">{{box.Title}}</a> -->
+				    		<a style="color:#000;" ui-sref="articles({title: box.URLSafeTitle})">{{box.Title}}</a>
+				    	</span>
+				    	<br />
+				    	<span
+				    		style="font-weight: 400;"
+				    		class="paragraphOverride14"
+				    		ng-bind-html="ideas.firstParagraph(box.IntroText)"></span><br />
+				    </div>
+				    <div class="side_arrow" style="max-width:26em;text-align: center;align-self: center;margin-top:2.182em;">
+						<input
+							id=""
+		                    type="image"
+		                    src="/web/public/resources/arrow_black_left.png"
+		                    ng-click="ideas.shiftCurrentIdeaLeft()"
+		                    aria-label="navigate to previous image"
+		                    alt="previous"
+		                    />
+		                    &nbsp;
+		                    <!-- <input type="image" src="/web/public/resources/Website_Gray.png"
+		                    ng-repeat="a in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]"
+		                    style="padding: 1em;" />
+		                    &nbsp; -->
+						<input
+							id=""
+		                    type="image"
+		                    src="/web/public/resources/arrow_black_right.png"
+		                    ng-click="ideas.shiftCurrentIdeaRight()"
+		                    aria-label="navigate to next image"
+		                    alt="next"
+		                    />
+	                </div>
+			    </div>
+				<div class="order_div2" style="background-color:#ffffff;max-width:30em;">
+					<div ng-if="box.IntroImage">
+						<img
+							ng-src="{{ideas.getImage(box.IntroImage)}}"
+							style="height:auto;max-width:100%;zheight:19.75em;zwidth:30.625em;border:0px;"
+							aria-label="{{box.Title}}"
+							alt="" /><br />
+					</div>
+				</div>
+			</div>
+	    </div>
+	    <!-- carousel of ideas:end -->
+
+		<!-- inspiration boxes -->
+		
+		<!-- For desktop view -->
+	    <div class="inspirations_div slide_bottom wrapper-common wrapper-common-width wrapper-row" style="justify-content: space-between;">
+	    	<articlebox
+	    		ng-show="ideas.selectedInspirationSection===''"
+	    		ng-repeat="box in ideas.getArticleBoxesToShow() | startFrom: ideas.currentBoxSetPage*ideas.boxSetPageSize | limitTo:ideas.inspirationBoxLimit"
+	    		articleid="{{box.Id}}" introimageid="{{box.IntroImage.Id}}" title="{{box.Title}}" urlsafetitle="{{box.URLSafeTitle}}"
+	    	 />
+	    	 <articlebox
+	    		ng-show="ideas.selectedInspirationSection!==''"
+	    		ng-repeat="box in ideas.getArticleBoxesToShow() | filter:ideas.selectedInspirationSection:true | startFrom: ideas.currentBoxSetPage*ideas.boxSetPageSize | limitTo:ideas.inspirationBoxLimit"
+	    		articleid="{{box.Id}}" introimageid="{{box.IntroImage.Id}}" title="{{box.Title}}" urlsafetitle="{{box.URLSafeTitle}}"
+	    	 />
+		</div>
+		
+	    <div
+	    	ng-hide="ideas.getArticleBoxesToShow().length === 0"
+	    	class="wrapper-common wrapper-common-width wrapper-row" style="justify-content:flex-end;">
+	    	    	<div class="pagination_sec">
+	    	<span>Showing results {{(ideas.currentBoxSetPage*ideas.boxSetPageSize)+1}}-{{Math.min(ideas.boxSetPageSize*(ideas.currentBoxSetPage+1),ideas.getArticleBoxesToShow().length)}} of {{ideas.getArticleBoxesToShow().length}}</span>
+			
+	    	<button
+	    		ng-disabled="ideas.currentBoxSetPage == 0"
+	    		class="defaultInspirationPage"
+	    		style="margin-left: 3em;"
+	    		ng-click="ideas.ShowPrevBoxSet()">Prev</button>
+	    	<button
+	    		 ng-repeat="page in ideas.getBoxSetPages() track by $index"
+	    		 ng-disabled="$index===ideas.currentBoxSetPage"
+	    		 ng-class="$index===ideas.currentBoxSetPage ? 'selectedInspirationPage' : 'defaultInspirationPage'"
+	    		 style=""
+	    		 ng-click="ideas.gotoBoxPage($index)">
+	    		 {{$index+1}}</button>
+	    	<button
+	    		ng-disabled="ideas.currentBoxSetPage >= ideas.getArticleBoxesToShow().length/ideas.boxSetPageSize - 1"
+	    		class="defaultInspirationPage"
+	    		ng-click="ideas.ShowNextBoxSet()">Next</button>
+	    	</div>
+	    </div>
+
+	</div>
+	<!-- travel inspiration by location:end -->
+	
+</div>

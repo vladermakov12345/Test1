@@ -1,0 +1,1601 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<div ng-controller="hotelController as vm" ng-cloak class="maincls_hotelview">
+
+	<!-- breadcrumbs -->
+	<div class="wrapper-common wrapper-common-width wrapper-column" style="padding-bottom:0px;">
+
+		<nav class="flex-col" aria-label="breadcrumb">
+		  <ol class="breadcrumb breadcrumbs-light">
+		    <li class="breadcrumb-item"><a ui-sref="home">home</a></li>
+		    <li class="breadcrumb-item"><a ui-sref="hotels">hotels</a></li>
+		    <li class="breadcrumb-item active" aria-current="page">search
+		    	<!-- {{vm.getDestination()}} | {{vm.getCheckin()}} - {{vm.getCheckout()}} | {{vm.getNumRooms()}} {{vm.getNumRooms()==='1'?'Room':'Rooms'}} -->
+		    </li>
+		  </ol>
+		</nav>
+
+        <div class="heading-wrapper single_hotel_heading_wrapper">
+            <div class="container inner-heading">
+                <div class="page_heading" style="margin:0px;">
+                    <div class="title d-none d-sm-flex" style="align-items: center;">
+                        <i class="fa fa-bed" aria-hidden="true"></i> accessibleGO <strong>Hotels</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+
+
+	<!-- search form -->
+	<div class="wrapper-base" style="background-color:#eee;padding-bottom:0px;">
+
+		<!-- last searched -->
+		<div
+			ng-show="vm.hotelSearchService.lastSearchCriteria.display"
+			class="wrapper-common wrapper-common-width wrapper-row"
+			style="margin-bottom:15px;">
+			<a ng-click="vm.goBackToSearchResults()" style="color:#299b7c;text-decoration: underline;font-size: 1em;"><i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 5px;"></i>back to results for <span style="font-weight: bold;">{{ vm.hotelSearchService.lastSearchCriteria.display }}</span></a>
+		</div>
+
+		<div class="container main-container">
+			<div class="row">
+
+				<div style="padding:0;" class="container hotels-page" role="search">
+					<div
+						class="wrapper-common wrapper-common-width wrapper-row hotel_result_filters" 
+						style="background-color:#fff;padding:1em;justify-content: flex-start;box-shadow: 0 1px 6px 0 rgba(0,0,0,0.2);justify-content: space-between;"
+						role="search">
+						<div style="flex-basis:100%;xflex-shrink:1;xflex-grow:2;">
+							<where-picker
+								id="destination"
+								label="Where are you going?"
+								ng-model="vm.destination"
+								xplaceholder="{{vm.hotelLookupService.params.destination}}"
+				 				include-hotels="Y"
+				 				include-cities="Y"
+				 				include-regions="Y" />
+			 			</div>
+						<div style="flex-shrink:1;" class="filter-check-in mt-3">
+							<date-picker
+								id="checkin"
+								label="Check-in"
+								ng-model="vm.hotelLookupService.params.checkin"
+								init-open="{{vm.initCheckInPopupOpen}}"
+								placeholder="Choose Date" />
+						</div>
+						<div style="flex-shrink:1;" class="filter-check-out mt-3">
+			 				<date-picker id="checkout" label="Check-out" min-date="{{vm.hotelLookupService.params.checkin}}" ng-model="vm.hotelLookupService.params.checkout"
+			 				 placeholder="Choose Date" />
+			 			</div>
+			 			<div style="flex-shrink:1;" class="filter-rooms mt-3">
+							<hotel-search-guests
+								id="hotelSearchRoomsButton"
+								label="Rooms"
+								ng-model="vm.hotelLookupService.params.rooms"
+								min="{{vm.hotelSearchService.default.roomsMin}}"
+								max="{{vm.hotelSearchService.default.roomsMax}}"
+								xon-change="vm.hotelSearchAdultsButton" />
+			 			</div>
+						<div style="flex-shrink:1;" class="filter-guests mt-3">
+							<!-- <hotel-search-guests
+								label="Adults"
+								ng-model="vm.hotelLookupService.params.adults"
+								rooms="{{vm.hotelLookupService.params.adults}}"
+								min="1"
+								max="{{vm.hotelSearchAdultsMax}}"
+							/> -->
+						</div>
+						<div style="flex-shrink:1;" class="filter-guests mt-3">
+							<!-- <hotel-search-guests
+								label="Children"
+								ng-model="vm.hotelLookupService.params.children"
+								rooms="{{vm.hotelLookupService.params.children}}"
+								min="0"
+								max="{{vm.hotelSearchChildrenMax}}"
+							/> -->
+						</div>
+						<div style="margin-left: auto;" class="filter-search mt-3">
+							<label for="home-booking-form-hotels_searchbutton">&nbsp;</label>
+							<br />
+							<input
+								id="home-booking-form-hotels_searchbutton"
+								class="home-booking-form-searchbutton"
+								type="button"
+								value="GO"
+								ng-click="vm.submitSearch()"
+							/>
+						</div>
+			<!-- 			<div style="text-align: right;width:110px;" class="p-0">
+							<label>&nbsp;</label>
+							<br />
+							<img ng-src="{{vm.image_poweredByPPN}}" alt="" />
+						</div> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- progress bar -->
+	<div
+		ng-show="vm.errs.length===0"
+		class="wrapper-base" style="background-color:#eee;height:8.125em;margin-bottom:4em">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+			<div class="semibold18 lineThru wrapper-common wrapper-common-width wrapper-row" style="vertical-align: center;align-self: center;margin-top:1.25em;">
+				<div style="width:33%;">
+					<span style="border-radius: 50%;background-color: #00509f;color:#fff;">1</span>
+				</div>
+				<div style="width:34%;">
+					<span style="border-radius: 50%;">2</span>
+				</div>
+				<div style="width:33%;">
+					<span style="border-radius: 50%;">3</span>
+				</div>
+			</div>
+
+			<div class="semibold18 wrapper-common wrapper-common-width wrapper-row" style="width:100%;align-self: center;">
+				<div style="width:33%;text-align: center;">
+					<span style="color:#;">Choose your room</span>
+				</div>
+				<div style="width:34%;text-align: center;">
+					Enter your details
+				</div>
+				<div style="width:33%;text-align: center;">
+					Secure your booking
+				</div>
+			</div>
+
+			<!-- clubgo DEAL banner -->
+			<div
+				ng-show="!vm.pendingCUGRates && vm.roomOptionsCUG.length>0"
+			 	class="text-center dropdown"
+				style="overflow: -webkit-paged-x;">
+				<div class="dropdown">
+					<button type="button" class="ribbon" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<!-- desktop -->
+						<img class="d-none d-md-block" alt="" ng-src="{{vm.env.cdn_static}}/i/clubGO/clubGO-deal-banner.png" style="padding-top:11px;xmax-height:81px;width:100%;max-width: 711px;" />
+
+						<!-- mobile -->
+						<img class="d-block d-md-none" alt="" ng-src="{{vm.env.cdn_static}}/i/clubGO/clubGO-deal-banner-sm.png" style="padding-top:30px;xmax-height:81px;width:100%;max-width: 711px;" />
+					</button>
+
+					<div class="dropdown-menu clubgo-modal" aria-labelledby="dropdownMenuButton">
+						<div id="clubgo-modal">
+							<button id="clubgo-modal-close"><i class="fa fa-times-circle"></i></button>
+							<p><b>clubGO</b> is accessibleGO's free travel club for people with disabilities.</p>
+							<p>clubGO deals beat public deals and rates 96% of the time!</p>
+							<p>This hotel is running a clubGO deal today.</p>
+							<p class="text-bold text-center">Join free to view this deal.</p>
+							<a ng-click="main.showJoinModal()">Join</a>
+							<a ng-click="main.showLoginModal()">Login</a>
+						</div>
+					</div>
+				</div>	
+
+			</div>
+
+				
+
+
+		</div>
+	</div>
+
+
+	<!-- invalid input params -->
+	<div ng-show="vm.errs.length>0" class="wrapper-base" style="background-color:#bababa;height:18.125em;">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+			<h2>Hmm... something in your search criteria isn't valid...</h2>
+			<ul ng-repeat="err in vm.errs">
+				<li>{{err}}</li>
+			</ul>
+
+			<div>
+				<h4>
+					<strong>
+						<a style="color:#000;" ui-sref="hotels">Please try searching again</a>
+					</strong>
+				</h4>
+			</div>
+		</div>
+	</div>
+
+<!-- TODO: refactor to ORGANISM
+	<div class="hotel_mainCls" ng-cloak>
+	
+		<div class="container main-container">
+			<div class="row">
+				<div style="padding:0;" class="container hotels-page" role="search">
+					<div ng-include="'hotelSearchBar.html'"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+ -->
+
+	<!-- valid input params -->
+	<div ng-show="vm.errs.length===0">
+
+		<div class="hotel_mainCls" ng-cloak>
+		
+
+
+
+			<!-- search hotel validation errors -->
+			<div
+				ng-show="vm.showErrors && vm.hotelSearchService.errs.length>0" class="wrapper-common wrapper-common-width wrapper-row"
+				style="background-color:#fff;padding:1em;justify-content: flex-start;">
+				<div style="color: red;font-weight:600;text-align: left;" ng-show="vm.hotelSearchService.errs">
+					<div ng-repeat="err in vm.hotelSearchService.errs | limitTo:1">
+						{{err}}
+					</div>
+				</div>
+			</div>
+
+			<!-- waiting -->
+			<div ng-if="vm.pendingHotelDetails" style="text-align:center;margin-top:4em;margin-bottom:10em;">
+				<div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">One moment please...</div>
+				<i class="fa fa-spinner fa-spin" aria-hidden="true" style="font-size:4em;color:#299b7c;"></i>
+			</div>
+
+			<!-- breadcrumbs -->
+			<!-- <div ng-if="!vm.pendingHotelDetails" class="wrapper-base" style="background-color:#fff;  padding-bottom: 0em;">
+				<div class="wrapper-common wrapper-common-width wrapper-row">
+					<div style="margin: .5em 0;">
+						<a style="color:#000;font-weight:700;text-decoration: underline;" ng-click="vm.goBackToSearchResults()">search results</a> :
+						!-- <i class="fa fa-bed" aria-hidden="true"></i> --
+						{{vm.getDestination()}} | {{vm.getCheckin()}} - {{vm.getCheckout()}} | {{vm.getNumRooms()}} {{vm.getNumRooms()==='1'?'Room':'Rooms'}}
+					</div>
+				</div>
+			</div> -->
+
+			<!-- hotel address, photos, amenities & nav -->
+			<div
+				ng-if="!vm.pendingHotelDetails"
+				class="d-none d-md-block wrapper-base"
+				style="background-color:#fff;  padding-bottom: 0em;">
+				<div class="wrapper-common wrapper-common-width wrapper-row" style="justify-content: space-between;flex-shrink:1;margin-top:1.125em;align-items: center;">
+					<!-- column 1: begin -->
+
+					<!-- hotel name, favorite, neighborhood, address -->
+					<div style="xflex-grow:2;xflex-shrink:1;">
+						<div style="width:auto;max-width:34em;">
+
+							<!-- hotel image 
+							<div style="flex-basis:135px;">
+								<img
+									hide-until-good
+									data-ng-src="https:{{vm.hoteldetails.thumbnail_hq.hundred_fifty_square.replace('https:','')}}" style="max-width:120px;"
+									aria-hidden="true"
+								/>
+							</div>
+							-->
+							<span class="semibold24" style="margin-right:2.5em;color:#299b7c;">{{vm.hoteldetails.name}}</span>
+							<!-- <img
+								ng-repeat="a in vm.getArray(vm.hoteldetails.star_rating) track by $index"
+								src="/web/public/resources/Star_Orange.png" alt="" /> -->
+						</div>
+
+						<!--Add favorite directive -->
+						<div class="favDir_class">
+							<favorite-directive type="hotel" referenceid="{{vm.hoteldetails.id}}"></favorite-directive>
+						</div>
+
+						<div style="width:auto;">
+							<span class="light16">
+								<span ng-if="vm.hoteldetails.neighborhood">Neighborhood: {{vm.hoteldetails.neighborhood.name}}
+									<br />
+								</span>
+								<span ng-if="vm.hoteldetails.address">{{vm.getAddress()}}</span>
+							</span>
+						</div>
+					</div>
+					<!-- column 1: end -->
+
+					<!-- column 2: -->
+					<div style="width:auto; align-self:center; text-align:center;">
+						<div style="line-height:1em;">
+							<span style="font-weight: 600;font-size:.875em;vertical-align: super;">From</span>
+							<span ng-style="{'text-decoration': vm.roomOptionsCUG.length>0 && vm.displayState==='club'?'line-through':'none'}"
+							 style="font-weight: 600;font-size:1.875em;">{{vm.roomOptions[0].price_details.display_price | currency: "$": 0}}</span>
+							<span style="font-weight: 600;font-size:.875em;vertical-align: super;">{{vm.roomOptions[0].price_details.display_currency}}</span>
+							<br />
+							<span class="light14 float-right">per night</span>
+						</div>
+						<div ng-if="vm.roomOptionsCUG.length>0 && vm.displayState==='club'" style="line-height:.75em;color:#27799f;margin-top:2em;">
+							<span style="font-weight: 600;font-size:1.875em;">{{vm.roomOptionsCUG[0].price_details.display_price | currency: "$": 0}}</span>
+							<span style="font-weight: 600;font-size:.875em;vertical-align: super;">{{vm.roomOptionsCUG[0].price_details.display_currency}}</span>
+							<br />
+							<span style="font-weight:400;font-size:.875em;">per night</span>
+						</div>
+					</div>
+
+					<!-- column 3: begin -->
+					<div style="xflex-grow:2;xflex-shrink: 1;text-align: center;">
+						<!-- <div ng-show="!vm.pendingCUGRates && vm.roomOptionsCUG.length>0">
+							<span style="font-size: 1.75em;color: #299b7c;">
+								<img
+									hide-until-good
+									class="header-img"
+									style="height:1.75em;vertical-align: sub;"
+									ng-src="{{vm.image_clubgo}}"
+									alt="" /> Deal Available
+							</span>
+							<span
+								ng-if="vm.displayState!=='club'"
+								style="font-size: 1.125em;color: #299b7c;">
+								<br /><a ng-click="vm.unlockCUG()">Unlock clubGO deals</a> for this hotel!
+							</span>
+							<br/>
+						</div> -->
+						<input id="" style="margin-top:12px;padding:15px 70px;" xclass="hotel-book-button" class="buttonBlue" type="button" value="Choose a Room"
+						 ng-click="scrollTo('sectionRoomsAndRates')" />
+						<br />
+						<div style="margin: 10px 0; width: 300px; font-size: 0.8em;">
+							Your purchase helps us negotiate better services for hotel accessibility.
+							Learn about our <a href="https://vision.accessiblego.com">vision for change.</a>
+						</div>
+					</div>
+					<!-- column 3: end -->
+				</div>
+			</div>
+
+			<div
+				ng-if="!vm.pendingHotelDetails"
+				class="d-block d-md-none wrapper-base"
+				style="background-color:#fff;  padding-bottom: 0em;">
+				<div
+					class="wrapper-common wrapper-common-width wrapper-column"
+					style="justify-content: space-between;flex-shrink:1;align-items: center;">
+					<div
+						class="text-center"
+						style="font-size: 1.25em;font-weight: 700;">
+						From <span style="font-size:1.5em;" ng-style="{'text-decoration': vm.roomOptionsCUG.length>0 && vm.displayState==='club'?'line-through':'none'}">{{vm.roomOptions[0].price_details.display_price | currency: "$": 0}}</span>
+						<span style="font-size:1.5em;" ng-if="vm.roomOptionsCUG.length>0 && vm.displayState==='club'">{{vm.roomOptionsCUG[0].price_details.display_price | currency: "$": 0}}</span> <span style="vertical-align: super;"> {{vm.roomOptions[0].price_details.display_currency}}</span>   per night
+					</div>
+					<div style="padding:15px">
+						<div class="semibold24" style="margin-right:2.5em;color:#299b7c;line-height: 22px;">
+							{{vm.hoteldetails.name}}
+						</div>
+						<div ng-if="vm.hoteldetails.address" class="light16">
+							{{vm.getAddress()}}
+						</div>
+						<div ng-if="vm.hoteldetails.neighborhood">
+							Neighborhood: <span style="font-weight: bold">{{vm.hoteldetails.neighborhood.name}}</span>
+						</div>
+					</div>
+
+					<div ng-show="!vm.hasAugmentedData">
+						<div class="row">
+							<div class="col col-8">
+								<p class="text-bold text-dark-blue m-1">
+									<i class="fa fa-wheelchair fa-2x" aria-hidden="true"></i>
+									<i class="fa fa-exclamation-triangle fa-2x" style="color:darkorange;"></i><br/>
+									Accessibility not yet determined.
+								</p>
+							</div>
+
+						<!--Add favorite directive -->
+							<div class="col col-4 float-right">
+								<favorite-directive type="hotel" referenceid="{{vm.hoteldetails.id}}"></favorite-directive>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+		<!-- hotel nav options bar -->
+		<div ng-if="!vm.pendingHotelDetails" class="wrapper-base" style="background-color:#fff;  padding: 0em;">
+
+			<div class="d-none d-sm-flex wrapper-common wrapper-common-width wrapper-row" style="margin-top:1.75em;">
+				<button
+					class="hotel-section-button"
+					ng-class="home.isInspirationAllSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+					style="width:auto;"
+					ng-click="scrollTo('sectionRoomsAndRates')">
+					&nbsp;Rooms & Rates</button>
+				<button
+					class="hotel-section-button"
+					style="width:auto;"
+					ng-class="home.isInspirationNorthEastSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+				 	ng-click="scrollTo('sectionDescription')">
+					&nbsp;Hotel Description</button>
+				<button
+					class="hotel-section-button"
+					style="width:auto;"
+					ng-class="home.isInspirationMidWestSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"ng-click="scrollTo('sectionAmenities')">
+					&nbsp;Amenities</button>
+				<button
+					class="hotel-section-button"
+					style="width:auto;"
+					ng-class="home.isInspirationAllSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+					ng-click="scrollTo('sectionReviews')">
+					&nbsp;Accessibility Reviews</button>
+			</div>
+
+			<div class="d-flex d-sm-none wrapper-common wrapper-common-width wrapper-row" style="margin-top:1.75em;">
+				<button
+					class="hotel-section-button"
+					ng-class="home.isInspirationAllSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+					style="width:auto;padding:0;border:0;xfont-weight: 600;"
+					ng-click="scrollTo('sectionRoomsAndRates')">
+					RATES</button>
+				<button
+					class="hotel-section-button"
+					style="width:auto;padding:0;border:0;xfont-weight: 600;"
+					ng-class="home.isInspirationNorthEastSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+				 	ng-click="scrollTo('sectionDescription')">
+					ABOUT</button>
+				<button
+					class="hotel-section-button"
+					style="width:auto;padding:0;border:0;xfont-weight: 600;"
+					ng-class="home.isInspirationMidWestSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"ng-click="scrollTo('sectionAmenities')">
+					AMENITIES</button>
+				<button
+					class="hotel-section-button"
+					style="width:auto;padding:0;border:0;xfont-weight: 600;"
+					ng-class="home.isInspirationAllSelected() ? 'home-inspiration-button-active' : 'home-inspiration-button-normal'"
+					ng-click="scrollTo('sectionReviews')">
+					<i class="fa fa-wheelchair" aria-hidden="true" style="color:#fff;"></i> REVIEWS ({{vm.reviews.length}})</button>
+			</div>
+		</div>
+
+
+
+		<!-- photos, amenities, and write review -->
+		<div ng-if="!vm.pendingHotelDetails" class="wrapper-base" style="background-color:#fff;  padding: 0em;">
+			<div class="wrapper-common wrapper-common-width wrapper-row mt-sm-3" style="justify-content: space-between;flex-shrink:1;align-items: center;">
+
+				<!-- photo section -->
+				<div style="max-width:30em; margin:0 auto; align-self: baseline;">
+					<photos-carousel ng-collection="vm.hoteldetails.photo_data" nav="bottom" />
+				</div>
+
+				<!-- accessible amenities section -->
+				<div style="width:29em;align-self:flex-start; margin:0 auto;" class="below_crousal">
+					<div xclass="ppnrating" style="">
+						<!-- <div class="wrapper-common wrapper-common-width wrapper-row">
+							<div>
+								<div class="c100 p{{vm.hoteldetails.review_rating*10 | number:0}} small blue">
+				                    <span style="color:#000;font-weight: 600;">{{vm.hoteldetails.review_rating}}</span>
+				                    <div class="slice">
+				                        <div class="bar"></div>
+				                        <div class="fill"></div>
+				                    </div>
+				                </div>
+							</div>
+							<div>
+								Overall guest score<br />
+								<span style="font-size:1.5em;font-weight: 600">{{vm.hoteldetails.review_rating_desc}}</span><br>
+								Based on {{vm.hoteldetails.review_count}} verified Guest Ratings
+							</div>
+						</div> -->
+
+						<!-- Hotel ACCESSIBILITY SECTION -->
+
+						<!-- <span class="semibold16" style="margin: 1em 0;padding-bottom:1em;">Accessible Amenities</span>
+								<br />
+								<span ng-repeat="item in vm.augmentedData | limitTo:5" style="margin-bottom:.5em;">
+									<img src="/web/public/resources/check_green.png" alt="" />
+									<span ng-bind-html="item.name" class="light14" />
+									<br />
+								</span>
+								<a class="light16" href="" ng-click="scrollTo('sectionAccessibleAmenities')" style="padding-top:2em;padding-left:1em;font-weight:600;font-size:1em;">view more...</a>
+								<br /> -->
+						<div class="hotel_Amenities_cls wrapper-row hotelaccess_roomsection" style="flex-wrap: nowrap;margin-top:1em;padding:0 15px;">
+							<div
+								ng-show="fhai.length>0 && vm.augmentedData.length>0"
+								class="hotel_accessibilitysection"
+								style="padding: 0 5px;text-align: left;width:50%;">
+								<span style="font-size: 1.25em; 
+								font-weight: 600; 
+								color: #00509f;text-decoration: underline;">Hotel Accessibility</span>
+								<span ng-repeat="item in (fhai = (vm.augmentedData | filter: { category: 'hotel' } | limitTo:5 ))" style="margin-bottom:.1em;display: block;">
+									<!-- <img ng-src="/web/public/resources/check_green.png" alt="" /> -->
+									<img
+										hide-until-good
+										ng-if="item.img"
+										ng-src="https://accessiblego.azureedge.net/img/accessibility/{{item.img}}"
+										style="width: 18px; height: auto;"
+										aria-hidden="true"
+										alt="" />
+									<span ng-bind-html="item.name" class="light14" />
+									<br />
+								</span>
+								<!-- <a class="light16" style="padding-left:0.5em;font-weight:600;font-size:1em;">view more...</a> -->
+							</div>
+							<!-- PENDING mapping of data points -->
+							<div
+								ng-show="frai.length>0 && vm.augmentedData.length>0"
+								class="hotel_roomsection"
+								style="padding: 0 0 0 5px;width: 50%;">
+								<span style="font-size: 1.25em; 
+								font-weight: 600; 
+								color: #00509f;text-decoration: underline;">In-Room Accessibility</span>
+								<span ng-repeat="item in ( frai = (vm.augmentedData | filter: { category: 'room' } | limitTo:5 ))" style="margin-bottom:.1em;display: block;">
+									<img
+										hide-until-good
+										ng-if="item.img"
+										ng-src="https://accessiblego.azureedge.net/img/accessibility/{{item.img}}"
+										style="width: 18px; height: auto;"
+										aria-hidden="true"
+										alt="" />
+									<span ng-bind-html="item.name" class="light14" />
+									<br />
+								</span>
+								<!-- <a class="light16" href="" ng-click="scrollTo('sectionAccessibleAmenitiesRoom')" style="padding-left:0.5em;font-weight:600;font-size:1em;">view more...</a> -->
+							</div>
+						</div>
+
+						<div
+							ng-show="vm.augmentedData.length > (fhai.length + frai.length)"
+							class="text-center">
+							<a class="light16" href="" ng-click="scrollTo('sectionAccessibleAmenities')" style="padding-left:0.5em;font-weight:600;font-size:1em;color:#299b7c;text-decoration: underline;">view {{ vm.augmentedData.length - (fhai.length + frai.length) }} more feature(s)</a>
+						</div>
+
+						<hr />
+
+						<!-- guest accessibility :: mobile-->
+						<div ng-show="vm.reviews.length>0" class="d-block d-sm-none" style="padding: 10px;font-size: 1em;">
+							<span style="font-weight: bold;font-size: 1em;">Guest Accessibility: </span>
+							<div class="float-right"> 
+						        <div class="review_star_part">
+						            <div class="review_star_wrap" style="color:#00509f;">
+						                <i
+						                	ng-repeat="rating in [0,1,2,3,4]"
+						                	ng-class="vm.averageRatings>rating?'fas fa-star':'far fa-star'"></i>
+						                ({{vm.averageRatings}})
+						            </div>
+						        </div>
+							</div>
+						</div>
+
+						<!-- guest accessibility :: desktop-->
+						<div ng-show="vm.reviews.length>0" class="d-none d-sm-block" style="padding: 10px;font-size: 1em;">
+							<span style="font-weight: bold;font-size: 1.5em;color:#00509f;">Guest Accessibility Score:</span>
+
+							<!-- review average score -->
+							<div class="float-right" style="line-height:2.75"> 
+						        <div class="review_star_part">
+						            <div class="review_star_wrap" style="color:#00509f;">
+						                <i
+						                	ng-repeat="rating in [0,1,2,3,4]"
+						                	ng-class="vm.averageRatings>rating?'fas fa-star':'far fa-star'"></i>
+						                ({{vm.averageRatings}})
+						            </div>
+						        </div>
+							</div>
+
+							<!-- review excerpts -->
+							<div class="review" aria-hidden="false" style="padding-top:12px;">
+								<div class="row ng-scope" ng-repeat="review in vm.reviews track by review.id">
+									<div class="col-auto">
+										<i class="fa fa-user"></i>
+									</div>
+									<div class="col">
+										<p class="review_text_title">"{{::review.title}}"</p>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+
+						<!-- review samples -->
+						<div ng-show="vm.reviews.length>0" class="d-block d-sm-none" style="padding: 10px;font-size: 1em;">
+							<a href="#review_{{r.id}}" ng-repeat="r in vm.reviews" ng-click="scrollTo('sectionReviews')">
+								<i class="fas fa-quote-left" style="color: #ccc;" aria-hidden="true"></i> {{r.title | limitWords:8}} <!-- <i class="fas fa-quote-right" style="color: #ccc;" aria-hidden="true"></i> --><br/>
+								<i class="fas fa-user" style="color: #ccc;" aria-hidden="true"></i> {{r.description | limitWords:8}}
+							</a>
+						</div>
+
+						<!-- write a review button -->
+						<div class="text-center">
+							<button class="buttonBlue" style="margin-top:40px;padding:15px 70px;background-color: #00509f;" ng-click="vm.review()">Write a review</button>
+							<div style="margin: 10px 0; xwidth:300px; font-size: 0.8em;">
+								Stayed at this hotel?  Help others navigate hotel accessibility!
+								<!-- Share your accessibility experience<br/>
+								and help millions of other travelers<br/>
+								navigate hotel accessibility. -->
+								<!-- Learn about our vision for change. -->
+							</div>
+						</div>
+
+						<!-- <div class="wrapper-common wrapper-common-width wrapper-row" style="flex-wrap: nowrap;margin-top:1em;">
+
+							<div ng-show="vm.augmentedData.length>0">
+								<span class="semibold16" style="margin: 1em 0;padding-bottom:1em;">Accessible Amenities</span>
+								<br />
+								<span ng-repeat="item in vm.augmentedData | limitTo:5" style="margin-bottom:.5em;">
+									<img src="/web/public/resources/check_green.png" alt="" />
+									<span ng-bind-html="item.name" class="light14" />
+									<br />
+								</span>
+								<a class="light16" href="" ng-click="scrollTo('sectionAccessibleAmenities')" style="padding-top:2em;padding-left:1em;font-weight:600;font-size:1em;">view more...</a>
+								<br />
+							</div>
+
+							<div>
+								<span class="semibold16" style="margin: 1em 0;padding-bottom:1em;">Featured Amenities</span>
+								<br />
+
+								<span ng-repeat="a in vm.hoteldetails.amenity_data | limitTo:5" style="margin-bottom:.5em;">
+									<img src="/web/public/resources/check_green.png" alt="" />
+									<span ng-bind-html="a.name" class="light14" />
+									<br />
+								</span>
+								<a class="light16" href="" ng-click="scrollTo('sectionAmenities')" style="padding-top:2em;padding-left:1em;font-weight:600;font-size:1em;">view more...</a>
+								<br />
+
+							</div>
+						</div> -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- ppn amenities & description -->
+		<div ng-if="!vm.pendingHotelDetails" class="wrapper-base" style="background-color:#fff;  padding: 0em;">
+			
+			<div class="wrapper-common wrapper-common-width wrapper-row" style="margin-top:1.75em;justify-content: space-between;flex-shrink:1;align-items: center;">
+
+				<!-- hotel amenities -->
+				<div class="d-none d-sm-block xHotel_Amenities_text" style="flex-shrink:1;flex-basis:40%;padding:10px;align-self: baseline;">
+					<div class="text-center semibold24" style="color:#299b7c;border-bottom:2px solid #299b7c;margin-bottom:8px;">Hotel Amenities</div>
+					<div
+						ng-repeat="item in vm.hoteldetails.amenity_data | limitTo:8"
+						ng-show="item.name!=='Accessible'"
+						style="margin-bottom:.1em; display:block;">
+						<i class="fa fa-check" style="color:#299b7c;" aria-hidden="true"></i>
+						<span class="light14" style="xcolor:#fff;">{{item.name}}</span>
+					</div>
+
+					<div
+						ng-show="vm.hoteldetails.amenity_data.length>8"
+						class="text-center">
+						<a class="light16" href="" ng-click="scrollTo('sectionFeaturedAmenities')" style="padding-left:0.5em;font-weight:600;font-size:1em;color:#299b7c;text-decoration: underline;">view {{ vm.hoteldetails.amenity_data.length-8 }} more amenities</a>
+					</div>
+				</div>
+
+				<!-- room amenities -->
+				<!-- PENDING mapping of data points 
+				<div class="xHotel_Amenities_text" style="flex-shrink:1;flex-basis:16em;padding:10px;align-self: baseline;">
+					<span class="semibold24" style="color:#299b7c"> Available for Rooms</span>
+
+					<div style="margin-bottom:.1em; display:block;" ng-repeat="item in vm.hoteldetails.amenity_data | limitTo:8">
+						<img src="/web/public/resources/check_green.png" alt="" />
+						<span class="light14" style="xcolor:#fff;">{{item.name}}</span>
+					</div>
+					<a class="light16" href="" ng-click="scrollTo('sectionFeaturedAmenities')" style="padding-left:0.5em;font-weight:600;font-size:1em;">view more...</a>
+				</div>
+			-->
+
+				<!-- description -->
+				<div class="" style="flex-shrink:1;flex-grow:2;flex-basis:60%;padding:10px;align-self: start;">
+					<div class="text-center" style="color:#299b7c;border-bottom:2px solid #299b7c;margin-bottom:8px;">
+						<a id="sectionDescription" name="sectionDescription" class="semibold24" style="color:#299b7c;">Hotel Description</a>
+					</div>
+					<span ng-bind-html="vm.decodeDescription(vm.hoteldetails.hotel_description)" />
+					<div ng-if="!vm.hoteldetails.hotel_description">None Provided</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- overall guest score -->
+<!-- PENDING mapping of data points 
+		<div ng-if="!vm.pendingHotelDetails" class="wrapper-base" style="background-color:#fff;  padding: 0em;">
+			<div class="wrapper-common wrapper-common-width wrapper-row" style="margin-top:1.75em;justify-content: space-between;flex-shrink:1;align-items: center;">
+				<div class="hotel_Amenities_cls guest_score wrapper-row" style="justify-content: space-between;align-self: baseline; flex-shrink:1;align-items: center;margin:30px auto 20px;">
+					<div class="circle_hotel">
+							Overall Guest Score
+					</div>
+					<div class="circle_hotel_text">
+							Based on 800 ratings from Booking.com. Not a reflection of this hotel’s accessibility.
+					</div>
+				</div>
+			</div>
+		</div>
+	-->
+		<hr />
+
+		<!-- SECTION :: WHY BOOK -->
+		<!-- ppn amenities & description -->
+		<div
+			ng-if="!vm.pendingHotelDetails"
+			id="whyBook"
+			class="wrapper-base d-sm-block section"
+			style="background-color:#fff; padding:45px 15px 15px 15px;">
+			
+			<div class="wrapper-common wrapper-common-width wrapper-row" style="margin:2.75em auto;justify-content: space-between;flex-shrink:1;align-items: center;">
+
+				<div class="heading col-md-12">
+					<h2 style="font-size:1.75em;font-weight: bold;">Why Book With Us?</h2>
+
+					<div class="green-line"></div>
+
+					<div class="row why_book_Wrapper">
+
+						<!-- clubGO Deals -->
+						<div class="single_why_book_card text-center">
+							<div class="single_why_book_title collapsed" data-toggle="collapse" data-target="#first" aria-expanded="false" aria-controls="first">
+								<i class="fa fa-angle-right"></i>
+								<span class="semibold24">clubGO Deals</span>
+								<span class="single_why_book_icons"><i class="fa fa-tags fa-2x" style="color:#1f635d;" aria-hidden="true"></i></span>	
+							</div>
+							
+							<div class="single_why_book_content" id="first">
+								<span class="semibold16">clubGO deals beat public rates 96% of the time!</span><br/>
+								<br/>
+								<span class="semibold16">clubGO is for people with disabilities.  Rates are not available to the public.</span><br/>
+							</div>
+						</div>
+
+						<!-- Better Communication -->
+						<div class="single_why_book_card text-center">
+							<div class="single_why_book_title collapsed" data-toggle="collapse" data-target="#second" aria-expanded="false" aria-controls="second">
+								<i class="fa fa-angle-right"></i>
+								<span class="semibold24">Better Communication</span>
+								<span class="single_why_book_icons">
+									<i class="fas fa-headset fa-2x" style="color:#1f635d;padding-right:3px;" aria-hidden="true"></i>
+									<i class="fas fa-hotel fa-2x d-none" style="color:#1f635d;padding-left:3px;" aria-hidden="true"></i>
+								</span>	
+							</div>
+							<div class="single_why_book_content" id="second">
+								<div class="semibold16">We take your requests seriously.  We personally email and call the hotel to convey your needs.</div>
+								<div style="color:#111;font-size: .75em;">For reservations made more than 48-hours before your check-in date.</div>
+							</div>
+						</div>
+
+						<!-- Get More of What Matters -->
+						<div class="single_why_book_card text-center">
+							<div class="single_why_book_title collapsed" data-toggle="collapse" data-target="#third" aria-expanded="false" aria-controls="third">
+								<i class="fa fa-angle-right"></i>
+								<span class="semibold24">Get More of What Matters</span>
+								<span class="single_why_book_icons">
+									<i class="fas fa-thumbs-up fa-2x" style="color:#1f635d;padding-right:3px;" aria-hidden="true"></i>
+									<i class="fas fa-thumbs-down d-none fa-2x fa-flip-horizonta" style="color:#1f635d;padding-left:3px;" aria-hidden="true"></i>
+								</span>	
+							</div>
+							
+							<div class="single_why_book_content" id="third">
+								<span class="semibold16">Using accessibleGO is the best way to improve accessible travel for everyone.</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+		<!-- SECTION :: RATES -->
+		<div ng-if="!vm.pendingHotelDetails" style="background-color: #eee;">
+			
+			<div class="wrapper-base" style="background-color:#eee;min-height:17.250em;padding:45px 15px 15px 15px;">
+
+				<!-- rates title -->
+				<div class="wrapper-common wrapper-common-width wrapper-row " style="flex-wrap: wrap;align-items: center;justify-content: space-between;padding-bottom: 8px;">
+					<div style="padding-right: 35px;">
+						<a id="sectionRoomsAndRates" name="roomsAndRates" class="semibold24" style="color:#000;">Rooms & Rates</a>
+					</div>
+
+					<div style="font-size: 1em; font-weight:400;vertical-align: middle;">
+						( <span style="font-weight: bold;">{{ vm.getNumberNightsStay() }} nights:</span> {{vm.hotelLookupService.params.checkin | date:'MM/dd/yyyy' }} - {{vm.hotelLookupService.params.checkout | date:'MM/dd/yyyy' }} )
+					</div>
+
+					<!-- desktop -->
+					<div
+						class="d-none d-sm-block"
+						style="font-weight: bold;color:#299b7c;">
+						<div
+							ng-show="vm.displayState!=='club' && vm.roomOptionsCUG.length>0"
+							style="font-size: 1.25em;">
+							<a ng-click="vm.unlockCUG()" style="color:blue;text-decoration: underline;">Join clubGO</a> to reveal deal prices! It's free.
+						</div>
+					</div>
+
+					<!-- mobile -->
+					<div
+						ng-show="vm.displayState!=='club' && vm.roomOptionsCUG.length>0"
+						class="d-block d-sm-none text-center p-3"
+						style="font-weight: bold;color:#299b7c;width:100%;font-size: 1.25em;">
+						<div>
+							<a ng-click="vm.unlockCUG()" style="color:#00509f;text-decoration: underline;">Join clubGO</a> to reveal deal prices!</div>
+						<div style="font-size: .75em;">Better rates, 96% of the time.  It's free.</div>
+					</div>
+				</div>
+
+				<div
+					class="d-none d-sm-block wrapper-common wrapper-common-width wrapper-row"
+					style="background-color:#1f635d;width:100%;vertical-align: middle;padding:.5em .75em;">
+					<span class="semibold18" style="color:#fff;">AVAILABLE ROOMS</span>
+				</div>
+
+
+
+
+				<!-- ********************   C L U B G O   ******************** -->
+				<div>
+					<!-- CUG :: PENDING -->
+					<div ng-if="vm.pendingCUGRates" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+						<div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">Looking up clubGO rates...</div>
+						<i class="fa fa-spinner fa-spin" aria-hidden="true" style="font-size:4em;color:#299b7c;"></i>
+					</div>
+
+					<!-- CUG :: NO RATES AVAIL -->
+					<!-- new design - do we want to show a message when no CUG deals? <div ng-show="!vm.pendingCUGRates && vm.roomOptionsCUG.length===0" class="wrapper-common wrapper-common-width wrapper-column">
+						<div style="background-color:#3b3f45;width:100%;vertical-align: middle;padding:.5em .75em;">
+							<span class="semibold16" style="color:#fff;">clubGO Rates</span>
+						</div>
+						<div style="background-color: #fff;min-height:2em;width:100%;">
+							<div class="wrapper-common wrapper-common-width wrapper-row" style="width:100%;padding:1em;border-bottom:1px solid #bababa;">
+								<h3 ng-bind-html="vm.noCUGRoomsAvailMessage"></h3>
+							</div>
+						</div>
+					</div> -->
+
+					<!-- CUG :: RATES AVAILABLE -->
+					<div
+						ng-show="!vm.pendingCUGRates && vm.roomOptionsCUG.length>0"
+						class="wrapper-common wrapper-common-width wrapper-column"
+					 	style="justify-content: flex-start;flex-shrink:1;align-items: flex-start;">
+
+						<div
+							ng-repeat="rate in vm.roomOptionsCUG track by $index"
+							class="singlehotel_hotel_preview_wrapper"
+							style="min-height:2em;width:100%;">
+							<div
+								class="wrapper-common wrapper-common-width wrapper-row singlehotel_hotel_preview"
+								style="width:100%;padding:1em;border-bottom:1px solid #bababa;">
+
+								<!-- ROOM IMG -->
+								<div class="d-none d-md-block" style="flex-basis: 70px;">
+									<img
+										hide-until-good
+										ng-if="rate.photos.photo_data && rate.photos.photo_data.photo_data.length>0"
+										ng-src="{{rate.photos.photo_data.photo_0}}"
+									 	style="width: 60px;height:60px;"
+										alt="" />
+									<div ng-if="!rate.photos || rate.photos.photo_data.length===0" style="width: 60px;xheight:60px;"></div>
+								</div>
+
+
+
+								<!-- ROOM DETAIL -->
+								<div class="hotelresult_preview_dt_wrap" style="flex-basis: 20em;">
+
+									<div class="semibold16 singlehotel_hotel_preview_title">{{rate.title}}</div>
+
+									<div style="font-size: 1em;">
+										<span style="color:#fff;background-color: #00509f;border-radius:8px;padding:2px 10px;">clubGO Deal!</span><span ng-if="vm.displayState==='club'" style="color:#db6744;font-weight: 600;"> Quick! Deals change often.</span>
+									</div>
+
+									<!-- TBD :: more details for cug rates -->
+									<div class="semibold12" style="margin-top:.75em;">
+										<ul class="singlehotel_book_policy_dt">
+											<li>Accommodates up to {{rate.occupancy_limit}} guests</li>
+											<li>{{rate.description}}</li>
+										</ul>
+									</div>
+
+									<!-- <p class="light14 singlehotel_book_policy_dt"></p> -->
+									<div>
+										<a class="light14 blueLight theme_default_link" style="text-decoration: underline;xmargin-left:2em;" ng-click="vm.openRatesModal(rate)">Room Details</a>
+									</div>
+
+									<span ng-if="rate.details_summary.promo" class="light14 primaryGreen">
+										<img
+											hide-until-good
+											src="/web/public/resources/specialdiscount.png"
+											alt="" />
+										<span class="light14">{{rate.details_summary.promo}}</span>
+									</span>
+
+									<span ng-if="rate.details_summary.refund_policy" class="light14 primaryGreen">
+										<i class="fa fa-check" style="color:#299b7c;" aria-hidden="true"></i> {{rate.details_summary.refund_policy}}
+									</span>
+
+									<!-- room amenities -->
+									<div data-ng-if="rate.facility_data.length>0" style="margin-top: .75em;">
+										<span class="semibold16">Amenities</span>
+										<div class="wrapper-common wrapper-common-width wrapper-row">
+											<div
+												style="flex-basis:18em;"
+												data-ng-repeat="amenity in rate.facility_data track by $index">
+												<span data-ng-bind-html="vm.getFontAwesomeIcon(amenity)" /> {{amenity}}
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+
+								
+								<div style="padding:1.25em 3px 0 3px;flex-basis: 20em;">
+
+									<!-- CUG ROOM PRICING -->
+									<div style="display:flex;flex-direction: row;justify-content: space-around;">
+
+										<!-- STRIKETHRU PRICE -->
+										<div style="line-height:.75em;">
+											<span
+												ng-style="{'text-decoration': vm.displayState==='club'?'line-through':'none'}"
+												class="semibold30">{{rate.benchmark_price_details.display_price | currency: '$' : 0}}</span>
+											<span style="font-weight: 600;font-size:1em;vertical-align: super;">{{rate.benchmark_price_details.display_currency}}</span>
+											<br />
+											<span style="font-weight:400;font-size:1em;line-height:1.5em;">per night</span>
+										</div>
+
+										<!-- CUG PRICE -->
+										<div
+											ng-if="vm.displayState!=='club'"
+											style="line-height:.75em;color:#27799f;">
+											<span style="font-weight: 800;font-size:1.875em;">$???</span>
+											<span style="font-weight: 800;font-size:1em;vertical-align: super;">{{rate.price_details.display_currency}}</span>
+											<br />
+											<span style="font-weight:400;font-size:1em;line-height:1.5em;">10-60% OFF</span>
+										</div>
+
+										<!-- NON-CUG PRICE -->
+										<div
+											ng-if="vm.displayState==='club'"
+											style="line-height:.75em;color:#27799f;">
+											<span style="font-weight: 800;font-size:1.875em;">{{rate.price_details.display_price | currency: "$": 0}}</span>
+											<span style="font-weight: 800;font-size:1em;vertical-align: super;">{{rate.price_details.display_currency}}</span>
+											<br />
+											<span style="font-weight:400;font-size:1em;line-height:1.5em;">per night</span>
+										</div>
+									</div>
+
+									<!-- RESERVE BUTTON -->
+									<div
+										ng-show="vm.displayState==='unlock'"
+										style="display:flex;flex-direction: row;justify-content: space-around;padding:3px;xflex-basis: 7.125em;">
+										<!-- BOOK NON-CUG -->
+										<button
+											id="hotel_{{$index}}_cugBookBtn"
+											class="buttonBlue"
+											style="min-height: 40px;padding:10px;opacity:.65;cursor:default;"
+											type="button"
+										 	xng-click="vm.requestContract(rate.ppn_book_bundle)"
+										 	ng-disabled="true">
+										 	Regular Rate
+										</button>
+										<div style="text-align: center;color:#27799f;font-size:1em;" xclass="price_box">
+											<!-- BOOK CUG -->
+											<button
+												type="button"
+												class="buttonBlue"
+												style="background-color:#00509f;padding:10px;" ng-click="vm.unlockCUG()">Join clubGO
+											</button>
+										</div>
+									</div>
+
+									<div
+										ng-if="vm.displayState==='club'"
+										style="display:flex;flex-direction: row;justify-content: space-around;xflex-basis: 7.125em;">
+										
+										<div style="width:6em;text-align: center;color:#27799f;font-size:1.25em;line-height: 20px;" class="price_box">
+											<span>You save {{rate.saving_percentage}}% with clubGO!</span>
+										</div>
+
+										<!-- BOOK CUG -->
+										<button
+											id="hotel_{{$index}}_cugBookBtn"
+											style="margin-top:10px;min-height: 40px;background-color:#00509f;padding:10px;"
+											class="buttonBlue"
+											type="button"
+										 	ng-click="vm.requestContractCUG(rate)">BOOK NOW</button>
+									</div>
+
+								</div>
+
+								<!-- <div class="hotelresult_preview_price">
+									<div style="line-height:.75em;">
+										<span class="semibold30">{{rate.price_details.display_price | currency: '$' : 0}}</span>
+										<span class="hotelresult_preview_supertext">{{rate.price_details.display_currency}}</span>
+										<br />
+										<span class="perNight">per night</span>
+									</div>
+								</div> -->
+
+
+
+							
+
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+				<!-- ******************** N O N - C L U B G O ******************** -->
+				<!-- TODO -->
+				<div ng-if="vm.pendingRoomRates" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+					<div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">Looking up rates...</div>
+					<i class="fa fa-spinner fa-spin" aria-hidden="true" style="font-size:4em;color:#299b7c;"></i>
+				</div>
+
+
+				<!-- no rooms (non-cug) available -->
+				<div
+					ng-show="!vm.pendingRoomRates && vm.roomOptions.length===0"
+					class="wrapper-common wrapper-common-width wrapper-column"
+					style="justify-content: flex-start;flex-shrink:1;align-items: flex-start;">
+					<div
+						style="background-color: #fff;min-height:2em;width:100%;">
+						<div class="wrapper-common wrapper-common-width wrapper-row" style="width:100%;padding:1em;border-bottom:1px solid #bababa;">
+							<h4 ng-bind-html="vm.noRoomsAvailMessage"></h4>
+						</div>
+					</div>
+					
+				</div>
+
+				<!-- rooms available: yes -->
+				<div
+					ng-show="!vm.pendingRoomRates && vm.roomOptions.length>0"
+					class="wrapper-common wrapper-common-width wrapper-column"
+					style="justify-content: flex-start;flex-shrink:1;align-items: flex-start;">
+					<!-- <div style="background-color:#3b3f45;width:100%;vertical-align: middle;padding:.5em .75em;">
+						<span class="semibold18" style="color:#fff;">
+							<span ng-if="vm.displayState==='club'">Other </span>Available Rooms
+						</span>
+					</div> -->
+
+					<!-- new design :: removed
+						<div
+						ng-show="vm.displayState!=='club' && vm.roomOptionsCUG.length>0"
+						class="Deal_Available_section" style="display: flex;background-color: #fff;width: 100%;
+						border-bottom: 1px solid #bababa;padding-bottom: 10px;">
+							<span class="Deal_Available" style="padding: 0 0 0 10px;Font-size: 1.75em; color: #299b7c;">
+								<img
+									hide-until-good
+									class="header-img"
+									style="height:1.75em;vertical-align: sub;"
+									ng-src="{{vm.image_clubgo}}"
+									alt="" /> Deal Available
+							</span>
+						
+							<span
+								class="Unlock_clubGO_deals"
+								style="font-size: 1.125em; color: #299b7c;padding: 24px 0 0 20px;">
+								You may be able to save 10-60% on your room! 
+								<a
+									ng-click="vm.unlockCUG()"
+									style="padding-left: 25px;">
+									Unlock clubGO deals
+								</a> for this hotel!
+							</span>
+							<br/>
+						</div>
+					-->
+
+					<div ng-repeat="rate in vm.roomOptions track by $index"  class="singlehotel_hotel_preview_wrapper">
+						<div class="wrapper-common wrapper-common-width wrapper-row singlehotel_hotel_preview">
+							<!-- ROOM IMG -->
+							<div class="d-none d-sm-block" style="flex-basis: 70px;" xstyle="padding:3px;margin-right: 1em;">
+								<img
+									ng-if="rate.thumbnail && rate.thumbnail !== ''"
+									ng-src="https:{{rate.thumbnail.replace('https:','')}}"
+									style="width: 60px;height:60px;"
+								 	alt="" />
+								<img
+									hide-until-good
+									ng-if="!rate.thumbnail && rate.photo_data.length>0"
+									ng-src="https:{{rate.photo_data[0].replace('https:','')}}"
+									style="width: 60px;height:60px;"
+									alt="" />
+								<div ng-if="!rate.thumbnail && rate.photo_data.length===0" style="width: 60px;xheight:60px;"></div>
+							</div>
+
+							<!-- ROOM DETAIL -->
+							<div class="hotelresult_preview_dt_wrap" style="flex-basis: 20em;">
+								<div class="semibold16 singlehotel_hotel_preview_title">{{rate.title}}</div>
+
+								<div class="semibold12">
+									<ul class="singlehotel_book_policy_dt">
+										<!-- <li>{{rate.}}</li> -->
+										<li>{{rate.details_summary.book_policy}}</li>
+										<li ng-if="rate.occupancy_limit">Accommodates up to {{rate.occupancy_limit}} guests</li>
+									</ul>
+								</div>
+
+
+
+								<!-- <p class="light14 singlehotel_book_policy_dt"></p> -->
+
+								<!-- NON-CUG :: ROOM DETAILS -->
+								<div style="display: flex;flex-direction: row">
+									<a class="light14 blueLight theme_default_link" style="text-decoration: underline;xmargin-left:2em;flex-basis:12em;" ng-click="vm.openRatesModal(rate)">Room Details
+									</a>
+
+									<!-- NON-CUG :: ROOM AMENITIES :: DESKTOP -->
+									<div class="d-none d-sm-block">
+										<br>
+										<span ng-if="rate.rate_amenities.free_wifi">
+											<i class="fa fa-wifi" style="color:#299b7c;" aria-hidden="true"></i> Free Wifi
+										</span>
+										<span ng-if="rate.rate_amenities.free_breakfast">
+											<i class="fas fa-coffee" style="color:#299b7c;" aria-hidden="true"></i> Free Breakfast
+										</span>
+									</div>
+
+									<!-- NON-CUG :: ROOM AMENITIES :: MOBILE -->
+									<div class="d-block d-sm-none">
+										<i ng-if="rate.rate_amenities.free_wifi" class="fa fa-wifi" style="color:#299b7c;" aria-hidden="true"></i>
+										<i ng-if="rate.rate_amenities.free_breakfast" class="fas fa-coffee" style="color:#299b7c;" aria-hidden="true"></i>
+									</div>
+
+									<!-- <span
+										ng-if="rate.rate_amenities.free_wifi"
+										class="fa-stack fa-lg">
+									  <i class="fa fa-square-o fa-stack-2x"></i>
+									  <i class="fa fa-twitter fa-stack-1x"></i>
+									</span> -->
+								</div>
+
+								<!-- rmoved in new design <span ng-if="rate.details_summary.promo" class="light14 primaryGreen">
+									<img
+										hide-until-good
+										src="/web/public/resources/specialdiscount.png"
+										alt="" />
+									<span class="light14">{{rate.details_summary.promo}}</span>
+								</span> -->
+
+								<!-- <span ng-if="rate.details_summary.refund_policy" class="light14 primaryGreen">
+									<i class="fa fa-check" style="color:#299b7c;" aria-hidden="true"></i> {{rate.details_summary.refund_policy}}
+								</span> -->
+
+								<!-- room amenities - removed in new design
+								<div data-ng-if="rate.facility_data.length>0" style="margin-top: .75em;">
+									<span class="semibold16">Amenities</span>
+									<div class="wrapper-common wrapper-common-width wrapper-row">
+										<div
+											style="flex-basis:18em;"
+											data-ng-repeat="amenity in rate.facility_data track by $index">
+											<span data-ng-bind-html="vm.getFontAwesomeIcon(amenity)" /> {{amenity}}
+										</div>
+									</div>
+								</div>
+								-->
+							</div>
+
+							
+							<div class="hotelresult_preview_price" style="flex-basis: 20em;">
+								<div style="display:flex;flex-direction: row;justify-content: space-around;">
+									<!-- ROOM PRICING -->
+									<div style="line-height:.75em;">
+										<span class="semibold28">{{rate.price_details.display_price | currency: '$' : 0}}</span>
+										<span class="hotelresult_preview_supertext">{{rate.price_details.display_currency}}</span>
+										<br />
+										<span class="perNight">per night</span>
+									</div>
+
+									<!-- RESERVE BUTTON -->
+									<div>
+										<button
+											xclass="hotelresult_preview_bookbtn_wrap"
+											id="hotel_{{$index}}_bookBtn"
+											class="buttonBlue"
+											style="padding:10px;"
+											type="button"ppn_bundle
+										 	ng-click="vm.requestContract(rate.ppn_bundle)">
+										 	BOOK NOW
+										 </button>
+
+										<!-- NONCUG RATE :: FREE CANCELLATION -->
+										<div ng-if="rate.details_summary.free_cancellation===1" class="light14 primaryGreen">
+											<i class="fa fa-check" style="color:#299b7c;" aria-hidden="true"></i> Free Cancellation
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- IMPORTANT INFORMATION -->
+			<!-- <div class="wrapper-base" style="background-color:#d4d4d4;min-height:12.500emem;">
+			<a id="sectionInfo" name="sectionInfo">Important Information</a>
+			</div> -->
+
+		</div>
+
+
+		<!--- SECTION :: REVIEWS -->
+		<div ng-if="!vm.pendingHotelDetails" style="background-color: #eee;padding-top: 12px;">
+
+			<!-- REVIEWS :: PENDING -->
+			<div ng-if="vm.pendingReviews" style="text-align:center;margin-top:3em;margin-bottom:3em;">
+				<div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">One moment while we look this up...</div>
+				<i class="fa fa-spinner fa-spin" aria-hidden="true" style="font-size:4em;color:#299b7c;"></i>
+			</div>
+
+			<div class="wrapper-base">
+				<div class="container xwrapper-inner">
+					<div class="semibold24">
+						<a id="sectionReviews" name="ratings" style="color:#000;">Accessibility Reviews</a>
+					</div>
+
+				
+					<div ng-if="!vm.reviews.length" class="col-xs-12 wrapper-common wrapper-common-width wrapper-column">
+						<h3>No Reviews Yet, Be the first to Review</h3>
+						<button class="buttonOrange" ng-click="vm.review()" style="width: 35%">Write a review</button>
+					</div>
+
+					<!-- <div ng-if="vm.reviews.length"> -->
+					<div>
+
+						<!-- overall guest score -->
+						<!-- removed in new design <div>
+							<div class="c100 p{{(vm.averageRatings *2) * 10 | number:0}} small blue">
+								<span style="color:#000;font-weight: 600;">{{vm.averageRatings}}</span>
+								<div class="slice">
+									<div class="bar"></div>
+									<div class="fill"></div>
+								</div>
+							</div>
+						</div>
+						<div>
+							Overall guest score
+							<br />
+							!-- <span style="font-size:1.5em;font-weight: 600">{{vm.hoteldetails.review_rating_desc}}</span> --
+							<br> Based on {{vm.reviews.length}} verified Guest Ratings
+						</div> -->
+
+						<!-- guest ratings -->
+						<div class="page-inner" ng-repeat="review in vm.reviews track by review.id">
+							<div class="page-inner reviews_wrap">
+								<hotel-review review="{{review}}"></hotel-review>
+							</div>
+						</div>
+
+						<div ng-show="vm.reviews.length>0" class="text-center" style="padding:12px 0;">
+							<button
+								id="hotel_{{$index}}_cugBookBtn"
+								class="buttonBlue"
+								style="padding:5px 10px;"
+								type="button"
+							 	ng-click="scrollTo('sectionRoomsAndRates')">
+							 	Choose a Room
+							</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- SECTION :: GENERAL AMENITIES -->
+		<a id="sectionAmenities" name="sectionAmenities"> </a>
+		<div ng-if="!vm.pendingHotelDetails" style="background-color: #eee;padding-top: 12px;">
+			<div class="wrapper-base">
+				<div class="container xwrapper-inner">
+
+					<!-- GENERAL AMENTIIES -->
+					<div class="semibold24">
+						<a id="sectionFeaturedAmenities" name="ratings" style="color:#000;">Hotel Amenities</a>
+					</div>
+
+					<!-- GENERAL AMENTIIES :: popular amenities -->
+					<div class="semibold18" style="padding-top: 1em;">
+						<span id="sectionReviews" name="ratings" style="color:#000;">Popular Amenities</span>
+					</div>
+					<div style="background-color: #fff;overflow-x: scroll;">
+						<div class="wrapper-common wrapper-common-width wrapper-row" style="flex-wrap: nowrap;height:6em;align-items:center;">
+							<div
+								ng-repeat="(key, value) in vm.popularAmenities"
+								class="text-center"
+								style="min-width:7em;">
+								<i class="{{value.fa}}" ng-style="{'color':value.enabled?'#299b7c':'#bbb'}" aria-hidden="true"></i>
+								<div class="light14" ng-style="{'color':value.enabled?'#000':'#bbb', 'text-decoration':value.enabled?'none':'line-through'}">{{value.caption}}</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- GENERAL AMENTIIES :: other amenities -->
+					<div class="semibold18" style="padding-top:1em;">
+						<span id="sectionReviews" name="ratings" style="color:#000;">Other Amenities</span>
+					</div>
+					<div class="wrapper-base" style="">
+						<div class="wrapper-common wrapper-common-width wrapper-row" style="justify-content: flex-start;flex-shrink:1;align-items: flex-start;">
+							<div
+								ng-repeat="amenity in vm.otherGeneralAmenities"
+								style="min-width:18em;">
+								<div
+									class="span4">
+									<i class="fa fa-check" style="color:#299b7c;" aria-hidden="true"></i>
+									<span class="light14" style="xcolor:#fff;">{{amenity.name}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- ACCESSIBLE AMENITIES -->
+					<div class="semibold24">
+						<a id="sectionAccessibleAmenities" name="ratings" style="color:#000;">Accessibility Features</a>
+					</div>
+
+					<!-- ACCESSIBLE AMENTIIES :: popular features -->
+					<div class="semibold18" style="padding-top: 1em;">
+						<span name="ratings" style="color:#000;">Popular Accessibility Features</span>
+					</div>
+					<div style="background-color: #fff;overflow-x: scroll;">
+						<div class="wrapper-common wrapper-common-width wrapper-row" style="flex-wrap: nowrap;height:8em;align-items:center;    ">
+							<div
+								ng-repeat="(key, value) in vm.popularAccessibilityFeatures"
+								class="text-center"
+								xstyle="min-width:8em;"
+								ng-style="{'color':value.enabled?'#3b3f45':'#bbb'}"
+								style="min-width:6.5em;">
+								<img ng-if="value.enabled===true" ng-src="https://accessiblego.azureedge.net/img/accessibility/{{value.cdnEnabled}}" />
+								<img ng-if="value.enabled===false" ng-src="https://accessiblego.azureedge.net/img/accessibility/{{value.cdnDisabled}}" />
+								<div
+									class="light14"
+									style="max-width:7em;"
+									ng-style="{'color':value.enabled?'#000':'#bbb', 'text-decoration':value.enabled?'none':'line-through'}">{{value.caption}}
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- ACCESSIBLE AMENTIIES :: other general accessibility features -->
+					<div
+						ng-show="filteredHotelAccessibilityItemsGeneral.length>0"
+						class="semibold18" style="padding-top:1em;">
+						<span id="sectionReviews" name="ratings" style="color:#000;">Other General Accessibility Features</span>
+					</div>
+					<div
+						ng-show="filteredHotelAccessibilityItemsGeneral.length>0"
+						class="wrapper-base">
+						<div class="wrapper-common wrapper-common-width wrapper-row" style="justify-content: flex-start;flex-shrink:1;align-items: flex-start;">
+							<div
+								ng-repeat="accessibilityFeature in (filteredHotelAccessibilityItemsGeneral = (vm.otherAccessibilityFeatures | filter: { category: 'hotel' } | unique: 'subcategory' ))"
+								style="min-width:18em;padding: 8px 0;">
+								<div
+									class="span4">
+									<img
+										hide-until-good
+										ng-if="accessibilityFeature.img"
+										ng-src="https://accessiblego.azureedge.net/img/accessibility/{{accessibilityFeature.img}}"
+										ng-style="{'color':value.enabled?'#3b3f45':'#bbb'}"
+										aria-hidden="true"
+										alt="" />
+									<span class="light14" style="xcolor:#fff;">{{accessibilityFeature.name}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- ACCESSIBLE AMENTIIES :: other room accessibility features -->
+					<div
+						ng-show="filteredHotelAccessibilityItemsRoom.length>0"
+						class="semibold18" style="padding-top:1em;">
+						<span id="sectionReviews" name="ratings" style="color:#000;">Other Room Accessibility Features</span>
+					</div>
+					<div
+						ng-show="filteredHotelAccessibilityItemsRoom.length>0"
+						class="wrapper-base" style="">
+						<div class="wrapper-common wrapper-common-width wrapper-row" style="justify-content: flex-start;flex-shrink:1;align-items: flex-start;">
+							<div
+								ng-repeat="accessibilityFeature in (filteredHotelAccessibilityItemsRoom = (vm.otherAccessibilityFeatures | filter: { category: 'room' } | unique: 'subcategory' ))"
+								style="min-width:18em;padding: 8px 0;">
+								<div
+									class="span4">
+									<img
+										hide-until-good
+										ng-if="accessibilityFeature.img"
+										ng-src="https://accessiblego.azureedge.net/img/accessibility/{{accessibilityFeature.img}}"
+										ng-style="{'color':value.enabled?'#3b3f45':'#bbb'}"
+										aria-hidden="true"
+										alt="" />
+									<span class="light14" style="xcolor:#fff;">{{accessibilityFeature.name}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<hr/>
+
+					<div class="text-center" style="padding:12px 0;">
+						<button
+							id="hotel_{{$index}}_cugBookBtn_chooseRoom"
+							class="buttonBlue"
+							style="padding:5px 10px;"
+							type="button"
+						 	ng-click="scrollTo('sectionRoomsAndRates')">
+						 	Choose a Room
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- SECTION :: NEARBY ACCOMMODATIONS -->
+		<div ng-if="!vm.pendingHotelDetails && vm.hoteldetails.nearby_data.hotel_data.length>0" style="background-color: #eee;padding-top: 12px;">
+			<div class="wrapper-base">
+				<div class="container xwrapper-inner">
+
+					<!-- GENERAL AMENTIIES -->
+					<div class="semibold24">
+						<a id="sectionFeaturedAmenities" name="ratings" style="color:#000;">Nearby Accommodations</a>
+					</div>
+
+					<div class="wrapper-common wrapper-common-width wrapper-row mt-md-4" xstyle="margin:2.75em auto;">
+
+
+							<div class="row" style="display:flex;flex-direction: row;justify-content: space-between;">
+
+								<div
+									ng-repeat="nearby in vm.hoteldetails.nearby_data.hotel_data | limitTo:3"
+									class="text-center"
+									style="background-color: #fff;xmargin:2em;box-shadow:0 2px 2px 2px #ddd;padding:0;margin: 1em 0;">
+									<img
+										hide-until-good
+										ng-if="nearby.photo_data.length>0"
+										ng-src="https:{{nearby.photo_data[0].replace('http:','')}}}"
+										style="max-width:325px;width: 100%;max-height:220px;"
+										alt="" />
+
+									<div style="color:#299b7c;padding:8px 0;font-size: 1.3125em;" ng-bind-html="vm.bindNearbyHotelName(nearby.name)"></div>
+									<!-- <div style="padding:1em 0;"><i class="fa fa-tags fa-2x" style="color:#1f635d;" aria-hidden="true"></i></div>
+									<span class="semibold16">{{nearby.name}}</span> -->
+
+									<!-- accessibility features -->
+									<div class="text-left" style="padding:.25em .5em;height:80px;">
+										<div ng-repeat="a in vm.getHotelAccessibilityData(nearby.id) | limitTo:3">
+											<img
+												hide-until-good
+												ng-if="a.img"
+												ng-src="https://accessiblego.azureedge.net/img/accessibility/{{a.img}}"
+												style="width: 18px; height: auto;"
+												aria-hidden="true"
+												alt="" />
+											<span style="font-weight: 400;font-size:1em;padding-left:.25em;">
+												{{a.name}}
+											</span>
+										</div>
+									</div>
+
+									<!-- show prices -->
+									<div class="text-center" style="padding: 1em 0;border-top: 1px solid #eee;margin-top:1em;">
+										<button
+											type="button"
+											class="buttonBlue semibold24"
+											style="width:90%;background-color:#1f635d;color:#fff;font-size: 1.25em;"
+											ng-click="vm.goToHotel(nearby)"
+											>Show Prices
+										</button>
+									</div>
+
+								</div>
+							</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- SECTION :: ACCESSIBILITY FEATURES 
+		<div ng-show="vm.augmentedData.length>0" class="wrapper-base" style="xbackground-color:#3b3f45;">
+			<div class="wrapper-common wrapper-common-width wrapper-row" style="justify-content: flex-start;flex-shrink:1;align-items: flex-start;">
+				<div
+					class="wrapper-common wrapper-common-width wrapper-column"
+					xstyle="justify-content: flex-start;flex-shrink:1;align-items: flex-start;">
+					<a
+						ng-if="filteredHotelAccessibilityItems.length>0"
+						id="sectionAccessibleAmenitiesHotel"
+						name="sectionAccessibleAmenitiesHotel"
+						class="semibold24"
+						style="color:#00509f;border-bottom:solid 1px #3b3f45;">Hotel Accessibility</a>
+					<div
+						class="mt-2"
+						ng-repeat="abc in (filteredHotelAccessibilityItems = (vm.augmentedData | filter: { category: 'hotel' } | unique: 'subcategory' ))">
+						<span class="semibold18" style="color:#00509f;">{{abc.subcategory | capitalize }}</span>
+						<div
+							class="pl-3"
+							ng-repeat="item in vm.augmentedData | filter: { category: 'hotel', subcategory: abc.subcategory } ">
+							<img
+								hide-until-good
+								ng-if="item.img"
+								ng-src="https://accessiblego.azureedge.net/img/accessibility/{{item.img}}"
+								style="width: 18px; height: auto;"
+								aria-hidden="true"
+								alt="" />
+							<span class="light14" style="xcolor:#fff;">{{item.name}}</span>
+							<br />
+						</div>
+					</div>
+
+					<a
+						ng-if="filteredRoomAccessibilityItems.length>0"
+						id="sectionAccessibleAmenitiesRoom"
+						name="sectionAccessibleAmenitiesRoom"
+						class="semibold24 mt-3"
+						style="color:#00509f;border-bottom:solid 1px #3b3f45;">In-Room Accessibility</a>
+					<div
+						class="mt-2"
+						ng-repeat="abc in (filteredRoomAccessibilityItems = (vm.augmentedData | filter: { category: 'room' } | unique: 'subcategory' ))">
+						<span class="semibold18" style="color:#00509f;">{{abc.subcategory | capitalize }}</span>
+						<div
+							class="pl-3"
+							ng-repeat="item in vm.augmentedData | filter: { category: 'room', subcategory: abc.subcategory } ">
+							<img
+								hide-until-good
+								ng-if="item.img"
+								ng-src="https://accessiblego.azureedge.net/img/accessibility/{{item.img}}"
+								style="width: 18px; height: auto;"
+								aria-hidden="true"
+								alt="" />
+							<span class="light14" style="xcolor:#fff;">{{item.name}}</span>
+							<br />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		-->
+
+	</div>
+
+<script>
+	function classToggle() {
+    this.classList.toggle('angle_up');
+    this.classList.toggle('angle_down');
+}
+if(window.innerWidth<574){
+
+	collapseItems = document.getElementsByClassName("single_why_book_content");
+
+	Array.prototype.forEach.call(collapseItems, function(el) {
+	    el.classList.add('collapse');
+	});
+	
+	/*var show = function (elem) {
+		elem.style.display = 'block';
+	};
+
+	var hide = function (elem) {
+		elem.style.display = 'none';
+	};
+	var toggle = function (elem) {
+		if (window.getComputedStyle(elem).display === 'block') {
+			hide(elem);
+			return;
+		}
+		show(elem);
+	};*/
+
+	/*document.addEventListener('click', function (event) {	
+		if (!event.target.classList.contains('toggle')) return;
+		event.preventDefault();
+
+		event.target.classList.toggle("angle-up");
+		var content = document.querySelector(event.target.getAttribute('data-content'));
+		if (!content) return;
+
+		toggle(content);
+
+	}, false);*/
+
+}
+</script>

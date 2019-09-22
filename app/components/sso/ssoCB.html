@@ -1,0 +1,13 @@
+<div ng-controller="ssoCBController as vm" ng-cloak>
+
+	<div class="wrapper-common wrapper-common-width">
+		<div>
+			<h2>One moment please ...</h2>
+			<h5 ng-bind-html="vm.message"></h5>
+			<!-- <hr>
+			<input type="button" ng-click="$window.history.back();" value="Go Back" /> -->
+		</div>
+	</div>
+
+	<a href="#" ng-click="vm.renew()">renew</a>
+</div>

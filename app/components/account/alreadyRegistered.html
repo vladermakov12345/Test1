@@ -1,0 +1,24 @@
+<div class="text-center xlogin-modal register-modal" ng-controller="alreadyRegisteredController as vm">
+
+    <div
+        class="modal-header">
+        <img class="login-modal-logo" alt="accessibleGO logo"
+        ng-src="{{env.cdn_static}}/i/logo/logo_175_42_trans.png">
+        <button type="button" class="close" ng-click="vm.closeModal()" aria-label="Close">&times;</button>
+        <!-- <h4 class="modal-title text-center">woohoo! Exclusive low rates for members coming in 2018.</h4> -->
+    </div>
+
+    <div
+        class="modal-body wrapper-common wrapper-common-width wrapper-row" style="padding:0">
+        <div class="center-block" style="border:0px solid #29817c;max-width:26em;padding:.5em;">
+
+        	<h3>Based on your email address, it appears you already have an account.</h3>
+
+            <a class="bold28" style="font-size: 1.8em;color:#29807c;font-weight: 900;" ng-click="vm.login()">Login</a>
+<!-- 
+            <a class="bold28" style="font-size: 1.8em;color:#29807c;font-weight: 900;margin-left:2em;" ui-sref="register" ng-click="vm.closeModal()">Join</a> -->
+
+		</div>
+	</div>
+
+</div>

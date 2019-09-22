@@ -1,0 +1,49 @@
+<div>
+    <div ng-show="vm.showHeader" class="modal-header">
+    	<div class="wrapper-common wrapper-row" style="justify-content:space-between;width:100%;">
+	        <div style="">
+	        	<h2 class="modal-title" id="modal-title">{{vm.title}}</h2>
+	        </div>
+	        <div ng-show="vm.closeOnTop==='y'" style="align-self: flex-start;">
+	        	<button class="btn btn-primary" type="button" ng-click="vm.cancel()">close</button>
+	        </div>
+	     </div>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+    	<!-- waiting -->
+    	<div
+    		ng-show="!vm.isReady" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+		    <div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">One moment please...</div>
+		    <i class="fa fa-spinner fa-spin" aria-hidden="true" style="font-size:4em;color:#299b7c;"></i>
+    	</div>
+
+    	<!-- err -->
+    	<div
+    		ng-show="vm.isReady && vm.err" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+		    <div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">One moment please...</div>
+		    <i class="fa fa-spinner fa-spin" aria-hidden="true" style="font-size:4em;color:#299b7c;"></i>
+    	</div>
+
+    	<!-- ready -->
+		<div
+			ng-show="vm.isReady && !vm.err"
+			class="wrapper-common"
+			style="flex-wrap:wrap;justify-content:flex-start;width:100%;padding:0 1em;">
+ 			<div ng-repeat="block in vm.policy.block_data">
+ 				<h1 ng-bind-html="block.title" class="semibold16" />
+ 				<div ng-repeat="paragraph in block.paragraph_data track by $index">
+					<div style="margin:.5em 0;"
+						ng-bind-html="paragraph"
+						class="light16">
+					</div>
+ 				</div>
+			</div>
+		</div>
+    </div>
+
+    <div ng-show="vm.showFooter" class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="vm.cancel()">Close</button>
+    </div>
+    
+</div>

@@ -1,0 +1,269 @@
+#tripPlanner-wrapper {
+  background-color:#d4d4d4;
+  padding-top:1.25em;
+  padding-bottom:2.5em;
+}
+
+.tripPlanner-wrapper-main {
+  display: flex;
+  flex-direction: row;
+  flex-wrap:wrap;
+  align-self: flex-start;
+  justify-content: flex-start;
+  max-width: 60.938em;  /* 975px */
+  
+  /* mozilla & opera */
+  margin-left: auto;
+  /* mozilla & opera */
+  margin-right: auto;
+}
+
+/* icon line: begin */
+  .tripPlanner-categories-common {
+    min-width:3.125em;
+    height: 6.25em;
+    margin: 0 1em;
+  }
+  #tripPlanner-categories {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 1em;
+    /* padding: 2.5em 0 2.125em 0;*/
+    align-items: center;
+    justify-content: left;
+    text-align: center;
+    max-width: 60.938em;  /* 975px */
+    width: 100%;
+    
+    /* mozilla & opera */
+    margin-left: auto;
+    /* mozilla & opera */
+    margin-right: auto;
+  }
+
+  .tripPlanner-category a {
+    border: 1px solid transparent;
+    color: #3b3f45;
+    text-decoration: none;
+    padding: .25em;
+    font-size: .875em;
+    font-weight: 400;
+  }
+  .tripPlanner-category a:focus {
+    border: 0px;
+    color: #000000;
+    background-color: #fff;
+    outline: none;
+    font-weight:900;
+  }
+  .tripPlanner-category a:hover {
+    border-bottom: 3px solid #299b7c;
+    text-decoration: none;
+    color: #000000;
+  }
+
+  .tripPlanner-category-active a {
+    text-decoration: none;
+    color: #000000;
+    border-bottom: 3px solid #299b7c;
+    font-weight:900;
+  }
+  .tripPlanner-category-active a:active,
+  .tripPlanner-category-active a:hover,
+  .tripPlanner-category-active a:visited {
+    color: #000000;
+    text-decoration: none;
+    cursor: default;
+  }
+  .tripPlanner-category-active a:focus {
+    border: 0px;
+    color: #000000;
+    background-color: #fff;
+    outline: none;
+    font-weight:900;
+  }
+/* icon line: end */
+
+/* columns:begin */
+#tripPlanner-results-flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap:wrap;
+  align-self: flex-start;
+  justify-content: flex-start;
+  width: 60.938em;  /* 975px */
+  margin-left: auto;
+  margin-right: auto;
+}
+/* columns: end */
+
+
+.select_list{
+    background-color: #fff;
+    border: 1px solid #666;
+    cursor: pointer;
+    height: 35px;
+    line-height: 21px;
+    padding:0;
+    position: relative;
+    vertical-align: middle;
+    width: 250px;
+    outline: none;
+}
+.select_list:after{
+    content:"▼";
+    position:absolute;
+    right:7px;
+    color:#b3b3b3;
+    top:6px;
+}
+.select_list > .options{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:-1px;
+    border:1px solid #666;
+    padding:0;
+    margin:0;
+    width: 100%;
+}
+
+.select_list.active > .options{
+    display:block;
+    background: #fff;
+    text-align: left;
+    z-index: 999;
+    height: 200px;
+    overflow-y: scroll;
+}
+
+.select_list > span, .select_list > .options li {
+    background-position: 5px center;
+    background-repeat: no-repeat;
+    padding-left: 30px;
+    list-style:none;
+}
+
+.select_list > .options li:hover {
+    background-color:#eee;
+}
+
+/* 20-march css start here ========= */
+.select_list>span {
+  display: block;
+  padding: 5px 3px 5px 30px;
+  line-height: normal;
+  background-size: 18px;
+  text-align: left;
+}
+.select_list>.options li {
+  padding: 7px 0 7px 30px;
+  border-bottom: 1px solid #eaeaea;
+  font-weight: normal;
+  background-size: 18px;
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.select_list.active > span {
+  font-weight: 600;
+  background-size: 18px;
+}
+.map_div_sec div ng-map#googleMap {
+  margin-bottom: 15px;
+}
+.pagination_div {
+  width: 100%;
+  text-align: right;
+}
+.select_list>.options li:hover{
+  background-color: #b0f5f2 !important;
+  color: #fff;
+  filter: inherit;
+}
+
+@media (min-width:768px) and (max-width:991px){
+  .map_div_sec {
+    width: 98% !important;
+    margin: 0px auto !important;
+}
+
+}
+
+/////////////////////////////////////
+.business_cont{
+  max-width: 76%;
+  float: left;
+}
+
+div#tripPlanner-results-flex .col-md-10 {
+  width: 100%;
+}
+div#tripPlanner-results-flex business-listing {
+  width: 70%;
+}
+
+.business_info{
+  margin-left: 2% !important;
+  width: 22% !important;
+  margin-top: 76px;
+  float: right !important;
+}
+.attractions-item .attraction-details i {
+  margin-right:6px !important;
+}
+
+.bookBox_margin
+{
+  margin-top: 15px;
+}
+
+@media (max-width:991px){
+  .business_cont, .business_info{
+    width: 100% !important;
+    float: none !important;
+    max-width: 100%;
+  }
+}
+@media (max-width:767px){
+
+.map_div_sec {
+  margin-left: 0 !important;
+  width: 100% !important;
+  padding: 0 15px !important;
+}
+#tripPlanner-results-flex{
+  width: 100% !important;
+}
+
+.pagination_div {
+  text-align: right;
+  padding: 15px !important;
+}
+div#tripPlanner-categories {
+  margin-left: 15px;
+}
+.select_list{
+  width:290px;
+}
+.pagination_div span {
+  display: block;
+}
+
+.business_cont, .business_info{
+  width: 100% !important;
+  float: none !important;
+  max-width: 100%;
+}
+
+
+}
+/* 20-march css End here ========= */
+
+
+

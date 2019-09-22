@@ -1,0 +1,94 @@
+<div ng-controller="contactController as contact" ng-cloak>
+	<div class="wrapper-common wrapper-common-width">
+		<div>
+			<!-- top image: begin -->
+			<img src="{{contact.getMainImage()}}" style="height:auto;;max-width:100%;" alt="" /><br />
+			<!-- top image: end -->
+		</div>
+	</div>
+
+	<div id="articles-main">
+		<div class="articles-main-flex">
+
+			<!-- COLUMN 1: BEGIN -->
+			<div style="max-width:38.875em;width:100%;" xid="articles-main-col-content">
+				<div style="padding-top:1.75em;">
+					<span style="font-weight: 600;font-size:1.875em;color:#299b7c;">Contact Us</span><br />
+					<br />
+					<h4>Post-Booking Support</h4>
+					<p>
+						If you have <span style="font-weight: bold;">already</span> made a booking and would like to make an adjustment to your reservation, please call Priceline directly at 1(877) 477-7441 as we are part of the Priceline Partner Network and all changes must be handled through them.
+					</p>
+
+					<h4>Pre-Booking Support</h4>
+					<p>
+						For help making a hotel reservation on accessibleGO.com, please send us your questions through the form below.  You will get a response by email within 24 hours, 7 days a week.
+					</p>
+
+					<h4>Everything Else</h4>
+					<p>
+						For all other questions, suggestions and feedback, feel free to reach out to us by phone, email (<a href="mailto:contact@accessibleGO.com">contact@accessibleGO.com</a>) or via the form below.  Our office hours for phone calls are Sunday-Thursday 9am-5pm EST, 1(888) 681 2568.
+					</p>
+				</div>
+
+				<div ng-show="contact.isMessageSent===true">
+					<div style="font-weight: 400;font-size: 1em;">Thanks for your message.</div>
+				</div>
+
+				<div ng-show="contact.isMessageSent===false">
+					<div style="font-weight: 400;font-size: 1em;">
+					  <label for="name" style="font-weight: 400;">Full Name</label><br />
+					  <input id="name" ng-model="contact.name" type="text" class="home-booking-form-input" style="max-width:27em;width:100%;">
+					</div>
+
+					<div style="font-weight: 400;font-size: 1em;">
+					  <label for="email" style="font-weight: 400;">Email</label><br />
+					  <input id="email" ng-model="contact.email" type="text" class="home-booking-form-input" style="max-width:27em;width:100%;">
+					</div>
+
+					<div style="font-weight: 400;font-size: 1em;">
+					  	<label for="message" style="font-weight: 400;">Message</label><br />
+		               	<textarea name="message" id="message"
+		                    class="form-control home-booking-form-input"
+		                    rows="6" cols="60"
+		                    ng-model="contact.message">
+		                </textarea>
+					</div>
+
+					<div style="margin-left: auto;text-align: center;margin-top: 1em;">
+			      		<input
+			      			id="home-booking-form-send_button"
+			      			class="home-booking-form-searchbutton"
+			      			type="button"
+			      			value="Send"
+			      			ng-click="contact.sendMessage()"
+			      			aria-label="Send message" />
+		      		</div>
+
+		      		<div style="margin-left: auto;margin-top: 1em;">
+		      			<div ng-if="contact.errs.length>0" class="bold16" style="color:red;">
+			      				<ul>
+			      					<li ng-repeat="err in contact.errs" ng-bind-html="err.message"></li>
+			      				</ul>
+			      			</div>
+		      		</div>
+		      	</div>
+
+			</div>
+
+			<!-- COLUMN 2: BEGIN -->
+			<div id="city-bookbox" style="margin-left:1.875em;width:16em;">
+				<bookbox type="hotels" city="{{city.city.Name}}"></bookbox>
+			</div>
+			<!-- COLUMN 2: END -->
+		</div>
+	</div>
+
+	<div id="about-articleCarousel" style="text-align: center;">
+		<article-carousel />
+	</div>
+
+	<div id="about-tripplanner">
+		<trip-planner cityoptions="main.cities" isTripPlannerPage="false" />
+	</div>
+</div>

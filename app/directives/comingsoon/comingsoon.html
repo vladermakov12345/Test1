@@ -1,0 +1,48 @@
+<div id="comingsoon-main">
+	
+	<div style="width: 66.438em;margin-left: auto ;margin-right: auto ;">
+		<div id="comingsoon-mainbox">
+			<div id="comingsoon-mainbox-left">
+				<div id="comingsoon-mainbox-caption">Accessible {{name}} Coming Soon!</div>
+				<br />
+				<div class="light16">We are working hard at creating the best possible accessible online travel experience for you.  Please bear with us as we complete the booking features of our site in the next few weeks.  To get first access to the dynamic features of accessibleGO enter your email here:</div>
+				<br />
+				<div class="form-group" ng-if="!hasSignedUp">
+					<input
+						id="comingsoon-mainbox-email-input"
+						type="text"
+					 	ng-model="email"
+					 	style="width:16em;"
+					 	aria-label="enter your email" />
+					<button
+						id="comingsoon-mainbox-email-button"
+						class="btn btn-default"
+						ng-click="GO()">Join</button>
+				</div>
+				<div class="form-group" ng-if="hasSignedUp">
+					<span style="font-weight: 900;color:#000000;">Thank you for joining!</span>
+				</div>
+				<br />
+				<div class="light16">Please send your suggestions to <a style="font-weight: 900;text-decoration: underline;" href="mailto:contact@accessiblego.com">contact@accessiblego.com</a>
+				</div>
+				<br />
+                <div id="social-links" class="light16">
+                    Follow Us On
+                    <a href="https://www.instagram.com/accessiblego/" target="_win_instagram"><img src="https://accessiblego.azureedge.net/img/social/instagram_dark_gray.png" style="padding:4px;margin:4px;" alt="Instagram" /></a>
+                    <a href="https://twitter.com/accessibleGO" target="_win_twitter"><img src="https://accessiblego.azureedge.net/img/social/twitter_dark_gray.png" style="padding:4px;margin:4px;" alt="Twitter" /></a>
+                    <a href="https://www.facebook.com/accessiblego/" target="_win_facebook"><img src="https://accessiblego.azureedge.net/img/social/facebook_dark_gray.png" style="padding:4px;margin:4px;" alt="Facebook" /></a>
+                    <a href="https://www.linkedin.com/company-beta/11022578/" target="_win_linkedin"><img src="https://accessiblego.azureedge.net/img/social/linkedin_dark_gray.png" style="padding:4px;margin:4px;" alt="Linked In" /></a>
+                </div>
+			</div>
+			<div id="comingsoon-mainbox-right">
+				<!-- filler -->
+			</div>
+			<div id="comingsoon-mainbox-sections">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="about-articleCarousel">
+	<article-carousel />
+</div>

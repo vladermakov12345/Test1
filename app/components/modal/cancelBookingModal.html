@@ -1,0 +1,55 @@
+<div>
+    <div ng-show="vm.showHeader" class="modal-header">
+    	<div class="wrapper-common wrapper-row" style="justify-content:space-between;">
+	        <div style="">
+	        	<h3 class="modal-title semibold24" id="modal-title">{{vm.title}}</h3>
+	        </div>
+	        <div ng-show="vm.closeOnTop==='y'" style="align-self: flex-start;">
+	        	<button class="btn btn-primary" type="button" ng-click="vm.cancel()">close</button>
+	        </div>
+	     </div>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+		<div
+			class="wrapper-common wrapper-row"
+			style="flex-wrap:wrap;justify-content:center;width:100%;padding:1em;">
+			<!-- <span ng-bind-html="vm.getAsHtml()"></span> -->
+
+			<!-- no ppn -->
+			<div
+				ng-show="vm.hasValidPPNBundle === false">
+				<span class="semibold18">
+					<p>Insufficient information available at this time to cancel online.  Please consult the email you received when you booked and call customer service at {{vm.globalConstants.ppnCustServicePhoneNumber}}</p>
+				</span>
+			</div>
+
+			<!-- yes ppn -->
+			<div
+				ng-show="vm.hasValidPPNBundle === true">
+				
+				<div
+					ng-show="!vm.isCancelBookingConfirmed">
+					<button class="btn-primary" type="button" ng-click="vm.yesCancelBooking()" style="margin:0 1em;font-size: 1.125em;font-weight: 600;">Yes, please cancel</button> <button class="btn-primary" type="button" ng-click="vm.cancel()" style="margin:0 1em;font-size: 1.125em;font-weight: 600;">No, do not cancel</button>
+				</div>
+
+				<div
+					ng-show="vm.isCancelBookingConfirmed">
+					<p>Your booking has been cancelled.  We have also emailed you a confirmation of this cancellation.</p>
+					<p>Should you have any further questions or concerns please contact customer service at {{vm.globalConstants.ppnCustServicePhoneNumber}}.</p>
+
+					<!-- waiting -->
+					<div ng-if="!vm.showFooter" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+					    <div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">One moment please...</div>
+					    <i class="fa fa-spinner fa-spin" aria-hidden="true" style="font-size:4em;color:#299b7c;"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <div ng-show="vm.showFooter" class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="vm.cancel()">Done</button>
+    </div>
+    
+</div>

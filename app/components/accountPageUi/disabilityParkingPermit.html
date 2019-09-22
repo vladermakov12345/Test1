@@ -1,0 +1,228 @@
+<div role="tabpanel" class="tab-pane " id="market_permit">
+
+    <div class="row" style="xwidth:100%;margin:0em;border:1px solid #29807c;border-radius: 3px; background-color: #e0e0e0;">
+        <div class="col-lg-12 xxxbdr_rit">
+            <!-- <div class="light14">Disability Parking Permit Number:</div> -->
+            <div style="margin:1em;">
+                <form
+                    novalidate
+                    ng-submit="$event.preventDefault();"
+                    name="verifyByParkingPermitForm">
+
+                    <!-- select permit type -->
+                    <label for="permitTypeButton" class="semibold14">Select which one you have:</label>
+                    <div class="input-group login-input join_InputClass" style="width:100%;">
+                        <select
+                            id="selectPermitType"
+                            class="form-control btn-group"
+                            style="width:100%;border:1px solid #ccc;"
+                            ng-model="selectedPermitType"
+                            ng-options="permitType.title for permitType in permitTypes">
+                        </select>
+
+<!--                      <div class="form-control btn-group" style="width:100%;border:1px solid #ccc;" uib-dropdown>
+                          <button id="permitTypeButton" type="button" class="btn btn-default" style="min-width:3em;border:0;width:100%;padding:0px;" uib-dropdown-toggle >
+                            <span style="margin-right:1em;">{{selectedPermitType.title || ''}}</span>
+                            <span class="caret"></span>
+                            <span class="sr-only">Split button</span>
+                          </button>
+                          <ul
+                            class="dropdown-menu"
+                            uib-dropdown-menu role="menu"
+                            aria-labelledby="split-button">
+                            !-- <li role="menuitem" disabled="disabled" selected="selected">-- none selected --</li> --
+                            <li role="menuitem" ng-repeat="permitType in permitTypes track by $index">
+                                <a ng-click="setPermitType(permitType)" class="semibold18" style="padding:.5em;">{{permitType.title}}</a>
+                            </li>
+                          </ul>
+                        </div> -->
+                    </div>
+
+                    <!-- enter id -->
+                    <label for="parkingPermitType" class="semibold14">{{ selectedPermitType.value?'Enter '+selectedPermitType.title : 'Please select a permit type above.' }}</label>
+                    <div class="input-group login-input" style="z-index:0;">
+                        <!-- <span class="input-group-addon">
+                            <i class="fa fa-car" aria-hidden="true"></i>
+                        </span>-->
+                        <input ng-model="parkingID" class="form-control" data-val="true" data-val-required="A Parking Permit or License Plate is required." id="parkingPermitType"
+                            name="parkingPermitType" maxlength="35"  type="text" autocomplete="parking-permit-id">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="parkingPermitType" data-valmsg-replace="true"></span>
+                    </div>
+
+                    <!-- country -->
+                    <label for="country" class="semibold14">Select Country</label>
+                    <div class="login-input">
+                        <!-- <span class="input-group-addon">
+                            <i class="fa fa-flag" aria-hidden="true"></i>
+                        </span> -->
+                        <country-picker
+                            id="country"
+                            class="country-picker"
+                            placeholder="Enter Country Name"
+                            countrydata="countries_data"
+                            ng-model="country"
+                            xselection-changed="reserve.countryChanged()"
+                            style="xwidth:20em;"></country-picker>
+                        <!-- <input
+                                ng-model="country" 
+                                class="form-control"
+                                data-val="true"
+                                id="country"
+                                name="country"
+                                placeholder="Country"
+                                type="text"
+                                autocomplete="country-name"> -->
+                        <span class="field-validation-valid text-danger" data-valmsg-for="country" data-valmsg-replace="true"></span>
+                    </div>
+
+                    <!-- state/province -->
+                    <label
+                            ng-show="country.state_data.length>0"
+                            for="stateProv"
+                            class="semibold14">Select State or Province</label>
+                    <div ng-show="country.state_data.length>0" class="login-input">
+                        <!-- <span class="input-group-addon">
+                            <i class="fa fa-state" aria-hidden="true"></i>
+                        </span> -->
+                        <country-picker
+                            id="stateProv"
+                            placeholder="Enter State/Province Name"
+                            countrydata="country.state_data"
+                            ng-model="stateProv"
+                            style="xwidth:20em;"
+                        />
+                        <!-- <input
+                                ng-model="stateProv"
+                                class="form-control"
+                                data-val="true"
+                                id="stateProv"
+                                name="stateProv"
+                                placeholder="State or Province"
+                                type="text"
+                                autocomplete="state-name"> -->
+                        <span class="field-validation-valid text-danger" data-valmsg-for="stateProv" data-valmsg-replace="true"></span>
+                    </div>
+
+                    <br />
+
+                    <!-- owner type -->
+                    <div
+                        class="input-group light16" style="width:100%;text-align: left;">
+                        <div style="padding:.5em;">
+                            <label for="ownerType_owner"><input
+                                id="ownerType_owner"
+                                name="ownerType"
+                                xng-model="$scope.ownerType"
+                                ng-click="setOwnerType('owner')"
+                                data-val="true"
+                                value="owner"
+                                type="radio">
+                            I am the owner of this permit or license plate</label>
+                        </div>
+                        <div style="padding:.5em;">
+                            <label for="ownerType_caregiver"> <input
+                                id="ownerType_caregiver"
+                                name="ownerType"
+                                xng-model="$scope.ownerType"
+                                ng-click="setOwnerType('caregiver')"
+                                data-val="true"
+                                value="caregiver"
+                                type="radio">
+                            I am a caregiver and the owner has authorized me to enroll in clubGO on their behalf</label>
+                        </div>
+                        <span class="field-validation-valid text-danger" data-valmsg-for="ownerType" data-valmsg-replace="true"></span>
+                    </div>
+
+                    <!-- BEGIN: COPY PASTA (to accountpageui clubGO tab FOR NOW -->
+
+                    <!-- <file-upload errs="vm.errs"></file-upload> -->
+                    <!-- <file-upload></file-upload> -->
+                    <!-- END: COPY PASTA FOR NOW -->
+                    <!-- begin: buttons -->
+                    <div class="btm_action">
+                        <button
+                            ng-click="submitParkingId()"
+                            type="button"
+                            class="btn btn-ar btn-primary semibold18"
+                            style="background-color: #29807c;padding:.5em;">Submit</button>
+                    </div>
+                    <!-- end: buttons -->
+
+                    <!-- begin: validation errors -->
+                    <div class="panel panel-danger-dark" ng-show="errs.length>0">
+                        <br />
+                        <div class="panel-heading semibold18" style="color:red;">
+                            <ul ng-repeat="error in errs">
+                                <li ng-bind-html="error.message" style="text-align:left;"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end: validation errors -->
+                </form>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="FORSTYLE" class="tabpane1_fromHarman">
+        <h5>Disability Parking Permit Number:</h5>
+
+        <div class="row">
+            <div class="col-sm-6 bdr_rit">
+                <input type="text" class="form-contol number" value="1357908642">
+
+
+                <div class="">
+                    <form
+                        novalidate
+                        ng-submit="$event.preventDefault();"
+                        class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 label-control">
+                                Country:
+                            </label>
+                            <div class="col-md-9 ">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 label-control">
+                                State or Province:
+                            </label>
+                            <div class="col-md-7 ">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="btm_action">
+                            <button
+                                type="button"
+                                class="btn"> Submit </button>
+                        </div>
+                        <div class="status_div recevied">
+                            <span class="status_recvd">
+                                <i class="fa fa-check-circle-o" aria-hidden="true"></i> Received
+                            </span>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="col-sm-6">
+                <div class="upload_sec text-center">
+                    <div class="btm_action">
+                        <button
+                            type="button"
+                            class="btn"> Upload your parking Permit </button>
+                    </div>
+                    <h5>Upload a scan or photo of your permit. </h5>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>

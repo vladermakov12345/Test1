@@ -1,0 +1,27 @@
+<div class="container-fluid">
+
+	<div class="row">
+
+		<div class="container">
+			<nav class="flex-col" aria-label="breadcrumb">
+				<ol class="breadcrumb breadcrumbs-light" style="margin-top:0px;">
+					<li class="breadcrumb-item"><a ui-sref="home">Homepage</a></li>
+					<li
+						ng-repeat="crumb in b.crumbs track by $index"
+						class="breadcrumb-item"
+						ng-class="{'active':crumb.isActive}">
+						<a ng-if="crumb.isActive===false" ui-sref="{{crumb.state}}">{{crumb.title}}</a>
+						<a ng-if="crumb.isActive===true" aria-current="page">{{crumb.title}}</a>
+					</li>
+				</ol>
+			</nav>
+
+			<!-- <ul class="mt-10">
+				<li><a class="hover-underline" ui-sref="home" style="border:0px;color:rgba(15, 14, 14, 0.8);">Homepage</a></li>
+				<li><a class="hover-underline" ui-sref="travel-ideas" style="border:0px;color:rgba(15, 14, 14, 0.8);">Travel Ideas</a></li>
+			</ul> -->
+		</div>
+
+	</div>
+
+</div>

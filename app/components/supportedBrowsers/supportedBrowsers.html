@@ -1,0 +1,83 @@
+<div ng-controller="browsersController" ng-cloak>
+
+    <div id="articles-main">
+        <div class="articles-main-flex">
+
+            <!-- COLUMN 1: BEGIN -->
+            <div style="" xid="articles-main-col-content">
+                <div style="padding-bottom:1.75em">
+                    <span style="font-weight: 600;font-size:1.875em;color:#299b7c;">Supported Browsers</span>
+                </div>
+                <div style="font-weight: 400;font-size: 1em;">
+                    <p style="font-size: 1em;">We built this website to provide people with disabilities an accessible platform to learn about accessible travel opportunities, engage with a community of fellow travelers and book accessible trips.</p>
+
+                    <div class="row supported-browsers-list">
+
+                        <div class="col">
+                            <div class="img-wrapper">
+                                <img src="{{main.env.cdn_static}}/i/browsers/chrome.png" style="padding:0 4px 0px 4px;margin:0;" alt="Chrome 62 and later" />
+                            </div>
+                            <div class="browser-name">
+                                <h6 class="mt-0 mb-1">Chrome 62</h6>
+                               and later
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+                            <div class="img-wrapper">
+                                <img src="{{main.env.cdn_static}}/i/browsers/mozilla.png" style="padding:0 4px 0px 4px;margin:0;" alt="Mozilla 57 and later" />
+                            </div>
+                            <div class="browser-name">
+                                <h6 class="mt-0 mb-1">Firefox 24</h6>
+                                and later
+                            </div>
+
+                        </div>
+
+
+                        <div class="col">
+                            <div class="img-wrapper">
+                               <img src="{{main.env.cdn_static}}/i/browsers/safari.png" style="padding:0 4px 0px 4px;margin:0;" alt="Safari 8 and later" />
+                           </div>
+                            <div class="browser-name">
+                                <h6 class="mt-0 mb-1">Safari 8 </h6>
+                                or later
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+                            <div class="img-wrapper">
+                                <img src="{{main.env.cdn_static}}/i/browsers/microsoft-edge.png" style="padding:0 4px 0px 4px;margin:0;" alt="Edge 6 and later" />
+                            </div>
+                            <div class="browser-name">
+                                <h6 class="mt-0 mb-1">Microsoft Edge 17</h6>
+                                and later
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+                            <div class="img-wrapper">
+                                <img src="{{main.env.cdn_static}}/i/browsers/opera.png" style="padding:0 4px 0px 4px;margin:0;" alt="Opera 50 and later" />
+                            </div>
+                            <div class="browser-name">
+                                <h6 class="mt-0 mb-1">Opera 50</h6>
+                                and later
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="about-articleCarousel">
+        <article-carousel />
+    </div>
+
+    <div id="about-tripplanner">
+        <trip-planner cityoptions="main.cities" isTripPlannerPage="false" />
+    </div>
+</div>

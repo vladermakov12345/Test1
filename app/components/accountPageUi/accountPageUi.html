@@ -1,0 +1,2361 @@
+<div id="accountPageUiSelector" ng-controller="accountPageUiController as accountPageUi" ng-cloak="" class="lower-sec account_ui">
+    <div class="container">
+
+<!--         <div class="row">
+            <div class="col-sm-12">
+                <div style="height:3em;">
+                    <span
+                        ng-show="accountPageUi.changesMade===true"
+                        class="msg_div"
+                        style="font-size: 1.25em;">Changes have been saved.
+                    </span>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="col-sm-3 ">
+                <div class="inner-tabs">
+                    <ul class="nav nav-tabs" xid="sideBarUl">
+                        <li class="nav-item d-sm-none xmenu_btn" ng-click="accountPageUi.sideMenuClick()">
+                            <a
+                                class="nav-link"
+                                href="#">
+                                <img class="header-img left_arrow" ng-src="{{accountPageUi.image_arrow}}" alt="" />
+                                <img class="header-img right_arrow" ng-src="{{accountPageUi.image_arrow_left}}" alt="" />
+                            </a>
+                        </li>
+                        <li class="nav-item" style="width:100%;">
+                            <a
+                                class="nav-link active"
+                                data-toggle="tab"
+                                href="#profile"
+                                xng-click="accountPageUi.sideMenuClick()">
+                                <b>My Profile</b>
+                            </a>
+                        </li>
+
+                        <li class="nav-item" style="width:100%;" id="_bookings">
+                            <a
+                                class="nav-link"
+                                data-toggle="tab"
+                                href="#bookings"
+                                xng-click="accountPageUi.sideMenuClick()">
+                                <b>Bookings</b>
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item" style="width:100%;" id="_favorites">
+                            <a
+                                class="nav-link"
+                                data-toggle="tab"
+                                href="#favorites"
+                                xng-click="accountPageUi.sideMenuClick()">
+                                <b>Favorites</b>
+                            </a>
+                        </li>
+
+                        <li class="nav-item" style="width:100%;" id="_reviews">
+                            <a
+                                class="nav-link"
+                                data-toggle="tab"
+                                href="#reviews"
+                                xng-click="accountPageUi.sideMenuClick()">
+                                <b>Reviews</b>
+                            </a>
+                        </li>
+
+                        <li class="nav-item" style="width:100%;" id="_club">
+                            <a
+                                class="nav-link"
+                                data-toggle="tab"
+                                href="#club"
+                                xng-click="accountPageUi.sideMenuClick()">
+                                <b>clubGO</b>
+                            </a>
+                        </li>
+
+                        <li class="nav-item" style="width:100%;" ng-if="pendingrelease">
+                            <a
+                                class="nav-link"
+                                data-toggle="tab"
+                                href="#menu4"
+                                xng-click="accountPageUi.sideMenuClick()">
+                                <b>My Travel Blog</b>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="width:100%;" id="_settings">
+                            <a
+                                class="nav-link"
+                                data-toggle="tab"
+                                href="#settings"
+                                xng-click="accountPageUi.sideMenuClick()">
+                                <b>Settings</b>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Tab Content Starts -->
+            <div class="col-sm-9">
+                <div class="tab-content" style="margin: 0 1.25em;">
+                    
+                    <!-- Tab 1 -->
+                    <div id="profile" class="tab-pane fade in active">
+                        <div class="rite-text">
+                            <h2>My Profile                     
+                                <span
+                                ng-show="accountPageUi.changesMade===true"
+                                class="msg_div"
+                                style="font-size: .5em;">Changes have been saved.
+                                </span>
+                            </h2>
+                            <div class="profile_sec">
+                                <div class="">
+                                    <div class="media-left">
+                                        <div class="profile_pic">
+<!--                                             <img
+                                                ng-show="accountPageUi.userProfile.picture"
+                                                ng-attr-src="{{accountPageUi.userProfile.picture}}"
+                                                style="border-radius:100%;max-height: 2em;"> -->
+                                            <img
+                                                ng-show="accountPageUi.avatar"
+                                                ng-attr-src="{{accountPageUi.avatar}}"
+                                                style="border-radius:100%;max-height: 2em;">                                            
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <!-- NAME -->
+                                        <p class="location_p"> Name:  
+                                            <a
+                                                ng-if="accountPageUi.mode!=='editName' && accountPageUi.identityService==='auth0'"
+                                                type="submit"
+                                                class="light14"
+                                                style="font-size: .875em; font-weight: 300;color:#29807c; padding-left:10px;"
+                                                ng-click="accountPageUi.editName()">
+                                                Edit <i class="fa fa-edit" aria-hidden="true"></i>
+                                            </a>
+                                            <br/>
+                                            <span class="light14">{{accountPageUi.userService.getFormattedName() || 'Click to edit your name.'}}
+                                            </span>
+
+                                            <div
+                                                ng-if="accountPageUi.mode==='editName'"
+                                                style="font-size: 1.25em;background-color:#f0f0f0;padding:.25em;">
+                                                <div>
+                                                    <h3>
+                                                        <input
+                                                            ng-disabled="accountPageUi.identityService!=='auth0'"
+                                                            ng-model="accountPageUi.userService.userBio.givenName"
+                                                            placeholder="First Name"
+                                                            maxlength="20"
+                                                            type="text"
+                                                            style="width:8em;margin-right:.25em;padding:.25em .75em .25em 0;"
+                                                            class="input"/>
+                                                        <input
+                                                            ng-disabled="accountPageUi.identityService!=='auth0'"
+                                                            ng-model="accountPageUi.userService.userBio.familyName"placeholder="Last Name"
+                                                            maxlength="20"
+                                                            type="text"
+                                                            style="width:8em;padding:.25em .75em .25em 0;"
+                                                            class="input"/>
+                                                    </h3>
+
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-success"
+                                                        style="background-color: #29807c;"
+                                                        ng-click="accountPageUi.saveName()">
+                                                        <!-- <i class="fa fa-save" aria-hidden="true"></i> -->save
+                                                    </button>
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-success"
+                                                        style="background-color: #29807c;"
+                                                        ng-click="accountPageUi.cancelSaveName()">
+                                                        <!-- <i class="fa fa-times" aria-hidden="true"></i> -->cancel
+                                                    </button>
+                                                    <div
+                                                        ng-if="accountPageUi.saveNameErrors.length>0" class="panel-heading">
+                                                        <p>Please correct the following:</p>
+                                                        <ul ng-repeat="err in accountPageUi.saveNameErrors track by $index">
+                                                            <li ng-bind="err.message" />
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </p>
+
+                                        <!-- LOCATION -->
+                                        <p class="location_p"> Location:  
+                                            <a
+                                                ng-if="accountPageUi.mode!=='editLocation'"
+                                                type="submit"
+                                                class="light14"
+                                                style="font-size: .875em; font-weight: 300;color:#29807c; padding-left:10px;"
+                                                ng-click="accountPageUi.editLocation()">
+                                                Edit <i class="fa fa-edit" aria-hidden="true"></i>
+                                            </a>
+                                            <br/>
+                                            <span class="light14">{{accountPageUi.userService.getFormattedLocation() || 'No location specified. Click edit to add your city, state, and country.'}}
+                                            </span>
+
+                                            <!-- edit location -->
+                                            <div
+                                                ng-if="accountPageUi.mode==='editLocation'"
+                                                style="font-size: 1.25em;background-color:#f0f0f0;padding:.25em;">
+                                                <div>
+                                                    <input
+                                                        ng-model="accountPageUi.userService.userLocation.city"
+                                                        placeholder="Enter a city"
+                                                        style="width:100%!important;"
+                                                        type="text"
+                                                        maxLength="50"
+                                                        class="input"/>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        ng-model="accountPageUi.userService.userLocation.stateProv"
+                                                        placeholder="Enter a state"
+                                                        style="width:100%!important;"
+                                                        type="text"
+                                                        maxLength="50"
+                                                        class="input"/>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        ng-model="accountPageUi.userService.userLocation.country"
+                                                        placeholder="Enter a country"
+                                                        style="width:100%!important;"
+                                                        type="text"
+                                                        maxLength="100"
+                                                        class="input"/>
+                                                </div>
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-success"
+                                                    style="background-color: #29807c;"
+                                                    ng-click="accountPageUi.saveLocation()">
+                                                    <!-- <i class="fa fa-save" aria-hidden="true"></i> -->save
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-success"
+                                                    style="background-color: #29807c;"
+                                                    ng-click="accountPageUi.cancelSaveLocation()">
+                                                    <!-- <i class="fa fa-times" aria-hidden="true"></i> -->cancel
+                                                </button>
+                                                <div ng-if="accountPageUi.saveLocationErrors.length>0" class="panel-heading">
+                                                    <p>Please correct the following:</p>
+                                                    <ul ng-repeat="err in accountPageUi.saveLocationErrors track by $index">
+                                                        <li ng-bind="err.message" />
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </p>
+                                    </div>
+
+                                    <div class="user_txt">
+                                        <p>
+                                            <span style="font-weight: 600;">Hi {{ accountPageUi.userService.getFirstName() || 'Traveler' }}!</span>
+                                        </p>
+                                        <span class="light16">
+                                            Please fill out your profile details below so we can send you relevant deals, travel articles, and tips, as well as negotiate discounted travel opportunities on behalf of our community. (We never share individual profile details with 3rd parties.)
+                                        </span>
+                                    </div>
+
+                                    <div class="profile_sec2">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="trvl_rqirment">
+                                                <h4> Travel Requirements </h4>
+                                                <div ng-if="accountPageUi.savePreferenceErrors.length>0" class="panel-heading">
+                                                    <ul ng-repeat="err in accountPageUi.savePreferenceErrors track by $index">
+                                                        <li ng-bind="err.message" />
+                                                    </ul>
+                                                </div>
+                                                <ul>
+                                                    <li> 
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-xs btn-toggle"
+                                                            ng-class="{'active':accountPageUi.userService.getProfile().preferences.TravelRequirement_WheelchairUser.active}"
+                                                            data-toggle="button"
+                                                            aria-pressed="{{accountPageUi.userService.getProfile().preferences.TravelRequirement_WheelchairUser.active}}"
+                                                            autocomplete="off"
+                                                            ng-click="accountPageUi.togglePreference('TravelRequirement','WheelchairUser')">
+                                                            <div class="handle"></div>                            
+                                                        </button> I am a wheelchair user
+                                                    </li>
+                                                    
+                                                    <li>
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-xs btn-toggle"
+                                                            ng-class="{'active':accountPageUi.userService.getProfile().preferences.TravelRequirement_MobilityDisability.active}"
+                                                            data-toggle="button"
+                                                            aria-pressed="{{accountPageUi.userService.getProfile().preferebces.TravelRequirement_MobilityDisability.active}}"
+                                                            autocomplete="off"
+                                                            ng-click="accountPageUi.togglePreference('TravelRequirement','MobilityDisability')">
+                                                            <div class="handle"></div>
+                                                          </button> I have a mobility disability
+                                                    </li>
+                                                    
+                                                    <li>
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-xs btn-toggle"
+                                                            ng-class="{'active':accountPageUi.userService.getProfile().preferences.TravelRequirement_VisionDisability.active}"
+                                                            data-toggle="button"
+                                                            aria-pressed="{{accountPageUi.userService.getProfile().preferences.TravelRequirement_VisionDisability.active}}"
+                                                            autocomplete="off"
+                                                            ng-click="accountPageUi.togglePreference('TravelRequirement','VisionDisability')">
+                                                            <div class="handle"></div>
+                                                          </button> I am blind or have low vision
+                                                    </li>
+                                                    
+                                                    <li>
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-xs btn-toggle"
+                                                            ng-class="{'active':accountPageUi.userService.getProfile().preferences.TravelRequirement_HearingDisability.active}"
+                                                            data-toggle="button"
+                                                            aria-pressed="{{accountPageUi.userService.getProfile().preferences.TravelRequirement_HearingDisability.active}}"
+                                                            autocomplete="off"
+                                                            ng-click="accountPageUi.togglePreference('TravelRequirement','HearingDisability')">
+                                                            <div class="handle"></div>
+                                                          </button> I am deaf or hard of hearing
+                                                    </li>
+
+                                                    <li>
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-xs btn-toggle"
+                                                            ng-class="{'active':accountPageUi.userService.getProfile().preferences.TravelRequirement_ServiceAnimal !== undefined}"
+                                                            data-toggle="button"
+                                                            ng-attr-aria-pressed="{{accountPageUi.userService.getProfile().preferences.TravelRequirement_ServiceAnimal !== undefined}}"
+                                                            autocomplete="off"
+                                                            ng-click="accountPageUi.togglePreference('TravelRequirement','ServiceAnimal')">
+                                                            <div class="handle"></div>
+                                                          </button> I travel with a service animal
+                                                    </li>
+
+                                                    <li>
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-xs btn-toggle"
+                                                            ng-class="{'active':accountPageUi.userService.getProfile().preferences.TravelRequirement_Assistant.active}"
+                                                            data-toggle="button"
+                                                            aria-pressed="{{accountPageUi.userService.getProfile().preferences.TravelRequirement_Assistant.active}}"
+                                                            autocomplete="off"
+                                                            ng-click="accountPageUi.togglePreference('TravelRequirement','Assistant')">
+                                                            <div class="handle"></div>
+                                                          </button> I am assisting a family member or friend
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div
+                                                xng-if="pendingRelease" class="trvl_rqirment">
+                                                    <h4> Personal Bio </h4>
+                                                    <div class="row">
+                                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                                            <div class="age_div">
+
+                                                                <p class="location_p">Age: 
+                                                                    <select
+                                                                        ng-model="accountPageUi.userService.getProfile().bio.ageRange"
+                                                                        ng-change="accountPageUi.saveBio()">
+                                                                        <option>&lt; 18</option>
+                                                                        <option>18 - 25</option>
+                                                                        <option>26 - 40</option>
+                                                                        <option>41 - 55</option>
+                                                                        <option>56 - 70</option>
+                                                                        <option>&gt; 70</option>
+                                                                    </select>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                                            <div class="age_div">
+                                                                <p class="location_p">Gender: 
+                                                                    <select
+                                                                        ng-model="accountPageUi.userService.getProfile().bio.gender"
+                                                                        ng-change="accountPageUi.saveBio()">
+                                                                        <option>Female</option>
+                                                                        <option>Male</option>
+                                                                    </select>   
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="age_div">
+                                                        <p class="location_p">How often do you travel?
+                                                            <select
+                                                                ng-model="accountPageUi.userService.getProfile().bio.travelFrequency"
+                                                                ng-change="accountPageUi.saveBio()">
+                                                                <option>1-2 times per year</option>
+                                                                <option>3-5 times per year</option>
+                                                                <option>&gt; 5 times per year</option>
+                                                            </select>   
+                                                        </p>
+                                                    </div>
+                                                    <div class="age_div mostly_div">
+                                                        <p class="location_p">I travel mostly for:</p>
+                                                        <div
+                                                            class="btn-group btn-group-horizontal"
+                                                            data-toggle="buttons">
+                                                            
+                                                            <button
+                                                                class="btn btn-default"
+                                                                style="text-align:left;border:0px;"
+                                                                ng-click="accountPageUi.saveTravelPurpose('business')">
+                                                                <i ng-if="accountPageUi.userService.getProfile().bio.travelPurpose!=='business'" class="fa fa-circle-o fa-2x" aria-hidden="true"></i>
+                                                                <i ng-if="accountPageUi.userService.getProfile().bio.travelPurpose==='business'" class="fa fa-dot-circle-o fa-2x" aria-hidden="true"></i>
+                                                                <span>  Business</span>
+                                                            </button>
+
+                                                            <button
+                                                                class="btn btn-default"
+                                                                style="text-align:left;border:0px;"
+                                                                ng-click="accountPageUi.saveTravelPurpose('personal')">
+                                                                <i ng-if="accountPageUi.userService.getProfile().bio.travelPurpose!=='personal'" class="fa fa-circle-o fa-2x" aria-hidden="true"></i>
+                                                                <i ng-if="accountPageUi.userService.getProfile().bio.travelPurpose=='personal'" class="fa fa-dot-circle-o fa-2x" aria-hidden="true"></i>
+                                                                <span> Personal</span> 
+                                                            </button>
+                                                            
+                                                            <button
+                                                                class="btn btn-default"
+                                                                style="text-align:left;border:0px;"
+                                                                ng-click="accountPageUi.saveTravelPurpose('both')">
+                                                                <i ng-if="accountPageUi.userService.getProfile().bio.travelPurpose!=='both'" class="fa fa-circle-o fa-2x" aria-hidden="true"></i>
+                                                                <i ng-if="accountPageUi.userService.getProfile().bio.travelPurpose==='both'" class="fa fa-dot-circle-o fa-2x" aria-hidden="true"></i>
+                                                                <span> Both</span> 
+                                                            </button>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="age_div short_bio">
+                                                        <p class="location_p">Short Bio:
+                                                            <span
+                                                            ng-if="accountPageUi.mode==''">
+                                                                <a
+                                                                    ng-if="accountPageUi.mode==''"
+                                                                    type="submit"
+                                                                    class="light14"
+                                                                    style="font-size: .875em; font-weight: 300;color:#29807c; padding-left:10px;"
+                                                                    ng-click="accountPageUi.editBio()">
+                                                                    Edit <i class="fa fa-edit" aria-hidden="true"></i>
+                                                                </a>
+                                                                <br/>
+                                                                <span class="light14">{{accountPageUi.userService.userBio.bio}}
+                                                                </span>
+                                                            </span>
+                                                        </p>
+                                                        <!-- edit bio -->
+                                                        <div
+                                                            ng-if="accountPageUi.mode==='editBio'"
+                                                            style="font-size: 1.25em;background-color:#f0f0f0;padding:.25em;">
+                                                            <input type="text" rows="4" cols="30"
+                                                                placeholder="Enter bio here..."
+                                                                ng-model="accountPageUi.userService.userBio.bio"
+                                                                class="form-control"
+                                                                rows="4" />
+                                                            <button
+                                                                type="submit"
+                                                                class="btn btn-success"
+                                                                style="background-color: #29807c;"
+                                                                ng-click="accountPageUi.saveBio()">
+                                                                <!-- <i class="fa fa-save" aria-hidden="true"></i>  -->save
+                                                            </button>
+                                                            <button
+                                                                type="submit"
+                                                                class="btn btn-success"
+                                                                style="background-color: #29807c;"
+                                                                ng-click="accountPageUi.cancelSaveBio()">
+                                                                <!-- <i class="fa fa-times" aria-hidden="true"></i>  -->cancel
+                                                            </button>
+                                                            <div ng-if="accountPageUi.saveBioErrors.length>0" class="panel-heading">
+                                                                <ul ng-repeat="err in accountPageUi.saveBioErrors track by $index">
+                                                                    <li ng-bind="err.message" style="color:red;" />
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <!-- Tab 2 -->
+                    <div id="bookings" class="tab-pane fade">
+
+                        <div class="rite-text">
+                            <h2>Bookings</h2>
+
+                            <!-- no bookings -->
+                            <div
+                                ng-if="!accountPageUi.userService.userBookings || accountPageUi.userService.userBookings.length===0">
+                                <h3>You do not yet have any bookings</h3>
+                            </div>
+                            <!-- <div class="upcome_div"><h4><span>Upcoming Bookings</span></h4></div> -->
+                            <div
+                                ng-if="accountPageUi.userService.userBookings.length>0"
+                                ng-repeat="booking in accountPageUi.userService.userBookings | orderBy: 'created' : true"
+                                style="margin-top:1em;">
+                                <div class="row">
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <div xclass="booking_div" class="light12">
+                                            {{booking.type | capitalize}} booked on: {{booking.CreatedFormatted}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-sm-5 col-xs-12 text-right">
+                                        <div class="booking_div">
+                                            <!-- <a href="#" title="">View accessibility details</a> -->
+                                            <a
+                                                ng-show="booking.type==='hotel'"
+                                                ui-sref="booking_hotel({bid: booking.ppnBookingId, e: booking.email})">Manage Booking</a>
+                                            <a
+                                                ng-show="booking.type==='car'"
+                                                ui-sref="booking_car({bid: booking.ppnBookingId, e: booking.email})">Manage Booking</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box_div">
+                                       
+                                    <div class="heart_img text-right">
+                                        <!-- <img class="header-img" ng-src="{{accountPageUi.image_heart_grey}}" alt="" /> -->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-7 col-sm-7 col-xs-12">
+                                            <div class="media" ng-if="booking.type==='hotel'">
+                                                <div class="media-left">
+                                                    <a
+                                                        ui-sref="hotel({hid: booking.hotelReservation.hotel.hotelid_ppnId})">
+                                                        <img
+                                                            class="header-img" 
+                                                            ng-src="{{booking.hotelReservation.hotel.thumbnail}}" 
+                                                            alt=""
+                                                            style="max-width:100px;" />
+                                                    </a>
+                                                </div>
+                                                <div class="media-body booking_div hotel p-1">
+                                                    <h4 class="media-heading">
+                                                        <a
+                                                            ng-click="accountPageUi.goToHotel(booking.hotelReservation)"
+                                                            title="">{{booking.hotelReservation.hotel.hotel_name}}</a>
+                                                    </h4>
+                                                    <small>{{booking.hotelReservation.hotel.address.AddressFormatted}}</small>
+                                                    <!-- <p class="hidden-xs">Rating:
+                                                        <img
+                                                            ng-repeat="a in accountPageUi.getArray(booking.hotel.star_rating) track by $index"
+                                                            ng-src="{{accountPageUi.image_star_orange}}" alt="" />
+                                                    </p> -->
+                                                    <!-- <span><i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star-o"></i>
+                                                            <i class="fa fa-star-o"></i>
+                                                            <i class="fa fa-star-o"></i>
+                                                        </span> -->
+                                                    <!-- <p class="hidden-xs">Accessibility Rating:
+                                                        <span><i class="fa fa-star" aria-hidden="true"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </span>
+                                                    </p> -->
+                                                </div>
+                                            </div>
+                                            <div class="booking_div hotel visible-xs">
+                                                <!-- <p>Rating:
+                                                <img
+                                                    ng-repeat="a in accountPageUi.getArray(booking.hotel.star_rating) track by $index"
+                                                    ng-src="{{accountPageUi.image_star_orange}}" alt="" /> 
+                                                </p> -->
+                                                <!-- <span><i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                    </span> -->
+                                                <!-- <p>Accessibility Rating:
+                                                    <span><i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </span>
+                                                </p> -->
+                                            </div>
+                                            <div class="booking_div" ng-if="booking.type==='car'">
+                                                <label>Pickup:<br/>
+                                                    <span>
+                                                        {{booking.carReservation.PickupDateFormatted}} {{booking.carReservation.PickupTime}}
+                                                    </span><br/>
+                                                    <span ng-if="booking.carReservation.PickupPPNId.length===3">
+                                                        {{booking.pickupCity.airport}} [{{booking.carReservation.PickupPPNId}}]<br />
+                                                    </span>
+                                                    <span Xng-if="booking.carReservation.PickupPPNId.length===9">
+                                                        {{booking.pickupCity.city}}, {{booking.pickupCity.state}}, {{booking.pickupCity.country}}
+                                                    </span>
+                                                </label>
+                                                <label>Dropoff:<br/>
+                                                    <span>
+                                                        {{booking.carReservation.DropoffDateFormatted}} {{booking.carReservation.DropoffTime}}
+                                                    </span><br/>
+
+                                                    <span ng-if="booking.carReservation.DropoffPPNId.length===3">
+                                                        {{booking.dropoffCity.airport}} [{{booking.carReservation.DropoffPPNId}}]<br />
+                                                    </span>
+                                                    <span Xng-if="booking.carReservation.DropoffPPNId.length===9">
+                                                        {{booking.dropoffCity.city}}, {{booking.dropoffCity.state}}, {{booking.dropoffCity.country}}
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-sm-5 col-xs-12">
+                                            <div class="booking_div" ng-if="booking.type==='hotel'">
+
+                                                <!-- DATE -->
+                                                <div>
+                                                    <label>Date: 
+                                                        <span>{{booking.hotelReservation.CheckinDateFormatted}} - {{booking.hotelReservation.CheckoutDateFormatted}}
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <label class="guest">Guests: <span>{{booking.hotelReservation.Guests}}</span>
+                                                    </label>
+                                                    <label class="guest">Nights: <span>{{booking.hotelReservation.Nights}}</span>
+                                                    </label>
+                                                    <label class="guest">Booking Number: <span>{{booking.ppnBookingId}}</span>
+                                                    </label>
+                                                </div>
+                                                <!-- <div>
+                                                    <label class="price">Price per Night: <span>$289</span></label>
+                                                    <label class="price">Discounted: <span>$259</span></label>
+                                                </div>
+                                                <div>
+                                                    <label class="guest">Total Price: <span>$1295</span></label>
+                                                    <label class="guest">Total Savings: <span>$150!</span></label>
+                                                </div> -->
+                                            </div>
+                                            <div class="booking_div" ng-if="booking.type==='car'">
+                                                <div>
+
+                                                </div>
+                                                <div>
+                                                    <label class="guest">Days: <span>{{booking.carReservation.Days}}</span>
+                                                    </label>
+                                                    <label class="guest">Booking Number: <span>{{booking.ppnBookingId}}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- past bookings -->
+                        <div ng-if="DOWEREALLYNEEDTHIS" class="past_div">
+                            <div class="upcome_div"><h4><span>Past Bookings</span></h4></div>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-4 col-xs-12">
+                                    <div class="booking_div">
+                                        <p class="past_p">March 17 - March 23, 2017</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 col-sm-8 col-xs-12 text-right">
+                                    <div class="booking_div stay">
+                                        <label>How was your stay?</label>
+                                        <a href="#" title=""><i class="fa fa-pencil" aria-hidden="true"></i> Write a Review, earn rewards!</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box_div">
+                                <div class="heart_img text-right">
+                                        <img class="header-img" ng-src="{{accountPageUi.image_heart_grey}}" alt="" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="#">
+                                                        <img class="header-img" ng-src="{{accountPageUi.image_hotel}}" alt="" />
+                                                </a>
+                                            </div>
+                                            <div class="media-body booking_div hotel">
+                                                <h4 class="media-heading"><a href="#" title="">Hampton Inn & Suites Orlando/Downtown South-Medical Center</a></h4>
+                                                <small>43 Columbia Street, Orlando, FL, United States</small>
+                                                <p class="d-none d-xs-block d-sm-none">Hotel Classification: 
+                                                    <span>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                    </span>
+                                                </p>
+                                                <p class="d-none d-xs-block d-sm-none">Accessibility Rating:
+                                                    <span>
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        <span class="tooltip_spn"> <span>Contribute your accessibiltity rating. Earn rewards.</span><img class="header-img" ng-src="{{accountPageUi.image_attention}}" alt="" /></span>
+
+                                                    </span>
+                                                    
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="booking_div hotel visible-xs">
+                                            <p>Hotel Classification: 
+                                                <span>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                </span>
+                                            </p>
+                                            <p>Accessibility Rating:
+                                                <span>
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i> 
+                                                    <span class="tooltip_spn"> <span>Contribute your accessibiltity rating. Earn rewards.</span><img class="header-img" ng-src="{{accountPageUi.image_attention}}" alt="" /></span>             
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-sm-5 col-xs-12">
+                                        <div class="booking_div">
+                                            <div>
+                                                <label>Date: <span>03-17-2017 to 03-17-2017</span></label>
+                                            </div>
+                                            <div>
+                                                <label class="guest">Guests: <span>2</span></label>
+                                                <label class="guest">Nights: <span>5</span></label>
+                                                <label class="guest">Booking Number: <span>1234</span></label>
+                                            </div>
+                                            <div>
+                                                <label class="price">Price per Night: <span>$289</span></label>
+                                                <label class="price">Discounted: <span>$259</span></label>
+                                            </div>
+                                            <div>
+                                                <label class="guest">Total Price: <span>$1295</span></label>
+                                                <label class="guest">Total Savings: <span>$150!</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3 -->
+                    <div id="favorites" class="tab-pane fade">
+                        <div class="rite-text">
+                            <h2>Favorites</h2>
+
+                            <!-- no favorites -->
+                            <!-- <div
+                                ng-if="accountPageUi.favorites.length===0">
+                                <h3>No Favorites Yet!</h3>
+                            </div> -->
+
+                            
+                            <div
+                                class="wrapper-common wrapper-common-width wrapper-column">
+                                <div class="card bg-default p-3" style="background-color:azure;">
+                                    <div class="" style="display: flex;flex-direction: row;">
+                                        <div style="padding:1em;">
+                                            <i class="fa fa-suitcase fa-2x"></i>
+                                        </div>
+                                        <div>
+                                            <a class="semibold18" ui-sref="travelKit" style="text-decoration: underline;">Check out the accessibleGO Travel Kit</a>
+                                            <p>Guides on inflight tips, airport pickup services and hotel shuttles.</p>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+
+                            <!-- select type of favorites to view -->
+                            <div
+                                ng-if="accountPageUi.favorites.length>0"
+                                style="margin: 1em 0;">
+                                <a
+                                    ng-click="accountPageUi.favoritesMode=''"
+                                    ng-style="{'text-decoration': accountPageUi.favoritesMode===''? 'underline':'none'}"
+                                    title="All Favorites">All</a> | 
+                                <a
+                                    ng-click="accountPageUi.favoritesMode='hotel'"
+                                    ng-style="{'text-decoration': accountPageUi.favoritesMode==='hotel'? 'underline':'none'}"
+                                    title="">Hotels</a> | 
+                                <a
+                                    ng-click="accountPageUi.favoritesMode='business'"
+                                    ng-style="{'text-decoration': accountPageUi.favoritesMode==='business'? 'underline':'none'}"
+                                    title="">Businesses</a> |
+                                <a
+                                    ng-click="accountPageUi.favoritesMode='article'"
+                                    ng-style="{'text-decoration': accountPageUi.favoritesMode==='article'? 'underline':'none'}"
+                                    title="">Articles</a>
+                            </div>
+
+
+                            <!-- no favorites for this mode -->
+                            <div
+                                ng-if="favoriteResults.length===0">
+                                <p>You do not have any {{accountPageUi.favoritesMode}} favorites.</p>
+                            </div>
+
+
+                            <!-- show favorites by mode-->
+                            <div
+                                ng-if="accountPageUi.favorites.length>0"
+                                ng-repeat="favorite in accountPageUi.favorites | filter: {type: accountPageUi.favoritesMode } as favoriteResults track by favorite.userFavoriteId | orderBy: accountPageUi.sortCreated(favorite) : true"
+                                class="box_div box_divFav">
+
+                                <!-- HOTEL -->
+                                <div ng-if="favorite.type==='hotel'" class="row">
+                                    <div class="col-md-2 col-sm-2 d-none d-xs-block d-sm-none">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a
+                                                    style="margin-left:0px;"
+                                                    ui-sref="hotel({hid:favorite.hotel.hotelid_ppnId})"
+                                                    title="">
+                                                    <img class="header-img" ng-src="{{favorite.hotel.thumbnail}}" alt=""
+                                                    style="max-width: 75px;" />
+                                                </a> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-xs-12">
+                                        <div class="media">
+                                            <div class="media-body booking_div hotel">
+                                                <span class="pull-right" style="font-size:.75em;">Added {{favorite.CreatedFormatted}}</span> <!-- <img class="header-img" ng-src="{{accountPageUi.image_heart_red}}" alt="" /> -->
+
+                                                <h4 class="media-heading">
+                                                    <a
+                                                        style="margin-left:0px;"
+                                                        ui-sref="hotel({hid:favorite.hotel.hotelid_ppnId})"
+                                                        title="">{{favorite.hotel.hotel_name}}</a> 
+                                                </h4>
+                                                <small>{{review.hotel.address.AddressFormatted}}</small>
+                                                <span xclass="right_review">
+                                                    <a ui-sref='reviewHotel({hid:favorite.hotel.hotelid_ppnId})' title=""><i class="fa fa-pencil" aria-hidden="true"></i>Write a Review  </a>
+                                                </span>
+
+                                                <!-- <p class="hidden-xs">Hotel Classification: 
+                                                    <span><i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                    </span>
+                                                </p>
+                                                <p class="hidden-xs">Accessibility Rating:
+                                                    <span><i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </span>
+                                                </p> -->
+                                            </div>
+                                        </div>
+                                        <!-- <div class="booking_div hotel visible-xs hotel_xs">
+                                            <p>Hotel Classification: 
+                                                <span><i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </span>
+                                            </p>
+                                            <p>Accessibility Rating:
+                                                <span><i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </span>
+                                            </p>
+                                        </div> -->
+                                    </div>
+                                    <!-- <div class="col-md-5 col-sm-5 col-xs-12">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6 col-xs-12 text-center hidden-xs">
+                                                <div class="booking_div stay loder_img">
+                                                    <label>Overal Guest Score</label>
+                                                    <img class="header-img" ng-src="{{accountPageUi.image_loder}}" alt="" />
+                                                    <div><small class="small_font">Based on 248 reviews on Booking.com</small></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12 visible-xs">
+                                                <div class="row">
+                                                    <div class="col-md-7 col-sm-7 col-xs-7">
+                                                        <div class="booking_div stay loder_img">
+                                                            <label>Overal Guest Score</label>
+                                                            <div><small class="small_font">Based on 248 reviews on Booking.com</small></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-5">
+                                                        <div class="booking_div stay loder_img">
+                                                            <img class="header-img" ng-src="{{accountPageUi.image_loder}}" alt="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="booking_div loder_img">
+                                                    <span class="right_review"><a href="#" title=""><i class="fa fa-pencil"></i>Write a Review </a></span>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    
+                                    </div>
+                                    -->
+                                </div>
+
+                                <!-- BUSINESS -->
+                                <div ng-if="favorite.type==='business'" class="row">
+                                    <div class="col-md-2 col-sm-2 d-none d-xs-block d-sm-none">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <img
+                                                    class="header-img"
+                                                    ng-src="{{favorite.directory.typeImage}}"
+                                                    alt=""
+                                                    style="max-width: 75px;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-xs-12">
+                                        <div class="media">
+                                            <div class="media-body booking_div hotel">
+                                                <span class="pull-right" style="font-size:.75em;">Added {{favorite.CreatedFormatted}}</span> <!-- <img class="header-img" ng-src="{{accountPageUi.image_heart_red}}" alt="" /> -->
+                                                <h4 class="media-heading">
+                                                    <a
+                                                        style="margin-left:0px;"
+                                                        ui-sref="businessIndividual({city:favorite.directory.city.nameForUrl, type:favorite.directory.type, category:favorite.directory.category, slug:favorite.directory.slug})"
+                                                        title="">{{favorite.directory.name}}</a> 
+                                                </h4>
+                                                <h5>{{favorite.directory.description}}</h5>
+                                                <small>{{review.directory.address.AddressFormatted}}</small>
+                                                <!-- <span xclass="right_review">
+                                                    <a ui-sref='reviewHotel({hid:favorite.hotel.hotelid_ppnId})' title=""><i class="fa fa-pencil"></i>Write a Review  </a>
+                                                </span> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ARTICLE -->
+                                <div ng-if="favorite.type==='article'" class="row">
+                                    <div class="col-lg-4 col-md-5 col-sm-6 d-none d-xs-block d-sm-none">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a
+                                                    style="margin-left:0px;"
+                                                    ui-sref="articles({title:favorite.article.title})"
+                                                    title="">
+                                                    <img
+                                                        class="header-img"
+                                                        ng-src="{{accountPageUi.env.BASEURL_CONTENT}}/Image/GetImage?assetId={{favorite.article.intro_image}}&Size=medium"
+                                                        alt=""
+                                                        style="max-width: 100%;height: auto;" />
+                                                    <!-- <img  ng-src="{{favorite.hotel.thumbnail}}" alt=""
+                                                    style="max-width: 75px;" /> -->
+                                                </a> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="log-lg-8 col-md-7 col-sm-6 col-xs-12">
+                                        <div class="media">
+                                            <div class="media-body booking_div hotel">
+                                                <span class="pull-right" style="font-size:.75em;">Added {{favorite.CreatedFormatted}}</span>
+                                                <h4 class="media-heading">
+                                                    <a
+                                                        style="margin-left:0px;"
+                                                        ui-sref="articles({title:favorite.article.title})"
+                                                        title="">{{favorite.article.title}}</a> 
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="BUSINESS_EXAMPLE" class="box_div box_divFav">
+                                <div class="heart_img text-right">
+                                    <img class="header-img" ng-src="{{accountPageUi.image_heart_red}}" alt="" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="#">
+                                                    <span>Caregives</span>
+                                                    <img class="header-img" ng-src="{{accountPageUi.image_caregivers}}" alt="" />
+                                                </a>
+                                            </div>
+                                            <div class="media-body booking_div hotel">
+                                                <h4 class="media-heading"><a href="#" title="">Accessible Journeys</a></h4>
+                                                <small>35 West Sellers Ave, Ridley Park , PA, 19078</small>  
+                                                <p class="rating_star d-none d-xs-block d-sm-none">Accessibility Rating:
+                                                    <span><i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                    </span>
+                                                </p>
+                                                <div class="about_p d-none d-xs-block d-sm-none">
+                                                    <p>About: <span>Match ypurself with a health professional and vacation together. Vacation planning...</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="booking_div hotel visible-xs hotel_xs">
+                                            <p class="rating_star">Accessibility Rating:
+                                                <span><i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                </span>
+                                            </p>
+                                            <div class="about_p">
+                                                <p>About: <span>Match ypurself with a health professional and vacation together. Vacation planning...</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <div class="booking_div loder_img">
+                                            <span class="right_review">
+                                                <a href="#" title=""><i class="fa fa-pencil" aria-hidden="true"></i>Write a Review</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="BUSINESS_EXAMPLE" class="box_div box_divFav">
+                                <div class="heart_img text-right">
+                                    <img class="header-img" ng-src="{{accountPageUi.image_heart_red}}" alt="" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="#">
+                                                    <span>Transportation</span>
+                                                    <img class="header-img" ng-src="{{accountPageUi.image_transportation}}" alt="" />
+                                                </a>
+                                            </div>
+                                            <div class="media-body booking_div hotel">
+                                                <h4 class="media-heading"><a href="#" title="">Drive Master Mobility</a></h4>
+                                                <small>37 Daniel Road West, Fairfield, NJ07004</small>  
+                                                <p class="rating_star d-none d-xs-block d-sm-none">Accessibility Rating:
+                                                    <span><i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                    </span>
+                                                </p>
+                                                <div class="about_p d-none d-xs-block d-sm-none">
+                                                    <p>About: <span>Wheelchair accessible van with driver.</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="booking_div hotel visible-xs hotel_xs">
+                                            <p class="rating_star">Accessibility Rating:
+                                                <span><i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                </span>
+                                            </p>
+                                            <div class="about_p">
+                                                <p>About: <span>Wheelchair accessible van with driver.</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <div class="booking_div loder_img">
+                                            <span class="right_review">
+                                                <a href="#" title=""><i class="fa fa-pencil" aria-hidden="true"></i>Read my Review </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="BUSINESS_EXAMPLE" class="box_div box_divFav">
+                                <div class="heart_img text-right">
+                                    <img class="header-img" ng-src="{{accountPageUi.image_heart_red}}" alt="" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="#">
+                                                    <span>Articles</span>
+                                                    <img class="header-img" ng-src="{{accountPageUi.image_article}}" alt="" />
+                                                </a>
+                                            </div>
+                                            <div class="media-body booking_div hotel">
+                                                <h4 class="media-heading"><a href="#" title="">Top 10 Accessible Attractions in Chicago</a> 
+                                                   </h4>
+                                                <div class="about_p">
+                                                    <p><span class="legend_spn">Legend has it that Chicago is known as the windy city not because of the cold gusts whipping off Lake Michigan in the winter, but because of its tradition of hot air bellowing from its politicians. This legend fits the city's lively atmosphere...</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4 -->
+                    <div id="reviews" class="tab-pane fade ">
+                        <div class="rite-text">
+                            <h2>Reviews</h2>
+
+                            <!-- no reviews yet -->
+                            <!-- <div
+                                ng-if="accountPageUi.reviews.length===0">
+                                <h3>No Reviews Yet!</h3>
+                            </div> -->
+
+                            <!-- select type of reviews to view -->
+                            <div
+                                ng-if="accountPageUi.reviews.length>0"
+                                style="margin: 1em 0;">
+                                <a
+                                    ng-click="accountPageUi.reviewsMode=''"
+                                    ng-style="{'text-decoration': accountPageUi.reviewsMode===''? 'underline':'none'}"
+                                    title="All Favorites">All</a> | 
+                                <a
+                                    ng-click="accountPageUi.reviewsMode='hotel'"
+                                    ng-style="{'text-decoration': accountPageUi.reviewsMode==='hotel'? 'underline':'none'}"
+                                    title="">Hotels</a> | 
+                                <a
+                                    ng-click="accountPageUi.reviewsMode='business'"
+                                    ng-style="{'text-decoration': accountPageUi.reviewsMode==='business'? 'underline':'none'}"
+                                    title="">Businesses</a>
+                            </div>
+
+
+                            <!-- no reviews for this mode -->
+                            <div
+                                ng-if="reviewsResults.length===0">
+                                <p>You do not have any {{accountPageUi.reviewsMode}} reviews.</p>
+                                <p><a ui-sref='review'>Write an accessibility review on a hotel or business today!</a></p>
+                            </div>
+
+                            <!-- <div
+                                ng-if="accountPageUi.reviewsMode==='hotels' && $filter('filter')(accountPageUi.reviews,{reviewType:'h'}).length>0">
+                                <h3>No Reviews Yet!</h3>
+                                <p><a ui-sref='review'>Write an accessibility review on a hotel or business today!</a></p>
+                            </div> -->
+
+                            <div
+                                ng-if="accountPageUi.reviews.length>0"
+                                ng-repeat="review in accountPageUi.reviews | orderBy: '-reviewDate' | filter: {reviewType: accountPageUi.getReviewType() } as reviewsResults track by review.userReviewId"
+                                class="box_div box_divFav">
+
+                            <!-- <div
+                                ng-if="accountPageUi.reviews.length>0"
+                                ng-repeat="review in accountPageUi.reviews"> -->
+
+                                <!-- review type = hotel -->
+                                <div
+                                    ng-if="review.reviewType==='h'"
+                                    class="xbox_div xbox_divFav review_cont">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <!-- <span class="visible-xs pull-left">Hotel</span> -->
+                                            <span class="right_review dec_spn light12">
+                                                Reviewed: {{review.ReviewDateFormatted}}<br/>Status: {{review.status}}
+                                                <!-- <img class="header-img" ng-src="{{accountPageUi.image_heart_grey}}" alt="" /> -->
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="media">
+                                                <div class="media-left d-none d-xs-block d-sm-none">
+                                                    <a href="#">
+                                                        <!-- <span>Hotel</span> -->
+                                                        <img class="header-img" ng-src="{{review.hotel.thumbnail}}" alt="" style="max-width: 75px;" />
+                                                    </a>
+                                                </div>
+
+                                                <div class="media-body booking_div hotel">
+                                                    <h4 class="media-heading">
+                                                        <div class="visible-xs">
+                                                            <img class="header-img" ng-src="{{review.hotel.thumbnail}}" alt="" style="max-width: 75px;" />
+                                                        </div>
+                                                        <a style="margin-left:0px;" ui-sref="hotel({hid:review.hotel.hotelid_ppnId})" title="">{{review.hotel.hotel_name}}</a> 
+                                                    </h4>
+                                                    <small>{{review.hotel.address.AddressFormatted}}</small>  
+                                                    <p class="rating_star d-none d-xs-block d-sm-none">My Rating:
+                                                        <span>
+                                                            <i ng-class="review.rating>=1 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=2 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=3 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=4 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=5 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                        </span>
+                                                    </p>
+                                                    <div class="about_p d-none d-xs-block d-sm-none">
+                                                        <p>My review title: <span>{{review.title}}<!-- <a href="#" title="">Read more</a> --></span></p>
+                                                    </div>
+                                                    <div class="about_p d-none d-xs-block d-sm-none">
+                                                        <p>My review: <span>{{review.description}}<!-- <a href="#" title="">Read more</a> --></span></p>
+                                                    </div>
+                                                    <div
+                                                        ng-if="review.accWheelchairUsers===true || review.accLowVision===true || review.accLowHearing===true || review.accLowMobility===true"
+                                                        class="about_p visitors_div">
+                                                        <p>This Hotel is suitable for visitors:<br /> 
+                                                        <span ng-if="review.accWheelchairUsers===true">
+                                                            <img class="header-img" ng-src="{{accountPageUi.image_check_black}}" alt="" /> Who are wheelchair users
+                                                        </span>
+                                                        <span ng-if="review.accLowVision===true">
+                                                            <img class="header-img" ng-src="{{accountPageUi.image_check_black}}" alt="" /> Who are blind or have low vision
+                                                        </span>
+                                                        <span ng-if="review.accLowHearing===true">
+                                                            <img class="header-img" ng-src="{{accountPageUi.image_check_black}}" alt="" /> Who are deaf or hard of hearing
+                                                        </span>
+                                                        <span ng-if="review.accLowMobility===true">
+                                                            <img class="header-img" ng-src="{{accountPageUi.image_check_black}}" alt="" /> With mobility disabilities
+                                                        </span>
+                                                        </p>
+                                                    </div>
+                                                    <!-- prev suitable for visitors was here -->
+                                                </div>
+                                            </div>
+                                            <div class="booking_div hotel visible-xs hotel_xs">
+                                                <p class="rating_star">My Rating:
+                                                    <span>
+                                                            <i ng-class="review.rating>=1 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=2 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=3 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=4 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=5 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                        </span>
+                                                </p>
+                                                <div class="about_p">
+                                                        <p>My review title:<br/><span>{{review.title}}<!-- <a href="#" title="">Read more</a> --></span></p>
+                                                    </div>
+                                                <div class="about_p">
+                                                    <p>My review:<br/><span>{{review.description}} <!-- <a href="#" title="">Read more</a> --></span></p>
+                                                </div>
+                                                <div
+                                                    ng-if="review.accWheelchairUsers===true || review.accLowVision===true || review.accLowHearing===true || review.accLowMobility===true"
+                                                    class="about_p visitors_div">
+                                                    <p>This Hotel is suitable for visitors:<br /> 
+                                                        <span ng-if="review.accWheelchairUsers===true">
+                                                            <img class="header-img" ng-src="{{accountPageUi.image_check_black}}" alt="" /> Who are wheelchair users
+                                                        </span>
+                                                        <span ng-if="review.accLowVision===true">
+                                                            <img class="header-img" ng-src="{{accountPageUi.image_check_black}}" alt="" /> Who are blind or have low vision
+                                                        </span>
+                                                        <span ng-if="review.accLowHearing===true">
+                                                            <img class="header-img" ng-src="{{accountPageUi.image_check_black}}" alt="" /> Who are deaf or hard of hearing
+                                                        </span>
+                                                        <span ng-if="review.accLowMobility===true">
+                                                            <img class="header-img" ng-src="{{accountPageUi.image_check_black}}" alt="" /> With mobility disabilities
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div class="table_div table-responsive">
+                                                        <table class="table table-bordered" style="min-width:12em;max-width:20em;">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Entrance and Main Areas</td>
+                                                                <td style="width:40px;">
+                                                                    <img
+                                                                    ng-if="review.entranceAndMainAreas===true"
+                                                                    class="header-img"
+                                                                    ng-src="{{accountPageUi.image_check_icon}}" alt="" />
+                                                                    <i ng-if="review.entranceAndMainAreas===false" class="fa fa-close" aria-hidden="true"></i>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Parking</td>
+                                                                <td style="width:40px;">
+
+                                                                    <img
+                                                                    ng-if="review.parking===true"
+                                                                    class="header-img"
+                                                                    ng-src="{{accountPageUi.image_check_icon}}" alt="" />
+                                                                    <i ng-if="review.parking===false" class="fa fa-close" aria-hidden="true"></i>
+                                                                </td>
+                                                                </tr>
+                                                            <tr>
+                                                                <td>Elevator</td>
+                                                                <td style="width:40px;">
+                                                                    <img
+                                                                    ng-if="review.elevator===true"
+                                                                    class="header-img"
+                                                                    ng-src="{{accountPageUi.image_check_icon}}" alt="" />
+                                                                    <i ng-if="review.elevator===false" class="fa fa-close" aria-hidden="true"></i>
+                                                                </td>
+                                                                </tr>
+                                                            <tr>
+                                                                <td>Restaurant</td>
+                                                                <td style="width:40px;">
+
+                                                                    <img
+                                                                    ng-if="review.restaurant===true"
+                                                                    class="header-img"
+                                                                    ng-src="{{accountPageUi.image_check_icon}}" alt="" />
+                                                                    <i ng-if="review.restaurant===false" class="fa fa-close" aria-hidden="true"></i>
+                                                                </td>
+                                                                </tr>
+                                                            <tr>
+                                                                <td>Room</td>
+                                                                <td style="width:40px;">
+                                                                    <img
+                                                                    ng-if="review.room===true"
+                                                                    class="header-img"
+                                                                    ng-src="{{accountPageUi.image_check_icon}}" alt="" />
+                                                                    <i ng-if="review.room===false" class="fa fa-close" aria-hidden="true"></i>
+                                                                </td>
+                                                                </tr>
+                                                            <tr>
+                                                                <td>Pool</td>
+                                                                <td style="width:40px;">
+                                                                    <img
+                                                                    ng-if="review.pool===true"
+                                                                    class="header-img"
+                                                                    ng-src="{{accountPageUi.image_check_icon}}" alt="" />
+                                                                    <i ng-if="review.pool===false" class="fa fa-close" aria-hidden="true"></i>
+                                                                </td>
+                                                                </tr>
+                                                            <tr>
+                                                                <td>Fitness Center</td>
+                                                                <td style="width:40px;">
+                                                                    <img
+                                                                    ng-if="review.fitnessCenter===true"
+                                                                    class="header-img"
+                                                                    ng-src="{{accountPageUi.image_check_icon}}" alt="" />
+                                                                    <i ng-if="review.fitnessCenter===false" class="fa fa-close" aria-hidden="true"></i>
+                                                                </td>
+                                                                </tr>
+                                                            <tr>
+                                                                <td>Business Center</td>
+                                                                <td style="width:40px;">
+                                                                    <img
+                                                                    ng-if="review.businessCenter===true"
+                                                                    class="header-img"
+                                                                    ng-src="{{accountPageUi.image_check_icon}}" alt="" />
+                                                                    <i ng-if="review.businessCenter===false" class="fa fa-close" aria-hidden="true"></i>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                        </table>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                <!-- revuew type = business listing -->
+                                <div
+                                    ng-if="review.reviewType==='d'"
+                                    class="xbox_div xbox_divFav review_cont">
+                                    <div class="heart_img text-right">
+                                        <!-- <img class="header-img" ng-src="{{accountUi.image_heart_grey}}" alt="" /> -->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="media">
+                                                <div class="media-left" style="min-width:100px;">
+                                                    <span>{{review.directory.type}}</span>
+                                                    <img
+                                                        ng-if="review.directory.type==='Attractions'"
+                                                        class="header-img"
+                                                        ng-src="{{accountPageUi.image_attractions}}"
+                                                        alt="" />
+                                                    <img
+                                                        ng-if="review.directory.type==='Caregiver Agencies'"
+                                                        class="header-img"
+                                                        ng-src="{{accountPageUi.image_caregivers}}"
+                                                        alt="" />
+                                                    <img
+                                                        ng-if="review.directory.type==='Transportation'"
+                                                        class="header-img"
+                                                        ng-src="{{accountPageUi.image_transportation}}"
+                                                        alt="" />
+                                                    <img
+                                                        ng-if="review.directory.type==='Tour Companies'"
+                                                        class="header-img"
+                                                        ng-src="{{accountPageUi.image_tourCompanies}}"
+                                                        alt="" />
+                                                    <img
+                                                        ng-if="review.directory.type==='Equipment Rental'"
+                                                        class="header-img"
+                                                        ng-src="{{accountPageUi.image_equipmentRental}}"
+                                                        alt="" />
+                                                </div>
+                                                <div class="media-body booking_div hotel">
+                                                    <h4 class="media-heading">
+                                                        <a ui-sref="businessIndividual({city:review.directory.city.name,type:review.directory.type,category:review.directory.category,slug:review.directory.slug})" title="">{{review.directory.name}}</a> 
+                                                        <span class="right_review dec_spn light12">
+                                                            <b>Reviewed: {{review.ReviewDateFormatted}}<br/>Status: {{review.status}}</b>
+                                                            <!-- <img class="header-img" ng-src="{{accountPageUi.image_heart_red}}" alt="" /> -->
+                                                        </span>
+                                                    </h4>
+                                                    <small>{{review.directory.address}}</small>  
+                                                    <p class="rating_star d-none d-xs-block d-sm-none">My Rating:
+                                                        <span>
+                                                            <i ng-class="review.rating>=1 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=2 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=3 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=4 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=5 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                        </span>
+                                                    </p>
+                                                    <div class="about_p d-none d-xs-block d-sm-none">
+                                                        <p>My review title: <span>{{review.title}}<!-- <a href="#" title="">Read more</a> --></span></p>
+                                                    </div>
+                                                    <div class="about_p d-none d-xs-block d-sm-none">
+                                                        <p>My review: <span>{{review.description}} <!-- <a href="#" title="">Read more</a> --></span></p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="booking_div hotel visible-xs hotel_xs">
+                                                    <p class="rating_star">My Rating:
+                                                        <span>
+                                                            <i ng-class="review.rating>=1 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=2 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=3 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=4 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                            <i ng-class="review.rating>=5 ? 'fa fa-star' : 'fa fa-star-o'" aria-hidden="true"></i>
+                                                        </span>
+                                                    </p>
+                                                    <div class="about_p">
+                                                        <p>My review title: <span>{{review.title}}<!-- <a href="#" title="">Read more</a> --></span></p>
+                                                    </div>
+                                                    <div class="about_p">
+                                                        <p>My review: <span>{{review.description}} <!-- <a href="#" title="">Read more</a> --></span></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                    <!-- clubGO tab -->
+                    <div id="club" class="tab-pane fade in">
+
+<!--                             <img class="img_deals" ng-src="{{accountPageUi.unlock_deals}}">
+
+                            <img class="img_deals" ng-src="{{accountPageUi.enjoy_deals}}">
+ -->
+                        <div class="rite-text">
+                            <h1>
+                                <img class="header-img" xstyle="height:4em" ng-src="{{accountPageUi.env.cdn}}/logos/clubgo.png" alt="clubGO" />
+                            </h1>
+
+                            <hr />
+                            
+                            <h2>clubGO is accessibleGO's Travel Club, which gives exclusive access to travel deals for people with disabilities.</h2>
+
+                            <br />
+
+
+                            <!-- application status -->
+                            <div
+                                class="card"
+                                style="margin-bottom: 1em;">
+                                <div class="card-header">
+                                    <h3>
+                                        Your application status:
+                                        <span
+                                            class="float-right">
+                                            <i class="fa fa-check-circle-o" aria-hidden="true" style="color:{{accountPageUi.clubgoService.status.color}}"></i> {{ accountPageUi.clubgoService.status.text}}
+                                        </span>
+                                    </h3>
+                                </div>
+                                <div
+                                    ng-if="accountPageUi.clubgoService.status.meaning"
+                                    class="card-body light20"
+                                    style="margin-bottom:.25em;">
+                                    <p style="font-size:1.125em;">
+                                        {{ accountPageUi.clubgoService.status.meaning }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- todo
+                                <div
+                                    ng-show="accountPageUi.clubgoService.params.application"
+                                    style="margin:1em 1.5em;">
+                                    <h4 ng-show="accountPageUi.clubgoService.params.application.ownerType">My application</h4>
+                                    <div ng-show="accountPageUi.clubgoService.params.application.ownerType">
+                                        <h5 style="color:#29807c;font-weight: bold;">
+                                            Applying for: {{accountPageUi.clubgoService.params.application.ownerType}}
+                                        </h5>
+                                    </div>
+                                </div>
+                            -->
+
+
+                            <!-- screen :: init -->
+                            <div
+                                ng-show="accountPageUi.clubgoService.getCurrentStepName()==='init'"
+                                class="card"
+                                style="border-radius:15px;">
+                                <div class="card-header">
+                                    <h5 class="text-center" style="color:#29807c;font-weight: bold;">
+                                        Apply now and get special deals in minutes!
+                                    </h5>
+                                </div>
+                                <div class="card-body light20" style="margin-bottom:2em;text-align: center;">
+                                    <div class="btm_action">
+                                        <button
+                                            type="button"
+                                            ng-click="accountPageUi.getNextScreen()"
+                                            class="btn btn-ar btn-primary semibold18"
+                                            style="background-color: #29807c;padding:.5em;">Start
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- screen :: choose ownership type (.clubgo.application.ownerType) -->
+                            <div
+                                ng-show="accountPageUi.clubgoService.getCurrentStepName()==='chooseOwnershipType'"
+                                class="card"
+                                style="border-radius:15px;">
+                                <div class="card-header">
+                                    <h5 style="color:#29807c;font-weight: bold;">
+                                        For whom are you applying? 
+                                    </h5>
+                                </div>
+                                <div class="card-body light20" style="margin-bottom:2em;">
+                                    <div class="form-group" style="text-align:start;">
+                                        <div style="padding:.5em;">
+                                            <label for="ownership_type_owner"><input
+                                                id="ownership_type_owner"
+                                                name="ownership_type"
+                                                ng-model="accountPageUi.clubgoService.params.application.ownerType"
+                                                data-val="true"
+                                                value="owner"
+                                                type="radio"> I am applying for myself.</label>
+                                        </div>
+                                        <div style="padding:.5em;">
+                                            <label for="ownership_type_other"> <input
+                                                id="ownership_type_other"
+                                                name="ownership_type"
+                                                ng-model="accountPageUi.clubgoService.params.application.ownerType"
+                                                data-val="true"
+                                                value="caregiver"
+                                                type="radio"> I am a caregiver and the owner has authorized me to enroll in clubGO on their behalf.
+                                            </label>
+                                        </div>
+                                        <span
+                                            class="field-validation-valid text-danger"
+                                            data-valmsg-for="ownership_type"
+                                            data-valmsg-replace="true">
+                                        </span>
+                                    </div>
+
+                                    <div class="btm_action">
+                                        <button
+                                            type="button"
+                                            class="btn btn-ar btn-primary semibold18"
+                                            ng-disabled="!accountPageUi.clubgoService.params.application.ownerType"
+                                            ng-click="accountPageUi.clubgoService.getNextStep()"
+                                            style="background-color: #29807c;padding:.5em;">Continue  <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- screen :: choose verification type (.clubgo.application.verificationType) -->
+                            <div
+                                ng-show="accountPageUi.clubgoService.getCurrentStepName()==='chooseVerificationType'"
+                                class="card"
+                                style="border-radius:15px;">
+                                <div class="card-header">
+                                    <h5 style="color:#29807c;font-weight: bold;">
+                                        Which way do you prefer to verify eligibility?
+                                    </h5>
+                                </div>
+                                <div class="card-body light20" style="margin-bottom:2em;">
+                                    <div class="form-group" style="text-align:start;">
+                                        <div style="padding:.5em;">
+                                            <label for="eligibility_type_permit"><input
+                                                id="eligibility_type_permit"
+                                                name="eligibility_type"
+                                                ng-model="accountPageUi.clubgoService.params.application.verificationType"
+                                                data-val="true"
+                                                value="permit"
+                                                type="radio"> Provide {{accountPageUi.clubgoService.getOwnershipPronoun()}} <span xstyle="text-decoration:underline;"> parking permit</span> number.
+                                            </label>
+                                        </div>
+                                        <div style="padding:.5em;">
+                                            <label for="eligibility_type_plate"> <input
+                                                id="eligibility_type_plate"
+                                                name="eligibility_type"
+                                                ng-model="accountPageUi.clubgoService.params.application.verificationType"
+                                                data-val="true"
+                                                value="plate"
+                                                type="radio"> Provide {{accountPageUi.clubgoService.getOwnershipPronoun()}} <span xstyle="text-decoration:underline;"> disabled license plate</span> number.
+                                            </label>
+                                        </div>
+                                        <div style="padding:.5em;">
+                                            <label for="eligibility_type_org"> <input
+                                                id="eligibility_type_org"
+                                                name="eligibility_type"
+                                                ng-model="accountPageUi.clubgoService.params.application.verificationType"
+                                                data-val="true"
+                                                value="org"
+                                                type="radio"> Identify {{accountPageUi.clubgoService.getOwnershipPronoun()}} membership in one of accessibleGO's pre-qualified organizations</label>
+                                        </div>
+                                        <div style="padding:.5em;">
+                                            <label for="eligibility_type_other"> <input
+                                                id="eligibility_type_other"
+                                                name="eligibility_type"
+                                                ng-model="accountPageUi.clubgoService.params.application.verificationType"
+                                                data-val="true"
+                                                value="other"
+                                                type="radio"> Other</label>
+                                        </div>
+                                        <span
+                                            class="field-validation-valid text-danger"
+                                            data-valmsg-for="eligibility_type"
+                                            data-valmsg-replace="true">
+                                        </span>
+                                    </div>
+
+                                    <div class="btm_action">
+                                        <button
+                                            type="button"
+                                            class="btn btn-ar btn-primary float-left"
+                                            style="color:#fff;"
+                                            ng-click="accountPageUi.clubgoService.getPrevStep()"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn btn-ar btn-primary float-right"
+                                            ng-disabled="!accountPageUi.clubgoService.params.application.verificationType"
+                                            ng-click="accountPageUi.clubgoService.getNextStep()"
+                                            xstyle="background-color: #29807c;padding:.5em;">Continue  <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- screen :: specify permit -->
+<!-- 
+    - first check to see if user maybusiness2004@yahoo.com has already uploaded a photo, and if the record is aligned with that
+    - assuming it is aligned, then why would it land here if the user has already uploaded a photo???
+-->
+                            <div
+                                ng-show="accountPageUi.clubgoService.getCurrentStepName() ==='verification' && accountPageUi.clubgoService.params.application.verificationType === 'permit'"
+                                class="card"
+                                style="border-radius:15px;">
+                                <div class="card-header">
+                                    <h5 style="color:#29807c;font-weight: bold;">
+                                        Verify with a Parking Permit
+                                    </h5>
+                                </div>
+                                <div class="card-body light20" style="margin-bottom:2em;">
+                                    <!-- user entry :: parking permit number -->
+                                    <label for="parkingPermitType" class="semibold14">Enter {{accountPageUi.clubgoService.getOwnershipPronoun()}} parking permit Number</label>
+                                    <div class="input-group login-input" style="z-index:0;">
+                                        <!-- <span class="input-group-addon">
+                                            <i class="fa fa-car" aria-hidden="true"></i>
+                                        </span>-->
+                                        <input
+                                            ng-model="accountPageUi.clubgoService.params.application.permit.number"
+                                            class="form-control"
+                                            data-val="true"
+                                            data-val-required="A Parking Permit is required."
+                                            id="parkingPermitType"
+                                            name="parkingPermitType"
+                                            maxlength="35"
+                                            type="text"
+                                            autocomplete="parking-permit-id">
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="parkingPermitType" data-valmsg-replace="true"></span>
+                                    </div>
+
+                                    <!-- user entry :: country -->
+                                    <label for="country" class="semibold14">Select Country</label>
+                                    <div class="login-input">
+                                        <!-- <span class="input-group-addon">
+                                            <i class="fa fa-flag" aria-hidden="true"></i>
+                                        </span> -->
+                                        <country-picker
+                                            id="country"
+                                            class="country-picker"
+                                            placeholder="Enter Country Name"
+                                            countrydata="countries_data"
+                                            ng-model="accountPageUi.clubgoService.params.application.permit.country"
+                                            xselection-changed="reserve.countryChanged()"
+                                            style="xwidth:20em;"></country-picker>
+                                        <!-- <input
+                                                ng-model="country" 
+                                                class="form-control"
+                                                data-val="true"
+                                                id="country"
+                                                name="country"
+                                                placeholder="Country"
+                                                type="text"
+                                                autocomplete="country-name"> -->
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="country" data-valmsg-replace="true"></span>
+                                    </div>
+
+                                    <!-- user entry :: state/province -->
+                                    <label
+                                        ng-show="accountPageUi.clubgoService.params.application.permit.country.state_data.length>0"
+                                        for="stateProv"
+                                        class="semibold14">Select State or Province</label>
+                                    <div
+                                        ng-show="accountPageUi.clubgoService.params.application.permit.country.state_data.length>0"
+                                        class="login-input">
+                                        <!-- <span class="input-group-addon">
+                                            <i class="fa fa-state" aria-hidden="true"></i>
+                                        </span> -->
+                                        <country-picker
+                                            id="stateProv"
+                                            placeholder="Enter State/Province Name"
+                                            countrydata="accountPageUi.clubgoService.params.application.permit.country.state_data"
+                                            ng-model="accountPageUi.clubgoService.params.application.permit.stateProv"
+                                            style="xwidth:20em;"
+                                        />
+                                        <!-- <input
+                                                ng-model="stateProv"
+                                                class="form-control"
+                                                data-val="true"
+                                                id="stateProv"
+                                                name="stateProv"
+                                                placeholder="State or Province"
+                                                type="text"
+                                                autocomplete="state-name"> -->
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="stateProv" data-valmsg-replace="true"></span>
+                                    </div>
+
+                                    <!-- errors -->
+                                        <div class="panel panel-danger-dark" ng-show="accountPageUi.clubgoService.params.application.permit.errors.length>0">
+                                            <br />
+                                            <div class="panel-heading semibold18" style="color:red;">
+                                                <ul ng-repeat="error in accountPageUi.clubgoService.params.application.permit.errors">
+                                                    <li ng-bind-html="error.message" style="text-align:left;"></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    <!-- back/continue -->
+                                    <div class="btm_action">
+                                        <button
+                                            type="button"
+                                            class="btn btn-ar btn-primary float-left"
+                                            style="color:#fff;"
+                                            ng-click="accountPageUi.clubgoService.getPrevStep()"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn btn-ar btn-primary float-right"
+                                            ng-disabled="!accountPageUi.clubgoService.params.application.permit.isValid()"
+                                            ng-click="accountPageUi.submitPermit()"
+                                            xstyle="background-color: #29807c;padding:.5em;">Continue  <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                                        
+
+                            <!-- screen :: specify plate -->
+                            <div
+                                ng-show="accountPageUi.clubgoService.getCurrentStepName() ==='verification' && accountPageUi.clubgoService.params.application.verificationType === 'plate'"
+                                class="card"
+                                style="border-radius:15px;">
+                                <div class="card-header">
+                                    <h5 style="color:#29807c;font-weight: bold;">
+                                        Verify with a License Plate
+                                    </h5>
+                                </div>
+                                <div class="card-body light20" style="margin-bottom:2em;">
+                                    <!-- user entry :: parking permit number -->
+                                    <label for="licensePlateType" class="semibold14">Enter {{accountPageUi.clubgoService.getOwnershipPronoun()}} license plate number</label>
+                                    <div class="input-group login-input" style="z-index:0;">
+                                        <!-- <span class="input-group-addon">
+                                            <i class="fa fa-car" aria-hidden="true"></i>
+                                        </span>-->
+                                        <input
+                                            ng-model="accountPageUi.clubgoService.params.application.plate.number"
+                                            class="form-control"
+                                            data-val="true"
+                                            data-val-required="A License Plate is required."
+                                            id="licensePlateType"
+                                            name="licensePlateType"
+                                            maxlength="35"
+                                            type="text"
+                                            autocomplete="parking-permit-id">
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="licensePlateType" data-valmsg-replace="true"></span>
+                                    </div>
+
+                                    <!-- user entry :: country -->
+                                    <label for="country" class="semibold14">Select Country</label>
+                                    <div class="login-input">
+                                        <!-- <span class="input-group-addon">
+                                            <i class="fa fa-flag" aria-hidden="true"></i>
+                                        </span> -->
+                                        <country-picker
+                                            id="country"
+                                            class="country-picker"
+                                            placeholder="Enter Country Name"
+                                            countrydata="countries_data"
+                                            ng-model="accountPageUi.clubgoService.params.application.plate.country"
+                                            xselection-changed="reserve.countryChanged()"
+                                            style="xwidth:20em;"></country-picker>
+                                        <!-- <input
+                                                ng-model="country" 
+                                                class="form-control"
+                                                data-val="true"
+                                                id="country"
+                                                name="country"
+                                                placeholder="Country"
+                                                type="text"
+                                                autocomplete="country-name"> -->
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="country" data-valmsg-replace="true"></span>
+                                    </div>
+
+                                    <!-- user entry :: state/province -->
+                                    <label
+                                        ng-show="accountPageUi.clubgoService.params.application.plate.country.state_data.length>0"
+                                        for="stateProv"
+                                        class="semibold14">Select State or Province
+                                    </label>
+                                    <div
+                                        ng-show="accountPageUi.clubgoService.params.application.plate.country.state_data.length>0"
+                                        class="login-input">
+                                        <!-- <span class="input-group-addon">
+                                            <i class="fa fa-state" aria-hidden="true"></i>
+                                        </span> -->
+                                        <country-picker
+                                            id="stateProv"
+                                            placeholder="Enter State/Province Name"
+                                            countrydata="accountPageUi.clubgoService.params.application.plate.country.state_data"
+                                            ng-model="accountPageUi.clubgoService.params.application.plate.stateProv"
+                                            style="xwidth:20em;"
+                                        />
+                                        <!-- <input
+                                                ng-model="stateProv"
+                                                class="form-control"
+                                                data-val="true"
+                                                id="stateProv"
+                                                name="stateProv"
+                                                placeholder="State or Province"
+                                                type="text"
+                                                autocomplete="state-name"> -->
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="stateProv" data-valmsg-replace="true"></span>
+                                    </div>
+
+                                    <!-- errors -->
+                                    <div class="panel panel-danger-dark" ng-show="accountPageUi.clubgoService.params.application.plate.errors.length>0">
+                                        <br />
+                                        <div class="panel-heading semibold18" style="color:red;">
+                                            <ul ng-repeat="error in accountPageUi.clubgoService.params.application.plate.errors">
+                                                <li ng-bind-html="error.message" style="text-align:left;"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- back/continue -->
+                                    <div class="btm_action">
+                                        <button
+                                            type="button"
+                                            class="btn btn-ar btn-primary float-left"
+                                            style="color:#fff;"
+                                            ng-click="accountPageUi.clubgoService.getPrevStep()"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn btn-ar btn-primary float-right"
+                                            ng-disabled="!accountPageUi.clubgoService.params.application.plate.isValid()"
+                                            ng-click="accountPageUi.submitPlate()"
+                                            xstyle="background-color: #29807c;padding:.5em;">Continue  <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- screen :: specify org -->
+                            <div
+                                ng-show="accountPageUi.clubgoService.getCurrentStepName() ==='verification' && accountPageUi.clubgoService.params.application.verificationType === 'org'"
+                                class="card"
+                                style="border-radius:15px;">
+                                <div class="card-header">
+                                    <h5 style="color:#29807c;font-weight: bold;">
+                                        Verify with an Organization Membership
+                                    </h5>
+                                </div>
+                                <div class="card-body light20" style="margin-bottom:2em;">
+
+                                    <form
+                                        novalidate
+                                        ng-submit="$event.preventDefault();"
+                                        class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-sm-12 label-control">
+                                                Select Membership Organization
+                                            </label>
+                                            <div class="col-sm-12">
+                                                <select
+                                                    class="form-control"
+                                                    ng-model="accountPageUi.clubgoService.params.application.org.selected"
+                                                    ng-options="option.name for option in accountPageUi.participating_organizations track by option.cugOrganizationId">  
+                                                    <option label="-- Select --"></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-12 light12"
+                                            style="border-left: solid 10px #cfcfcf;margin-left: 1em;background-color: #fcfcfc;margin-top:1em;">
+                                                <p>Can't find your organization?</p>
+                                                <ol>
+                                                    <li>
+                                                        Send them this link containing information about our partner program: <a href="https://clubgo.accessiblego.com/partners" target="_win_partners">https://clubgo.accessiblego.com/partners</a>
+                                                    </li>
+                                                    <li>
+                                                        <a ui-sref="contact">Contact us</a> with their contact information and we'll reach out to them.
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-12 label-control">
+                                                First Name:
+                                            </label>
+                                            <div class="col-sm-12 ">
+                                                <input
+                                                    ng-model="accountPageUi.clubgoService.params.application.org.nameFirst"
+                                                    class="form-control"
+                                                    data-val="true"
+                                                    data-val-required="First Name."
+                                                    id="firstName"
+                                                    name="firstName"
+                                                    placeholder="Enter First Name"
+                                                    value="{{userProfile.given_name}}"
+                                                    type="text"
+                                                    autocomplete="first_name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-4 label-control">
+                                                    Last Name:
+                                            </label>
+                                            <div class="col-md-8 ">
+                                                <input
+                                                ng-model="accountPageUi.clubgoService.params.application.org.nameLast"
+                                                class="form-control"
+                                                data-val="true"
+                                                data-val-required="Last Name."
+                                                id="lastName"
+                                                name="lastName"
+                                                placeholder="Enter Last Name"
+                                                type="text"
+                                                autocomplete="last_name">
+                                            </div>
+                                        </div>
+
+                                        <!-- errors -->
+                                        <div class="panel panel-danger-dark" ng-show="accountPageUi.clubgoService.params.application.org.errors.length>0">
+                                            <br />
+                                            <div class="panel-heading semibold18" style="color:red;">
+                                                <ul ng-repeat="error in accountPageUi.clubgoService.params.application.org.errors">
+                                                    <li ng-bind-html="error.message" style="text-align:left;"></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        
+
+                                        <!-- back/continue -->
+                                        <div class="btm_action">
+                                            <button
+                                                type="button"
+                                                class="btn btn-ar btn-primary float-left"
+                                                style="color:#fff;"
+                                                ng-click="accountPageUi.clubgoService.getPrevStep()"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> back
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn btn-ar btn-primary float-right"
+                                                ng-disabled="!accountPageUi.clubgoService.params.application.org.isValid()"
+                                                ng-click="accountPageUi.submitOrgMembership()"
+                                                xstyle="background-color: #29807c;padding:.5em;">Continue  <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <!-- screen :: other -->
+                            <div
+                                ng-show="accountPageUi.clubgoService.getCurrentStepName()==='verification' && accountPageUi.clubgoService.params.application.verificationType === 'other'"
+                                class="card"
+                                style="border-radius:15px;">
+                                <div class="card-header">
+                                    <h5 style="color:#29807c;font-weight: bold;">
+                                        Alternative ways to verify eligibility
+                                    </h5>
+                                </div>
+                                <div class="card-body light20" style="margin-bottom:2em;">
+                                    <p>
+                                        If you are a member of an organization that is not included in our participating organizations below, you can:
+                                        <ol>
+                                            <li>
+                                                Send them this link containing information about our partner program: <a href="https://clubgo.accessiblego.com/partners" target="_win_partners">https://clubgo.accessiblego.com/partners</a>
+                                            </li>
+                                            <li>
+                                                <a ui-sref="contact">Contact us</a> with their contact information and we'll reach out to them.
+                                            </li>
+                                        </ol>
+                                    </p>
+
+                                    <p>
+                                        If you do not have a disability parking permit, a disability license plate, and are not affilitated with any organization, <a ui-sref="contact">contact us</a>.
+                                    </p>
+
+                                    <!-- back/continue -->
+                                    <div class="btm_action">
+                                        <button
+                                            type="button"
+                                            class="btn btn-ar btn-primary light18"
+                                            style="color:#fff;"
+                                            ng-click="accountPageUi.clubgoService.getPrevStep()"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- screen :: upload photo -->
+                            <div
+                                ng-show="accountPageUi.clubgoService.getCurrentStepName() === 'photo'"
+                                class="card"
+                                style="border-radius:15px;">
+                                <div class="card-header">
+                                    <h5 style="color:#29807c;font-weight: bold;">
+                                        Upload photo
+                                    </h5>
+                                </div>
+                                <div class="card-body light20" style="margin-bottom:2em;">
+                                    <!-- todo: specify ({{accountPageUi.clubgoService.params.persisted}}) -->
+                                    <p>Please upload a photo of your disability parking permit or disability license plate.</p>
+
+                                    <file-upload></file-upload>
+                                    
+                                    <br />
+
+                                    <div class="text-center">
+                                        <button
+                                            type="button"
+                                            class="btn btn-ar btn-primary"
+                                            ng-show="uploadPermitSuccess"
+                                            ng-click="accountPageUi.getNextScreen()"
+                                            xstyle="background-color: #29807c;padding:.5em;">Continue  <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- screen :: complete -->
+                            <div
+                                ng-show="accountPageUi.clubgoService.getCurrentStepName()==='complete'"
+                                >
+                                <!-- <div class="card-header">
+                                    <h5 class="text-center" style="color:#29807c;font-weight: bold;">
+                                        Application Complete
+                                    </h5>
+                                </div> -->
+                                <div class="light20" style="margin-bottom:2em;text-align: center;">
+                                    <div class="btm_action">
+
+                                        <!-- <p>Once your application is approved, we'll email you with tips for saving money with clubGO!</p> -->
+
+                                        <div
+                                        xng-if="accountPageUi.clubgoService.params.persisted.dbRec"
+                                        class="text-center"
+                                        style="margin-top:.25em;">
+                                            <button
+                                                type="button"
+                                                class="choose-city btn button-big button-green text-white text-uppercase"
+                                                ui-sref="hotels"
+                                                xdata-ng-click="vm.loadAllPartners()">Start Searching for Hotel Deals
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+                            <div
+                            ng-hide="true" class="user_name">
+                                Your application status:
+
+                                <!-- nothing submitted yet -->
+                                <span
+                                    ng-show="!accountPageUi.userCUGProfile"
+                                    class="status_recvd"
+                                    style="font-size:1em;">
+                                    <i class="fa fa-check-circle-o" aria-hidden="true"></i> Not yet Applied
+                                </span>
+
+                                <!-- pending approval -->
+                                <span
+                                    ng-show="accountPageUi.userCUGProfile.statusCode==='p'"
+                                    class="status_recvd">
+                                    <i class="fa fa-check-circle-o" aria-hidden="true" style="color:#6cc557;"></i> Received (Under Review)
+                                </span>
+
+                                <!-- verified -->
+                                <span
+                                    ng-show="accountPageUi.userCUGProfile.statusCode==='a'"
+                                    class="status_recvd"
+                                    style="font-size:1em;">
+                                    <i class="fa fa-check-circle-o" aria-hidden="true" style="color:#29807c;"></i> Accepted!
+                                </span>
+
+                                <!-- denied -->
+                                <span
+                                    ng-show="accountPageUi.userCUGProfile.statusCode==='d'"
+                                    class="status_recvd"
+                                    style="font-size:1em;">
+                                    <i class="fa fa-times-circle" aria-hidden="true" style="color:red;"></i> Not Approved
+                                </span>
+
+                                <!-- inactivated -->
+                                <span
+                                    ng-show="accountPageUi.userCUGProfile.statusCode==='i'"
+                                    class="status_recvd"
+                                    style="font-size:1em;">
+                                    <i class="fa fa-minus-circle" aria-hidden="true" style="color:grey;"></i> Inactivated
+                                </span>
+                            </div>
+                            
+
+
+
+
+                            <div ng-show="false && !accountPageUi.userCUGProfile">
+                                <p class="exclusive_txt">
+                                    Access <strong>exclusive travel deals for people with disabilities, </strong>only on accessibleGO!
+                                </p>
+                                <ul class="go_list">
+                                    <li> <span> 1</span> Verify your eligibility (below)</li>
+                                    <li> <span> 2</span> Access club GO discounts right away while we review your application.</li>
+                                </ul>
+
+                                <hr/>
+
+                                <div class="verify_sec">
+                                    <h4>Select which way you want to verify your eligibility. </h4> 
+                                    <div>
+                                            <ul class="nav nav-tabs veri_btns" role="tablist">
+                                              <li role="presentation" class=""> 
+                                                  <button
+                                                    ui-sref=".disabilityParkingPermit"
+                                                    ng-class="accountPageUi.isDisableParking===true ? 'active' : ''"
+                                                    ng-click="accountPageUi.verificationMode('disabilityParkingPermit')">Verify Disability Permit</button>
+                                              </li>
+                                              <li role="presentation" class="right_f">
+                                                    <button
+                                                        ui-sref=".organisationMembership"
+                                                        ng-class="accountPageUi.isMembershipOrg===true ? 'active' : ''"
+                                                        ng-click="accountPageUi.verificationMode('organisationMembership')"
+                                                   >Verify Organization Membership</button>
+                                                </li>
+                                            </ul>
+                                          
+                                            <!-- Tab panes -->
+                                            <div class="tab-content verify_content">
+                                                    <div ui-view="" ng-cloak></div>
+                                            </div>
+                                          
+                                          </div>
+                                </div>
+                            </div>
+
+                            <!-- <div ng-show="accountPageUi.userCUGProfile.statusCode==='p'" style="">
+                                <div>
+                                    <p style="font-size:1.125em;" class="bold16">Application received!</p>
+                                    <p style="font-size:1.125em;">You can go ahead and enjoy clubGO discounts while we review your application. </p>
+                                    <ul style="font-size:1.125em;">
+                                        <li>Once your application is approved, we'll email you with tips for saving money with clubGO</li>
+                                        <li ng-if="accountPageUi.userCUGProfile.parkingID  && accountPageUi.userParkingPermitUploaded===false">Please remember to upload a photo or scan of your parking permit within 7 days.
+                                            <div
+                                                style="background-color:#f0f0f0;padding:.1em;text-align:-webkit-center;"
+                                                class="xupload_sec text-center">
+                                                <file-upload></file-upload>
+                                                
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <br>
+                                    
+                                    -- <p ng-if="vm.redirectionService.hasRedirPending()">
+                                        <a ng-click="vm.redirectionService.applyRedirect()">return to what I was doing</a>
+                                    </p> --
+                                </div>
+                            </div> -->
+
+                        </div>
+                    </div>
+                    <!-- Tab 5 -->
+                    <div ng-if="pendingrelease" id="menu4" class="tab-pane fade">
+                        <div class="rite-text">
+                            <h2>My Travel Blog <span class="msg_div">
+                                Changes have been saved.
+                                </span>
+                            </h2>
+                            <div class="profile_sec travel_blog">
+                                    <h4><label>Name of Travel Blog: <input type="text" placeholder="Galia's Great Adventures" class="input"></label></h4>
+                                    <h4><label class="author_name">Author Name: <input type="text" placeholder="Galia's Gedot" class="input"></label></h4>
+                                    <h4 class="date_lbl">
+                                        <label>Date Created: <span>01-15-2017</span></label>
+                                        <label>Number of Posts: <span>12</span></label>
+                                    </h4>
+                                    <div class="start_dv">
+                                        <div class="start_btn">
+                                            <a href="#" title=""><span>Start a Travel Blog</span></a>
+                                            <a class="delete_btn" href="#" title="">Delete Blog</a>
+                                        </div>
+                                        <div class="start_btn start_btn2">
+                                            <a href="#" title=""><span>Connect Existing Blog to accessibleGo</span></a>
+                                            <a class="delete_btn" href="#" title="">Disconnect Blog</a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="settings" class="tab-pane fade">
+                            <div class="rite-text">
+                                <h2>Settings</h2>
+
+                                <span ng-if="pendingRelease" class="msg_div"> Please verify your new email address by clicking on the link in the email we just sent you.</span>
+
+                                
+                                <div class="profile_sec travel_blog">
+                                    <!--
+                                        <h4 class="pass">
+                                            <label>Name of Travel Blog: <input type="text" placeholder="galiag@gmail.com" class="input"></label>
+                                            <label>Verify Password: <input type="password" placeholder="" class="input"></label>
+                                        </h4>
+                                        <div class="sub_btn">
+                                            <a href="#" title="">Submit</a>
+                                        </div>
+                                    -->
+                                    <!--
+                                        <h4 class="pass_field">
+                                            <label>Change Password: <input type="password" placeholder="" class="input"></label>
+                                            <label>Verify Current Password: <input type="password" placeholder="" class="input"></label>
+                                            <label>New Password: <input type="password" placeholder="" class="input"></label>
+                                        </h4>
+                                    -->
+                                        <div class="sub_btn sub_btn2">
+                                            <h4> Change Password: </h4>
+                                            <div>
+                                                <p>Reset your password by clicking the button below.  You will receive an email address with further instructions.</p>
+                                            </div>
+                                            <!-- <a class="disabled" href="#" title="">Submit</a> -->
+                                            <button class="btn btn-primary" ng-click="accountPageUi.openResetPassModal()">Reset Password</button>
+
+                                        </div>
+                                        <div ng-if="pending_reconciliation" class="trvl_rqirment email_div">
+                                            <h4> Email preferences: </h4>
+                                            <div>
+                                                <p>We never sell your information to 3rd parties. We do use aggregated statistics to negotiate deals for our members.</p>
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    <button
+                                                            type="button"
+                                                            class="btn btn-xs btn-toggle"
+                                                            ng-class="{'active':accountPageUi.userService.userPreferences.Email_DealsIdeasNews.active}"
+                                                            data-toggle="button"
+                                                            aria-pressed="{{accountPageUi.userService.userPreferences.Email_DealsIdeasNews.active}}"
+                                                            autocomplete="off"
+                                                            ng-click="accountPageUi.togglePreference('Email','DealsIdeasNews')">
+                                                            <div class="handle"></div>                            
+                                                    </button> Let me know about deals, travel ideas, and accessibleGO news
+                                                </li>
+                                                <li>
+                                                    <button
+                                                            type="button"
+                                                            class="btn btn-xs btn-toggle"
+                                                            ng-class="{'active':accountPageUi.userService.userPreferences.Email_GetInvolved.active}"
+                                                            data-toggle="button"
+                                                            aria-pressed="{{accountPageUi.userService.userPreferences.Email_GetInvolved.active}}"
+                                                            autocomplete="off"
+                                                            ng-click="accountPageUi.togglePreference('Email','GetInvolved')">
+                                                            <div class="handle"></div>                            
+                                                    </button> Let me know about ways I can get involved with accessibleGO
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <!--
+                                        <div class="delete_div">
+                                            <a class="delete_btn" href="#" title="">Delete Account</a>
+                                        </div>
+                                        -->
+                                </div>
+                            </div>
+    
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

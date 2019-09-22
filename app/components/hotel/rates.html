@@ -1,0 +1,92 @@
+<div xclass="text-center" xng-controller="ratesController as vm">
+    
+    <div class="modal-header">
+    	<div class="wrapper-common wrapper-common-width wrapper-row" style="justify-content:space-between;max-width:54em;">
+	        <div style="flex-basis: 90%;flex-shrink:auto;">
+	        	<h3 class="modal-title semibold24" id="modal-title">{{vm.rateInfo.title}}</h3>
+	        </div>
+	        <div style="flex-basis: 3em;align-self: flex-start;">
+	        	<button class="btn btn-primary" type="button" ng-click="vm.cancel()">close</button>
+	        </div>
+	     </div>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+	    <!-- nightly prices: begin  -->
+		<div
+			class="wrapper-common wrapper-common-width wrapper-row"
+			style="flex-wrap:wrap;justify-content:flex-start;width:100%;padding:0 1em;">
+
+			<!-- weekday names -->
+			<div
+				ng-repeat="d in vm.getWeekDays() track by $index"
+				style="flex-basis:auto;border:1px solid #000;padding:5px;flex-basis: 14%;height:2em;text-align: center;background-color: #27799f;color:#fff;">
+					<strong>{{d}}</strong>
+			</div>
+		</div>
+
+		<div
+			class="wrapper-common wrapper-common-width wrapper-row"
+			style="flex-wrap:wrap;justify-content:flex-start;width:100%;padding:0 1em;">
+
+			<div
+				ng-repeat="x in vm.getBlankDaysPrior() track by $index"
+				style="flex-basis:auto;border:1px solid #000;padding:5px 8px;flex-basis: 14%;height:4em;text-align: center;">
+					<strong>{{vm.getDayHeading(-vm.checkin.getDay()+$index) | date:'M.d.yy'}}</strong>
+			</div>
+			<div
+				ng-repeat="night in vm.rateInfo.price_details.night_price_data"
+				style="flex-basis:auto;border:1px solid #000;padding:5px 8px;flex-basis: 14%;height:4em;text-align: center;background-color:#E3F5FD;">
+				<strong>{{vm.getDayHeading($index) | date:'M.d.yy'}}</strong><br />
+				<p style="margin-top:.25em;font-size:1em;font-weight: bold;">{{night.display_night_price | currency}}</p>
+			</div>
+			
+			<div
+				ng-if="vm.hasBlankDaysAfter()"
+				ng-repeat="x in vm.getBlankDaysAfter() track by $index"
+				style="flex-basis:auto;border:1px solid #000;padding:5px 8px;flex-basis: 14%;height:4em;text-align: center;">
+					<strong>{{vm.addDays(vm.checkout,$index) | date:'M.d.yy'}}</strong>
+			</div>
+		</div>
+		<!-- nightly prices: end -->
+
+		<!-- important information: begin align-self: flex-start; -->
+		<div
+			xclass="wrapper-common wrapper-common-width wrapper-row"
+			style="display:flex;flex-direction:row;justify-content:flex-start;width:100%;padding:1em;flex-wrap: wrap;">
+			<div
+				ng-if="vm.rateInfo.photo_data.length>0"
+				style="max-width:300px;margin-right:1em;margin-bottom:3em;">
+				<photos-carousel ng-collection="vm.photos" nav="bottom" show-description="false" />
+			</div>
+			<div style="max-width:26em;">
+				<!-- RESERVE BUTTON -->
+					<div style="padding:10px 0;flex-basis: 7.125em;">
+						<input
+			      			id="hotel_{{$index}}_bookBtn"
+			      			style="margin-top:10px;min-height: 40px;"
+			      			class="buttonBlue"
+			      			type="button"
+			      			value="Book Now"
+			      			ng-click="vm.requestContract(vm.rateInfo)" />
+					</div>
+				<div
+					ng-repeat="policy in vm.rateInfo.important_information"
+					ng-if="policy.paragraph_data[0] !== null"
+					style="margin-bottom: 1em;">
+					<div><strong>{{policy.title}}</strong></div>
+					<div ng-repeat="para in policy.paragraph_data">
+						<div ng-bind-html="vm.resolvePolicyParagraph(para)"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+					<div>
+				<p class="light14">1. All rooms are booked for double occupancy (i.e. 2 adults). Accommodations for additional guests are not guaranteed. Some hotels may not allow extra guests. If your hotel does allow extra guests, there may be additional charges. These charges vary and will be payable directly to the hotel.</ap>
+			</div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="vm.cancel()">Close</button>
+    </div>
+</div>

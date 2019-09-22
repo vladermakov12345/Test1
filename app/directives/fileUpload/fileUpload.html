@@ -1,0 +1,35 @@
+<div xstyle="background-color:#f0f0f0;padding:1em;text-align:-webkit-center;" class="filUpload_mainCls">
+<!--     <h5 ng-if="uploadPermitSuccess===false" style="margin-top: 1.25em;">Please upload a scan or photo of your disability permit/license plate. If you are unable to do so now, you can revisit this 
+page and upload at anytime within 7 days of applying for club membership.</h5> -->
+	<div ng-show="uploadPermitSuccess===false">
+	    <input id="uploaderFile" type="file" ng-file-model="files" />
+	</div>
+	<div ng-if="uploadPermitSuccess===false" class="btn_uploadaction" style="padding: 0 .25em;">
+	    <button
+	    	class="btn"
+	    	id="fileList"
+	    	ng-click="uploadFile()"
+	    	style="padding:0;"
+	    	ng-disabled="isButtonDisable">
+		    {{isButtonDisable?'Uploading File':'Upload File'}}
+		    <span ng-show="isButtonDisable">
+                <i class="fa fa-spinner fa-spin" style="font-size:24px;"></i>
+            </span>
+		</button>
+	</div>
+
+	<!-- success -->
+	<div ng-if="uploadPermitSuccess===true" class="bold18">
+	     <i class="fa fa-thumbs-up" style="color:#45c3bd;" aria-hidden="true"></i> File Successfully Uploaded!
+	</div>
+
+    <!--  errors -->
+    <div class="panel panel-danger-dark" ng-show="fileUploadErrs.length>0">
+        <br />
+        <div class="panel-heading semibold18" style="color:red;">
+            <ul ng-repeat="error in fileUploadErrs">
+                <li ng-bind-html="error.message" style="text-align:left;"></li>
+            </ul>
+        </div>
+    </div>
+</div>

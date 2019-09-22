@@ -1,0 +1,107 @@
+<div ng-controller="subCategoriesController as vm" ng-cloak>
+
+	<!-- unrecoverable errors? -->
+	<div
+		ng-show="vm.state==='unrecoverable'"
+		ng-include="'userOverridingMessage.html'">
+	</div>
+
+	<!-- pending status -->
+	<div
+		ng-show="vm.state==='pending'"
+		class="flex-col"
+		style="justify-content: center;align-items:center;">
+		<h4 ng-bind-html="vm.constants.maintenance" />
+		<h3>Loading Travel Forum Categories...</h3>
+		<div class="fa-5x">
+			<i class="fa fa-spinner fa-pulse"></i>
+		</div>
+	</div>
+
+	<!-- breadcrumbs -->
+	<div
+		ng-show="vm.state==='ready'"
+		xclass="background-white" style="padding:20px 12px 0px;">
+	    <nav class="flex-col" aria-label="breadcrumb" style="border-bottom:1px solid #000;">
+	      <ol class="breadcrumb breadcrumbs-light">
+	        <li class="breadcrumb-item"><a ui-sref="home">home</a></li>
+	        <li class="breadcrumb-item"><a ui-sref="forum-categories">travel forum</a></li>
+	        <li class="breadcrumb-item active" aria-current="page">{{vm.categoryObj.response.data.category.name}} Forums</li>
+	      </ol>
+	    </nav>
+	</div>
+
+	<div
+		ng-show="vm.state==='ready'"
+		style="padding:0px 12px;">
+		<div class="flex-row mt-2">
+			<h1 class="px30 semibold30" style="color:#29807c;">{{vm.categoryObj.response.data.category.name}} Forums</h1>
+		</div>
+	</div>
+
+	<div
+ng-show="false"
+xng-show="vm.state==='ready'"
+		style="padding:0px 12px;">
+		<div class="flex-row" style="padding:1.25em 0;color:#000;">
+			<label class="px18" style="margin-right:1em;">Search forums for:</label>
+			<input
+				type="text"
+				style="max-width:18em;"
+				class="px18" />
+			<button
+				ng-click=""
+				class="btn btn-default"
+				style="background-color: #29807c; color:#fff;">
+				GO
+			</button>
+		</div>
+	</div>
+
+	
+	<div
+		class="background-light" style="padding:12px 20px;">
+		<div class="flex-col" style="justify-content: space-between;flex-wrap: wrap; padding:1.25em 0;color:#000;">
+
+			<!-- sub categories do NOT exist -->
+			<div
+				ng-show="vm.categoryObj.response.data.subCategories.length===0">
+				<h3 class="px22 semibold24" style="color: #29807c;padding-bottom: .5em;">
+					No sub categories found for {{vm.categoryObj.response.data.category.name}}.
+				</h3>
+			</div>
+
+			<!-- sub categories exist -->
+			<div
+				ng-show="vm.categoryObj.response.data.subCategories.length>0">
+
+				<h3 class="px22 semibold24" style="color: #29807c;padding-bottom: .5em;">Choose a destination below to browse forums:</h3>
+
+				<div class="table-responsive" style="padding:12px 16px;border:0px solid #e0e0e0;background-color:#fff;">
+					<table class="table table-striped table-hover">
+						<thead class="bold18">
+							<td>Forum</td>
+							<td># Topics</td>
+							<td># Posts</td>
+						</thead>
+						<tbody>
+							<tr ng-repeat="subCategory in vm.categoryObj.response.data.subCategories">
+								<td>
+									<a
+										ui-sref="forum-topics({categorySlug:vm.categoryObj.categorySlug, subCategorySlug:subCategory.slug})"
+										class="semibold16"
+										style="color:#29807c;text-decoration: underline;">
+										{{subCategory.name}}
+									</a>
+								</td>
+								<td class="light16">{{ subCategory.topic_count | number }}</td>
+								<td class="light16">{{ subCategory.post_count | number}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

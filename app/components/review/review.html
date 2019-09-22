@@ -1,0 +1,228 @@
+<div ng-controller="reviewController as review" ng-cloak>
+
+	<div class="wrapper-base">
+
+		<!-- <div class="wrapper-common wrapper-common-width wrapper-column" style="align-items: center;">
+			<h3>Hotel, attraction, tour company, caregiving agency, equipment rental...</h3>
+		</div> -->
+
+		<!-- what to review? -->
+		<div class="wrapper-common wrapper-common-width review_page" style="justify-content: center;background-color:#fff;">
+
+			<div class="wrapper-common wrapper-common-width wrapper-row" style="justify-content: center">
+				<h2 class="bold24">Write an Accessibility Review</h2>
+				<p class="bold24">Your reviews help millions of people make better decisions about accessible travel!</p>
+			</div>
+
+			<div
+				class="wrapper-common wrapper-common-width wrapper-row review_page_inner"
+				style="justify-content: center;background-color: #ddd;padding: 0 1em;"
+				role="search">
+
+				<div style="margin-right:2em;width:600px;margin-top: 1em;">
+					<where-picker 
+					   id="wherePickerListingTop" 
+					   label="Type the name of the Hotel or Attraction" 
+					   xplaceholder="{{review.placeholderText}}"
+					   ng-click="review.togglePlaceholderText()"
+					   ng-model="review.listing"
+					   include-hotels="Y" 
+					   include-cities="N" 
+					   include-directories="Y" 
+					   include-airports="N" 
+					   xfilter="{{review.city.city}}">
+					</where-picker>
+				</div>
+				<div style="align-self:flex-end;" class="continue_btn">
+					<button
+						class="btn btn-aqua specialReviewStyleAll"
+						ng-class="review.listing ? 'specialReviewStyleWithPropertySelected' : 'specialReviewStyle'"
+						xstyle="font-size: 22px;"
+						ng-click="review.gotoreviewForm()">Continue
+						<span> → </span>
+					</button>
+				</div>
+
+
+				<div class="txt_beloform">
+					<p>
+						If you are unable to find the listing that you would like to review, please
+						<a ui-sref="contact" title="Email">email us</a>.
+						<span class="d-none d-md-block">We usually respond within 24 hours. </span>
+					</p>
+				</div>
+
+				<!-- <span class="spnline d-none d-md-block">&nbsp; </span> -->
+
+			</div>
+		</div>
+
+		<!-- <div class="transform_travel text-center" id="carousel125"> -->
+		<div class="transform_travel text-center">
+			<br />
+			<h2> Transform Accessible Travel </h2>
+
+			<div class="power_review_sec d-none d-md-block">
+				<div class="inn_sec">
+					<div class="container">
+						<div class="top_txt_sec first-img mobile-icon d-xs-none">
+							<h3> The
+								<span>Power</span> of Each
+								<span>Review</span>
+							</h3>
+
+							<img class="header-img" ng-src="{{review.image_review}}" alt="" />
+							<p class="d-xs-block d-sm-none">Swipe to see how your reviews make a difference</p>
+
+
+
+						</div>
+						<div class="row second-img">
+							<div class="col-md-6 mobile-icon hideIcon">
+								<div class="review_box">
+									<h3>
+										<span>Strength</span> in
+										<span>Numbers </span>
+									</h3>
+									<div class="img_holder img_1">
+										<img class="header-img" ng-src="{{review.image_strength_icon}}" alt="" />
+									</div>
+									<p>
+										Praise the venues that get accessibility right. Let those who fall short know how they can improve.
+									</p>
+
+								</div>
+							</div>
+							<div class="col-md-6 mobile-icon hideIcon">
+								<div class="review_box">
+									<h3>
+										<span>Smarter</span> Choices
+										<span>Together </span>
+									</h3>
+									<div class="img_holder">
+										<img class="header-img" ng-src="{{review.image_together_icon}}" alt="" />
+									</div>
+									<p>
+										Empower millions of like-minded travelers who rely on accessibility information.
+
+									</p>
+								</div>
+							</div>
+						</div>
+
+
+
+					</div>
+				</div>
+			</div>
+
+
+			<div class="power_review_sec d-sm-block d-md-none">
+	<div class=" inn_sec ">
+
+	<div class="container " id="carousel125" data-interval="false">
+		<div class="top_txt_sec first-img mobile-icon ">
+				<h3> <span>Strength</span> in  <span>Numbers </span> </h3>
+				<div class="img_holder ">
+					<img class="header-img " ng-src="{{review.image_strength_icon}} " alt=" " />
+				</div>
+				<p>
+					Praise the venues that get accessibility right. Let those who fall short know how they can improve.
+				</p>
+		</div>
+
+		<div class="row second-img ">
+			<div class="col-md-6 mobile-icon hideIcon " >
+				<div class="review_box ">
+						<h3> The <span>Power</span> of Each <span>Review</span> </h3>
+			
+						<img class="header-img " ng-src="{{review.image_mobReview}} " alt=" " />
+						
+						<p >See how your reviews make a difference</p>
+
+				</div>
+			</div>
+			<div class="col-md-6 mobile-icon hideIcon ">
+					<div class="review_box box_2 ">
+						<h3> <span>Smarter</span> Choices  <span>Together </span> </h3>
+						<div class="img_holder ">
+							<img class="header-img " ng-src="{{review.image_together_icon}} " alt=" " />
+						</div>
+						<p>
+							Empower millions of like-minded travelers who rely on accessibility information.
+
+						</p>
+					</div>
+				</div>
+		</div>
+	</div>
+	<ol id="carousel125 " class="carousel-indicatorss active d-block d-md-none ">
+			<li data-target="#carousel125 "  data-slide-to="0 " class=" carousel2 active"></li>
+			<li data-target="#carousel125 "  data-slide-to="1 " class=" carousel2 "></li>
+			<li data-target="#carousel125 "  data-slide-to="2 " class=" carousel2 "></li>
+	</ol>
+</div>
+</div>
+
+</div>
+ 
+
+<div class="slider-sec slider_sec2">
+	<div class="container ">
+		<div class="inner_slide ">
+			<div class="row ">
+				<div class="col-sm-12 ">
+				
+				
+				<slider-img images="review.sliderImg " ></slider-img>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<span class="spnline d-none d-md-block ">&nbsp; </span>
+
+<div class="wrapper-common wrapper-common-width wrapper-row review_page_inner " style="justify-content: center;background-color: #ddd;padding: 0 1em;" >
+
+	<div style="margin-right:2em;width:600px;margin-top: 1em;">
+		<where-picker
+			id="wherePickerListingBottom"
+			label="Type the name of the Hotel or Attraction" 
+			placeholder="{{review.placeholderText}}"
+			ng-click="review.togglePlaceholderText()"
+			ng-model="review.listing "
+			include-hotels="Y"
+			include-cities="N"
+			include-directories="Y"
+			include-airports="N"
+			xfilter="{{review.city.city}} ">
+		</where-picker>
+	</div>
+	<div style="align-self:flex-end; " class="continue_btn ">
+		<button
+			class="btn btn-aqua specialReviewStyleAll"
+			ng-class="review.listing ? 'specialReviewStyleWithPropertySelected' : 'specialReviewStyle'"
+			xstyle="font-size: 22px;"
+			ng-click="review.gotoreviewForm() ">Continue <span> → </span></button>
+	</div>
+
+
+		<div class="txt_beloform ">
+			<p>If you are unable to find the listing that you would like to review, please <a ui-sref="contact " title="Email">email us</a>. <span class="d-none d-md-block ">We usually respond within 24 hours. </span>
+			</p>
+		</div>
+
+
+		<!-- review hotel -->
+	 	
+
+		<!-- did not find? -->
+	
+
+	</div>
+
+
+	<!-- sample reviews -->
+	
+</div>

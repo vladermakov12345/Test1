@@ -1,0 +1,286 @@
+@import (reference) "../../../resources/css/shared";
+
+
+
+
+.hotels-page {
+	background-color: @grayD;
+}
+
+.hotel-box-wrapper {
+	flex-direction: row;
+	display: flex;
+	flex-wrap:wrap;
+	align-self: flex-start;
+	justify-content: flex-start;
+
+	/* mozilla & opera */
+	margin-left: auto;
+	/* mozilla & opera */
+    margin-right: auto;
+    Box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2)
+}
+
+.hotel-box-main {
+	width:22em;
+	margin-left:1.25em;
+	font-weight: 400;
+	font-size: .875em;
+}
+
+.hotel-box-main-link {
+	color:@primaryBlue;
+	font-weight: 400;
+	font-size: 1em;
+	text-decoration: underline;
+}
+
+.hotel-accessible-yes {
+	background-color:#eee;padding:1em;border:1px solid #b0b1b1;margin-bottom:.75em;height:7em;
+}
+.hotel-accessible-no {
+	background-color:#fff;padding:1em;border:1px solid #b0b1b1;margin-bottom:.75em;height:7em;
+}
+
+
+.circle {
+	width: 5em;
+	height: 5em;
+	background: #299b7c;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 50px;
+	color:#fff;
+	padding-top:1.5em;
+	text-align:center;
+}
+
+/* filters checkbox */
+.toggleTheseShoes input[type=button] {
+	-webkit-appearance: none;
+    width: 1em;
+    height: 1em;
+    /* display: none; */
+}
+.toggleTheseShoes input[type=button]:after {
+content: '\25B8';	/* right */
+}
+.toggleTheseShoes input.open[type=button]:after {
+content: '\25be';	/* down */
+}
+.toggleTheseShoes input::-ms-check {
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    /* IE 5-7 */
+    filter: alpha(opacity=0);
+    /* Good browsers :) */
+    opacity:0;
+ }
+
+ //css for hotel filter drawer
+ .sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1100;
+    top: 0;
+    left: 0;
+    background-color: rgb(255, 255, 255);
+    overflow-x: hidden;
+    transition: 1s;
+    padding-top: 10px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    float: right !important;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+#hotelFilterDrawer{
+    width: 0px;
+}
+
+.sidenav .content{
+    padding: 38px 25px 31px 25px;
+    overflow-y: scroll;
+}
+
+.sidenav .drawerHead{
+    padding: 38px 25px 31px 25px;
+    overflow-y: scroll;
+    position: fixed;
+}
+
+.sidenav .closebtn {
+    font-size: 36px;
+}
+
+.drawerTopBar{
+    position: '';
+    top: -7px;
+    align-items: right !important;
+    float: right;
+    background-color: white;
+    width: 90%;
+    z-index: 2000;
+    border-bottom-color: black;
+	border-bottom-width: 1px;
+	box-shadow: -1px 0px !important;
+}
+
+
+.drawerTopBar{
+    width: 249px;
+}
+label.semibold14 input#search {
+    display: block;
+}
+.sidenav .content{
+    overflow: visible;
+}
+.check-div {
+    position: relative;
+}
+.check-div > input [type="checkbox"]:not(:checked):before, .check-div > input [type="checkbox"]:checked:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.25em;
+    height: 1.25em;
+    border: 1px solid #ccc;
+    background: #fff;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
+/* 24-April css start here============*/
+.club_image{position: relative;}
+.club_image .club_img_div {
+    position: absolute;
+    right: 0;
+}
+
+
+.favDir_class{
+    display: inline-block;
+    float: right;
+    padding-right: 10px;
+}
+
+.hotel_mainCls{
+    .hotels-page{
+        Background: rgb(238, 238, 238);
+        #hotelSearchSubmit, .buttonBlue{
+            Background-color: #29807c;
+        }
+        #desktopFilter{
+            Box-shadow: 0px 1px 3px 0 rgba(0,0,0,0.2);
+            Background: #fff;
+            padding: 15px;
+        }
+
+    }
+
+}
+
+/* 24-April css End here============*/
+@media (max-width:991px){
+
+    .hotel_mainCls {
+        .badge_filter{
+            float: left;
+            margin: 3px;
+            display: block;
+            .badge{
+                font-size: .6em;
+                font-weight: normal;
+                display: block;
+                white-space: normal;
+                line-height: normal;
+                img {
+                    max-width: 12px !important;
+                }
+            }
+    }
+    }
+
+    #hotelFilterDrawer {
+       /* width: 300px !important;*/
+       display:none;
+    }
+    .drawerTopBar{
+        color: #fff;
+        position: fixed;
+        width: 300px;
+        padding: 0 10px;
+        top: 0;
+        left: 0;
+        border-bottom: 1px solid #ccc;
+    }
+    .hotel_content {
+        width: 100em !important;
+    }
+    .sidenav .closebtn {
+        font-size: 30px;
+        line-height: normal;
+    }
+}
+
+@media (max-width:767px){
+
+	.hotel-box-main {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-left: 0;
+}
+
+.price_box {
+    text-align: left !important;
+    border: none !important;
+    margin-top: 11px;
+}
+
+body .hotel_content {
+    max-width: 100%;
+    width: 100% !important;
+}
+.hotel-box-main {
+    margin-left: 0px;
+    margin: 10px 0;
+}
+
+
+a.pull-right.bold16 {
+    float: none !important;
+}
+.paging_row {
+    width: 100% !important;
+    padding-left: 10px;
+}
+.club_image .club_img_div img {
+    max-width: 110px;
+}
+.hotel_content {
+    padding: 10px;
+}
+.club_image {
+    margin-top: 10px;
+}
+
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+
+}

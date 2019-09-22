@@ -1,0 +1,233 @@
+
+/* needed to get modals working in bootstrap 4 */
+.fade.in {
+    opacity: 1;
+}
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+       -o-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+.modal-backdrop.in {
+    filter: alpha(opacity=50);
+    opacity: .5;
+}
+
+/* https://stackoverflow.com/questions/51010306/angularjs-ui-bootstrap-dropdown-button-with-bootstrap-4 */
+.dropdown.open .dropdown-menu { display: block; }
+
+/* https://morgul.github.io/ui-bootstrap4/#!#getting_started */
+.nav, .pagination, .carousel, .card-title a { cursor: pointer; }
+
+
+/* logo */
+#topNavLogo {
+    font-size: 2.5em;
+    font-weight:600;
+    flex: 0 0 3em;
+    color: #ffffff;
+    margin-right: 24px;
+    padding-left: 1px;
+    padding-right: 1px;
+
+    /* for ie: */
+    flex-basis: auto;
+  }
+
+  #topNavLogo:focus {
+    border: 1px solid #ffffff;
+    padding-left: 0px;
+    padding-right: 0px;
+    color:#ffffff;
+    text-decoration: none;
+    outline: none;
+  }
+  
+/* each link */
+#topNavLinks {
+    xfont-size: 1em;
+    xfont-weight:400;
+    flex: 1;
+    xalign-self: flex-end;
+    xpadding-bottom:8px;
+    xmargin-bottom: 10px;
+  }
+  #topNavLinks > a {
+    color:#ffffff;
+    padding-bottom: 7px;
+    text-decoration: none;
+    margin: 0px 1px;  /* top/bottom, right/left  */
+    padding-left: 1px;
+    padding-right: 1px;
+    font-size: 15px;
+    padding: 3px !important;
+  }
+  #topNavLinks > a:focus {
+    border: 1px solid #ffffff;
+    padding-left: 0px;
+    padding-right: 0px;
+    color:#ffffff;
+    text-decoration: none;
+    outline: none;
+  }
+  #topNavLinks > a:hover {
+    border-bottom: 5px solid #ffffff;
+    color:#ffffff;
+    text-decoration: none;
+  }
+  #topNavLinks > a:active {
+    border-bottom: 5px solid #e9d519;
+  }
+  a.topNavLinksCurrent {
+    border-bottom: 5px solid #e9d519;
+  }
+
+
+
+/* header navigation: right side */
+.header-nav-right  {
+  flex: 0 3 content;
+}
+.header-nav-right input {
+  margin-left:0px 8px -10px 8px;
+}
+
+.header-nav-right-signin {
+  color:#ffffff;
+}
+
+
+@media (min-width:768px) and (max-width:991px){
+    #topNavLinks a:last-child {
+        display: block;
+        width: 110px;
+        text-align: center;
+    }
+    #topNavLinks {
+        padding-bottom: 0px;
+    }
+}
+  
+@media (max-width:767px){
+  .mobile_navi {
+    position: fixed;
+    top: 0;
+    right:-300px;
+    max-width: 300px;
+    z-index: 9999;
+    background: #3b3f45;
+    bottom: 0;
+    box-shadow: inset 4px 0px 19px 0px rgba(0, 0, 0, 0.49);
+    width: 100%;
+    overflow-y: auto;
+  }
+  .mobile_navi .header-wrapper-expanded-options {
+    padding: 10px;
+    position: absolute;
+    top: 45px;
+    right: 64px;
+    z-index: 1;
+    margin-top: 0!important;
+  }
+
+  .mobile_navi .header-wrapper-expanded-text #header-wrapper-expanded-text-mobile {
+    min-width: 170px;
+    position: absolute;
+    right: 105px;
+    top: 45px;
+    z-index: 999999;
+    border: 1px solid #6c6d6f;
+  }
+  .mobile_navi .ul {
+    padding: 0px;
+    margin: 0;
+  }
+  .mobile_navi ul li a {
+    display: block;
+    padding: 12px 25px;
+    color: #fff;
+    border-bottom: 1px solid #707377;
+    font-weight: 200;
+    transition: ease-in-out .5s;
+    -webkit-transition: ease-in-out .5s;
+    -moz-transition: ease-in-out .5s;
+    -ms-transition: ease-in-out .5s;
+  }
+  .mobile_navi ul li a:hover {
+    color: #29807c;
+    text-decoration: none;
+    padding-left:30px;
+  }
+  .mv_searchbox input.search_input {
+    display: block;
+    width: 100%;
+    background: none;
+    border: 1px solid #707377;
+    padding: 10px;
+    border-radius: 2px;
+    color: #fff;
+  }
+  .mv_searchbox input.search_input:focus{
+    outline: none;
+  }
+  .mv_searchbox {
+    padding: 10px 25px 0;
+    position: relative;
+  }
+  .mv_searchbox span {
+    position: absolute;
+    right: 25px;
+    color: #fff;
+    top: 10px;
+    transform: rotate(78deg);
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px;
+  }
+  .top_secmobilenav .top_icons {
+    padding: 10px 25px;
+  }
+  .top_secmobilenav .top_icons input {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 16px;
+  }
+
+  body#bodyElement {
+    transition: ease-in-out .5s;
+    -webkit-transition: ease-in-out .5s;
+    -moz-transition: ease-in-out .5s;
+    -ms-transition: ease-in-out .5s;
+  }
+
+  body#bodyElement.show_Mnav{
+    transform: translateX(-300px);
+  }
+  .top_secmobilenav a.close{
+    opacity: 1;
+  }
+  div#xsnav {
+    display: none !important;
+  }
+
+
+
+  #header-wrapper-expanded-text, div#header-wrapper-expanded-contrast {
+    z-index: 999999;
+    /*margin-right: -190px;*/
+    /*margin-top: 31px !important;*/
+    border: 1px solid #6c6d6f;
+  }
+
+
+  .mobile_navi .ul li:first-child a {
+    display: inline-block;
+    padding: 0;
+    border: none;
+  }
+  .mobile_navi .ul li:first-child {
+    padding: 12px 25px;
+    color: #fff;
+    border-bottom: 1px solid #707377;
+  }
+}

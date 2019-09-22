@@ -1,0 +1,37 @@
+<label
+  id="label-number-selection-{{hsg.id}}"
+  for="number-selection-{{hsg.id}}"
+  class="light16">{{hsg.label}}
+</label>
+<div
+  class="person-select-wrapper"
+  id="number-selection-dropdown-{{hsg.id}}">
+  <div class="btn-group" style="width:100%;border:1px solid #ccc;xmin-height:50px;" uib-dropdown keyboard-nav="true">
+        <button
+          id="number-selection-{{hsg.id}}"
+          name="number-selection-{{hsg.id}}"
+          type="button"
+          role="button"
+          class="accessible-input-on-white"
+          aria-labelledby="label-number-selection-{{hsg.id}}"
+          xstyle="min-height:48px;min-width:3em;border:0;width:100%;padding:0px;background-color: #fff;"
+          style="width:100%;background-color: #fff;"
+          uib-dropdown-toggle >
+        	<span class="value" style="margin-right:1em;">{{hsg.selectedValue}}</span>
+          <span class="caret"></span>
+          <span class="sr-only">Split button!</span>
+        </button>
+        <ul
+        	class="dropdown-menu m-0 p-0"
+        	uib-dropdown-menu
+          role="menu">
+        	<li
+            role="menuitem"
+            class="dropdown-item"
+            ng-repeat="entry in hsg.guests track by $index"
+            ng-click="hsg.setGuestNum(entry)">
+            <span style="color:#000;">{{entry}}</span>
+          </li>
+        </ul>
+  </div>
+</div>

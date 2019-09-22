@@ -1,0 +1,412 @@
+
+<div class="inner-search-bar container-fluid">
+
+			<div class="row">
+
+				<div class="container background-white">
+
+					<div class="row">
+
+						<!-- <button type="button" class="btn text-right close" ng-click="vm.toggleSearch()">Close <i class="fa fa-times"></i></button> -->
+
+					</div>
+
+					<div class="wrap">
+
+						<div class="row">
+
+							<div class="col col-auto col-sm-auto col-md-auto col-lg location">
+
+								<div>
+									<where-picker
+										id="destination"
+										label="Where are you going?"
+										class="light16"
+										placeholder="Enter city, airport, region or hotel"
+										ng-model="vm.destination"
+										include-hotels="Y"
+										include-cities="Y"
+										include-regions="Y"
+										include-hospitals="Y"
+										include-poi="Y"
+										on-change="vm.moveToCheckin"
+										ng-click="vm.showForm()"/>
+								</div>
+							</div>
+
+							<div class="col col-auto col-sm col-md-auto col-lg-auto departure-dates">
+								<div class="">
+									<date-picker
+										id="checkin"
+										label="Check-in"
+										ng-model="vm.hotelDateCheckin"
+										placeholder="Choose Date"
+										on-change="vm.moveToCheckout"
+										ng-click="vm.showForm()" />
+								</div>
+								<div style="margin-left: 10px;">
+									<date-picker
+										id="checkout"
+										label="Check-out"
+										min-date="{{vm.hotelDateCheckin}}"
+										ng-model="vm.hotelDateCheckout"
+										placeholder="Choose Date"
+										on-change="vm.hotelSearchRoomsButton"
+										ng-click="vm.showForm()" />
+								</div>
+							</div>
+
+						</div>
+
+						<div id="hotels-search-bar-collapse" class="row" ng-show="vm.isSearchFormExpanded">
+
+							<div class="col col-auto col-sm-auto col-md-auto col-lg-auto persons xjustify-content-between">
+
+								<div class="dropdown-select" style="width:90px;">
+									<hotel-search-guests
+										id="hotelSearchRoomsButton"
+										label="Rooms"
+										ng-model="vm.hotelSearchRooms"
+										min="{{hotelSearchService.default.roomsMin}}"
+										max="{{hotelSearchService.default.roomsMax}}"
+										on-change="vm.hotelSearchAdultsButton" />
+								</div>
+
+								<!-- <div class="dropdown-select" style="width:90px;">
+									<hotel-search-guests
+										id="hotelSearchAdultsButton"
+										label="Adults"
+										ng-model="vm.hotelSearchAdults"
+										min="{{vm.hotelSearchAdults}}"
+										max="{{vm.hotelSearchAdultsMax}}"
+									 	on-change="vm.hotelSearchChildrenButton" />
+								</div>
+
+								<div class="dropdown-select" style="width:90px;">
+									<hotel-search-guests
+										id="hotelSearchChildrenButton"
+										label="Children"
+										ng-model="vm.hotelSearchChildren"
+										min="0"
+										max="{{vm.hotelSearchChildrenMax}}"
+									 	on-change="vm.moveToSearchButton" />
+								</div> -->
+							</div>
+
+
+							<!-- <div class="col col-auto col-sm-auto col-md-auto col-lg xswitchers">
+
+								<div class="switcher-wrapper">
+									<div>
+										<form-label-q
+											label="Near Hospitals"
+											template-url="nearHospitals.html"
+										/>
+									</div>
+									<div>
+										<radio-toggle
+											disabled="true"
+											checked="true"
+										/>
+									</div>
+								</div>
+							</div> -->
+
+							<div class="col col-auto col-sm-auto col-md-auto col-lg-auto xswitchers">
+
+								<div class="switcher-wrapper">
+									<form-label-q
+										label="Accessible First"
+										template-url="accessibleFirst.html"
+									/>
+									<radio-toggle
+										disabled="true"
+										checked="true"
+									/>
+								</div>
+							</div>
+
+							<div class="col col-auto xcol-sm-auto col-md-auto col-lg-auto xswitchers">
+
+								<div class="switcher-wrapper">
+									<form-label-q
+										label="Show Deals First"
+										template-url="showDealsFirst.html"
+									/>
+									<radio-toggle
+										disabled="true"
+										checked="true"
+									/>
+								</div>
+							</div>
+							<!-- NEAR HOSPITALS -->
+							<div class="col col-auto col-sm-auto col-md-auto col-lg-auto xswitcher">
+
+								<div class="switcher-wrapper">
+									<form-label-q
+										label="Search by Hospital"
+										template-url="nearHospitals.html"
+									/>
+									<span class="fa-stack fa-lg">
+									  	<i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
+									  	<i class="fa fa-hospital-o fa-stack-1x fa-inverse" aria-hidden="true"></i>
+									</span>
+								</div>
+
+								<!-- <label><span>Near Hospitals</span> <button><i class="fa fa-question-circle"></i></button></label>
+								<div class="btn-group btn-group-toggle" data-toggle="buttons">
+									<label class="off btn btn-secondary active">
+										<input type="radio" name="options" style="color:#fff;" checked>
+									</label>
+									<label class="on btn btn-secondary">
+										<input type="radio" name="options" style="color:#000;">
+									</label>
+								</div> -->
+
+						
+
+								<!-- ACCESSIBLE FIRST
+									<div class="switcher">
+
+										<label><span>Accessible First</span> <button><i class="fa fa-question-circle"></i></button></label>
+
+										<div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+											<label class="off btn btn-secondary active">
+												<input type="radio" name="options" style="color:#fff;" checked>
+											</label>
+											<label class="on btn btn-secondary">
+												<input type="radio" name="options" style="color:#000;">
+											</label>
+
+										</div>
+
+									</div>
+								-->
+
+								<!-- SHOW DEALS FIRST
+									<div class="switcher">
+										<label><span>Show Deals First</span> <button><i class="fa fa-question-circle"></i></button></label>
+										<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											<label class="off btn btn-secondary active">
+												<input type="radio" name="options" style="color:#fff;" checked>
+											</label>
+											<label class="on btn btn-secondary">
+												<input type="radio" name="options" style="color:#000;">
+											</label>
+										</div>
+									</div>
+								-->
+
+							</div>
+
+							<div class="col xcol-sm xcol-md xcol-lg-auto text-right search-button">
+
+								<div class="vertical-bottom text-right float-right">
+
+									<img
+										ng-src="{{vm.env.cdn_static}}/i/booking/powered-by-ppn.png">
+
+
+										<span>
+											<button
+													id="home-booking-form-hotels_searchbutton"
+													class="home-booking-form-searchbutton"
+													type="button"
+													ng-click="vm.submitSearch()"
+													aria-label="Search"
+													ng-class="{'buttonDisableClass':vm.isButtonDisable}">GO
+											</button>
+										</span>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+<script type="text/ng-template" id="nearHospitals.html">
+
+    <div class="pop-content text-white">
+
+        <button class="btn close"><i class="fa fa-times"></i></button>
+
+        <div class="row justify-content-center">
+
+            <div class="col-8 text-center">
+
+                <span class="fa-stack fa-lg">
+				  	<i class="fa fa-hospital-o fa-stack-2x fa-inverse" aria-hidden="true"></i>
+				</span>
+
+            </div>
+
+        </div>
+
+<!--
+        <div class="row">
+
+            <div class="col">
+
+                <strong>Enable this filter if you want to only see hotels and motels that are near hospitals</strong>
+
+                in the city you have selected
+
+            </div>
+
+        </div>
+-->
+
+        <div class="row">
+
+            <div class="col">
+
+                Enter the name of a U.S. hospital to find hotels and motels near that hospital.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</script>
+
+<script type="text/ng-template" id="accessibleFirst.html">
+
+        <div class="pop-content text-white">
+
+            <button class="btn close"><i class="fa fa-times"></i></button>
+
+            <div class="row justify-content-center">
+
+                <div class="col-8">
+
+                    <img ng-src="{{vm.image_accessible1}}">
+
+                </div>
+
+            </div>
+
+        <!--
+            <div class="row">
+
+                <div class="col">
+
+                    <strong>What is an Accessible Hotel?</strong>
+
+                </div>
+
+            </div>
+        -->
+
+            <div class="row">
+
+                <div class="col">
+
+                    By default, hotels that have accessibleGO’s unique accessibility details will appear first in your searches.
+
+                </div>
+<!--
+                <div class="col-auto d-none d-sm-block">
+
+                    <img ng-src="{{vm.image_accessible2}}">
+
+                </div>
+-->
+            </div>
+
+        <!--
+            <div class="row">
+
+                <div class="col">
+
+                    2) Hotels that we don’t yet have details for, but that are listed as ‘Accessible’ by the Priceline Partner Network.
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col">
+
+                    You can turn off this filter to enjoy <strong>clubGO</strong> deals even for hotels not listed as accessible.
+
+                </div>
+
+            </div>
+        -->
+
+        </div>
+
+
+    </script>
+
+<script type="text/ng-template" id="showDealsFirst.html">
+
+        <div class="pop-content text-white">
+
+            <button class="btn close"><i class="fa fa-times"></i></button>
+
+            <div class="row justify-content-center">
+
+                <div class="col-8">
+
+                    <img ng-src="{{vm.image_clubGo}}">
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col">
+
+                    <strong>clubGo deals</strong>
+
+                    beat public deals and rates 96% of the time!
+
+                    <span ng-show="!isAuthenticated || vm.displayState==='club'">
+
+                     It's free to <button type="button" class="join" ng-click="vm.showJoinModal()">join</button> .
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col">
+
+                   By default hotels that are running clubGo deals will appear first in your searches.
+
+                </div>
+
+            </div>
+
+            <!--
+            <div class="row">
+
+                <div class="col">
+
+                    You can expand your results to include all hotels by adjusting the filters on the next page.
+
+                </div>
+
+            </div>
+        	-->
+
+        </div>
+
+
+    </script>

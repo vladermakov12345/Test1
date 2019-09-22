@@ -1,0 +1,78 @@
+<div class="container-fluid">
+
+    <div class="row" style="background-color: #29807c;height:154px;">
+
+        <div class="container align-self-center text-white">
+
+            <div style="font-size: 1.875em;line-height: 30.5px;letter-spacing: .77px;">accessibleGO Blogs</div>
+            <div><span>Insights and inspirations from the accessible travel community</span></div>
+
+            <form ng-submit="blogSearch.searchBlog()">
+                <div class="input-group" style="margin-top:14px;">
+                    <!-- <div class="input-group-prepend">
+                        <span class="input-group-text" id="validationTooltipUsernamePrepend"><img src="https://accessiblego.azureedge.net/travel/location-icons.png" aria-hidden="true" /></span>
+                    </div> -->
+                    
+                        <input
+                            type="text"
+                            name="searchInput"
+                            class="form-control form-control-lg accessible-input-on-white"
+                            ng-model="blogSearch.searchText"
+                            style="margin-right: 12px;background: url(https://accessiblego.azureedge.net/travel/location-icons.png) no-repeat scroll 7px 7px;padding-left:50px;background-color: #fff;"
+                            id="validationTooltipUsername"
+                            placeholder="Search blogs"
+                            aria-label="search all travel ideas"
+                            aria-describedby="validationTooltipUsernamePrepend"
+                            required="" />
+                        <span class="input-group-btn">
+                            <button
+                                type="submit"
+                                class="d-none d-sm-block text-white accessible-button-solid-dark"
+                                style="width: 209px;height:100%;border: solid 1.9px #ffffff;padding:0 8px;font-size: 1.250em;"
+                                xng-click="blogSearch.searchBlog()"
+                                >SEARCH
+                            </button>
+                            <button
+                                type="submit"
+                                class="d-xs-block d-sm-none text-white accessible-button-solid-dark"
+                                style="height:100%;border: solid 1.9px #ffffff;padding:0 8px;"
+                                xng-click="blogSearch.searchBlog()"
+                                ><i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </span>
+                    
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- <div class="outer">
+    <div class="container blog-inner">
+        <div class="row">
+            <div class="col-md-9 col-sm-9 col-xs-9 blog">
+              <a ui-sref="blogMain" class="text">
+                <h1 class="text">accessible<span class="go">Go</span> <span class="inner-text">Blogs</span></h1>
+              </a>
+                <div><span class="light20">Insights and inspirations from the accessible travel community</span></div>
+            </div>
+            <div class="col-md-3 col-sm-3 search">
+                <div class="search">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Search blogs"
+                           ng-model="blogSearch.searchText"
+                           ng-model-options="{ debounce: 1000 }"
+                           ng-change="blogSearch.searchBlog()">
+                    <span>
+                        <i class="fa fa-search search" aria-hidden="true"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

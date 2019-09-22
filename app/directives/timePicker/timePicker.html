@@ -1,0 +1,28 @@
+<label id="label_select-time-{{vm.id}}" class="light16" for="select-time-button-{{vm.id}}">{{vm.label}}</label>
+<div class="timePickerWrapper">
+  <div
+    class="btn-group"
+    style=""
+    uib-dropdown
+    keyboard-nav="true">
+        <button
+          id="select-time-button-{{vm.id}}"
+          name="select-time-button-{{vm.id}}"
+          type="button"
+          class="btn"
+          aria-labelledby="label_select-time-{{vm.id}}"
+          uib-dropdown-toggle >
+        	<span>{{vm.selectedValue}}</span>
+          <span class="caret"></span>
+          <span class="sr-only">Split button!</span>
+        </button>
+        <ul
+        	class="dropdown-menu p-1"
+        	uib-dropdown-menu
+          role="menu">
+        	<li role="menuitem" ng-repeat="entry in vm.options track by entry">
+            <a href="#" ng-class="vm.defaultTime==entry?'active':''" ng-click="vm.set(entry)" style="color:#000;text-decoration: underline;">{{entry}}</a>
+          </li>
+        </ul>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div ng-controller="loginController as vm" ng-cloak>
+
+	<div
+		class="background" style="padding:20px 12px;">
+	    <nav class="flex-col" aria-label="breadcrumb" style="border-bottom:1px solid #fff;">
+	      <ol class="breadcrumb breadcrumbs-light">
+	        <li class="breadcrumb-item"><a ui-sref="home">home</a></li>
+	        <li class="breadcrumb-item active" aria-current="page">log in</li>
+	      </ol>
+	    </nav>
+
+		<div
+			class="flex-col">
+			<h1 class="px30">Log in</h1>
+		</div>
+
+		<!-- already joined -->
+		<div
+			ng-hide="!vm.isAuthenticated"
+			style="height:30em;align-items:center;">
+			<h4>You are already signed in</h4>
+ 		</div>
+
+ 		<!-- not yet joined -->
+		<div
+			ng-hide="vm.isAuthenticated"
+			class="flex-row"
+			style="justify-content: flex-start;">
+			<!-- <p>To join, click the button below and enter the email address you used when registering with this site.</p> -->
+			<button
+				class="btn btn-default"
+				ng-click="vm.launchLoginModal()">Click here to log in
+			</button>
+		</div>
+	</div>
+
+</div>

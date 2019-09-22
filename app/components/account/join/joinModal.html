@@ -1,0 +1,186 @@
+<div class="text-center xlogin-modal register-modal" xng-controller="joinModalController as vm">
+
+    <div
+        data-ng-if="::!vm.IsEmbedded()"
+        class="modal-header"
+        style="font-size:1.5em;">
+        <img
+            data-ng-src="{{env.cdn_static}}/i/logo/logo_175_42_trans.png"
+            class="login-modal-logo modal-title"
+            alt="accessibleGO logo">
+        <button type="button" class="close p-0" data-dismiss="modal" data-ng-click="vm.closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <!-- <button type="button" class="close" data-ng-click="vm.closeModal()" aria-label="Close">&times;</button> -->
+
+    </div>
+    
+    <div class="modal-body wrapper-common wrapper-common-width wrapper-row" style="padding:0">
+        <div class="freeMemberShip_class" style="width:100%;">
+            <div
+                class="bold28"
+                style="font-size: 1.8em;color:#29807c;padding:12px;font-weight: 900;"
+                data-ng-bind-html="vm.text.heading || 'Free Membership'"></div>
+            <div
+                class="bold18"
+                style="padding: 12px 0;"
+                data-ng-bind-html="vm.text.subHeadingJoin || 'Here\'s what you get with an accessibleGO account:'"></div>
+            <div
+                data-ng-hide="vm.text.subHeadingJoin" style="text-align: center;">
+                <div class="light16" style="margin-right:.25em;padding-top: 4px;">
+                    <i class="fa fa-tag" style="color:#29807c;" aria-hidden="true"></i> <span style="margin-left:.25em;">Apply to Join clubGO, the free discount club</span>
+                </div>
+                <div class="light16" style="margin-right:.25em;padding-top: 4px;">
+                    <i class="fa fa-comments" style="color:#29807c;" aria-hidden="true"></i> <span style="margin-left:.25em;">Add reviews and get sneak peek content</span>
+                </div>
+                <div class="light16" style="margin-right:.25em;padding-top: 4px;">
+                    <i class="fa fa-heart" style="color:#29807c;" aria-hidden="true"></i> <span style="margin-left:.25em;">Save your favorite trip ideas</span>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div
+            data-ng-if="vm.showNonSocialRegForm!==true"
+            style="width:100%;margin-top:1.5em;" class="social_signup">
+
+            <!-- login :: FB -->
+            <div class="social_btns">
+                <img
+                    data-ng-click="vm.registerFacebook()"
+                    src="https://accessiblego.azureedge.net/img/social/signupWithFacebook.png"
+                    style="margin-bottom:.5em;"
+                    alt="Login with Facebook" />
+            </div>
+            <div class="social_btns">
+                <img
+                    data-ng-click="vm.registerGoogle()"
+                    src="https://accessiblego.azureedge.net/img/social/signupWithGoogle.png"
+                    style="margin-bottom:.25em;"
+                    alt="Login with Google" />
+            </div>
+            <div class="social_btns signupwithemail">
+                <img
+                    data-ng-click="vm.showNonSocialRegForm=true"
+                    src="https://accessiblego.azureedge.net/img/social/signupWithEmail.png"
+                    style="margin-bottom:.25em;"
+                    alt="Login with Google" />
+            </div>
+
+            <div
+                class="p-3"
+                style="font-size:1.25em;">By creating an account, you agree to accessibleGO's <a ui-sref="terms_of_use" class="text-link-background-white" target="win_termsOfUse" style="font-weight: 700;">Terms of Use</a> and <a ui-sref="privacy_policy" class="text-link-background-white" target="win_privacyPolicy" style="font-weight: 700;">Privacy Policy</a>.
+            </div>
+        </div>
+
+        <div
+            data-ng-if="vm.showNonSocialRegForm!==true"
+            style="width:100%;margin-top:1.5em;background-color: #c0c0c0;" class="social_signup p-2">
+            <p class="semibold22">Already a member? <a data-ng-click="vm.goToLogin()" style="text-decoration: underline;">Log In</a></p>
+        </div>
+
+        <div class="signwithEmail m-3"
+            data-ng-if="vm.showNonSocialRegForm===true"
+            style="width:100%;">
+            <div class="pull-left emailpullclass">
+                <a
+                data-ng-click="vm.showNonSocialRegForm=false"
+              ><<span>Back</span></a>
+            </div>
+
+            <div class="bold18 joinEmail_bold" style="">Join via Email</div>
+            <div class="form-group signEmail_class">
+                <form
+                    novalidate
+                    data-ng-submit="$event.preventDefault();registerController.register(vm.username, vm.password)"
+                    name="vm.form">
+
+                    <!-- begin: first name -->
+                    <div class="input-group xlogin-input join_InputClass">
+                        <span class="input-group-prepend input-group-text">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                        </span>
+                        <input
+                            data-ng-model="vm.firstName"
+                            class="form-control borderClass_Email"
+                            data-val="true"
+                            data-val-required="The First Name field is required."
+                            id="FirstName"
+                            name="FirstName"
+                            placeholder="First Name"
+                            type="text"
+                            autocomplete="firstName"
+                            aria-label="First name"
+                            data-hj-whitelist>
+                        <span class="field-validation-valid text-danger" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+                    </div>
+                    <!-- end: username -->
+
+                    <br />
+
+                    <!-- begin: username -->
+                    <div class="input-group xlogin-input join_InputClass">
+                        <span class="input-group-prepend input-group-text"><i class="fa fa-at" aria-hidden="true"></i></span>
+                        <input data-ng-model="vm.username" class="form-control borderClass_Email" data-val="true" data-val-required="The User Name field is required." id="UserName" name="UserName" placeholder="Email address" type="text" autocomplete="email"aria-label="Email address">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+                    </div>
+                    <!-- end: username -->
+
+                    <br />
+
+                    <!-- begin: password -->
+                    <div class="input-group xlogin-input join_InputClass">
+                        <span class="input-group-prepend input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                        <input data-ng-model="vm.password" class="form-control borderClass_Email" data-val="true" data-val-required="The Password field is required." id="Password" name="Password" placeholder="Password" type="password" autocomplete="none" aria-label="Password">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                    </div>
+                    <!-- end: password -->
+
+                    <!-- ToS/PP -->
+                    <div
+                        class="input-group p-4">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            value="false"
+                            data-ng-model="vm.cbTermsOfUse"
+                            id="cbTermsOfUse"
+                            name="cbTermsOfUse" />
+                        <label class="form-check-label" for="cbTermsOfUse">
+                            I agree to the accessibleGO <a ui-sref="terms_of_use" target="win_termsOfUse" class="text-link-background-white"> Terms of Use </a> and <a ui-sref="privacy_policy" target="win_privacyPolicy" class="text-link-background-white"> Privacy Policy</a>.
+                        </label>
+                    </div>
+
+                    <!-- begin: buttons -->
+                    <button
+                        type="button"
+                        data-ng-click="vm.register()" 
+                        data-ng-disabled="vm.isButtonDisable"
+                        class="btn btn-ar btn-primary emailjoin_btn">
+                        {{vm.isButtonDisable?'joining':'Join'}}
+                        <span data-ng-show="vm.isButtonDisable">
+                            <i class="fa fa-spinner fa-spin" aria-hidden="true" style="font-size:24px"></i>
+                        </span>
+                    </button>
+                    <!-- end: buttons -->
+
+                    <!-- begin: validation errors -->
+                    <div class="panel panel-danger-dark" data-ng-show="vm.errs.length>0">
+                        <br />
+                        <div class="panel-heading semibold14" style="color:red;padding:0px;text-align: left;">
+                            <ul data-ng-repeat="error in vm.errs">
+                                <li data-ng-bind-html="error"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end: validation errors -->
+                </form>
+
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

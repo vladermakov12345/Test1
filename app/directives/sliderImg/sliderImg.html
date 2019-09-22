@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-sm-12 text-center">
+        
+ <div class="carousel slide" id="carousel124" data-ride="carousel" data-interval="false">
+            <div class="carousel-inner">
+                <div ng-class="images.indexOf(img) == 0 ? 'carousel-item active' : 'carousel-item'" ng-repeat="img in images">
+                    <div class="row">
+                    <div class="col-md">
+                        <a href="#">
+                            <img ng-if="img.Id" ng-src="{{img.ImgUrl}}" alt="{{img.alt}}" title="{{img.title}}" ng-class="img-responsive" style="max-width:100%;" />
+                        </a>
+                    </div>
+                    <div class="col-md">
+                        <div class="ng-binding_class slide_txtdiv">
+                            <h2>{{img.title}}</h2>
+                            <h3>{{img.neighborhood}}:
+                                <p>{{img.address}}</p>
+                            </h3>
+                            <img ng-src="{{img.imgstar}}" />
+                            <h4>{{img.commentHeading}}
+                                <span> {{img.commentDate}}</span>
+                            </h4>
+                            <p class="text_sec">
+                                {{img.commentDescription}}
+                            </p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <ol id="carousel124" class="carousel-indicators ">
+            <li data-target="#carousel124" data-slide-to="0" class=" carousel1 active"></li>
+            <li data-target="#carousel124" data-slide-to="1" class=" carousel1"></li>
+            <li data-target="#carousel124" data-slide-to="2" class=" carousel1"></li>
+        </ol>
+
+
+    </div>
+
+
+    
+</div>

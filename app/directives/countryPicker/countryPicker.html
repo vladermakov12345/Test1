@@ -1,0 +1,65 @@
+<!--     <style>
+        body {
+            padding: 15px;
+        }
+
+        .select2 > .select2-choice.ui-select-match {
+            /* Because of the inclusion of Bootstrap */
+            height: 29px;
+        }
+
+        .selectize-control > .selectize-dropdown {
+            top: 36px;
+        }
+        /* Some additional styling to demonstrate that append-to-body helps achieve the proper z-index layering. */
+        .select-box {
+          background: #fff;
+          position: relative;
+          z-index: 1;
+        }
+        .alert-info.positioned {
+          margin-top: 1em;
+          position: relative;
+          z-index: 10000; /* The select2 dropdown has a z-index of 9999 */
+        }
+    </style> -->
+
+<!--           <ui-select ng-model="vm.selectedValue" theme="select2" class="form-control" title="Choose a person">
+            <ui-select-match placeholder="Select or search a person in the list...">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices
+              repeat="option in vm.countries | filter: $select.search"
+              refresh="vm.refreshOptions($select.search)"
+              refresh-delay="0">
+                <span style="padding-left:.25em;" ng-bind-html="option.name | highlight: $select.search"></span>
+            </ui-select-choices>
+          </ui-select> -->
+
+  <ui-select
+    id="citySelector"
+    ng-model="vm.selectedValue"
+    class="form-control p-0"
+    theme="bootstrap"
+    ng-required="true"
+    search-enabled="true"
+    reset-search-input="false"
+    on-select="vm.selectedOptionChanged()"
+    title="{{vm.placeholder}}">
+    <ui-select-match
+       id="selectcountry-match"
+       class='form-control-sm p-1'
+       placeholder="{{vm.placeholder}}"
+       allow-clear="false"
+       aria-hidden="false">
+        {{$select.selected.name}}
+     </ui-select-match>
+    <ui-select-choices
+      class="p-0"
+      repeat="option in vm.countries | filter: $select.search"
+      refresh="vm.refreshOptions($select.search)"
+      refresh-delay="0">
+        <span style="padding-left:.25em;" ng-bind-html="option.name | highlight: $select.search"></span>
+    </ui-select-choices>
+    <ui-select-no-choice>
+      <label>No matching entries for {{$select.search}}</label>
+    </ui-select-no-choice>
+  </ui-select>

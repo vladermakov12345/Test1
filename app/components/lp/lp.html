@@ -1,0 +1,44 @@
+<div ng-controller="lpController as lp" ng-cloak>
+	<div class="wrapper-base" style="min-height: 20em;">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="background-color:#fff;padding:1em;justify-content: flex-start;">
+
+			<div>
+				<h1>Lookup</h1>
+				<!-- <h2>Requested Portal Id: {{lp.portalId}}</h2> -->
+			</div>
+
+			<where-picker
+		    	id="destination"
+		    	label="Enter a hotel or directory"
+		    	style="min-width: 20em;"
+		    	ng-model="lp.hotelDestination"
+		    	include-hotels="Y"
+		    	include-directories="Y"
+			    include-cities="N"
+			    include-airports="N">
+		   	</where-picker>
+
+		   	<div style="margin-top:1.25em;" />
+
+			<div ng-show="lp.showDetails && lp.hotelDestination">
+				<div>
+					<label>PPN Id:</label>
+					<span ng-bind-html="lp.hotelDestination.ppnid" />
+				</div>
+				<div>
+					<label>Display:</label>
+					<span ng-bind-html="lp.hotelDestination.display" />
+				</div>
+				<div>
+					<label>Type:</label>
+					<span ng-bind-html="lp.hotelDestination.type" />
+				</div>
+				<div>
+					<label>City/State:</label>
+					<span ng-bind-html="lp.hotelDestination.city" />, <span ng-bind-html="lp.hotelDestination.state" />
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

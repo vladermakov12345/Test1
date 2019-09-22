@@ -1,0 +1,59 @@
+<label ng-if="vm.label" id="label_citySelector_{{vm.id}}" for="ac_element_{{vm.id}}" class="light16">{{vm.label}}</label>
+<ui-select
+  id="citySelector_{{vm.id}}"
+  name="citySelector_{{vm.id}}"
+  ng-model="vm.selectedValue"
+  class="wherePickerInput"
+  theme="bootstrap"
+  ng-required="true"
+  search-enabled="true"
+  reset-search-input="false"
+  on-select="vm.selectedOptionChanged()"
+  xtitle="{{vm.placeholder}}"
+  spinner-enabled="false"
+  spinner-class="fa fa-redo-alt">
+  <ui-select-match
+     id="planner-selectcity-match_{{vm.id}}"
+     class="styleInnerSpan accessible-input-on-white"
+     placeholder="{{$select.selected?'':vm.placeholder}}"
+     allow-clear="false"
+     aria-hidden="false">
+        <i ng-class="{'fa fa-building width2em':$select.selected.type==='hotel', 'fa fa-map-marker width2em':$select.selected.type==='city', 'fa fa-flag width2em':$select.selected.type==='directory', 'fa fa-plane width2em':$select.selected.type==='airport', 'fa fa-map width2em':option.type==='region', 'fa fa-hospital-o width2em':$select.selected.type==='hospital', 'fa fa-globe width2em':$select.selected.type==='poi'}" aria-hidden="true"></i> 
+        {{$select.selected.display | camelcase}}
+   </ui-select-match>
+  <ui-select-choices
+    id="choices_citySelector_{{vm.id}}"
+    repeat="option in vm.options | propsFilter: { display: $select.search, city: $select.search, state: $select.search, country: $select.search, code: $select.search } | orderBy: '-count'"
+    refresh="vm.refreshOptions($select.search,$select.open)"
+    refresh-delay="10"
+    position="down"
+    style="padding:0;">
+      <div>
+        <span>
+          <i ng-class="{'fa fa-building width2em':option.type==='hotel', 'fa fa-map-marker width2em':option.type==='city', 'fa fa-flag width2em':option.type==='directory', 'fa fa-plane width2em':option.type==='airport', 'fa fa-map width2em':option.type==='region', 'fa fa-hospital-o width2em':option.type==='hospital', 'fa fa-globe width2em':option.type==='poi'}" aria-hidden="true"></i> 
+        </span>
+        <!-- <span ng-show="option.type==='airport'" class="bold14">[{{option.code}}] </span> -->
+        <span ng-bind-html="option.display | camelcase | highlight: $select.search"></span>
+      </div>
+
+      <div ng-show="option.type==='hotel' || option.type==='hospital'" style="padding-left:1.4em;" class="light14">
+        <span ng-bind-html="option.city | camelcase | highlight: $select.search"></span>, 
+        <span ng-if="option.state">
+          <span ng-bind-html="option.state | camelcase | highlight: $select.search"></span>, 
+        </span>
+        <span ng-bind-html="option.country | highlight: $select.search"></span>
+      </div>
+
+      <div ng-show="option.type==='directory'" style="padding-left:1.4em;" class="light14">
+        <span ng-bind-html="option.city"></span>
+      </div>
+  </ui-select-choices>
+  <ui-select-no-choice style="padding:0;">
+    <div
+      ng-show="$select.search.length>1"
+      role="alert"
+      style="color: red;font-weight:600;text-align: left;padding:0 1em;">
+      <span ng-bind="vm.message"><span>
+    </div>
+  </ui-select-no-choice>
+</ui-select>

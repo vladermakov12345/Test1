@@ -1,0 +1,319 @@
+<aside style="border:2px solid #cccccc;background-color:#ffffff;padding:1em;">
+	<!-- <div style="font-size:1.125em;font-weight:400;">Book Accessible Travel</div> -->
+
+	<!-- hotels: begin -->
+	<div id="home-booking-form" class="input-group" xng-show="home.isHotelSectionSelected()"
+	 style="display: flex;flex-direction: row;flex-wrap:wrap;">
+	 	<div style="flex-shrink:1" class="bookbox-input">
+			<label
+				for="home-booking-form-optionsmenu"
+				class="control-label"
+				style="font-size:1.125em;font-weight:400;width:100%;">Book Accessible Travel</label>
+	  		<select id="home-booking-form-optionsmenu" ng-model="bookbox.bookingtype" class="bookbox-form-input" style="width:100%;">
+	  			<option value="hotels">Hotels</option>
+	  			<option value="flights">Flights</option>
+	  			<option value="cruises">Cruises</option>
+	  			<option value="cars">Cars</option>
+	  		</select>
+	  	</div>
+
+	  	<!-- hotels -->
+	  	<div ng-if="bookbox.bookingtype==='hotels'" style="width:100%;">
+			<div style="flex-shrink:1;width:100%;">
+				<where-picker
+				  	id="hotel_search_location"
+				  	label="Where are you going?"
+				  	xstyle="width:100%;"
+				  	placeholder="Enter a City or Hotel"
+				  	ng-model="bookbox.hotelDestination"
+				  	include-hotels="Y"
+	    			include-cities="Y"
+	    			include-airports="Y"
+	    			include-directories="N"
+                    on-change="bookbox.moveToHotelSearchCheckInDate">
+				</where-picker>
+			</div>
+
+			<!-- <div style="flex-shrink:1;width:100%;">
+		  		<label for="home-booking-form-checkin" style="font-weight: 400;">Check-in</label><br />
+		  		<input id="home-booking-form-checkin" ng-model="hotel_checkin" type="date" class="bookbox-form-input" placeholder="Choose Date" style="width:100%;" />
+		  	</div> -->
+
+		  	<!-- begin: something with these 3 are focusing prematurel -->
+			<div style="flex-shrink:1;">
+			    <date-picker
+			    	id="hotel_search_checkin"
+			    	label="Check-in"
+			    	ng-model="bookbox.hotelDateCheckin"
+			    	placeholder="Choose Date"
+                    on-change="bookbox.moveToHotelSearchChekoutDate"/>
+			</div>
+			<div style="flex-shrink:1;">
+				<!-- <label for="home-booking-form-checkout" style="font-weight: 400;">Check-out</label><br />
+				<input id="home-booking-form-checkout" ng-model="hotel_checkout" type="date" class="bookbox-form-input" placeholder="Choose Date" style="width:100%;" /> -->
+				<date-picker
+			    	id="hotel_search_checkout"
+			    	label="Check-out"
+			    	min-date="{{bookbox.hotelDateCheckin.toUTCString()}}"
+			    	ng-model="bookbox.hotelDateCheckout"
+			    	placeholder="Choose Date"
+                    on-change="bookbox.moveToHotelSearchRooms"/>
+		  	</div>
+			<div style="flex-shrink:1;width:100%;">
+				<hotel-search-guests
+					id="hotel_search_rooms"
+					label="Rooms"
+					ng-model="bookbox.hotelSearchRooms"
+					min="{{hotelSearchService.default.roomsMin}}"
+					max="{{hotelSearchService.default.roomsMax}}"
+					xon-change="bookbox.moveToHotelSearchGuest"
+                    on-change="bookbox.moveToHotelSearchSubmit" />
+				<!-- <hotel-search-guests
+                    id="hotel_search_rooms"
+                    label="Rooms"
+					ng-model="bookbox.hotelSearchRooms"
+                    on-change="bookbox.moveToHotelSearchGuest" /> -->
+	  		</div>
+	  		<!-- end: something with these 3 are focusing prematurel -->
+
+	  		<!-- <div style="flex-shrink:1;">
+		  		<hotel-search-guests
+                    id="hotel_search_guest"
+		  			ng-model="bookbox.hotelSearchGuests"
+		  			rooms="{{bookbox.hotelSearchRooms}}"
+                    on-change="bookbox.moveToHotelSearchSubmit"/>
+	  		</div> -->
+
+	  		<!-- <div style="margin-left: auto;width:100%;"> -->
+	  		<div style="margin-left: auto;margin-top: auto;">
+				<!-- <label for="bookbox-searchbutton">&nbsp;</label> -->
+				<br />
+	      		<input id="hotel_search_submit" class="btn-aqua" type="button" value="Search" ng-click="bookbox.searchHotels()" style="width:100%;font-size: 1.25em;font-weight: 600;" />
+	      	</div>
+	  	</div>
+
+	  	<!-- flights -->
+	  	<div ng-if="bookbox.bookingtype==='flights'" style="width:100%;">
+			<div style="flex-shrink:1;width:100%;padding-top:2em;">
+
+				<button
+					id="flights-ways-roundtrip"
+					class="btn"
+					style="width:100%;"
+					ng-class="bookbox.selectedFlightWay==='RoundTrip' ? 'btn-primary' : 'btn-default'"
+					ng-click="bookbox.selectedFlightWay='RoundTrip'">Roundtrip</button>
+
+                <button
+                	id="flights-ways-oneway"
+                	class="btn"
+                	style="width:100%;"
+                	ng-class="bookbox.selectedFlightWay==='OneWay' ? 'btn-primary' : 'btn-default'"
+                	ng-click="bookbox.selectedFlightWay='OneWay'">One way</button>
+
+			  	<where-picker
+                        id="flight_departure_location"
+                        label="From"
+                        placeholder="Enter a City or Airport"
+                        ng-model="bookbox.flights_departure_location"
+                        include-hotels="N"
+                        include-cities="Y"
+                        include-airports="Y"
+                        is-for-flights="Y"
+                        include-directories="N"
+                        style="max-width:8.250em;"
+                        on-change="bookbox.moveToFlightArrivalLocation">
+                </where-picker>
+			</div>
+
+			<div style="flex-shrink:1;width:100%;">
+			  <where-picker
+                        id="flight_arrival_location"
+                        label="To"
+                        placeholder="Enter a City or Airport"
+                        ng-model="bookbox.flights_arrival_location"
+                        include-hotels="N"
+                        include-cities="Y"
+                        include-airports="Y"
+                        is-for-flights="Y"
+                        include-directories="N"
+                        style="max-width:8.250em;"
+                        on-change="bookbox.moveToFlightDepartureDate">
+                </where-picker>
+			</div>
+
+			<div style="flex-shrink:1;width:100%;">
+		  		<date-picker
+                        id="flight_departure_date"
+                        label="Departing"
+                        placeholder="mm/dd/yyyy"
+                        style="width:5.75em;"
+                        ng-model="bookbox.flights_departure_date"
+                        on-change="bookbox.moveToFlightArrivalDate"/>
+		  	</div>
+
+		  	<div style="flex-shrink:1;width:100%;">
+		  		<date-picker
+		  				ng-show="bookbox.selectedFlightWay==='RoundTrip'"
+                        id="flight_arrival_date"
+                        label="Returning"
+                        placeholder="mm/dd/yyyy"
+                        min-date="{{bookbox.flights_departure_date.toUTCString()}}"
+                        ng-model="bookbox.flights_return_date"
+                        on-change="bookbox.moveToFlightPersonAdult"/>
+		  	</div>
+
+		  	<div style="flex-shrink:1;width:100%;">
+		  		<air-select-persons
+                        id="flight_persons_adult"
+                        ng-model="bookbox.flights_adults"
+                        label="Adults (18+)"
+                        on-change="bookbox.moveToFlightPersonChild"
+                        options="[1,2,3,4,5,6]"/>
+	  		</div>
+
+	  		<div style="flex-shrink:1;width:100%;">
+                <air-select-persons
+                        id="flight_persons_child"
+                        ng-model="bookbox.flights_children"
+                        label="Children (0-17)"
+                        on-change="bookbox.moveToFlightSearchSubmit"
+                        options="[0,1,2,3,4,5,6]"/>
+	  		</div>
+
+	  		<!-- <div style="margin-left: auto;width:100%;"> -->
+	  		<div style="margin-left: auto;margin-top: auto;">
+				<br />
+	      		<input id="flight_search_submit"
+                       class="btn-aqua"
+                       type="button"
+                       value="Search"
+                       ng-click="bookbox.searchFlights()"
+                       style="width:100%;font-size: 1.25em;font-weight: 600;" />
+	      	</div>
+	  	</div>
+
+	  	<!-- cruises -->
+	  	<div ng-if="bookbox.bookingtype==='cruises'" style="width:100%;">
+	  		<div style="flex-shrink:1;width:100%;">
+		  		<label for="home-booking-form-destination" style="font-weight: 400;">Search (optional)</label><br />
+		  		<input id="home-booking-form-destination" ng-model="bookbox.cruises_searchText" type="text" class="bookbox-form-input" placeholder="" style="width:100%;" />
+	  		</div>
+	  		<!-- <div style="flex-shrink:1;width:100%;">
+		  		<label for="home-booking-form-line" style="font-weight: 400;">Which cruise line?</label><br />
+		  		<input id="home-booking-form-line" ng-model="flights_children" type="text" class="bookbox-form-input" placeholder="" style="width:100%;" />
+	  		</div>
+	  		<div style="flex-shrink:1;width:100%;">
+		  		<label for="home-booking-form-uszip" style="font-weight: 400;">U.S. Zip code</label><br />
+		  		<input id="home-booking-form-uszip" ng-model="flights_children" type="date" class="bookbox-form-input" placeholder="" style="width:100%;" />
+	  		</div>
+	  		<div style="flex-shrink:1;width:100%;">
+		  		<label for="home-booking-form-departure-date" style="font-weight: 400;">Departure Date</label><br />
+		  		<input id="home-booking-form-departure-date" ng-model="flights_children" type="date" class="bookbox-form-input" placeholder="" style="width:100%;" />
+	  		</div>
+	  		<div style="flex-shrink:1;width:100%;">
+		  		<label for="home-booking-form-departure-date" style="font-weight: 400;">Cruise Length</label><br />
+		  		<input id="home-booking-form-departure-date" ng-model="flights_children" type="number" class="bookbox-form-input" placeholder="Rooms" style="width:100%;" />
+	  		</div>
+	  		<div style="flex-shrink:1;width:100%;">
+		  		<label for="home-booking-form-departure-date" style="font-weight: 400;">55 years or older?</label><br />
+		  		<input id="home-booking-form-departure-date" ng-model="flights_children" type="number" class="bookbox-form-input" placeholder="" style="width:100%;" />
+	  		</div>
+ -->
+ 			<div style="margin-left: auto;margin-top: auto;">
+	  		<!-- <div style="margin-left: auto;width:100%;"> -->
+				<!-- <label for="bookbox-searchbutton">&nbsp;</label> -->
+				<br />
+	      		<input id="bookbox-searchbutton" class="btn-aqua" type="button" value="Search" ng-click="bookbox.searchCruises()" style="width:100%;font-size: 1.25em;font-weight: 600;" />
+	  		</div>
+	  	</div>
+
+	  	<!-- cars -->
+	  	<div ng-if="bookbox.bookingtype==='cars'" style="width:100%;">
+	  		<div style="flex-shrink:1;width:100%;">
+                <where-picker
+                        id="cars_pickup_location"
+                        label="Picking up"
+                        placeholder="Enter a city or airport"
+                        ng-model="bookbox.cars_pickup_location"
+                        include-hotels="N"
+                        include-cities="Y"
+                        include-airports="Y"
+                        include-directories="N"
+                        style="max-width:8.250em;"
+                        on-change="bookbox.moveToCarsPickupDate">
+                </where-picker>
+	  		</div>
+	  		<div style="flex-shrink:1;width:100%;">
+                <date-picker
+                        id="cars_pickup_date"
+                        label="Pick-up date"
+                        placeholder="mm/dd/yyyy"
+                        style="width:2.75em;"
+                        ng-model="bookbox.cars_pickup_date"
+                        on-change="bookbox.moveToCarsPickupTime"/>
+	  		</div>
+	  		<div style="flex-shrink:1;width:100%;">
+                <time-picker
+                        id="cars_pickup_time"
+                        label="Pick-up time"
+                        ng-model="bookbox.cars_pickup_time"
+                        default-time="9:30 AM"
+                        on-change="bookbox.moveToCarsDropoffLocation"/>
+	  		</div>
+	  		<div style="flex-shrink:1;width:100%;">
+                <where-picker
+                        id="cars_dropoff_location"
+                        label="Dropping off"
+                        placeholder="Enter a city or airport"
+                        ng-model="bookbox.cars_dropoff_location"
+                        include-hotels="N"
+                        include-cities="Y"
+                        include-airports="Y"
+                        include-directories="N"
+                        style="max-width:8.250em;"
+                        on-change="bookbox.moveToCarsDropoffDate">
+                </where-picker>
+	  		</div>
+	  		<div style="flex-shrink:1;width:100%;">
+                <date-picker
+                        id="cars_dropoff_date"
+                        label="Drop-off date"
+                        placeholder="mm/dd/yyyy"
+                        style="width:5.75em;"
+                        min-date="{{bookbox.cars_pickup_date.toUTCString()}}"
+                        ng-model="bookbox.cars_dropoff_date"
+                        on-change="bookbox.moveToCarsDropoffTime"/>
+	  		</div>
+
+            <div style="flex-shrink: 1;width: 100%">
+                <time-picker
+                        id="cars_dropoff_time"
+                        label="Drop-off time"
+                        ng-model="bookbox.cars_dropoff_time"
+                        default-time="9:30 AM"
+                        on-change="bookbox.moveToCarsSearchSubmit"/>
+            </div>
+
+			<div style="margin-left: auto;margin-top: auto;">
+	  		<!-- <div style="margin-left: auto;width:100%;">
+				<label for="bookbox-searchbutton">&nbsp;</label> -->
+				<br />
+                <input
+                        id="cars_search_submit"
+                        class="home-booking-form-searchbutton"
+                        type="button"
+                        value="Search"
+                        ng-click="bookbox.searchCars()" />
+	  		</div>
+	  	</div>
+
+		<!-- validation errors -->
+		<div style="color: red;font-weight:600;text-align: left;" ng-if="bookbox.errs">
+			<div ng-repeat="err in bookbox.errs">
+				{{err}}
+			</div>
+		</div>
+
+	</div>
+	<!-- hotels: end -->
+</aside>

@@ -1,0 +1,249 @@
+<div ng-controller="topicsController as vm" ng-cloak>
+
+	<!-- unrecoverable errors? -->
+	<div
+		ng-show="vm.state==='unrecoverable'"
+		ng-include="'userOverridingMessage.html'">
+	</div>
+
+	<!-- pending status -->
+	<div
+		ng-show="vm.state==='pending'"
+		class="flex-col"
+		style="justify-content: center;align-items:center;">
+		<h4 ng-bind-html="vm.constants.maintenance" />
+		<h3>Loading Travel Forum Topics...</h3>
+		<div class="fa-5x">
+			<i class="fa fa-spinner fa-pulse"></i>
+		</div>
+	</div>
+
+	<!-- breadcrumbs -->
+	<div
+		ng-show="vm.state==='ready'"
+		xclass="background-white" style="padding:20px 12px 0px 12px;">
+	    <nav class="flex-col" aria-label="breadcrumb" style="border-bottom:1px solid #000;">
+	      <ol class="breadcrumb breadcrumbs-light">
+	        <li class="breadcrumb-item">
+	        	<a ui-sref="home">home</a>
+	        </li>
+	        <li class="breadcrumb-item">
+	        	<a ui-sref="forum-categories">travel forum</a>
+	        </li>
+	        <li class="breadcrumb-item" ng-if="vm.categoryObj.categorySlug!=='themes'">
+	        	<a ui-sref="forum-subcategories({categorySlug:vm.categoryObj.categorySlug})">
+		        	{{vm.categoryObj.response.data.category.name}} Forums
+		        </a>
+	        </li>
+	        <li class="breadcrumb-item" ng-if="vm.categoryObj.categorySlug==='themes'">
+	        	<a ui-sref="forum-categories">
+		        	{{vm.categoryObj.response.data.category.name}} Forums
+		        </a>
+	        </li>
+	        <li class="breadcrumb-item active" aria-current="page">
+		        {{vm.categoryObj.response.data.subCategory.name}} Forum
+		    </li>
+	      </ol>
+	    </nav>
+	</div>
+
+	<!-- page heading -->
+	<div
+		ng-show="vm.state==='ready'"
+		xclass="background-white" style="padding:.75em 0;">
+		<div class="flex-row">
+			<h1 class="px30 semibold30" style="color:#29807c;">{{vm.categoryObj.response.data.subCategory.name}} Travel Forum</h1>
+		</div>
+	</div>
+
+	<!-- 2 columns for remainder of page -->
+	<div
+		ng-show="vm.state==='ready'"
+		class="background-light" style="padding-top:1.5em;">
+		<div class="flex-row" style="flex-wrap: wrap;justify-content: space-between;align-items: flex-start;align-content: stretch;">
+
+			<!-- LEFT COLUMN :: BEGIN -->
+			<div style="flex-basis: 70%;justify-content: space-between;flex-wrap: wrap;">
+
+				<!-- search (top) -->
+				<div
+					ng-show="false"
+					class="flex-row" style="padding:1.25em 22px;color:#000;background-color:#b3b0b0;">
+					<label class="px18" style="margin-right:1em;">Search forum for:</label>
+					<input
+						type="text"
+						style="max-width:24em;width:100%"
+						class="px18" />
+					<button
+						ng-click=""
+						class="btn btn-default"
+						style="background-color: #29807c; color:#fff;">
+						GO
+					</button>
+				</div>
+
+				<!-- forum topics -->
+				<div
+					class="flex-col"
+					style="justify-content: space-between;flex-wrap: wrap; padding:1.25em 0;color:#000;">
+
+						<div
+							style="display: flex;flex-direction: row;justify-content: flex-start;
+							padding:12px 16px;border:1px solid #e0e0e0;background-color:#fff;border:1px solid #000;border-bottom:0px;">
+							<span class="p-3 semibold18" style="color: #29807c;xpadding-bottom: .5em;">
+								Jump to a specific forum:
+							</span>
+							<div class="btn-group" style="border:1px solid #ccc;" uib-dropdown>
+							      <button
+							        id="hotel_guests_selection"
+							        name="hotel_guests_selection"
+							        type="button"
+							        class="p-3"
+							        aria-labelledby="label_hotel_guests_selection"
+							        style="min-width:3em;border:0;width:100%;padding:0px;background-color: #fff;"
+							        uib-dropdown-toggle >
+							      	<span style="margin-right:1em;"> Select Forum </span>
+							        <span class="caret"></span>
+							        <span class="sr-only">Split button!</span>
+							      </button>
+							      <ul
+							      	class="dropdown-menu m-0 p-0"
+							      	uib-dropdown-menu
+							        role="menu">
+							      	<li
+							          role="menuitem"
+							          class="dropdown-item"
+							          ng-repeat="entry in vm.categoryObj.response.data.subCategories"
+							          ng-click="vm.goToForum(entry.slug)">
+							          <span style="color:#000;">{{entry.name}}</span>
+							        </li>
+							      </ul>
+							</div>
+						</div>
+
+					<div class="table-responsive" style="padding:12px 16px;border:1px solid #e0e0e0;background-color:#fff;border:1px solid #000;">
+
+						<div style="display: flex;flex-direction: row;justify-content: space-between;align-items:center;">
+							
+							<!-- topic length = 0 -->
+							<span
+								ng-show="vm.categoryObj.response.data.topics.length===0" class="px22 semibold24" style="color: #29807c;">
+								No topics have been created yet.
+							</span>
+
+							<!-- topic length > 0 -->
+							<span
+								ng-show="vm.categoryObj.response.data.topics.length>0"
+								class="px22 semibold24"
+								style="color: #29807c;">
+								{{vm.categoryObj.response.data.topics.length | number}} topic{{vm.categoryObj.response.data.topics.length>1?'s':''}} from our community
+							</span>
+
+							<div>
+								<button
+									type="button"
+									class="btn btn-default"
+									style="background-color: #29807c; color:#fff;"
+									ng-click="vm.ask()">
+									Ask a Question
+								</button>
+							</div>
+						</div>
+
+						<table
+							ng-show="vm.categoryObj.response.data.topics.length>0"
+							class="table table-hover"
+							style="margin-top: 1.5em;">
+							<thead class="bold18" style="background-color: #ddd;">
+								<td>Forum</td>
+								<td>Topic</td>
+								<td>Replies</td>
+								<td>Last Post</td>
+							</thead>
+							<tbody>
+								<tr ng-repeat="topic in vm.categoryObj.response.data.topics">
+									<!-- forum -->
+									<td style="vertical-align: middle;">
+										{{vm.categoryObj.response.data.subCategory.name}}
+									</td>
+
+									<!-- topic -->
+									<td style="vertical-align: middle;">
+										<a
+											ui-sref="forum-posts({categorySlug:vm.categoryObj.categorySlug, subCategorySlug:vm.categoryObj.subCategorySlug, topicSlug: topic.slug })"
+											class="semibold16"
+											style="color:#29807c;text-decoration: underline;">{{topic.title}}</a>
+									</td>
+
+									<!-- # replies -->
+									<td style="vertical-align: middle;" class="light16">
+										{{ topic.posts_count | number }}
+									</td>
+
+									<!-- last post -->
+									<td style="vertical-align: middle;" class="light16">
+										<span ng-if="topic.posts_count>0">
+											{{topic.last_posted_at | date: 'MMM-d-yyyy'}}<br/>
+											<!-- {{topic.last_posted_at | date: 'H:mm:ss a'}}<br/> -->
+											by {{topic.last_poster_username}}
+										</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- search (bottom) -->
+				<div
+					ng-show="false"
+					class="flex-row" style="padding:1.25em 22px;color:#000;background-color:#b3b0b0;">
+					<label class="px18" style="margin-right:1em;">Search forum for:</label>
+					<input
+						type="text"
+						style="max-width:24em;width:100%"
+						class="px18" />
+					<button
+						xng-click=""
+						class="btn btn-default"
+						ui-sref="forum-ask({categorySlug:vm.categoryObj.category.slug, subCategorySlug: vm.categoryObj.subCategorySlug, topicSlug: topic.slug})"
+						style="background-color: #29807c; color:#fff;">
+						GO
+					</button>
+				</div>
+
+			</div>
+			<!-- LEFT COLUMN :: END -->
+
+			<!-- RIGHT COLUMN :: BEGIN -->
+			<div style="flex-basis:22%;">
+				<div style="margin-bottom: 1em;">
+					<div class="px18 mb-2" style="color:#29807c;font-weight: bold;">Browse by Themes</div>
+					<div
+						ng-repeat="category in vm.themesObj.response.data.subCategories"
+						ng-style="!$last?{'border-bottom':'1px solid #cfcfcf'}:{}">	
+						<a
+							ui-sref="forum-topics({categorySlug: 'themes', subCategorySlug: category.slug})"
+							class="px16"
+							style="text-decoration: none;color:#000;">{{category.name}}</a>
+					</div>
+				</div>
+
+				<!-- book -->
+				<div
+					ng-if="vm.categoryObj.categorySlug!=='themes'">
+					<div
+						class="background-light"
+						style="padding:12px 0;">
+						<div class="flex-row">
+							<div class="px18" style="color: #29807c;font-weight: bold;">Plan the perfect trip to</div>
+							<div class="px18" style="color: #29807c;font-weight: bold;">{{vm.categoryObj.response.data.subCategory.name}}</div>
+						</div>
+					</div>
+					<bookbox type="hotels" xcity="{{city.city.Name}}"></bookbox>
+				</div>
+			</div>
+			<!-- RIGHT COLUMN :: END -->
+		</div>
+	</div>
+</div>

@@ -1,0 +1,541 @@
+<div
+	class="container-fluid booking-section"
+	style="min-height:150px;">
+
+	<div class="row">
+
+		<div class="container">
+
+			<div class="row">
+
+				<ul class="nav nav-tabs" role="tablist" aria-label="Book Hotels, Flights, or Rental Cars" style="font-size:1.25em;">
+					<li class="nav-item" role="tab" id="tab-link-hotels">
+						<a
+							tabindex="0"
+							class="nav-link active accessible-anchor-on-light"
+							data-toggle="tab"
+							href="#!"
+							data-target="#hotels"
+							ng-click="searchBar.resetErrs();">Hotels</a>
+					</li>
+					<li class="nav-item" role="tab" id="tab-link-flights">
+						<a
+							class="nav-link accessible-anchor-on-light"
+							data-toggle="tab"
+							href="#!"
+							data-target="#flights"
+							ng-click="searchBar.resetErrs();">Flights</a>
+					</li>
+					<!-- <li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#!" data-target="#insurance">Insurance</a>
+					</li> -->
+					<li class="nav-item" role="tab" id="tab-link-cars">
+						<a
+							class="nav-link accessible-anchor-on-light"
+							data-toggle="tab"
+							href="#!"
+							data-target="#cars"
+							ng-click="searchBar.resetErrs();">Cars</a>
+					</li>
+					<li class="nav-item" role="tab" id="tab-link-cruises">
+						<a
+							class="nav-link accessible-anchor-on-light"
+							ui-sref="cruises">Cruises
+						</a>
+					</li>
+				</ul>
+
+				<div class="tab-content">
+
+					<!------------------- HOTELS ------------------->
+					<div class="tab-pane fade show active" id="hotels" role="tabpanel" aria-labelledby="hotels">
+
+						<div class="row">
+
+							<div class="col col-12 col-sm-12 col-md col-lg location">
+								<div>
+									<where-picker
+										id="hotels-where"
+										label="Where are you going?"
+										placeholder="Enter city, hotel, airport, region or hospital"
+										ng-model="searchBar.hotelDestination"
+										include-hotels="Y"
+										include-cities="Y"
+										include-airports="Y"
+										include-regions="Y"
+										include-hospitals="Y"
+										include-poi="Y"
+										include-directories="N">
+									</where-picker>
+								</div>
+
+								<!-- TIP :: desktop -->
+								<div class="row ago-extension d-md-none" style="">
+									<div class="col col-auto">
+										<span class="fa-stack fa-lg">
+									  	<i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
+									  	<i class="fa fa-hospital-o fa-stack-1x fa-inverse" aria-hidden="true"></i>
+										</span>
+									</div>
+									<div class="col col-10">
+										<span style="font-weight:bold">TIP:</span> Search by hospital to find hotels or motels near a specific U.S. hospital
+									</div>
+								</div>
+							</div>
+
+							<div class="col col-auto col-sm-auto col-md-auto col-lg-auto departure-dates">
+								<date-picker
+									id="hotels-checkin"
+									label="Check-in"
+									placeholder="Select"
+									ng-model="searchBar.hotelDateCheckin" />
+								<date-picker
+									id="hotels-checkout"
+									label="Check-out"
+									placeholder="Select"
+									min-date="{{searchBar.hotelDateCheckin.toUTCString()}}"
+									ng-model="searchBar.hotelDateCheckout" />
+							</div>
+
+							<div class="col col-auto col-sm-auto col-md-auto col-lg-auto persons">
+
+								<div style="width:90px;">
+									<hotel-search-guests
+										id="hotels-adults"
+										label="Rooms"
+										ng-model="searchBar.hotelSearchRooms"
+										min="{{hotelSearchService.default.roomsMin}}"
+										max="{{hotelSearchService.default.roomsMax}}"
+								 		on-change="searchBar.moveToSearchButton" />
+								</div>
+
+								<!-- <div style="width:90px;">
+									<hotel-search-guests
+										id="hotels-adults"
+										label="Adults"
+										ng-model="searchBar.hotelSearchAdults"
+										min="1"
+										max="{{searchBar.hotelSearchAdultsMax}}"
+								 		on-change="searchBar.hotelSearchChildrenButton" />
+								</div>
+
+								<div style="width:90px;">
+									<hotel-search-guests
+										id="hotelSearchChildrenButton"
+										label="Children"
+										ng-model="searchBar.hotelSearchChildren"
+										min="0"
+										max="{{searchBar.hotelSearchChildrenMax}}"
+									 	on-change="searchBar.moveToSearchButton" />
+								</div> -->
+							</div>
+
+							<div class="col col-12 col-sm-12 col-md col-lg text-center xsearch-button">
+								<div class="align-bottom">
+									<span>
+										<button
+												id="home-booking-form-hotels_searchbutton"
+												class="home-booking-form-searchbutton accessible-button-solid-dark"
+												style="margin-top:2em;"
+												type="button"
+												ng-click="searchBar.searchHotels()"
+												aria-label="Search Hotels"
+												ng-class="{'buttonDisableClass':hotels.isButtonDisable}">SEARCH
+										</button>
+										<img
+											class="priceline"
+											style="left:1.5em;position:relative;top:0px;"
+											ng-src="{{env.cdn_static}}/i/booking/powered-by-ppn.png"
+											style="height:34px;"
+											alt="" />
+									</span>
+								</div>
+							</div>
+
+
+							<!-- <div class="col col-12 col-sm-auto col-md-auto col-lg-4 check-box">
+
+								<div class="checkbox">
+									<label>
+										<input type="checkbox">
+										<span class="checkmark"></span>
+										<p>I don't have specific dates yet</p>
+									</label>
+								</div>
+
+
+							</div>
+
+							<div class="col col-auto col-sm-auto col-md-auto col-lg-3 switcher">
+
+								<label>Some text goes here</label>
+
+								<div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+									<label class="off btn btn-secondary active">
+										<input type="radio" name="options" style="color:#fff;" checked>
+									</label>
+									<label class="on btn btn-secondary">
+										<input type="radio" name="options" style="color:#000;">
+									</label>
+
+								</div>
+
+
+
+							</div>
+
+							<div class="col col-auto col-sm-auto col-md-auto col-lg-3 switcher">
+
+								<label>Some text goes here</label>
+
+								<div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+									<label class="off btn btn-secondary active">
+										<input type="radio" name="options" style="color:#fff;" checked>
+									</label>
+									<label class="on btn btn-secondary">
+										<input type="radio" name="options" style="color:#000;" >
+									</label>
+
+								</div>
+
+							</div> -->
+
+						</div>
+
+						<!-- TIP :: desktop -->
+						<div class="row ago-extension d-none d-md-block" style="line-height: 40px;">
+							<span class="fa-stack fa-lg">
+							  <i class="fa fa-circle fa-stack-2x" aria-hidden="true"></i>
+							  <i class="fa fa-hospital-o fa-stack-1x fa-inverse" aria-hidden="true"></i>
+							</span>
+							<span style="font-weight:bold">TIP:</span> Search by hospital to find hotels or motels near a specific U.S. hospital
+						</div>
+
+					</div>
+
+
+
+					<!------------------- FLIGHTS ------------------->
+					<div class="tab-pane fade" id="flights" role="tabpanel" aria-labelledby="flights">
+
+						<div class="row">
+
+							<div class="col col-12 col-sm-12 col-md-12 col-lg departures">
+								<div class="x-2">
+									<where-picker
+										id="flights_departure_location"
+										label="Flying From"
+										placeholder="Enter a City or Airport"
+										ng-model="searchBar.flights_departure_location"
+										include-hotels="N"
+										include-cities="Y"
+										include-airports="Y"
+										is-for-flights="Y"
+										include-directories="N">
+									</where-picker>
+								</div>
+								<div class="x-2">
+									<where-picker
+										id="flights_arrival_location"
+										label="Flying To"
+										placeholder="Enter a City or Airport"
+										ng-model="searchBar.flights_arrival_location"
+										include-hotels="N"
+										include-cities="Y"
+										include-airports="Y"
+										is-for-flights="Y"
+										include-directories="N">
+									</where-picker>
+								</div>
+							</div>
+
+							<div class="col col-auto col-sm-auto col-md-auto col-lg-auto persons">
+
+								<div style="width:90px;">
+									<hotel-search-guests
+										id="flights-adults"
+										label="Adults"
+										ng-model="searchBar.flights_adults"
+										min="{{searchBar.flights_adults_min}}"
+										max="{{searchBar.flights_adults_max}}"
+								 		TODO-on-change="searchBar.moveToSearchButton" />
+
+									<!-- <air-select-persons
+										id="flights-adults"
+										ng-model="searchBar.flights_adults"
+										label="Adults"
+										options="[1,2,3,4,5,6,7,8]" /> -->
+								</div>
+
+								<div style="width:90px;">
+									<hotel-search-guests
+										id="flights-adults"
+										label="Children"
+										ng-model="searchBar.flights_children"
+										min="{{searchBar.flights_children_min}}"
+										max="{{searchBar.flights_children_max}}"
+								 		TODO-on-change="searchBar.moveToSearchButton" />
+
+									<!-- <air-select-persons
+										id="flights-children"
+										ng-model="searchBar.flights_children"
+										label="Children"
+										options="[0,1,2,3,4,5,6,7,8]" /> -->
+								</div>
+							</div>
+
+
+							<div class="col col-auto col-sm-auto col-md-auto col-lg-auto departure-dates">
+								<div class="x-2">
+									<date-picker
+										id="flights-departing"
+										label="Departing"
+										placeholder="Select"
+										ng-model="searchBar.flights_departure_date"
+									/>
+								</div>
+								<div class="x-2">
+									<date-picker
+										id="flights-returning"
+										label="Returning"
+										placeholder="Select"
+										min-date="{{searchBar.flights_departure_date.toUTCString()}}"
+										ng-model="searchBar.flights_return_date" />
+								</div>
+							</div>
+
+							<div class="col col-12 col-sm col-md col-lg-12 text-right search-button">
+
+								<div class="align-bottom">
+
+									<span>
+
+								<button
+										id="home-booking-form-flights_searchbutton"
+										class="home-booking-form-searchbutton"
+										type="button"
+										ng-click="searchBar.searchFlights()"
+										aria-label="Search Flights"
+										ng-class="{'buttonDisableClass':hotels.isButtonDisable}">SEARCH</button>
+									</span>
+
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+
+					<!-- CRUISES -->
+					<div class="tab-pane fade" id="cruises" role="tabpanel" aria-labelledby="cruises" style="display:none">
+						<div class="row">
+
+							<form id="formCruise" ng-submit="searchBar.searchCruises()">
+								<div id="home-booking-form-cruises" class="home-booking-form input-group">
+									<div style="text-align: left;">
+										<label for="home-booking-form-cruises_destination">Search (optional)
+											<!-- Where are you going? -->
+										</label>
+										<br />
+										<input id="home-booking-form-cruises_destination" ng-model="searchBar.cruiseSearchText" type="text" class="home-booking-form-input"
+											   placeholder="" style="width:13em;">
+									</div>
+
+									<div style="margin-left: auto;">
+										<br />
+										<input id="home-booking-form-cruises_searchbutton" class="home-booking-form-searchbutton" type="button" value="submit" ng-click="searchBar.searchCruises()" aria-label="Search Cruises" />
+									</div>
+								</div>
+							</form>
+
+						</div>
+					</div>
+
+					<!-- <div class="tab-pane fade" id="insurance" role="tabpanel" aria-labelledby="insurance">
+						<div class="row">
+
+							<div class="col col-12 col-sm-12 col-md col-lg countries">
+
+								<div class="x-2">
+									<label for="home-booking-form-insurance_destination">State of residency</label>
+									<br />
+									<input id="home-booking-form-insurance_destination" type="text" class="form-input" placeholder="Add State">
+								</div>
+
+								<div class="x-2">
+									<label for="home-booking-form-insurance_line">Destination country</label>
+									<br />
+									<input id="home-booking-form-insurance_line" type="text" class="form-input" placeholder="Add Country">
+								</div>
+
+							</div>
+
+							<div class="col col-auto">
+
+								<div class="x-auto mr-10">
+
+									<date-picker id="departing" label="Departing" placeholder="Select" ng-model="searchBar.insurance_departure_date"></date-picker>
+								</div>
+
+								<div class="x-auto">
+									<date-picker id="returning" label="Returning" placeholder="Select" min-date="{{searchBar.flights_returning_date.toUTCString()}}"
+												 ng-model="searchBar.flights_returning_date"></date-picker>
+
+									<date-picker id="departing" label="Departing" placeholder="Choose Date" ng-model="searchBar.insurance_departure_date"></date-picker>
+								</div>
+
+								<div class="x-auto">
+									<date-picker id="returning" label="Returning" placeholder="Choose Date" min-date="{{searchBar.flights_returning_date.toUTCString()}}"
+												 ng-model="searchBar.flights_returning_date"></date-picker>
+
+								</div>
+
+							</div>
+
+
+							<div class="col col-12 col-sm col-md-2 col-lg-2 text-right search-button">
+
+								<div class="align-bottom">
+
+								<span><button
+										class="home-booking-form-searchbutton"
+										type="button"
+										ng-click="searchBar.searchInsurance()"
+										aria-label="Search Insurance"
+										ng-class="{'buttonDisableClass':hotels.isButtonDisable}">SEARCH
+								</button></span>
+
+								</div>
+
+
+							</div>
+
+						</div>
+					</div> -->
+
+
+					<!-- RENTAL CARS -->
+					<div class="tab-pane fade" id="cars" role="tabpanel" aria-labelledby="cars">
+						<div class="row">
+
+							<div class="col col-12 col-sm-12 col-md-6 col-lg-6">
+
+								<div class="row">
+
+									<div class="col car-location">
+										<where-picker
+											id="cars_pickup_location"
+											label="Picking up"
+											placeholder="Enter a city or airport"
+											ng-model="searchBar.cars_pickup_location"
+											include-hotels="N"
+											include-cities="Y"
+											include-airports="Y"
+											include-directories="N">
+										</where-picker>
+									</div>
+									<div class="col col-auto car-pickup-date">
+
+										<date-picker
+											id="cars_pickup_date"
+											label="Pick-up date"
+											placeholder="Select"
+											ng-model="searchBar.cars_pickup_date"></date-picker>
+									</div>
+									<div class="col col-auto car-pickup-time">
+										<time-picker
+											id="cars_pickup_time"
+											label="Pick-up time"
+											ng-model="searchBar.cars_pickup_time"
+											default-time="9:30 AM"></time-picker>
+									</div>
+
+								</div>
+
+							</div>
+
+							<div class="col col-12 col-sm-12 col-md-6 col-lg-6">
+
+								<div class="row">
+
+									<div class="col car-location">
+										<where-picker
+											id="cars_dropoff_location"
+											label="Dropping off"
+											placeholder="Enter a city or airport"
+											ng-model="searchBar.cars_dropoff_location"
+											include-hotels="N" include-cities="Y" include-airports="Y" include-directories="N">
+										</where-picker>
+									</div>
+									<div class="col col-auto car-pickup-date">
+
+										<date-picker
+											id="cars_dropoff_date"
+											label="Drop-off date"
+											placeholder="Select"
+											min-date="{{searchBar.cars_pickup_date.toUTCString()}}"
+											ng-model="searchBar.cars_dropoff_date"></date-picker>
+									</div>
+									<div class="col col-auto car-pickup-time">
+										<time-picker
+											id="cars_dropoff_time"
+											label="Drop-off time"
+											ng-model="searchBar.cars_dropoff_time"
+											default-time="9:30 AM"></time-picker>
+									</div>
+
+								</div>
+
+							</div>
+
+							<div class="col col-12 col-sm-12 col-md-12 col-lg-12 text-right search-button">
+
+								<div class="">
+
+								<span><button
+										class="home-booking-form-searchbutton"
+										type="button"
+										ng-click="searchBar.searchCars()"
+										aria-label="Search Insurance"
+										ng-class="{'buttonDisableClass':hotels.isButtonDisable}">SEARCH
+								</button></span>
+
+								</div>
+
+
+							</div>
+
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- validation errors -->
+	<div class="row" ng-show="searchBar.errs.length>0">
+		<div class="container">
+            <div class="card validation-message">
+                <div class="card-header">
+                    <h4>Almost there...</h4>
+                </div>
+                <div class="card-body semibold18 validation-message">
+                    <ul>
+                        <li ng-repeat="error in searchBar.errs track by $index" style="text-align:left;">
+                        	<i class="fa fa-arrow-right" aria-hidden="true"></i> {{error}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+		</div>
+	</div>
+
+</div>

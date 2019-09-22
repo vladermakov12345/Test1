@@ -1,0 +1,31 @@
+<!-- <div class="photos"> -->
+
+<div class="carousel carousel-showmanymoveone slide" id="carousel123">
+    <div class="carousel-inner">
+        <div ng-class="images.indexOf(img) == 0 ? 'item active' : 'item'" ng-repeat="img in images">
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <a href="#">
+                    <img ng-if="img.Id" ng-src="{{img.ImgUrl}}" alt="{{img.alt}}" ng-class="img-responsive" />
+                </a>
+            </div>
+        </div>
+    </div>
+    <a class="left arrr" href="#carousel123" data-slide="prev">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+    </a>
+    <a class="right arrr" href="#carousel123" data-slide="next">
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+<!-- <a
+			ui-sref="articles({title: articlebox.URLSafeTitle})"
+			ng-click="ga('send', 'event', 'home_travelIdeas_links','click','article_{{articlebox.title}}')">
+    		<img
+    			ng-if="articlebox.introimageid"
+    			ng-src="{{articlebox.BASEURL_CONTENT}}/Image/GetImage?assetId={{articlebox.introimageid}}&Size=mini"
+    			alt="" /><br />
+    		<p>{{articlebox.title}}</p>
+		</a> -->
+<!-- </div> -->

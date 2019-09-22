@@ -1,0 +1,22 @@
+	<div
+		ng-show="vm.unrecoverableErrors.length>0"
+		class="flex-col"
+		style="justify-content: center;align-items:center;">
+		<div
+			class="card bg-light m-4"
+			style="width:100%;">
+			<h2 class="card-header">Unexpected Error</h2>
+			<div class="card-body">
+				<!-- <h5 class="card-title">Error </h5> -->
+				<h5 class="card-text" ng-repeat="err in vm.unrecoverableErrors">
+					{{err}}
+				</h5>
+				<h6 class="card-text text-muted">Error id: {{vm.unrecoverableId}}</h6>
+				<!-- <input
+					type="button"
+					class="btn btn-primary"
+					ng-click="window.history.back();"
+					value="Go Back" /> -->
+			</div>
+		</div>
+	</div>

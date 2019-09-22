@@ -1,0 +1,86 @@
+<div style="padding-bottom: 50px;"></div>
+
+<div ng-controller="confirmController as confirm" ng-cloak>
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 col-centered">
+
+            <div style="padding-bottom: 100px;"></div>
+
+            <!-- if: something is off -->
+            <div ng-show="confirm.isSomethingOff()" layout="column" ng-cloak >
+                <h3 class="no-margin-top text-center">Hmm.. something isn't right - we're unable to process your request</h3>
+            </div>
+
+            <div ng-show="!confirm.isSomethingOff() && !confirm.isConfirmed" layout="column" ng-cloak>
+
+                <!-- if: not from email -->
+                <div ng-show="!confirm.hasCodeFromEmail() || !confirm.hasUserIdFromEmail()">
+                    <h2 class="no-margin-top text-center">Almost there...</h2>
+                    <p class="no-margin-top text-center">We're in the business of keeping people honest. Please confirm your account using the the link we've emailed you.</p>
+
+                    <p style="color:maroon;text-align:center;text-decoration:underline;" ng-click="confirm.resend()">Didn't receive - click here to resend.</p>
+                    <div ng-if="confirm.confirmEmailResent">Confirmation email has been resent</div>
+                </div>
+                <!-- end: not from email -->
+
+                <!-- if: from email -->
+                <div ng-show="confirm.hasCodeFromEmail() && confirm.hasUserIdFromEmail()">
+                    <h2 class="no-margin-top text-center">Confirm your account</h2>
+                    <p class="no-margin-top text-center">Enter your password to complete account confirmation.</p>
+
+                    <div layout="column" layout-wrap layout-gt-sm="row">
+
+                        <div flex>
+                            <md-content class="autoScroll " style="overflow: hidden;padding:8px;"
+                            ng-if="confirm.code">
+                                <md-input-container md-no-float class="md-block">
+                                    <label style="color: #003063;font-size:16px">Password:</label>
+                                    <input type="password" name="password"
+                                           ng-model="confirm.pass"
+                                           ng-model-options="{ debounce: 100 }"
+                                           required="required" />
+                                </md-input-container>
+                            </md-content>
+
+                            <!-- begin: submit -->
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                <md-button ng-if="confirm.pass"
+                                           ng-click="confirm.submit()"
+                                           class="md-primary md-raised md-hue-2">Go!</md-button>
+                            </section>
+                            <!-- end: submit -->
+                        </div>
+                    </div>
+                </div>
+                <!-- end: from email -->
+
+                <!-- begin: display validation errors -->
+                <div class="panel panel-danger-dark" ng-show="confirm.errors">
+                    <div class="panel-heading">
+                        <p>Please correct the following:</p>
+                        <ul ng-repeat="error in confirm.errors">
+                            <li  ng-bind-html="error"></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- end: display validation errors -->
+
+                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                    <!--<md-button ng-show="getProviderType().length>0" class="md-primary md-raised md-hue-2" ng-click="confirm.Submit()">Send it!</md-button>-->
+
+                    <md-button ng-show="confirm.shouldShow()"
+                               ng-click="confirm.submit()"
+                               class="md-primary md-raised md-hue-2">Send it!</md-button>
+                </section>
+            </div>
+
+            <!-- begin: account is confirmed! -->
+            <div style="text-align:center" ng-show="confirm.isConfirmed">
+                <h2 class="no-margin-top text-center">Your account is confirmed!</h2>
+                <a class="btn btn-lg btn-success" ui-sref="recommendations.received">Continue to your dashboard...</a>
+            </div>
+            <!-- end: account is confirmed! -->
+        </div>
+    </div>
+</div>
+

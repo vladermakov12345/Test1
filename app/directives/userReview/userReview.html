@@ -1,0 +1,66 @@
+<div class="single_review_element row">
+    <div class="col-md-3">
+        <h4 class="review_text_title lg-hide">Even Regular Room was Great</h4>
+        <div class="review_star_part">
+            <div class="review_star_wrap">
+                <i
+                    ng-repeat="r in [0,1,2,3,4]"
+                    ng-class="review.rating>r?'fa fa-star':'fa fa-star-o'"></i>
+                <!-- <i ng-class="review.rating>1?'fa fa-star':'fa fa-star-o'"></i>
+                <i ng-class="review.rating>2?'fa fa-star':'fa fa-star-o'"></i>
+                <i ng-class="review.rating>3?'fa fa-star':'fa fa-star-o'"></i>
+                <i ng-class="review.rating>4?'fa fa-star':'fa fa-star-o'"></i> -->
+            </div>
+            <p class="date">{{ review.FormattedReviewDate }}</p>
+            <p ng-if="review.PublicName" class="reviewer_name">Written by <span>{{review.PublicName}}</span></p>
+            <div ng-if="review.picture" class="img-wrap sm-hide">
+                <img class="reviwer_img"
+                    xng-show="avatar"
+                    ng-src="{{review.picture}}"
+                    style="border-radius:100%;xmax-height: 2em;"
+                    alt="" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="single_review_text">
+            <div class="single_review_main_text">
+                <h4 class="review_text_title sm-hide">{{review.title}}</h4>
+                <p>{{review.description}}</p>
+                <!-- TODO:
+                    <a class="lg-hide show-more-btn" href="#" title="">Show more</a>
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!--  <div class="review_row" ng-init="userReview.initialize()">
+        <div class="media">
+            <div class="media-left">
+                    
+                        <img class="reviwer_img"
+                            xng-show="avatar"
+                            ng-src="{{avatar}}"
+                            style="border-radius:100%;xmax-height: 2em;">
+                                               
+
+                
+                <div class="reviwer_txt">
+                   {{review.PublicName}}
+                </div>
+            </div>
+            <div class="media-body">
+                <h4 class="clearfix"><strong>"{{review.title}}"</strong>
+                    <span> 
+                        <div class="rating-star" style="display: inline-block;" star-rating rating="userReview.reviewData.rating" read-only="true" max-rating="5">
+                        </div>
+                    </span>
+                </h4>
+                <div>{{review.description}} </div>
+                <span class="date">
+                    {{ review.FormattedReviewDate }}
+                </span>
+            </div>
+        </div>
+    </div> -->

@@ -1,0 +1,28 @@
+<div ng-controller="resetpassController as vm" ng-cloak>
+
+	<div
+		class="background" style="padding:20px 12px;">
+	    <nav class="flex-col" aria-label="breadcrumb" style="border-bottom:1px solid #fff;">
+	      <ol class="breadcrumb breadcrumbs-light">
+	        <li class="breadcrumb-item"><a ui-sref="home">home</a></li>
+	        <li class="breadcrumb-item active" aria-current="page">reset password</li>
+	      </ol>
+	    </nav>
+
+		<div
+			class="flex-col">
+			<h1 class="px30">Reset Password</h1>
+		</div>
+
+		<div
+			class="flex-row"
+			style="justify-content: flex-start;">
+			<p>To reset your password, click the button below and enter the email address you used when registering with this site.</p>
+			<button
+				class="btn btn-default"
+				ng-click="vm.launchResetPassModal()">Click here to reset your password
+			</button>
+		</div>
+	</div>
+
+</div>

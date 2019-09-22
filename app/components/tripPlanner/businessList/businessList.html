@@ -1,0 +1,18 @@
+<div ng-controller="businessListController as vm" ng-cloak>
+
+    <div class="container">
+        <h2 class="pt-3">US Businesses Supporting Accessible Needs</h2>
+        <div>
+            <ul>
+                <li ng-repeat="business in vm.businesses">
+                    <a
+                        ui-sref="businessIndividual({city:business.CityName, type: business.Type, category: business.Category, slug: business.Slug})"
+                        class="p-0"
+                        style="color:#000;">{{business.Name}} ({{business.CityName}})
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>

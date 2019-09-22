@@ -1,0 +1,205 @@
+<!-- Custom Html section for review, coded by gopal -->
+<div class="single_review_element row" ng-init="vm.initialize()">
+    <div class="col-md-3">
+        <div class="review_star_part">
+            <div class="review_star_wrap">
+                <i ng-class="vm.reviewData.rating>0?'fas fa-star':'far fa-star'"></i>
+                <i ng-class="vm.reviewData.rating>1?'fas fa-star':'far fa-star'"></i>
+                <i ng-class="vm.reviewData.rating>2?'fas fa-star':'far fa-star'"></i>
+                <i ng-class="vm.reviewData.rating>3?'fas fa-star':'far fa-star'"></i>
+                <i ng-class="vm.reviewData.rating>4?'fas fa-star':'far fa-star'"></i>
+            </div>
+
+            <!-- {{::vm.getFormattedReviewDate(vm.reviewData.travelDate)}} -->
+
+            <p class="d-none d-sm-block date">{{::vm.reviewData.CreateDateFormatted}}</p>
+            <p class="d-none d-sm-block reviewer_name">Written by <span>{{::vm.reviewData.CustomerPublicName}}</span></p>
+
+            <p class="d-block d-sm-none xreviewer_name">Written by <span>{{::vm.reviewData.CustomerPublicName}}</span>
+                <span class="d-block d-sm-none float-right">{{::vm.reviewData.CreateDateFormatted}}</span>
+            </p>
+
+            <div
+                ng-if="vm.reviewData.tip"
+                class="reviewer_tip">
+                <h4>My Tip for Guests</h4>
+                <p>{{::vm.reviewData.tip}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="single_review_text">
+            <div class="single_review_main_text">
+                <h4 class="review_text_title">"{{::vm.reviewData.title}}"</h4>
+                <p>{{::vm.reviewData.description}}</p>
+            </div>
+
+            <!-- mobile -->
+            <div class="d-block d-sm-none item m-1">
+
+                <div class="">
+                    <div id="review-openfull-{{vm.reviewData.id}}" class="card-collapse collapse">
+                        <div class="item-inner">
+                            <div class="single_review_second_section">
+                                <h4>Hotel's efforts to accommodate people with disabilities:</h4>
+                                <p>{{::vm.reviewData.accomodationEffort}}</p>
+                            </div>
+                            <div
+                                ng-if="vm.reviewData.tip"
+                                class="reviewer_tip">
+                                <h4>My Tip for Guests</h4>
+                                <p>{{::vm.reviewData.tip}}</p>
+                            </div>
+                            <div class="single_review_accessibility_pointers">
+                                <ul>
+                                    <li>
+                                        <i ng-if="vm.reviewData.entranceAndMainAreas===null" class="fa fa-question" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.entranceAndMainAreas===false" class="fa fa-times" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.entranceAndMainAreas===true" class="fa fa-check" aria-hidden="true"></i>
+                                         Main Areas
+                                    </li>
+                                    <li>
+                                        <i ng-if="vm.reviewData.restaurant===null" class="fa fa-question" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.restaurant===false" class="fa fa-times" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.restaurant===true" class="fa fa-check" aria-hidden="true"></i>
+                                         Restaurant
+                                    </li>
+                                    <li>
+                                        <i ng-if="vm.reviewData.room===null" class="fa fa-question" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.room===false" class="fa fa-times" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.room===true" class="fa fa-check" aria-hidden="true"></i>
+                                         Room
+                                    </li>
+                                    <li>
+                                        <i ng-if="vm.reviewData.fitnessCenter===null" class="fa fa-question" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.fitnessCenter===false" class="fa fa-times" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.fitnessCenter===true" class="fa fa-check" aria-hidden="true"></i>
+                                         Fitness Center
+                                    </li>
+                                    <li>
+                                        <i ng-if="vm.reviewData.parking===null" class="fa fa-question" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.parking===false" class="fa fa-times" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.parking===true" class="fa fa-check" aria-hidden="true"></i>
+                                         Parking
+                                    </li>
+                                    <li>
+                                        <i ng-if="vm.reviewData.elevator===null" class="fa fa-question" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.elevator===false" class="fa fa-times" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.elevator===true" class="fa fa-check" aria-hidden="true"></i>
+                                         Elevator
+                                    </li>
+                                    <li>
+                                        <i ng-if="vm.reviewData.pool===null" class="fa fa-question" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.pool===false" class="fa fa-times" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.pool===true" class="fa fa-check" aria-hidden="true"></i>
+                                         Pool
+                                    </li>
+                                    <li>
+                                        <i ng-if="vm.reviewData.businessCenter===null" class="fa fa-question" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.businessCenter===false" class="fa fa-times" aria-hidden="true"></i>
+                                        <i ng-if="vm.reviewData.businessCenter===true" class="fa fa-check" aria-hidden="true"></i>
+                                         Business Center
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-header">
+                        <div class="panel-title">
+                            <button id="button-review-openfull-{{vm.reviewData.id}}" class="d-block d-sm-none toggle-section" type="button" data-toggle="collapse" data-target="#review-openfull-{{vm.reviewData.id}}" ng-init="vm.registerCollapsible('button-review-openfull-'+vm.reviewData.id)" aria-expanded="false">
+                                <i class="fa" aria-hidden="true"></i> <span id="registerCollapsibleText" style="font-size:1em;font-weight:bold;">Open full review</span>
+                                <span class="sr-only">Expand/Collapse Review Details</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <!-- desktop -->
+            <div class="d-none d-sm-block single_review_second_section">
+                <h4>Hotel's efforts to accommodate people with disabilities:</h4>
+                <p>{{::vm.reviewData.accomodationEffort}}</p>
+            </div>
+            <div class="d-none d-sm-block single_review_accessibility_pointers">
+                <ul>
+                    <li>
+                        <i ng-if="vm.reviewData.entranceAndMainAreas===null" class="fa fa-question" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.entranceAndMainAreas===false" class="fa fa-times" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.entranceAndMainAreas===true" class="fa fa-check" aria-hidden="true"></i>
+                         Main Areas
+                    </li>
+                    <li>
+                        <i ng-if="vm.reviewData.restaurant===null" class="fa fa-question" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.restaurant===false" class="fa fa-times" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.restaurant===true" class="fa fa-check" aria-hidden="true"></i>
+                         Restaurant
+                    </li>
+                    <li>
+                        <i ng-if="vm.reviewData.room===null" class="fa fa-question" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.room===false" class="fa fa-times" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.room===true" class="fa fa-check" aria-hidden="true"></i>
+                         Room
+                    </li>
+                    <li>
+                        <i ng-if="vm.reviewData.fitnessCenter===null" class="fa fa-question" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.fitnessCenter===false" class="fa fa-times" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.fitnessCenter===true" class="fa fa-check" aria-hidden="true"></i>
+                         Fitness Center
+                    </li>
+                    <li>
+                        <i ng-if="vm.reviewData.parking===null" class="fa fa-question" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.parking===false" class="fa fa-times" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.parking===true" class="fa fa-check" aria-hidden="true"></i>
+                         Parking
+                    </li>
+                    <li>
+                        <i ng-if="vm.reviewData.elevator===null" class="fa fa-question" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.elevator===false" class="fa fa-times" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.elevator===true" class="fa fa-check" aria-hidden="true"></i>
+                         Elevator
+                    </li>
+                    <li>
+                        <i ng-if="vm.reviewData.pool===null" class="fa fa-question" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.pool===false" class="fa fa-times" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.pool===true" class="fa fa-check" aria-hidden="true"></i>
+                         Pool
+                    </li>
+                    <li>
+                        <i ng-if="vm.reviewData.businessCenter===null" class="fa fa-question" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.businessCenter===false" class="fa fa-times" aria-hidden="true"></i>
+                        <i ng-if="vm.reviewData.businessCenter===true" class="fa fa-check" aria-hidden="true"></i>
+                         Business Center
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- photo section -->
+        <div ng-if="vm.hasPhotos && vm.reviewData.photos.length>0" class="content">
+            <div class="center-title">
+                <span>User Submitted Photos:</span>
+            </div>
+
+            <div
+                style="max-width:40em;xmargin-right:1em;margin-bottom:3em;">
+                <photos-carousel ng-collection="vm.reviewData.photos" nav="top" show-description="true" />
+            </div>
+
+            <!-- <div class="row" style="border-bottom: 1px solid #000;padding:1em;" ng-repeat="f in vm.reviewData.photos">
+                <div class="col-xs-12 col-md-4">
+                    <img ng-src="{{f.url}}" style="max-width: 200px;">
+                </div>
+                <div class="col-xs-12 col-md-8">
+                    <span class="light18">{{f.description}}</span>
+                </div>
+            </div> -->
+        </div>
+
+    </div>
+</div>

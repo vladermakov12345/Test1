@@ -1,0 +1,108 @@
+  #comingsoon-main {
+    background-color: #ffffff;
+    background-image: url('https://accessiblego.azureedge.net/img/background_beach.jpg');
+    background-repeat: round;
+    display: -webkit-box;
+    display: -webkit-flex;
+    /*
+       in ie edge these were a problem:
+       display: -ms-flexbox;
+       display: flex;
+    */
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 0 0 0;
+    padding: 0; 
+    align-items: center;
+    justify-content: center;
+
+      /* mozilla & opera */
+      margin-left: auto;
+      /* mozilla & opera */
+      margin-right: auto;
+      
+    text-align: center; /* needed for ie edge horizontal centering */
+  }
+
+  #comingsoon-main-image {
+    height:30em;
+    z-index:40;
+
+    width: 100%;
+    /* height: auto; */
+  }
+
+  #comingsoon-mainbox {
+    xposition: absolute;
+    top: 6.5em;
+    max-width: 66.438em;	/* 36.5em; is just for left side */
+    z-index:50;
+  }
+  #comingsoon-mainbox-left {
+    background-color: #ffffff;
+    top: 6.5em;
+    width:100%;
+    max-width: 40.9em;	/* 36.5 + 2.2 * 2 = 40.9*/;
+    padding:1.7em 2.750em 1.875em 2.750em;
+    z-index:51;
+    min-height: 26.125em;
+    text-align:left;
+  }
+  
+  #comingsoon-mainbox-email-input {
+    border-radius:0px;
+    font-size: 1em;
+    padding:7px 10px;
+    min-height:50px;
+	  margin-right:15px;
+  }
+  
+  #comingsoon-mainbox-email-button {
+    width:4.875em;
+    border-radius:0px;
+    font-weight:600; /* semibold */
+    font-size: 1.25em;
+    color: #fff;
+    background-color: #299b7c;
+    min-height:50px;
+    border:0px;
+    outline:none;
+	vertical-align:bottom;
+  }
+
+  #comingsoon-mainbox-email-button:focus {
+    border: 1px solid #000000;
+  }
+  
+
+  #comingsoon-mainbox-caption {
+    font-size:2.5em;
+    font-weight: 900;
+  }
+  
+  .comingsoon-mainbox-text {
+    font-size:1.01em;
+	font-weight: 400;
+  }
+  
+  #comingsoon-mainbox-sections {
+    display: flex;
+    justify-content: space-between;
+    height: 4em
+  }
+
+  @media (max-width:767px){
+    #comingsoon-mainbox-left{
+      padding: 15px;
+    }
+  }
+  @media (max-width:500px){
+    input#comingsoon-mainbox-email-input {
+      width: 100% !important;
+      margin: 0 0 15px;
+    }
+    div#comingsoon-mainbox-left .form-group {
+      text-align: center;
+    }
+  }

@@ -1,0 +1,172 @@
+<div ng-controller="byCityController as vm" ng-cloak>
+
+	<city-search-bar></city-search-bar>
+
+	<breadcrumbs crumbs="vm.breadcrumbs"></breadcrumbs>
+
+	<div class="container-fluid">
+		<div class="section background-light-gray">
+			<div class="row">
+				<div class="container">
+					<div class="row heading">
+						<h2>An Easier Way to Travel with Disabilities</h2>
+
+						<ul>
+							<li><!-- <a ui-sref="ideas"> -->Travel Inspiration<!-- </a> --></li>
+							<li>Hotel Accessibility</li>
+							<li><!-- <a ui-sref="tripPlanner({city:'', type: '', category:''})"> -->Resource Directory<!-- </a> --></li>
+							<li>Accessibility Reviews</li>
+							<li><!-- <a ng-click="main.goToForum()"> -->Community Forum<!-- </a> --></li>
+						</ul>
+
+						<div class="green-line"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="container">
+
+					<div class="row text-center">
+
+						<div class="col col-12 col-sm-3 col-md-3 col-lg-3">
+							<div xclass="home-travel-with-disabilities">
+								<button
+									style="height:280px;background-color: #fff;border-radius: 15px;"
+									xclass="keyboard-hover-light"
+									xui-sref="city"
+									tabindex="0">
+									<div class="align-center">
+										<span>
+											<img ng-src="{{vm.env.cdn_static}}/i/header/plan.png" alt="">
+										</span>
+									</div>
+
+									<h3>Plan</h3>
+									<p class="d-block d-sm-none d-md-block" style="padding: 0 .5em;line-height: 1.25;">
+										Accessible travel info & resources for the 30 most visited U.S. cities.
+									</p>
+									<p class="d-sm-block d-md-none" style="padding: 0 .5em">
+										Travel resources for 30 popular U.S. cities.
+									</p>
+								</button>
+							</div>
+						</div>
+
+						<div class="col col-12 col-sm-3 col-md-3 col-lg-3">
+							<div xclass="home-travel-with-disabilities">
+								<button
+									style="height:280px;background-color: #fff;border-radius: 15px;"
+									xclass="keyboard-hover-light" xui-sref="review" tabindex="0">
+									<div class="align-center">
+										<span>
+											<img ng-src="{{vm.env.cdn_static}}/i/icon-review.png" alt="">
+										</span>
+									</div>
+									<h3>Reviews</h3>
+									<p class="d-block d-sm-none d-md-block" style="padding: 0 .5em;line-height: 1.25;">
+										Write accessibility reviews for hotels, attractions and businesses.
+									</p>
+									<p class="d-sm-block d-md-none" style="padding: 0 .5em">
+										Write accessibility reviews.
+									</p>
+								</button>
+							</div>
+
+						</div>
+
+						<div class="col col-12 col-sm-3 col-md-3 col-lg-3">
+							<div xclass="home-travel-with-disabilities">
+								<button
+									style="height:280px;background-color: #fff;border-radius: 15px;"
+									xclass="keyboard-hover-light" xui-sref="hotels" tabindex="0">
+									<div class="align-center">
+										<span>
+											<img ng-src="{{vm.env.cdn_static}}/i/header/reserve.png" alt="">
+										</span>
+									</div>
+									<h3>Reserve</h3>
+									<p class="d-block d-sm-none d-md-block" style="padding: 0 .5em;line-height: 1.25;">
+										Reserve hotels, flights and cars. Save 10-60% on hotels worldwide through clubGO.
+									</p>
+									<p class="d-sm-block d-md-none" style="padding: 0 .5em">
+										Reserve hotels, flights and cars.
+									</p>
+								</button>
+							</div>
+
+						</div>
+
+						<div class="col col-12 col-sm-3 col-md-3 col-lg-3">
+							<div xclass="home-travel-with-disabilities">
+								<button
+									style="height:280px;background-color: #fff;border-radius: 15px;"
+									xclass="keyboard-hover-light" xui-sref="forum-launcher" tabindex="0">
+									<div class="align-center">
+										<span>
+											<img ng-src="{{vm.env.cdn_static}}/i/header/share.png" alt="">
+										</span>
+									</div>
+
+									<h3>Share</h3>
+									<p class="d-block d-sm-none d-md-block" style="padding: 0 .5em;line-height: 1.25;">
+										Ask questions & share ideas on the accessible travel forum.
+									</p>
+									<p class="d-sm-block d-md-none" style="padding: 0 .5em">
+										Share ideas on the accessible travel forum.
+									</p>
+								</button>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+
+
+	<!--
+		<div class="container-fluid">
+			<div class="container">
+				<div style="display:flex;flex-direction: row;flex-wrap:wrap-reverse;justify-content: space-between;">
+					<div style="flex-basis:34%;">
+					</div>
+					<div style="flex-basis:62%;">
+					</div>
+				</div>
+			</div>
+		</div>
+	-->
+
+
+	<!-- booking search bar -->
+	<div class="container-fluid">
+		<div style="padding-top: 100px;">
+			<search-bar></search-bar>
+		</div>
+	</div>
+
+	<!-- section :: cities -->
+	<popular-cities
+		title="Popular Cities"
+		subtitle="Choose a city to see accessible travel information and resources."
+		background-img="true"
+		max-horizontal="4">
+	</popular-cities>
+
+
+	<!-- section :: accessible travel inspiration -->
+	<travel-inspiration-articles
+		title="Accessible Travel Inspiration"
+		subtitle="The latest travel articles from accessibleGO staff and community members."
+		header="true"
+		content="city">
+	</travel-inspiration-articles>
+
+</div>

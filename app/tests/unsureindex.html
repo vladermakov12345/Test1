@@ -1,0 +1,172 @@
+<div style="padding-bottom:50px;"></div>
+
+<div ng-controller="testsController as parent">
+
+    <h1>tests</h1>
+
+    <button class="btn btn-primary" style="font-size: 1em;padding:.25em;" ng-click="main.showLoginModal()">Sign In</button>
+
+
+    ____
+
+    <form name="testForm" novalidate class="form-horizontal" style="" role="form" ng-submit="$event.preventDefault()">
+        <md-button type="submit" class="md-primary md-raised md-hue-2" ng-click="parent.go()">Go ></md-button>
+    </form>
+
+    <div ng-controller="testsSubController as child">
+        Parent: {{parent.bad}} Child: {{child.bad}}
+        <md-button type="submit" class="md-primary md-raised md-hue-2" ng-click="child.setbad()">SET BAD ></md-button>
+        <br>
+
+
+        <!-- Signup/Forgot password Model Start Here -->
+
+        <div class="forgot-pswrdbtn">
+            <div class="">
+                <!-- Trigger the modal with a button -->
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Forgot Password</button>
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupmodal">Sign Up</button>
+                <!-- forgot password Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div>
+                                    <span class="back_arrow">&#8592; </span>
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                </div>
+                                <img
+                                    class="frgotpswrd-logo"
+                                    alt="accessibleGO logo"
+                                    ng-src="{{env.cdn_static}}/i/logo/logo_175_42_trans.png">
+                                <h4 class="modal-title">Forgot your password?</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Please enter your email address and we will send you an email to reset your password.</p>
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label" for="inputEmail3">Email address</label>
+                                        <div class="col-sm-12">
+                                            <input type="email" class="form-control" id="inputEmail3" placeholder="Email" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button type="submit" class="btn sendmail-btn">Send Email</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- signup Modal -->
+        <div class="signup-cont">
+            <div class="modal fade" id="signupmodal" role="dialog" modal="showSignup" close="closeSignup">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <img
+                                class="frgotpswrd-logo"
+                                alt="accessibleGO logo"
+                                ng-src="{{env.cdn_static}}/i/logo/logo_175_42_trans.png">
+                            <h4 class="modal-title text-center">woohoo! Exclusive low rates for members coming in 2018.</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center">Free membership</p>
+                            <div class="text-left">
+                                <i class="fa fa-cloud-download" aria-hidden="true"></i>Download the Accessible Travel Kit</div>
+                            <div class="text-left">
+                                <i class="fa fa-comments" aria-hidden="true"></i>Add comments,reviews and sneak peek content</div>
+                            <div class="text-left">
+                                <i class="fa fa-heart" aria-hidden="true"></i>save your favorite trip resources
+                                <span>(Coming soon!)</span>
+                            </div>
+                            <div class="text-left">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>write your own travel blog
+                                <span>(Coming soon!)</span>
+                            </div>
+                            <div class="row text-left join_form">
+                                <div class="col-sm-6 social_sec">
+                                    <h3>Join now or login</h3>
+                                    <button type="button" class="btn btn-primary fb">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i> Facebook</button>
+                                    <button type="button" class="btn btn-primary gplus">
+                                        <i class="fa fa-google" aria-hidden="true"></i> Google</button>
+                                    <button type="button" class="btn btn-primary join_email">
+                                        <i class="fa fa-envelope-o" aria-hidden="true"></i> Join via Email</button>
+
+                                    <p class="terms_condtion">
+                                        By proceeding you are agree to our
+                                        <a href="#" title="">Privacy Policy </a> and
+                                        <a href="#" title="">Terms of Use</a> .
+                                    </p>
+                                    <div class="or_div">
+                                        <span class="or"> OR </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+
+                                    <div class="login_form">
+                                        <hr/>
+                                        <h3>Login via Email</h3>
+
+                                        <form class="" role="form">
+                                            <div class="form-group">
+                                                <label class="control-label">First Name </label>
+                                                <input type="text" class="form-control" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Email address</label>
+                                                <input type="email" class="form-control" />
+                                            </div>
+                                        </form>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<!-- Signup/Forgot password Model End Here -->
+
+</div>
+<!--
+    <h1 class="secondary-color text-center head-title animated fadeInLeft animation-delay-3">Find the best
+        <div class="text-center animated fadeInDown animation-delay-8">
+            <ul class="bxslider" style="background-color:transparent;">
+                <li style="font-size:50px;height: 60px;width:100%">&nbsp;</li>
+                <li style="font-size:50px;height: 60px;width:100%">a</li>
+                <li style="font-size:50px;height: 60px;width:100%">bbb</li>
+                <li style="font-size:50px;height: 60px;width:100%">ccc</li>
+                <li style="font-size:50px;height: 60px;width:100%">ddd</li>
+                <li style="font-size:50px;height: 60px;width:100%">eee</li>
+                <li style="font-size:50px;height: 60px;width:100%">fff</li>
+                <li style="font-size:50px;height: 60px;width:100%">ggg</li>
+            </ul>
+        </div>
+        <span class=" animated fadeInRight animation-delay-15">through the people you trust</span>
+    </h1>
+    -->
+</div>

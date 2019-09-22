@@ -1,0 +1,524 @@
+<div ng-show="airline_detail.airline == ''? false : true" ng-controller="airlineReviewDetailPageController as airline_detail" ng-cloak class="airline_DetailClass">
+    <div class="heading-wrapper main-wrapper main-rv">
+        <div class="container inner-heading">
+            <div class="page_heading">
+                <div class="h-upper">
+                    <div class="title tittle-h">
+                        <i class="fa fa-plane" aria-hidden="true"></i>accessibleGo
+                        <strong>Airlines</strong>
+                    </div>
+
+                    <div class="h-form">
+                        <form>
+                            <div class="seach-iconn">
+                                <input id="searchBox" type="text" placeholder="Search airline companies" ng-keyup="airline_detail.getSearchValue()">
+                                <button ng-disabled="airline_detail.disable" ng-click="airline_detail.goToMainPage()">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <button ng-click="airline_detail.goToReview()"><i class="fa fa-pencil" aria-hidden="true"></i>Write a review</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="heading-wrapper main-wrapper about-v-sec">
+        <div class="container inner-heading">
+            <div class="row innerow">
+                <div class="col-sm-3">
+                    <div class="airline-log">
+                        <div class="air-log">
+                            <!-- <img class="img-responsive" src=""> -->
+                            <img class="img-responsive" ng-src="{{airline_detail.image_virginAmerica_logo}}" alt="" />
+                        </div>
+                        <span>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                        </span>
+                        <h3>Virgin America</h3>
+                    </div>
+                    <hr>
+                    <div class="rating-log">
+                        <p>Customer Service
+                            <span>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            </span>
+                        </p>
+
+                        <p>Food and Beverages
+                            <span>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            </span>
+                        </p>
+
+                        <p>Cleanliness
+                            <span>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            </span>
+                        </p>
+
+                        <p>Accessibilty
+                            <span>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            </span>
+                        </p>
+
+                        <p>Value for Money
+                            <span>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            </span>
+                        </p>
+                    </div>
+                    <hr>
+
+                    <div class="log-address">
+                        <div class="logad-in">
+                            <div>
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <p>555 Airport Blvd, Burlingame, CA 94010 </p>
+                            </div>
+                        </div>
+
+                        <div class="logad-in">
+                            <div>
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <p>+1-877-359-8474 </p>
+                            </div>
+                        </div>
+
+                        <div class="logad-in">
+                            <div>
+                                <i class="fa fa-globe" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <p>Company Website </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-sm-9">
+                    <div class="log-main">
+                        <div class="log-img">
+                            <div class="toprating">
+                                <h4>
+                                    <span>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </span>
+                                </h4>
+                                <h3>
+                                    <span>1 </span>
+                                </h3>
+                                <h4>Top 5</h4>
+
+                            </div>
+                            <img class="img-responsive" ng-src="{{airline_detail.virgin_logo}}" alt="" />
+                        </div>
+                        <div class="log-text">
+                            <h4>About Virgin America </h4>
+                            <p>California-based virgin America(VX) is a low-cost carrier that flies to more than 20 destinations
+                                within the United states and Mexico.The airline's fleet is configured with two classes of
+                                services:first class and Main cabin(Economy Class).Within the main cabin,passengers can opt
+                                for Main cabin(Economy class).Within the Main Cabin,Passengers can opt for Main Cabin Select
+                                Seats.Thease seats which are located at the bulkheads and exist rows,offer more legroom.Virgin
+                                America operates hubs at San Francisco International Airport(SFO) and Los Angeles International
+                                Airport(LAX).First Class and Main Cabin Select Passengers can purchase passes to the airline's
+                                three Virgin America Clubhouse lounges or the Virgin America Loft at LAX.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="panel-sec">
+        <div class="container inner-heading">
+            <div class="row">
+                <div class="col-sm-3">
+
+                    <h4>Book Accessible Travel</h4>
+                    <div class="access-travel-cntnt autodiv">
+                        <bookbox type="flights" city="New York" />
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h4>Users Reviews</h4>
+                    <div class="media review-sec">
+                        <div class="media-left">
+                            <div class="media-pic">
+                                <img src="img_avatar1.png" class="media-object" style="width:60px">
+                            </div>
+                            <h5>Walter Spencer </h5>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="media-heading">"Wonderful"</h3>
+                            <span class="review-star">
+                                <b>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                </b>
+                                <b>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                </b>
+                                <b>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                </b>
+                                <b>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                </b>
+                                <b>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                </b>
+                            </span>
+                            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                                printer took a galley of type and scrambled it to make a type specimen book. It has survived
+                                not only five centuries</p>
+                            <p class="review-date">11/9/2017</p>
+
+                            <div id="demo1" class="collapse">
+                                <div class="rating-log col-rating">
+                                    <p>Curtomer Service
+                                        <span>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+
+                                    <p>Food and Beverages
+                                        <span>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+
+                                    <p>Cleanliness
+                                        <span>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+
+                                    <p>Accessibilty
+                                        <span>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+
+                                    <p>Value for Money
+                                        <span>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="user-pics">
+                                    <h5>User photos</h5>
+                                    <a>
+                                        <img class="img-responsive" src="">
+                                    </a>
+                                    <a>
+                                        <img class="img-responsive" src="">
+                                    </a>
+                                    <a>
+                                        <img class="img-responsive" src="">
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <div class="collapse-a">
+                                <a data-toggle="collapse" class="collapsed" data-target="#demo1">
+                                    <b>See full review</b>
+                                    <span>Close</span>
+                                    <s>
+                                        <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                    </s>
+                                </a>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="media review-sec">
+                        <div class="media-left">
+                            <div class="media-pic">
+                                <img src="img_avatar1.png" class="media-object" style="width:60px">
+                            </div>
+                            <h5>Walter Spencer </h5>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="media-heading">"Wonderful"</h3>
+                            <span class="review-star">
+                                <b>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                </b>
+                                <b>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                </b>
+                                <b>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                </b>
+                                <b>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                </b>
+                                <b>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                </b>
+                            </span>
+                            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                                printer took a galley of type and scrambled it to make a type specimen book. It has survived
+                                not only five centuries</p>
+                            <p class="review-date">11/9/2017</p>
+
+                            <div id="demo" class="collapse">
+                                <div class="rating-log col-rating">
+                                    <p>Curtomer Service
+                                        <span>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+
+                                    <p>Food and Beverages
+                                        <span>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+
+                                    <p>Cleanliness
+                                        <span>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+
+                                    <p>Accessibilty
+                                        <span>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+
+                                    <p>Value for Money
+                                        <span>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="user-pics">
+                                    <h5>User photos</h5>
+                                    <a>
+                                        <img class="img-responsive" src="">
+                                    </a>
+                                    <a>
+                                        <img class="img-responsive" src="">
+                                    </a>
+                                    <a>
+                                        <img class="img-responsive" src="">
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <div class="collapse-a">
+                                <a data-toggle="collapse" class="collapsed" data-target="#demo">
+                                    <b>See full review</b>
+                                    <span>Close</span>
+                                    <s>
+                                        <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                    </s>
+                                </a>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="col-sm-3">
+
+                    <h4>Articles</h4>
+                    <div class="access-travel-cntnt autodiv">
+                        <articlebox ng-repeat="box in airline_detail.inspiration_boxes" articleid="{{box.Id}}" introimageid="{{box.IntroImage.Id}}"
+                            title ="{{box.Title}}" expanded ="{{airline_detail.expanded}}" text = "{{box.IntroText}}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="slider-sec">
+        <div class="container inner-heading">
+            <h4>User photos</h4>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <photos img="airline_detail.photos"></photos>
+                    <!-- <div class="carousel carousel-showmanymoveone slide" id="carousel123">
+                            <div class="carousel-inner">
+                              <div class="item active">
+                                <div class="col-xs-12 col-sm-6 col-md-3"><a href="#"><img src="http://placehold.it/500/0054A6/fff/&amp;text=1" class="img-responsive"></a></div>
+                              </div>
+                              <div class="item">
+                                <div class="col-xs-12 col-sm-6 col-md-3"><a href="#"><img src="http://placehold.it/500/002d5a/fff/&amp;text=2" class="img-responsive"></a></div>
+                              </div>
+                              <div class="item">
+                                <div class="col-xs-12 col-sm-6 col-md-3"><a href="#"><img src="http://placehold.it/500/d6d6d6/333&amp;text=3" class="img-responsive"></a></div>
+                              </div>          
+                              <div class="item">
+                                <div class="col-xs-12 col-sm-6 col-md-3"><a href="#"><img src="http://placehold.it/500/002040/eeeeee&amp;text=4" class="img-responsive"></a></div>
+                              </div>
+                              <div class="item">
+                                <div class="col-xs-12 col-sm-6 col-md-3"><a href="#"><img src="http://placehold.it/500/0054A6/fff/&amp;text=5" class="img-responsive"></a></div>
+                              </div>
+                              <div class="item">
+                                <div class="col-xs-12 col-sm-6 col-md-3"><a href="#"><img src="http://placehold.it/500/002d5a/fff/&amp;text=6" class="img-responsive"></a></div>
+                              </div>
+                              <div class="item">
+                                <div class="col-xs-12 col-sm-6 col-md-3"><a href="#"><img src="http://placehold.it/500/eeeeee&amp;text=7" class="img-responsive"></a></div>
+                              </div>
+                              <div class="item">
+                                <div class="col-xs-12 col-sm-6 col-md-3"><a href="#"><img src="http://placehold.it/500/40a1ff/002040&amp;text=8" class="img-responsive"></a></div>
+                              </div>
+                            </div>
+                            <a class="left arrr" href="#carousel123" data-slide="prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+                            <a class="right arrr" href="#carousel123" data-slide="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+                          </div> -->
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <div class="fl-art-sec">
+        <div class="container inner-heading">
+            <div class="">
+                <h3>Flight Articles</h3>
+                <div class="" style="display: flex;flex-direction: row; flex-wrap: wrap;">
+                    <articlebox style="margin-right: 1.5em;" ng-repeat="box_bottom in airline_detail.inspiration_boxes_bottom" articleid="{{box_bottom.Id}}" introimageid="{{box_bottom.IntroImage.Id}}"
+                        title="{{box_bottom.Title}}" expanded ="{{airline_detail.expanded}}" text = "{{box_bottom.IntroText}}"/>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="text-center">
+            <button class="load-btn">Load more articles</button>
+        </div>
+
+    </div>
+
+
+</div>
+
+<div ng-show="airline_detail.airline == ''? true : false" ng-controller="airlineReviewDetailPageController as airline_detail" ng-cloak class="airline_DetailClass">
+        <div class="heading-wrapper main-wrapper main-rv">
+            <div class="container inner-heading">
+                <h3>Please specify an airline </h3>
+                <form class="form-drop">
+                    <select>
+                        <option>Virgin Airline</option>
+                        <option>Delta Airline</option>
+                        <option>Alaska Airline</option>
+                        <option>JetBlue Airline</option>`
+                    </select>
+                    <button>Submit</button>
+                </form>
+            </div>
+        </div>
+</div>
+
+
+<!-- <div class="usersp-sec">
+                <div class="container inner-heading">
+                  <div class="col-sm-12">
+                    <h4>Users photos</h4>
+                    <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                  </div>
+                 </div>
+    </div>
+    <div class="flight-articles">
+        <div class="container inner-heading">
+          <div class="col-sm-12">
+            <h4>Flights articles</h4>
+            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+          </div>
+         </div>
+    </div> -->

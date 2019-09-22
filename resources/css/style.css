@@ -1,0 +1,113 @@
+﻿/* BASIC STYLINGS
+============================================================================= */
+
+/* form styling */
+#form-container                { xbackground:#2f2f2f; margin-bottom:20px;   border-radius:5px; }
+#form-container .page-header   { xbackground:whitesmoke; margin:0; xpadding:30px; border-top-left-radius:0px; border-top-right-radius:0px; }
+#form-container .page-options   { xbackground:#252525; margin:0; padding:20px; border-top-left-radius:5px; border-top-right-radius:5px; }
+
+/* numbered buttons */
+#status-buttons                 {  }
+#status-buttons a               { color:#FFF; display:inline-block; font-size:12px; margin-right:10px; text-align:center; text-transform:uppercase; }
+#status-buttons a:hover         { text-decoration:none; }
+#status-buttons span            { background:#080808; display:block; height:30px; margin:0 auto 10px; padding-top:5px; width:30px; 
+    border-radius:50%; }
+
+/* active buttons */
+#status-buttons a.active span   { background:#00BC8C; }
+
+/* ANIMATION STYLINGS
+============================================================================= */
+#signup-form            { position:relative; min-height:300px; overflow:hidden; padding:30px; }
+
+/* basic styling for entering and leaving */
+/* left and right added to ensure full width */
+/*#form-views.ng-enter,*/
+/*#form-views.ng-leave      { position:absolute; left:30px; right:30px;*/
+    /*transition:0.5s all ease; -moz-transition:0.5s all ease; -webkit-transition:0.5s all ease; */
+/*}*/
+
+
+
+/* ANIMATIONS
+============================================================================= */
+/* slide out to the left */
+@keyframes slideOutLeft {
+	to 		{ transform: translateX(-200%); }
+}
+@-moz-keyframes slideOutLeft {
+	to 		{ -moz-transform: translateX(-200%); }
+}
+@-webkit-keyframes slideOutLeft {
+	to 		{ -webkit-transform: translateX(-200%); }
+}
+
+/* slide in from the right */
+@keyframes slideInRight {
+	from 	{ transform:translateX(200%); }
+	to 		{ transform: translateX(0); }
+}
+@-moz-keyframes slideInRight {
+	from 	{ -moz-transform:translateX(200%); }
+	to 		{ -moz-transform: translateX(0); }
+}
+@-webkit-keyframes slideInRight {
+	from 	{ -webkit-transform:translateX(200%); }
+	to 		{ -webkit-transform: translateX(0); }
+}
+
+/* FANCY Selection Model Styles */
+ul.fancy {
+  padding: 0;
+  list-style-type: none;
+}
+
+ul.fancy li {
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+ul.fancy li.selected {
+  color: lavenderblush;
+  background-color: #428BCA;
+}
+
+table.super-fancy td {
+  cursor: pointer;
+}
+
+table.super-fancy tr.foobar {
+  color: blue;
+  /*background-image: url('../img/29.png'), url('../img/53.png'), url('../img/79.png');*/
+}
+
+/* UNCLEAR WHAT USES THIS */
+.selected {
+background-color: lightskyblue;
+}
+.boogaboo {
+background-color: bisque;
+}
+
+
+/* style for splash page */
+.splash_animate-enter, 
+.splash_animate-leave
+{ 
+    -webkit-transition: 625ms cubic-bezier(0.420, 0.000, 1.000, 1.000) all;
+    -moz-transition: 625ms cubic-bezier(0.420, 0.000, 1.000, 1.000) all;
+    -ms-transition: 625ms cubic-bezier(0.420, 0.000, 1.000, 1.000) all;
+    -o-transition: 625ms cubic-bezier(0.420, 0.000, 1.000, 1.000) all;
+    transition: 625ms cubic-bezier(0.420, 0.000, 1.000, 1.000) all;
+} 
+ 
+.splash_animate-enter {
+    top: 100%;
+}
+.splash_animate-enter.s_animate-enter-active {
+    top: 0;
+}
+ 
+.splash_animate-leave {
+    top: 0;
+}

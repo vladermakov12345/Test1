@@ -1,0 +1,20 @@
+<div
+	class="favoriteDirective">
+	<div ng-click="favoriteDirective.toggleData()" ng-class="favoriteDirective.isfavorite?'is':'n'">
+	<i
+			ng-class="favoriteDirective.isfavorite?'fa fa-heart favorite-icon-added':'fa fa-heart-o favorite-icon-open'"
+			data-toggle="tooltip"
+			aria-hidden="true"
+			aria-label="{{favoriteDirective.isfavorite?'Remove '+favoriteDirective.type+' from favorites':'Add '+favoriteDirective.type+' to your favorites'}}"
+			uib-tooltip="{{favoriteDirective.isfavorite?'Remove '+favoriteDirective.type+' from favorites':'Add '+favoriteDirective.type+' to your favorites'}}"
+			tooltip-trigger="mouseenter"
+
+
+			tooltip-placement="bottom"
+
+			tooltip-enable="true"
+			tooltip-animation="true"></i>
+
+
+	</div>
+</div>

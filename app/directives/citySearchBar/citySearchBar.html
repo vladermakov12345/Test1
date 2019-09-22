@@ -1,0 +1,93 @@
+<div class="container-fluid">
+
+    <div class="row" style="background-color: #29807c; padding-top: 40px; padding-bottom: 24px;">
+
+        <div class="container align-self-center text-white">
+
+            <div class="citySearchBarTitle">Where would you like to go?</div>
+
+            <form ng-submit="csb.goToCity()">
+
+                <div class="input-group" style="margin-top:14px;flex-direction: row; flex-wrap: nowrap;justify-content: space-between;">
+
+                        <where-picker
+                            id="destination"
+                            label=""
+                            ng-model="csb.city"
+                            style="flex-basis: 85%;margin-right: 12px;background: url(https://accessiblego.azureedge.net/travel/location-icons.png) no-repeat scroll 5px 5px;padding-left:34px;background-color: #fff;background-size: 24px 30px"
+                            placeholder="Enter a popular U.S. city"
+                            include-hotels="N"
+                            include-cities="Y"
+                            us-only="Y"
+                            xon-change="vm.moveToCheckin"
+                            xng-click="vm.showForm()"/>
+                    <!-- <div class="input-group-prepend">
+                        <span class="input-group-text" id="validationTooltipUsernamePrepend"><img src="https://accessiblego.azureedge.net/travel/location-icons.png" aria-hidden="true" /></span>
+                    </div> -->
+                    
+ 
+
+<!--                    <input
+                            type="text"
+                            name="searchInput"
+                            class="form-control form-control-lg accessible-input-on-white"
+                            ng-model="csb.searchphrase"
+                            style="margin-right: 12px;background: url(https://accessiblego.azureedge.net/travel/location-icons.png) no-repeat scroll 7px 7px;padding-left:50px;background-color: #fff;"
+                            id="validationTooltipUsername"
+                            placeholder="Enter the U.S. city you want to explore"
+                            aria-label="Search U.S. cities"
+                            aria-describedby="validationTooltipUsernamePrepend"
+                            required="" /> -->
+                        <span class="input-group-btn" style="xflex-basis: 10%;">
+                            <button
+                                type="submit"
+                                class="d-none d-sm-block text-white accessible-button-solid-dark"
+                                style="width: 209px;height:100%;border: solid 1.9px #ffffff;padding:0 8px;font-size: 1.250em;"
+                                ng-disabled="!csb.city"
+                                xng-click="csb.goToCity()"
+                                >SEARCH
+                            </button>
+                            <button
+                                type="submit"
+                                class="d-xs-block d-sm-none text-white accessible-button-solid-dark"
+                                style="height:100%;border: solid 1.9px #ffffff;padding:0 8px;"
+                                ng-disabled="!csb.city"
+                                xng-click="csb.goToCity()"
+                                ><i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </span>
+                    
+                </div>
+            </form>
+
+
+
+            <div class="xdropdown find_city">
+
+                    <span style="font-weight: bold;">TIP</span>: Articles & resources available for the
+                    <button
+                        uib-popover-template="'myPopoverTemplate.html'"
+                        popover-trigger="'outsideClick'"
+                        popover-placement="auto"
+                        popover-is-open="isOpen"
+                        class="text-white accessible-button-solid-dark">
+                        top U.S. cities
+                    </button> and surrounding areas
+
+                    <script type="text/ng-template" id="myPopoverTemplate.html">
+                    <div class="citySearchBarPopover" aria-labelledby="dropdownMenuButton">
+                        <div id="citySearchBarPopover">
+                            <button type="button" id="citySearchBarPopover-close" class="float-right" ng-click="closeCitySearchTipPopover()"><i class="fa fa-times-circle"></i></button>
+                            <p><b>Top 30 U.S. Cites Covered So Far</b></p>
+                            <p>Atlanta, Austin, Boston, Charleston, Charlotte, Chicago, Dallas, Denver, Detroit, Honolulu, Houston, Indianapolis, Las Vegas, Los Angeles, Maui, Miami, Nashville, New Orleans, New York City, Orlando, Philadelphia, Phoenix, Pittsburgh, Portland, San Antonio, San Diego, San Francisco, Seattle, Tampa, Washington DC</p>
+                            <button class="btn btn-default" style="background-color: #eee;color: #000;font-weight: 600;width: 100%;font-size: 1.25em;text-decoration: none;" type="button" ng-click="closeCitySearchTipPopover(); main.goVoteInTheForum()">Vote for New Cities</button>
+                        </div>
+                    </div>
+                    </script>
+                </div>
+
+        </div>
+
+    </div>
+
+</div>

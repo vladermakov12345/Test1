@@ -1,0 +1,48 @@
+button {
+  padding:0;
+  margin:0;
+  background: none;
+  border: none;
+
+  &:focus {
+    outline:0;
+  }
+
+  &.button-big {
+    display: inline-block;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 50px;
+    padding: 0px 40px;
+  }
+
+  &.button-white {
+    background: @background-white;
+  }
+
+  &.button-green {
+    background: @background-green;
+
+    &:hover {
+      background: darken(@background-green, 5%);
+    }
+
+  }
+
+  &.text-uppercase {
+    text-transform: uppercase;
+  }
+
+}
+
+a {
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline:0;
+  }
+
+}

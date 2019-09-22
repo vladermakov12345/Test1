@@ -1,0 +1,269 @@
+<div ng-controller="searchResultController as ctrl" ng-cloak>
+    <div class="wrapper-common wrapper-common-width wrapper-row page-top">
+
+        <!-- case :: no search string exists -->
+        <div ng-if="!ctrl.searchTextExists" class="container">
+            <div class="result-title row">
+                <div class="col-md-12">
+                    <span class="search-title">Search</span>
+                </div>
+                <div class="col-md-12 search-box">
+                    <input type="text" ng-model="ctrl.searchText" class="form-control" ng-model="ctrl.searchText" ng-keypress="ctrl.handleKeyPress($event)" placeholder="Search for articles, businesses, and hotels">
+                    <a href ng-click="ctrl.reloadState()">
+                        <span class="d-none d-xs-block d-sm-none">
+                            <i class="fa fa-search search" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- case :: search string exists -->
+        <div ng-if="ctrl.searchTextExists===true" class="container">
+            <div class="result-title row">
+                <div class="col-md-6">
+                    <span class="search-title">Search results for </span>
+                    <span>"{{::ctrl.searchText }}"</span>
+                </div>
+                <div class="col-md-3 col-md-offset-3 search-box">
+                    <input type="text" ng-model="ctrl.searchText" class="form-control" ng-model="ctrl.searchText" ng-keypress="ctrl.handleKeyPress($event)" placeholder="Search for articles, businesses, and hotels">
+                    <a href ng-click="ctrl.reloadState()">
+                        <span class="d-none d-xs-block d-sm-none">
+                            <i class="fa fa-search search" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- no results -->
+            <div class="result-title row" ng-if="ctrl.results.length===0">
+                <div style="padding:0 .75em;">
+                    <h3>No results found</h3>
+                </div>
+            </div>
+
+        </div>
+
+        <div ng-if="ctrl.results.length>0" class="search-sections">
+            <ul>
+                <li><a href="#anchor_articles">Articles</a></li>
+                <li><a href="#anchor_directory">Directory</a></li>
+                <li><a href="#anchor_hotels">Hotels</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div ng-if="ctrl.searchTextExists===true && ctrl.results.length>0" class="page-content">
+
+        <!--<div class="wrapper-base" style="background-color:#3b4046;">
+            <div class="wrapper-common wrapper-common-width wrapper-column">
+                <div style="margin-bottom:1.82em;">
+				<span style="font-size:1.5em;">
+					<span style="font-weight:600;color:#ffffff;">Cities ({{ctrl.cityBoxes.length}})</span>
+				</span>
+                </div>
+                <div style="display: flex;flex-direction: row;flex-wrap:wrap;">
+                    <citybox style="margin-right:1.5em;"
+                            ng-repeat="city in ctrl.cityBoxes"
+                            cityid="{{city.Id}}" cityname="{{city.Name}}"
+                            color="{{ctrl.getCityBoxColor($index)}}"
+                            ng-show="ctrl.isInCityBoxesToShow($index)" />
+                </div>
+                <div style="align-self: center;margin-top:2.182em;">
+                    <input href="#"
+                           type="image"
+                           src="/web/public/resources/arrow_white_left.png"
+                           ng-click="ctrl.shiftCityBoxesLeft()"
+                           aria-label="navigate to previous image"
+                           alt="previous" />
+                    <span style="padding: 0 2em;color:#fff;">
+					{{ctrl.cityBoxesToShow[0]+1}}-{{ctrl.cityBoxesToShow[3]+1}} of {{ctrl.cityBoxes.length}}
+				</span>
+                    <input href="#"
+                           type="image"
+                           src="/web/public/resources/arrow_white_right.png"
+                           ng-click="ctrl.shiftCityBoxesRight()"
+                           aria-label="navigate to next image"
+                           alt="next" />
+                </div>
+            </div>
+        </div>-->
+
+        <div id="anchor_articles" style="padding-top:3em;"></div>
+        <article-carousel search-string="{{ctrl.searchText}}" />
+
+        <div id="anchor_directory" style="padding-top:3em;"></div>
+        <div class="wrapper-common wrapper-common-width wrapper-row" ng-if="ctrl.directories && ctrl.directories.length">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-heading">
+                        <span>Directory ({{ctrl.directories && ctrl.directories.length || 0}})</span>
+                    </div>
+
+                    <uib-tabset active="activeJustified" justified="true">
+                        <uib-tab
+                            index="0"
+                            ng-if="ctrl.attractions && ctrl.attractions.length>0"
+                            class="directory-item">
+                            <uib-tab-heading
+                                class="semibold16" style="color:#337ab7;">
+                                Attractions ({{ctrl.attractions.length}})
+                            </uib-tab-heading>
+
+                            <div class="attractions-item">
+                                <business-listing businesslist="{{ctrl.attractions}}" City="All" filter="Priority,IsNational,Name" ></business-listing>
+                            </div>
+
+                        </uib-tab>
+
+                        <uib-tab
+                            index="1 "
+                            ng-if="ctrl.itineraries && ctrl.itineraries.length>0 ">
+                            <uib-tab-heading
+                                class="semibold16 " style="color:#337ab7;">
+                                Itineraries ({{ctrl.itineraries.length}})
+                            </uib-tab-heading>
+
+                            <div class="attractions-item">
+                                <business-listing businesslist="{{ctrl.itineraries}}" City="All" filter="Priority,IsNational,Name" ></business-listing>
+                            </div>
+                        </uib-tab>
+
+                        <uib-tab index="2" ng-if="ctrl.caregivers && ctrl.caregivers.length>0">
+                            <uib-tab-heading class="semibold16" style="color:#337ab7;">
+                                Caregivers ({{ctrl.caregivers.length}})
+                            </uib-tab-heading>
+                            <div class="attractions-item">
+                                <business-listing businesslist="{{ctrl.caregivers}}" City="All" filter="Priority,IsNational,Name" ></business-listing>
+                            </div>
+                        </uib-tab>
+
+                        <uib-tab
+                            index="3 "
+                            ng-if="ctrl.transportation && ctrl.transportation.length>0 ">
+                            <uib-tab-heading
+                                class="semibold16 " style="color:#337ab7;">
+                                Transportation ({{ctrl.transportation.length}})
+                            </uib-tab-heading>
+
+                            <div class="attractions-item">
+                                <business-listing businesslist="{{ctrl.transportation}}" City="All" filter="Priority,IsNational,Name" ></business-listing>
+                            </div>
+                        </uib-tab>
+
+                        <uib-tab index="4" ng-if="ctrl.tourCompanies && ctrl.tourCompanies.length>0">
+                            <uib-tab-heading class="semibold16" style="color:#337ab7;">
+                                Tour Companies ({{ctrl.tourCompanies.length}})
+                            </uib-tab-heading>
+                            <div class="attractions-item">
+                                <business-listing businesslist="{{ctrl.tourCompanies}}" City="All" filter="Priority,IsNational,Name" ></business-listing>
+                            </div>
+                        </uib-tab>
+<!--                         <uib-tab index="4" ng-if="ctrl.tourCompanies && ctrl.tourCompanies.length">
+                            <uib-tab-heading class="semibold16" style="color:#337ab7;">
+                                Tour Companies ({{ctrl.tourCompanies.length}})
+                            </uib-tab-heading>
+                            <div class="attractions-item">
+                                <business-listing businesslist="{{ctrl.tourCompanies}}" City="All" filter="Priority,IsNational,Name" ></business-listing>
+                            </div>
+                        </uib-tab>
+ -->
+                        <uib-tab
+                            index="5 "
+                            ng-if="ctrl.equipmentRental && ctrl.equipmentRental.length>0 ">
+                            <uib-tab-heading
+                                class="semibold16 " style="color:#337ab7;">
+                                Equipment Rental ({{ctrl.equipmentRental.length}})
+                            </uib-tab-heading>
+                            <div class="attractions-item">
+                                <business-listing businesslist="{{ctrl.equipmentRental}}" City="All" filter="Priority,IsNational,Name" ></business-listing>
+                            </div>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+
+        </div>
+
+        <!--start results for hotel,city and airport -->
+
+        <div id="anchor_hotels" style="padding-top:3em;"></div>
+        <div class="wrapper-common wrapper-common-width wrapper-row">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-heading">
+                        <span>Hotels </span>
+                    </div>
+
+                    <uib-tabset active="activeJustified" justified="true">
+                        <uib-tab index="0" ng-if="ctrl.hotelResults && ctrl.hotelResults.length" class="directory-item">
+                            <uib-tab-heading class="semibold16" style="color:#337ab7;">
+                                Hotels ({{ctrl.hotelResults.length}})
+                            </uib-tab-heading>
+
+                            <div class="attractions-item" ng-repeat="hotel in ctrl.hotelResults | limitTo: 10">
+<!--                                 <div class="row">
+                                    <div class="col-sm-12 attraction-detail"> -->
+                                        <div class="attraction-title">
+                                            <a ng-click="ctrl.viewHotel(hotel)">{{hotel.h}}</a>
+                                        </div>  
+                                        <div class="attraction-description">
+                                            {{hotel.c}}, {{hotel.s}}, {{hotel.o}}
+                                        </div>
+
+<!--                                     </div>
+                                </div> -->
+                            </div>
+                        </uib-tab>
+
+                        <uib-tab index="1" ng-if="ctrl.airResults && ctrl.airResults.length">
+                            <uib-tab-heading class="semibold16" style="color:#337ab7;">
+                                Airports({{ctrl.airResults.length}})
+                            </uib-tab-heading>
+                            <div class="attractions-item" ng-repeat="air in ctrl.airResults | limitTo: 10">
+                                <div class="row">
+                                    <div class="col-sm-12 attraction-detail">
+                                        <div class="attraction-title">
+                                            <a ng-click="ctrl.viewAirport(air)">{{air.a}}</a>
+                                        </div>
+                                        <div class="attraction-description">
+                                            {{air.s}}, {{air.o}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+
+                        <uib-tab index="2" ng-if="ctrl.cityResults && ctrl.cityResults.length">
+                            <uib-tab-heading class="semibold16" style="color:#337ab7;">
+                                Cities ({{ctrl.cityResults.length}})
+                            </uib-tab-heading>
+                            <div class="attractions-item" ng-repeat="city in ctrl.cityResults | limitTo: 10">
+                                <div class="row">
+                                    <div class="col-sm-12 attraction-detail">
+                                        <div class="attraction-title">
+                                            <a ng-click="ctrl.viewCity(city)">{{city.c}}</a>
+
+                                        </div>
+                                        <div class="attraction-description">
+                                            {{city.s}}, {{city.o}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+
+                    
+
+                    </uib-tabset>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- end results for hotel,city and airport -->
+    </div>
+
+</div>

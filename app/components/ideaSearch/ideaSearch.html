@@ -1,0 +1,139 @@
+<div ng-controller="ideaSearchController as ideaSearch" ng-cloak>
+
+	<travel-idea-search-bar></travel-idea-search-bar>
+
+	<breadcrumbs crumbs="ideaSearch.breadcrumbs"></breadcrumbs>
+
+	<div class="wrapper-base hotels-page" style="background-color:#fff;padding-bottom:0px;">
+
+		<nav class="flex-col" aria-label="breadcrumb">
+		  <ol class="breadcrumb breadcrumbs-light">
+		    <li class="breadcrumb-item"><a ui-sref="home">home</a></li>
+		    <li class="breadcrumb-item"><a ui-sref="ideas">Travel Ideas</a></li>
+		    <li class="breadcrumb-item active" aria-current="page">search</li>
+		  </ol>
+		</nav>
+
+        <!-- <div class="heading-wrapper">
+            <div class="container inner-heading">
+                <div class="page_heading" style="margin:0px;">
+                    <div class="title d-none d-sm-flex" style="align-items: center;">
+                        <i class="fa fa-ship" aria-hidden="true"></i> accessibleGO <strong>Cruises</strong>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+  	</div>
+
+
+	<!-- white search bar: begin -->
+	<div class="wrapper-base" style="background-color:#fff;min-height: 6.625em;">
+		<div class="wrapper-common wrapper-common-width wrapper-row" style="justify-content: space-between;">
+			<div>
+				<!-- breadcrubms:begin -->
+				<!-- <div class="articles-main-breadcrumbs">
+					<a ui-sref="home">Home</a> > <a ui-sref="ideas">Travel Ideas</a> > Search Results
+				</div> -->
+				<!-- breadcrubms:end -->
+
+				<div>
+					<span style="font-size:1.875em;">
+						<span style="font-weight:600;">Travel Ideas</span> <span style="font-weight:400;display:inline-flex;">Search results for {{ideaSearch.search_phrase.replace('_',' ')}} ({{ideaSearch.results.length}})</span>
+						 <!-- <span style="font-weight:400;"">Accessible Possibilities</span> -->
+					</span>
+				</div>
+			</div>
+			<div style="vertical-align: center;align-self: flex-end;">
+				<idea-search-box id="ideaSearch-search-box" />
+			</div>
+		</div>
+	</div>
+	<!-- white search bar: end -->
+
+	<!-- grey search bar: begin -->
+	<div style="background-color:#d8d8d8;padding-top:1.25em;
+	">
+		<div class="wrapper-common wrapper-common-width wrapper-row" style="justify-content: flex-end;flex-wrap:wrap;">
+			<div style="margin-right:1em;">
+				<img
+					data-ng-show="ideaSearch.viewtype ==='box'"
+					class="selectedViewtype"
+					src="/web/public/resources/menu_green.png"
+					alt="box view" />
+				<input
+					data-ng-show="ideaSearch.viewtype!=='box'"
+					type="image"
+					src="/web/public/resources/menu_black.png"
+					data-ng-click="ideaSearch.setViewtype('box')"
+					class="notSelectedViewtype"
+					alt="set to box view" />
+			</div>
+			<div style="">
+				<img
+					data-ng-show="ideaSearch.viewtype==='list'"
+					class="selectedViewtype"
+					src="/web/public/resources/list_green.png"
+					alt="list view" />
+				<input
+					data-ng-show="ideaSearch.viewtype!=='list'"
+					type="image"
+					src="/web/public/resources/list_black.png"
+					data-ng-click="ideaSearch.setViewtype('list')"
+					class="notSelectedViewtype"
+					alt="set to list view" />
+			</div>
+		</div>
+	</div>
+	<!-- grey search bar: end -->
+	
+	<!-- results: begin -->
+	<div class="articles-main" style="background-color:#d8d8d8;">
+
+		<div class="wrapper-common wrapper-common-width">
+			<div class="" ng-if="ideaSearch.viewtype==='list'" class="articles-main-flex" style="padding:2em 0em;">
+				<div
+					ng-repeat="result in ideaSearch.results"
+					style="background-color:#ffffff;display:flex; flex-direction: row;justify-content: flex-start;align-items:center;align-content:flex-start;margin-bottom: 1.5em;display:-webkit-flex; margin-left: auto; margin-right: auto;flex-wrap: wrap;">
+					<div
+						ng-if="ideaSearch.results[0].IntroImage"
+						style="width:16.667em;min-width:16.667em;">
+						<img
+							ng-src="{{ideaSearch.getImage(result.IntroImage)}}"
+							style="width:16.667em;min-width:16.667em;height:10.778em;border:0px;"
+							alt="" />
+					</div>
+					<div style="padding:1.688em 1em 0 1em;flex-basis:44em;">
+						<span style="font-weight: 600;font-size:1.5em;"><a style="color:#27799f;" ui-sref="articles({title:result.URLSafeTitle})">{{result.Title}}</a></span>
+						<div style="margin-top:.75em;"></div>
+						<span style="font-weight: 400;" class="paragraphOverride" ng-bind-html="ideaSearch.getPreview(result.IntroText)"></span>
+					</div>
+				</div>
+			</div>
+
+			<!-- box view -->
+			<div ng-if="ideaSearch.viewtype==='box'" class="articles-main-flex" style="padding:2em 0em;">
+				<articlebox
+					ng-repeat="box in ideaSearch.results"
+					articleid="{{box.Id}}" introimageid="{{box.IntroImage.Id}}" title="{{box.Title}}" urlsafetitle="{{box.URLSafeTitle}}"
+					/>
+
+				<!-- <div
+					ng-repeat="result in "
+					style="background-color:#ffffff;display:flex; flex-direction: row;justify-content: space-between;width:100%;margin-bottom: 1.5em;">
+					<div ng-if="ideaSearch.results[0].IntroImage">
+						<img
+							ng-src="{{ideaSearch.getImage(result.IntroImage)}}"
+							style="width:16.667em;height:10.778em;border:0px;" /><br />
+					</div>
+					<div style="padding:1.688em 1em 0 1em;">
+						<span style="font-weight: 600;font-size:1.5em;"><a ui-sref="articles({aid:result.Id})">{{result.Title}}</a></span>
+						<div style="margin-top:.75em;"></div>
+						<span style="font-weight: 400;" class="paragraphOverride" ng-bind-html="result.IntroText"></span>
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<!-- results: end -->
+
+</div>

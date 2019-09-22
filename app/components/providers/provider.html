@@ -1,0 +1,224 @@
+<!-- we should not need this 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+-->
+
+<div ng-controller="providerController as vm" ng-cloak class="cityMain">
+
+	<city-search-bar></city-search-bar>
+
+	<breadcrumbs crumbs="vm.breadcrumbs"></breadcrumbs>
+
+	<one-moment-please is-page-ready="vm.isPageReady===true"></one-moment-please>
+
+	<div class="container-fluid bg-gray">
+		<div class="row">
+			<div class="container">
+				<div class="back-to-page">
+					<a ui-sref="city({name: vm.provider.city.name, state: vm.provider.city.state, country: vm.provider.city.country })"><span class="fa fa-arrow-left"></span><p>back to results for {{vm.provider.city.name}}</p></a>
+				</div>
+				<div class="single_review_wrapper row">
+					<div class="single_review_inner_wrap">
+						<div class="reviewer_head">
+							<div class="float-right"><favorite-directive type="business" referenceid="{{vm.provider.directoryId}}"></favorite-directive></div>
+							<h4>{{vm.provider.name}}</h4>
+
+							<div class="write_review">
+								<div class="btn-wrap sm-hide">
+									<a ui-sref="reviewEntry({id:vm.provider.directoryId})" id="goToReview}">Write a Review</a>
+								</div>
+
+								<!-- stars :: has review data -->
+								<div ng-if="vm.reviews.hasData()" class="review_star_part single_review_element lg-hide">
+									<div class="review_star_wrap">
+										<i
+						                    ng-repeat="r in [0,1,2,3,4]"
+						                    ng-class="vm.averageRatings>r?'fa fa-star':'fa fa-star-o'"></i>
+										<span xclass="review_count">({{vm.averageRatings}})</span>
+									</div>
+								</div>
+							</div>
+							<!-- stars :: has no review data -->
+							<div class="d-block d-sm-none" ng-if="!vm.reviews.hasData()">
+								<span style="font-style: italic;">No reviews yet</span>
+							</div>
+						</div>
+						<div class="single_review_element row">
+							<div class="col-md-8 pull-right">
+								<div class="reviewer_content">
+									<h4>About</h4>
+
+									<!-- mobile -->
+									<span class="d-block d-sm-none paragraph_limit" ng-init="showTheParagraph=false" ng-class="{paragraph_show: showTheParagraph}">
+									    <p>{{vm.provider.description}}</p>
+									</span>
+									<!-- <span ng-show="showTheParagraph===false" class="d-block d-sm-none">...</span> -->
+									<button ng-show="showTheParagraph===false" class="d-block d-sm-none xlg-hide show-more-btn" ng-click="showTheParagraph = true">Show more</button>
+
+									<!-- tablet/desktop -->
+									<div class="d-none d-sm-block">
+									    <p>{{vm.provider.description}}</p>
+									</div>
+									
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="review_star_part">
+									<div ng-if="vm.reviews.data.length>0" class="review_star_wrap sm-hide">
+										<i
+						                    ng-repeat="r in [0,1,2,3,4]"
+						                    ng-class="vm.averageRatings>r?'fa fa-star':'fa fa-star-o'"></i>
+										<span class="review_count">({{vm.averageRatings}})</span>
+									</div>
+									<div class="reviewer_detail">
+										<ul>
+											<li ng-if="vm.provider.address">
+												<i class="fa fa-map-marker" aria-hidden="true"></i>
+												<address>{{vm.provider.address}}</address>
+											</li>
+											<li ng-if="vm.provider.phone">
+												<i class="fa fa-phone" aria-hidden="true"></i>
+												<p>{{vm.provider.phone}}</p>
+											</li>
+											<li ng-if="vm.provider.website">
+												<i class="fa fa-globe" aria-hidden="true"></i>
+												<a id="goToWebsite" href="{{vm.provider.website}}" target="_newWindow_{{vm.provider.slug}}">Go to website</a>
+											</li>
+											<li ng-if="vm.provider.directoryId">
+												<i class="fa fa-pencil" aria-hidden="true"></i>
+												<a ui-sref="reviewEntry({id:vm.provider.directoryId})" id="goToReview}">Write a Review</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+
+
+				<div class="costomer_reviews_wrapper">
+					<h3>Customer Reviews</h3>
+					<div class="costomer_reviews_wrapper_inner">
+
+						<!-- loading -->
+						<one-moment-please is-page-ready="!vm.reviews.isLoading"></one-moment-please>
+
+						<!-- error -->
+						<div ng-if="!vm.reviews.isLoading && vm.reviews.error">
+							<h3>{{vm.reviews.error}}</h3>
+						</div>
+
+						<!-- no reviews found -->
+						<div
+							ng-if="!vm.reviews.isLoading && !vm.reviews.error && !vm.reviews.hasData()"
+							style="padding:15px;">
+							<h3>No reviews yet</h3>
+							<h4>
+								<i class="fa fa-pencil" aria-hidden="true"></i>
+								<a ui-sref="reviewEntry({id:vm.provider.directoryId})" id="goToReview" style="color:#29807c;">Be the first to write a review!</a>
+							</h4>
+						</div>
+
+						<!-- reviews found -->
+						<div ng-if="!vm.reviews.isLoading && !vm.reviews.error && vm.reviews.hasData()" ng-repeat="review in vm.reviews.data track by $index">
+						    <user-review review="{{ review }}" reviewtype="d" />
+						</div>
+<!-- 						<div class="single_review_element row">
+							<div class="col-md-3">
+								<h4 class="review_text_title lg-hide">Even Regular Room was Great</h4>
+								<div class="review_star_part">
+									<div class="review_star_wrap">
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+									</div>
+									<p class="date">January 1, 2019</p>
+									<p class="reviewer_name">Written by <span>John Doe</span></p>
+									<div class="img-wrap sm-hide">
+										<img src="http://geek-tasks.com/dev/reviewer-image1.png" alt="">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-9">
+								<div class="single_review_text">
+									<div class="single_review_main_text">
+										<h4 class="review_text_title sm-hide">Even Regular Room was Great</h4>
+										<p>We Stayed at this hotel in a regular room because i didn't have my mobility scooter. The room was huge. Clean very comfortable bed. i can't imagine how big the handicapped assessable would be. i recommended this hotel if you're traveling nearby.</p>
+										<a class="lg-hide show-more-btn" href="#" title="">Show more</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="single_review_element row">
+							<div class="col-md-3">
+								<h4 class="review_text_title lg-hide">Even Regular Room was Great</h4>
+								<div class="review_star_part">
+									<div class="review_star_wrap">
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+									</div>
+									<p class="date">January 1, 2019</p>
+									<p class="reviewer_name">Written by <span>John Doe</span></p>
+									<div class="img-wrap sm-hide">
+										<img src="http://geek-tasks.com/dev/images/reviewer-image2.png" alt="">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-9">
+								<div class="single_review_text">
+									<div class="single_review_main_text">
+										<h4 class="review_text_title sm-hide">Even Regular Room was Great</h4>
+										<p>We Stayed at this hotel in a regular room because i didn't have my mobility scooter. The room was huge. Clean very comfortable bed. i can't imagine how big the handicapped assessable would be. i recommended this hotel if you're traveling nearby.</p>
+										<a class="lg-hide show-more-btn" href="#" title="">Show more</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="single_review_element row">
+							<div class="col-md-3">
+								<h4 class="review_text_title lg-hide">Even Regular Room was Great</h4>
+								<div class="review_star_part">
+									<div class="review_star_wrap">
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+									</div>
+									<p class="date">January 1, 2019</p>
+									<p class="reviewer_name">Written by <span>John Doe</span></p>
+								</div>
+							</div>
+							<div class="col-md-9">
+								<div class="single_review_text">
+									<div class="single_review_main_text">
+										<h4 class="review_text_title sm-hide">Even Regular Room was Great</h4>
+										<p>We Stayed at this hotel in a regular room because i didn't have my mobility scooter. The room was huge. Clean very comfortable bed. i can't imagine how big the handicapped assessable would be. i recommended this hotel if you're traveling nearby.</p>
+										<a class="lg-hide show-more-btn" href="#" title="">Show more</a>
+									</div>
+								</div>
+							</div>
+						</div> -->
+					</div>					
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- GOPAL - put html here  End-->	
+
+	<!-- booking search bar -->
+	<!-- <div class="container-fluid">
+		<div style="padding-top: 100px;">
+			<search-bar></search-bar>
+		</div>
+	</div> -->
+
+</div>

@@ -1,0 +1,370 @@
+<div ng-controller="bookingCarController as booking" id="oReserveCarController" ng-cloak>
+
+	<!-- waiting -->
+	<div ng-if="booking.isValidSearchCriteria === undefined" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+	    <div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">One moment while we look that up...</div>
+	    <i class="fa fa-spinner fa-spin" style="font-size:4em;color:#299b7c;" aria-hidden="true"></i>
+	</div>
+
+
+	<div
+		ng-show="booking.isValidSearchCriteria === false"
+		class="wrapper-base"
+		style="background-color:#bababa;height:18.125em;">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+			<h2>Hmmm... We're unable to lookup your car rental booking:</h2>
+			<div
+				style="color: #000;font-weight:600;text-align: left;">
+				<ul>
+					<li ng-repeat="err in booking.errs" ng-bind-html="err" />
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+	<div
+		id="bookingDetailsSection"
+		ng-show="booking.isValidSearchCriteria"
+		class="wrapper-common wrapper-common-width wrapper-column"
+		style="background-color:#fff;padding:1em;justify-content: flex-start;min-height: 26em;">
+		<h2>Thanks for booking your rental car with accessibleGO!</h2>
+		<p>A copy of your itinerary is shown below. <a href="https://secure.rezserver.com/car_rentals/help/review/?refid=7760" target="lookup_{{booking.details.booking_id}}">Click here</a> to access your complete itinerary details.</p>
+
+		<!-- notice of email -->
+		<span
+			ng-if="booking.concern==='CONFIRM'" class="semibold14">We've sent a confirmation email to: {{booking.details.customer.email }}</span>
+
+		<!-- print -->
+		<div class="light16" style="margin-top:1em;">
+			<a
+				ng-click="booking.print()"
+				class="fa fa-print"
+				aria-hidden="true"
+				alt="print this page">
+				<span style="font-family:'Source Sans Pro', Tahoma, Geneva, sans-serif;"> print this page</span>
+			</a>
+		</div>
+
+		<div class="wrapper-common wrapper-common-width wrapper-row"
+		style="padding:0">
+
+			<!-- RENTAL CAR RESERVATION -->
+			<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					Your Rental Car Reservation
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-row">
+					<table
+						class="table-condensed table-responsive table-hover"
+						style="border:0px solid #ededed;">
+						<tr>
+							<td class="light16" style="vertical-align: top;min-width:18em;">
+								Booking Status:
+							</td>
+							<td class="light16">
+								<span
+									class="semibold18 text-right"
+									ng-bind-html="booking.details.booking_status" />
+								<i class="fa fa-check" style="color:#299b7c;vertical-align:baseline;" class="semibold18" aria-hidden="true"></i>
+								<!-- <img src="/web/public/resources/check_green.png" class="semibold18" alt="" style="vertical-align:baseline;" /> -->
+							</td>
+						</tr>
+						<!-- <tr>
+							<td class="light16">Collision Damage Insurance:</td>
+							<td class="light16" xng-bind-html="booking.details.cdw.activated">Not Purchased</td>
+						</tr> -->
+						<tr>
+							<td class="light16" style="vertical-align: top;min-width:18em;">
+								Special Requests:
+							</td>
+							<td class="light16">
+								<div ng-show="booking.details.equipment_data.length===0">None Requested</div>
+								<div ng-show="booking.details.equipment_data.length>0">
+									<p>Below are your special requests and confirmation of what we were able to reserve.  If any are marked 'NOT Reserved', or you wish to make a change, please follow up with the counter directly (see Customer Service section below).</p>
+									<ul>
+										<li
+											ng-repeat="equipment in booking.details.equipment_data">
+											{{equipment.name}}: 
+											<span ng-if="equipment.booked">Successfully Reserved</span>
+											<span ng-if="!equipment.booked" style="font-weight: 600;">NOT Reserved</span>
+										</li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="light16">accessibleGO Trip #:</td>
+							<td class="light16" ng-bind-html="booking.details.booking_id" />
+						</tr>
+						<tr>
+							<td class="light16">{{booking.details.partner_name}} Confirmation #:</td>
+							<td class="light16" ng-bind-html="booking.details.partner_confirmation_number" />
+						</tr>
+						<tr>
+							<td class="light16">Driver Name:</td>
+							<td class="light16">{{booking.details.driver.first_name}} {{booking.details.driver.last_name}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<!-- IMPORTANT -->
+			<div style="background-color: #29817c;margin:1em;border:1px solid #29817c;width:100%;">
+				<div style="font-size: 1.5em;padding:.125em .75em;color:#fff;">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> Important
+				</div>
+				<div style="background-color: #fff;padding:1em;">
+					<b>accessibleGO Trip #:</b><br />
+					Use when looking up your reservation online, or when calling customer service.<br />
+					<b>{{booking.details.partner_name}} Confirmation #:</b><br />
+					Use when checking into the hotel<br />
+					<b>Cancellation:</b><br />
+					Please review the Cancellation Policy below under "Important Information".<br />
+					<a
+						ng-if="booking.details.actions.cancel"
+						ng-click="booking.openCancelBookingModal()" style="text-decoration: underline;">Click here to cancel your booking</a>
+				</div>
+			</div>
+
+
+			<!-- SUMMARY OF CHARGES -->
+			<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					Summary of Charges
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-row">
+					<table
+						class="table-condensed table-responsive table-striped"
+						style="border:0px solid #ededed;">
+						<tr>
+							<td style="min-width:18em;">&nbsp;</td>
+							<td class="light16" style="text-align: right;">(All prices are in {{booking.details.pricing.display_currency}})</td>
+						</tr>
+						<tr
+							ng-repeat="rate in booking.details.pricing.breakdown_data">
+							<td class="light16">
+								{{ rate.type }} Rate ({{ rate.factor}} x {{ rate.display_price}}):
+							</td>
+							<td class="light16 text-right">
+								<!-- <span ng-if="booking.details.pricing.display_total_strikeout && booking.details.pricing.display_total_strikeout !== '0.00'"
+								 class="text-muted" style="text-decoration: line-through;">{{ booking.details.pricing.display_total_strikeout }}
+								</span> -->
+								{{ rate.total | currency }}
+								<!-- <xa xstyle="text-decoration: underline;" xng-click="reserve.openRatesModal(rate)"> </xa> -->
+							</td>
+						</tr>
+
+
+						<tr
+							ng-if="booking.details.cdw_selected==='true'">
+							<td class="light16">
+								Collision Damage Insurance:
+							</td>
+							<td class="light16 text-right">
+								<span ng-bind="booking.details.cdw.total.all | currency" />
+							</td>
+						</tr>
+
+						<tr>
+							<td class="light16">
+								<a ng-if="booking.details.pricing.taxes_and_fees" ng-click="booking.openTaxesAndFeesModal()" style="text-decoration: underline;">Taxes & Fees</a>:
+							</td>
+							<td class="light16 text-right">
+								<span ng-bind="booking.details.pricing.taxes_and_fees.total | currency" />
+							</td>
+						</tr>
+
+						<tr>
+							<td class="bold18">
+								<span ng-bind="booking.details.pricing.total_label" />
+							</td>
+							<td class="bold18 text-right">
+								<span ng-bind="booking.details.pricing.total | currency" /> <span ng-bind="booking.details.pricing.display_currency" />
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+
+
+			<!-- CAR RESERVATION DETAILS -->
+			<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					Car Reservation Details
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-row">
+					<table
+						class="table-condensed table-responsive table-striped"
+						style="border:0px solid #ededed;">
+						<tr>
+							<td style="min-width:18em;">&nbsp;</td>
+							<td class="light16" style="text-align: left;">
+								<figure>
+									<img ng-src="{{ booking.details.partner_logo }}" alt="{{ booking.details.partner_name }}">
+								</figure>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div style="max-width:150px;border-top: 1px solid #eaeaea;">
+									<figure style="float: left;margin-right: 10px;">
+										<img ng-src="{{ booking.details.car_info.image }}" alt="{{ booking.details.car_info.description }}" style="max-width:134px;"
+										/>
+										<!-- <figcaption style="font-size: 0.7142em;font-family: arial,helvetica,sans-serf;">actual car may vary from the one shown</figcaption> -->
+									</figure>
+								</div>
+							</td>
+							<td class="light16 text-left">
+								<span ng-bind="booking.details.car_info.example" />
+							</td>
+						</tr>
+						<tr>
+							<td class="light16">
+								Rental Partner
+							</td>
+							<td class="light16 text-left">
+								<span ng-bind="booking.details.partner_name" />
+							</td>
+						</tr>
+						<tr>
+							<td class="light16">
+								Car Type
+							</td>
+							<td class="light16 text-left">
+								<span ng-bind="booking.details.car_info.description" />
+							</td>
+						</tr>
+						<tr>
+							<td class="light16">
+								Mileage
+							</td>
+							<td class="light16 text-left">
+								<span ng-bind="booking.details.car_info.mileage" />
+							</td>
+						</tr>
+						<tr>
+							<td class="light16">
+								Pick-up Details
+							</td>
+							<td class="light16 text-left">
+								<span ng-bind="booking.details.pickup_time_text" /><br/>
+								<span ng-bind="booking.details.pickup_name" />, <span ng-bind="booking.details.pickup_address" />, <span ng-bind="booking.details.pickup_city" />, <span ng-bind="booking.details.pickup_state" />, <span ng-bind="booking.details.pickup_zip" />, <span ng-bind="booking.details.pickup_country" /><br/>
+							</td>
+						</tr>
+						<tr ng-if="booking.details.shuttle_text">
+							<td class="light16">
+								Counter/Shuttle Information
+							</td>
+							<td class="light16 text-left">
+								<span ng-bind="booking.details.shuttle_text" />
+							</td>
+						</tr>
+						<tr>
+							<td class="light16">
+								Drop-Off Details
+							</td>
+							<td class="light16 text-left">
+								<span ng-bind="booking.details.dropoff_time_text" /><br/>
+								<span ng-bind="booking.details.dropoff_name" />, <span ng-bind="booking.details.dropoff_address" />, <span ng-bind="booking.details.dropoff_city" />, <span ng-bind="booking.details.dropoff_state" />, <span ng-bind="booking.details.dropoff_zip" />, <span ng-bind="booking.details.dropoff_country" /><br/>
+							</td>
+						</tr>
+						<tr>
+							<td class="light16">
+								Special Requests
+							</td>
+							<td class="light16">
+								<span ng-if="booking.details.equipment_data.length===0">None Requested</span>
+								<div ng-if="booking.details.equipment_data.length>0">
+									<div ng-repeat="equipment in booking.details.equipment_data">{{equipment.name}}</div>
+								</div>
+
+								<!-- <span ng-bind="booking.details.dropoff_time_text" /><br/>
+								<span ng-bind="booking.details.dropoff_name" />, <span ng-bind="booking.details.dropoff_address" />, <span ng-bind="booking.details.dropoff_city" />, <span ng-bind="booking.details.dropoff_state" />, <span ng-bind="booking.details.dropoff_zip" />, <span ng-bind="booking.details.dropoff_country" /><br/> -->
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<!-- CUSTOMER SERVICE -->
+			<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					Customer Service
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-row">
+					<table
+						class="table-condensed table-responsive table-striped"
+						style="border:0px solid #ededed;">
+						<tr>
+							<td class="light16" style="vertical-align: top;min-width:18em;">Rental Car Company:</td>
+							<td class="light16">{{booking.details.partner_name}}</td>
+						</tr>
+						<tr>
+							<td class="light16" style="vertical-align: top;">Phone Number:</td>
+							<td class="light16" ng-bind-html="booking.details.partner_phone" />
+						</tr>
+						<tr>
+							<td class="light16">Confirmation Number:</td>
+							<td class="light16" ng-bind-html="booking.details.partner_confirmation_number" />
+						</tr>
+						<tr>
+							<td class="light16">Customer Service:</td>
+							<td class="light16">If you have any questions or require further assistance please contact our Customer Service at 877-477-7441. Please have your accessibleGO trip # ({{booking.details.booking_id}}) ready when you call.</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<!-- IMPORTANT INFO -->
+			<div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					Important Information
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-row">
+					<div
+						class="wrapper-common wrapper-common-width wrapper-column"
+						style="margin-top:1.125em;">
+						<div ng-repeat="policy in booking.details.important_information">
+							<span class="semibold14">{{policy.title}}</span><br>
+							<p class="light16" ng-bind-html="booking.setSubstitutes(policy.text)"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- RENTAL CAR POLICIES -->
+			<!-- <div style="background-color: #3b3f45;margin:1em;border:1px solid #3b3f45;width:100%;">
+				<h2 style="font-size: 1.5em;padding:.125em .75em;color:#fff;margin:.125em;">
+					Rental Car Policies
+				</h2>
+				<div
+					style="background-color: #fff;padding:1em;"
+					class="wrapper-common wrapper-row">
+					<div
+						class="wrapper-common wrapper-common-width wrapper-column"
+						style="margin-top:1.125em;">
+						<div ng-repeat="policy in booking.details.car_policy_data">
+							<span class="semibold14" ng-bind-html="policy.title" />
+							<span class="light14" ng-bind-html="policy.description"></span>
+						</div>
+					</div>
+				</div>
+			</div> -->
+
+		</div>
+
+	</div>
+
+</div>

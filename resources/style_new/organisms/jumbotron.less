@@ -1,0 +1,116 @@
+
+.main-banner {
+
+    padding:0;
+    //height: 240px;
+    border-radius:0px;
+    display: table;
+    width:100%;
+    background: url("@{cdn}/i/jumbotron/home.jpg") no-repeat center top;
+    background-size: cover;
+
+  @media(min-width:@x-large) {
+      background-size: 100% auto;
+  }
+
+  .banner-wrapper {
+    display: table-cell;
+    vertical-align:middle;
+
+
+    .container {
+      display: table;
+      height:240px;
+      position: relative;
+
+      span {
+        display: table-cell;
+        vertical-align:middle;
+      }
+
+      @media(min-width:@x-small) {
+        height: 300px;
+      }
+
+      @media(min-width:@small) {
+        height: 483px;
+      }
+
+    }
+
+    h1 {
+      text-transform:uppercase;
+      font-weight:900;
+      letter-spacing: -2px;
+
+      @media(max-width:@x-small) {
+      line-height:1;
+      }
+
+      @media(min-width:@x-small) {
+        text-transform: none;
+        font-size: 70px;
+        line-height:.9;
+      }
+
+      @media(min-width:@small) {
+        font-size: 6em;
+      }
+
+      @media(min-width:@x-large) {
+        font-size: 6em;
+      }
+
+
+
+      br {
+
+        @media(min-width:@large) {
+        }
+
+      }
+
+    }
+
+    p {
+      margin-bottom:0px;
+      color:@text-banner-dark;
+      font-size: 1.5em!important;
+      font-weight:600;
+      margin-top: 10px;
+
+      @media(min-width:@small) {
+        display: inline-block;
+        color:@text-white;
+        font-size: 20px;
+        padding: 5px 10px;
+        background: @background-black;
+        opacity: .51;
+        font-weight:400;
+      }
+
+      @media(min-width:@x-large) {
+        font-size: 28px;
+      }
+
+    }
+
+    a.winner-badge {
+      position: absolute;
+      width:160px;
+      right:15px;
+      top:0px;
+
+      img {
+        width:100%;
+      }
+
+      @media(min-width:@large) {
+        right:0px;
+      }
+
+    }
+
+  }
+
+}

@@ -1,0 +1,31 @@
+<div>
+    <div ng-show="vm.showHeader" class="modal-header">
+    	<div class="d-flex" style="justify-content:space-between;width:100%;">
+	        <div style="">
+	        	<h3 class="modal-title semibold24" id="modal-title">{{vm.title}}</h3>
+	        </div>
+	        <div ng-show="vm.closeOnTop==='y'" style="align-self: flex-start;">
+	        	<button class="btn btn-primary" type="button" ng-click="vm.cancel()">close</button>
+	        </div>
+	     </div>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+		<div
+			class="wrapper-common wrapper-column"
+			style="flex-wrap:wrap;justify-content:flex-start;width:100%;padding:1em;">
+			<span ng-bind-html="vm.getAsHtml()"></span>
+			
+<!-- 			<div ng-repeat="paragraph in vm.text">
+				<p
+					ng-bind-html="paragraph"
+					class="col-xs-12 light16"></p>
+			</div> -->
+		</div>
+    </div>
+
+    <div ng-show="vm.showFooter" class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="vm.cancel()">Close</button>
+    </div>
+    
+</div>

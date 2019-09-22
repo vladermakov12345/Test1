@@ -1,0 +1,33 @@
+
+<label id="label_select-persons-{{vm.id}}" class="light16" for="select-person-button-{{vm.id}}">{{vm.label}}</label>
+<div class="person-select-wrapper" id="select-person-dropdown-{{vm.id}}">
+  <div
+    class="btn-group"
+    style="width:100%;border:1px solid #ccc;"
+    uib-dropdown>
+        <button
+          id="select-person-button-{{vm.id}}"
+          name="select-person-button-{{vm.id}}"
+          type="button"
+          class=""
+          aria-labelledby="label_select-persons-{{vm.id}}"
+          style="border:0;width:100%;padding:0px;"
+          uib-dropdown-toggle >
+        	<span class="value" style="margin-right:1em;">{{vm.selectedValue}}</span>
+          <span class="caret"></span>
+          <span class="sr-only">Split button!</span>
+        </button>
+        <ul
+        	class="dropdown-menu m-0 p-0"
+        	uib-dropdown-menu
+          role="menu">
+        	<li 
+            role="menuitem"
+            class="dropdown-item"
+            ng-repeat="entry in vm.options track by entry"
+            ng-click="vm.setNum(entry)">
+            <span style="color:#000;">{{entry}}</span>
+          </li>
+        </ul>
+  </div>
+</div>

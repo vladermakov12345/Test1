@@ -1,0 +1,98 @@
+/* backgrounds */
+.background-dark {
+  background-color: #3b3f45 !important;
+}
+.background-light {
+  background-color: #e4e4e4 !important;
+}
+
+/* top grey areas */
+#articles-search {
+  background-color:#d8d8d8;
+  min-height: 4.5em;
+  padding-top:1.25em;
+}
+#articles-search-flex {
+  display: flex;
+  flex-direction: column;
+  flex-wrap:wrap;
+  align-self: flex-start;
+  justify-content: flex-start;
+  max-width: 60.938em;  /* 975px */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* main content area */
+#articles-main {
+    background-color:#fff;
+    min-height: 30em;
+    padding-top:1.5em;
+    padding-bottom:1.5em;
+  }
+  .articles-main-flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    align-self: flex-start;
+    justify-content: space-between; /* formerly flex-start (if you had reused it outside of article section) */
+    max-width: 60.938em;  /* 975px */
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap:wrap;
+  }
+  #articles-main-col-content {
+    xdisplay: flex;
+    flex-direction: column;
+    flex-wrap:wrap;
+    align-self: flex-start;
+    justify-content: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    width:100%;
+  }
+  .lower-sec {
+    padding: 10px 10px;
+  }
+
+  #city-bookbox {
+    margin-top:1em;
+  }
+
+  /* booking form */
+  .home-booking-form-input {
+    border-radius:0px;
+    font-size: 1em;
+    padding:7px 10px;
+    min-height:50px;
+  }
+
+  /* for paging */
+.defaultInspirationPage {
+  background-color: #fff;
+  border:1px solid #b0b1b1;
+}
+
+.selectedInspirationPage {
+  background-color: #fff;
+  border:1px solid #b0b1b1;
+}
+@media (max-width:991px){
+  div#articles-main {
+    padding: 1.5em 1em;
+}
+}
+  @media (max-width:767px){
+    
+    div#city-bookbox {
+      margin-left: 0 !important;
+      width: 100% !important;
+      padding: 0 15px;
+    }
+
+    /* for paging */
+    button.defaultInspirationPage {
+      margin-left: 0 !important;
+    }
+  }
+

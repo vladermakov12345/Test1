@@ -1,0 +1,389 @@
+<style>
+.bdr_rit:after {
+    content: 'o';
+    font-size: 0px;
+    position: absolute;
+    background: #c3c3c3;
+    top: 0;
+    right: -5%;
+    height: 100%;
+    width: 1px;
+}
+.bdr_rit:before {
+    content: "OR";
+    font-size: 17px;
+    background: #fff;
+    top: 38%;
+    height: auto !important;
+    padding: 10px;
+    right: -10%;
+    z-index: 999;
+    text-transform: uppercase;
+    color: #9e9e9e;
+    position: absolute;
+}
+.upload_sec.text-center {
+    padding: 70px 0;
+}
+
+.tabpane1.tabpane2 {
+    left: 55%;
+    position: relative;
+}
+.tabpane1.tabpane2 .bdr_rit:after, .tabpane1.tabpane2 .bdr_rit:before{
+    display: none;
+}
+</style>
+<div class="text-center login-modal xregister-modal" ng-controller="travelersClubController as vm">
+
+    <div
+        ng-if="::!vm.IsEmbedded()" class="modal-header">
+        <img
+            class="login-modal-logo modal-title"
+            alt="accessibleGO logo"
+            ng-src="{{env.cdn_static}}/i/logo/logo_175_42_trans.png" />
+        <button type="button" class="close" data-dismiss="modal" ng-click="vm.closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+    <div class="modal-body wrapper-common wrapper-common-width wrapper-row" style="padding:0">
+        <div
+            ng-if="vm.showFirstChoice===true"
+            style="width:100%;"
+            class="p-2">
+            <div
+                class="Community_travelClass"
+                style="color:#29807c;font-size:2em;margin-bottom: .75em;">Welcome to the community, <span ng-bind-html="vm.userProfile.given_name" />!</div>
+            <div class="light22">Enroll in <strong>clubGO</strong>, our free traveler's club, and unlock discounts for travelers with disabilities!</div>
+            <div class="travelrsClub_btn" style="margin:.25em;">
+                <input
+                    type="button"
+                    value="Enroll in clubGO"
+                    class="semibold18 p-2"
+                    style="background-color:#29807c;color:#fff;border:0;font-size: 20px;border-radius:10px;"
+                    ng-click="vm.optionGetDiscounts()" />
+                &nbsp;
+                <input
+                    type="button"
+                    value="Maybe later"
+                    class="semibold18 mayBeLater_Class p-2"
+                    style="background-color:#595959;color:#fff;border:0;font-size: 18px;border-radius:10px;"
+                    ng-click="vm.optionMaybeLater()" />
+            </div>
+            <div class="semibold12" style="margin:3em;">
+                <!-- <img 
+                    ng-src="{{vm.cugExample}}"
+                    style="max-width: 100%;"> -->
+            </div>
+        </div>
+
+        <!-- begin: candidate for directive -->
+        <div
+            ng-if="vm.showVerificationOptions===true"
+            style="width:100%;margin-top:1.5em;"
+            class="p-2">
+            <div class="bold24 Community_travelClass" style="color:#29807c;">Welcome to the community, <span ng-bind-html="vm.userProfile.given_name" />!</div>
+            <!-- <br> -->
+            <div class="light22">Enroll in <strong>clubGO</strong>, our free traveler's club, & unlock discounts for travelers with disabilities!</div>
+
+            <!-- <div class="bold24 travelClub_class" style="color:#29807c;">Enroll in clubGO</div> -->
+            <br>
+            <div class="light22">How do you prefer to verify your eligibility?</div>
+            <div class="showVerification_class" style="margin:.25em;">
+                <button
+                    type="button"
+                    class="btn btn-ar btn-primary semibold18 p-2"
+                    style="color:#29807c;padding:.5em;white-space:normal;width:12em;"
+                    ng-style="{'background-color': vm.showVerificationOptionParkingId? '#29807c':'#fff', 'color':vm.showVerificationOptionParkingId?'#fff':'#29807c'}"
+                    ng-click="vm.verifyByParkingPermit()">Verify by Disability Permit</button>
+                &nbsp;
+                <button
+                    type="button"
+                    class="btn btn-ar btn-primary semibold18 p-2"
+                    style="color:#29807c;padding:.5em;white-space:normal;width:12em;"
+                    ng-style="{'background-color': vm.showVerificationOptionOrgMember? '#29807c':'#fff', 'color':vm.showVerificationOptionOrgMember?'#fff':'#29807c'}"
+                    ng-click="vm.verifyByOrganizationMembership()">Verify by Organization Membership</button>
+            </div>
+
+        </div>
+
+        <div
+            ng-if="vm.showVerificationOptionParkingId===true"
+            style="width:100%;margin:1em 0 0 0;padding:.75em;background-color:rgba(41, 128, 124, .25);"
+            class="text-left">
+            <!-- <div class="pull-left emailpullclass"> -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- <div class="light22">Disability Parking Permit Number:</div> -->
+                    <div class="form-group xsignEmail_class">
+                        <form
+                            novalidate
+                            ng-submit="$event.preventDefault();"
+                            name="vm.verifyByParkingPermitForm">
+
+                            <!-- select permit type -->
+                            <div class="form-group">
+                                <label id="select-permit-type" for="selectPermitType" class="semibold22">Which one do you have?</label>
+                                <select
+                                    id="selectPermitType"
+                                    class="form-control form-control-sm"
+                                    xstyle="width:100%;border:1px solid #ccc;"
+                                    ng-model="vm.selectedPermitType"
+                                    ng-options="permitType.title for permitType in vm.permitTypes">
+                                </select>
+                            </div>
+
+                            <!-- enter id -->
+                            <div class="form-group">
+                                <label id="parking-permit-type" for="parkingPermitType" class="semibold22">{{ vm.selectedPermitType.value?'Enter '+vm.selectedPermitType.title : 'Please select a permit type above.' }}</label>
+                                <input
+                                    id="parkingPermitType"
+                                    name="parkingPermitType"
+                                    ng-model="vm.parkingID"
+                                    style="z-index: 1000;"
+                                    class="form-control form-control-sm"
+                                    data-val="true"
+                                    data-val-required="A Parking Permit or License Plate is required."
+                                    maxlength="35"
+                                    autocomplete="permit number"
+                                    type="text"
+                                    ng-disabled="!vm.selectedPermitType.value">
+                                <span class="field-validation-valid text-danger" data-valmsg-for="parkingPermitType" data-valmsg-replace="true"></span>
+                            </div>
+
+                            <!-- country -->
+                            <div class="form-group">
+                                <label id="permit-country" for="country" class="semibold22">Select Country</label>
+                                <country-picker
+                                    id="country"
+                                    class="country-picker"
+                                    placeholder="Type country name"
+                                    countrydata="countries_data"
+                                    autocomplete="country"
+                                    ng-model="vm.country"
+                                    xselection-changed="reserve.countryChanged()"
+                                    ng-disabled="!vm.selectedPermitType.value">
+                                </country-picker>
+                                <!-- <input
+                                    ng-model="vm.country" 
+                                    class="form-control borderClass_Email"
+                                    data-val="true"
+                                    id="country"
+                                    name="country"
+                                    placeholder="Country"
+                                    type="text"
+                                    autocomplete="country-name"> -->
+                                <span class="field-validation-valid text-danger" data-valmsg-for="country" data-valmsg-replace="true"></span>
+                                <br>
+                            </div>
+
+                            <!-- state -->
+                            <div class="form-group" ng-show="vm.country.state_data.length>0">
+                                <label
+                                    id="permit-stateprov"
+                                    for="stateProv"
+                                    class="semibold22">Select State or Province</label>
+                                <country-picker
+                                    id="stateProv"
+                                    placeholder="Enter State/Province Name"
+                                    autocomplete="state"
+                                    countrydata="vm.country.state_data"
+                                    ng-model="vm.stateProv" />
+                                <!-- <input
+                                    ng-model="vm.stateProv"
+                                    class="form-control borderClass_Email"
+                                    data-val="true"
+                                    id="stateProv"
+                                    name="stateProv"
+                                    placeholder="State or Province"
+                                    type="text"
+                                    autocomplete="state-name"> -->
+                                <span class="field-validation-valid text-danger" data-valmsg-for="stateProv" data-valmsg-replace="true"></span>
+                            </div>
+
+                            <!-- owner type -->
+                            <div class="form-group">
+                                <div style="padding:.5em;">
+                                    <label for="ownerType_owner"><input
+                                        id="ownerType_owner"
+                                        name="ownerType"
+                                        ng-model="vm.ownerType"
+                                        data-val="true"
+                                        value="owner"
+                                        type="radio">
+                                    I am the owner of this permit or license plate</label>
+                                </div>
+                                <div style="padding:.5em;">
+                                    <label for="ownerType_caregiver"> <input
+                                        id="ownerType_caregiver"
+                                        name="ownerType"
+                                        ng-model="vm.ownerType"
+                                        data-val="true"
+                                        value="caregiver"
+                                        type="radio">
+                                    I am a caregiver and the owner has authorized me to enroll in clubGO on their behalf</label>
+                                </div>
+                                <span class="field-validation-valid text-danger" data-valmsg-for="ownerType" data-valmsg-replace="true"></span>
+                            </div>
+
+                            <!-- submit -->
+                            <div class="btm_action" style="display: flex;flex-direction: row;max-width: 100%;justify-content: space-between;">
+                                <button
+                                    type="button"
+                                    ng-click="vm.submitParkingId()"
+                                    class="btn btn-ar btn-primary travle_submitBtn"
+                                    style="background-color: #29807c;padding:.5em;">Submit</button>
+                                <span class="light14" style="text-align: center;">
+                                    No permit?<br>
+                                    <a ui-sref="contact" target="emailus_window">Contact Us</a>
+                                </span>
+                            </div>
+
+                            <!-- begin: validation errors -->
+                            <div class="card validation-errors validation-message" style="margin:1.5em;" ng-show="vm.errs.length>0">
+                                <div class="card-header">
+                                    <h4>Error occurred</h4>
+                                </div>
+                                <div class="card-body semibold18">
+                                    <ul ng-repeat="error in vm.errs">
+                                        <li ng-bind-html="error.message" style="text-align:left;"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <!-- <div class="col-sm-6">
+                    <div class="upload_sec text-center">
+                        <div class="btm_action" style="padding: 0 1.25em;">
+                            <button class="btn">Upload</button>
+                        </div>
+                        <h5 style="margin-top: 1.25em;">Upload a scan or photo of your permit. </h5>
+                        <span class="light14">(Coming soon)</span>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+        <div
+            ng-if="vm.showVerificationOptionOrgMember===true"
+            style="width:100%;margin:1em 0 0 0;padding:.75em;background-color:rgba(41, 128, 124, .25);"
+            class="text-left">
+            <div class="row">
+                <div class="col-sm-12">
+                    <form
+                        novalidate
+                        ng-submit="$event.preventDefault();">
+
+                        <!-- organization -->
+                        <div class="form-group">
+                            <label id="label-membership-org" for="membership-org" class="semibold22">I am Currently a Member of:</label>
+                            <select
+                                id="membership-org"
+                                class="form-control form-control-sm"
+                                ng-model="vm.cugOrganizationId"
+                                ng-options="option.name for option in vm.participating_organizations track by option.cugOrganizationId">
+                                <option label="-- Select Organization --"></option>
+                            </select>
+                        </div>
+
+                        <!-- first name -->
+                        <div class="form-group">
+                            <label id="label-membership-name-first" for="membership-name-first" class="semibold22">First Name:</label>
+                            <input
+                                id="membership-name-first"
+                                ng-model="firstName"
+                                class="form-control form-control-sm"
+                                data-val="true"
+                                data-val-required="First Name."
+                                name="firstName"
+                                autocomplete="first-name"
+                                placeholder="Enter First Name"
+                                value="{{userProfile.given_name}}"
+                                type="text"
+                                autocomplete="first_name">
+                        </div>
+
+                        <!-- last name -->
+                        <div class="form-group">
+                            <label id="label-membership-name-last" for="membership-name-last" class="semibold22">Last Name:</label>
+                            <input
+                            ng-model="lastName"
+                            class="form-control form-control-sm"
+                            data-val="true"
+                            data-val-required="Last Name."
+                            id="lastName"
+                            name="lastName"
+                            autocomplete="last-name"
+                            placeholder="Enter Last Name"
+                            type="text"
+                            autocomplete="last_name">
+                        </div>
+
+                        <!-- submit -->
+                        <div class="btm_action" style="display: flex;flex-direction: row;max-width: 100%;justify-content: space-between;">
+                            <button
+                                type="button"
+                                ng-click="vm.submitOrgMembership()"
+                                class="btn btn-ar btn-primary pull-left semibold18"
+                                style="background-color: #29807c;padding:.5em;">Submit
+                            </button>
+                            <span class="light14" style="text-align: center;">
+                                Organization not listed?<br>
+                                <a ui-sref="contact" target="emailus_window">Contact Us</a>
+                            </span>
+                        </div>
+
+                        <!-- begin: validation errors -->
+                        <div class="card validation-errors validation-message" style="margin:1.5em;" ng-show="submitOrgMembershipErrs.length>0">
+                            <div class="card-header">
+                                <h4>Error occurred</h4>
+                            </div>
+                            <div class="card-body semibold18">
+                                <ul ng-repeat="error in submitOrgMembershipErrs">
+                                    <li ng-bind-html="error.message" style="text-align:left;"></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <div
+            ng-if="vm.showApplicationReceived===true" style="padding:2em;">
+            <div style="position: absolute;right:0px;top:0px">
+                <img
+                    ng-src="{{vm.signupEnjoyBannerMob}}"
+                    style="max-width: 110px;">
+            </div>
+            <div class="bold22">Application received!</div>
+            <div class="light18">
+                <p>You can go ahead and enjoy clubGO discounts while we review your application.</p>
+            </div>
+            <div class="bold22">Take note:</div>
+            <div class="light18">
+                <p>If you joined clubGO via parking permit, please upload a photo of your parking permit within 7 days to complete your verification.  Just go to the <a ng-click="vm.closeModal();" ui-sref="accountPageUi({t:'club'})">clubGO section of your account</a>.</p>
+            </div>
+            <div style="margin-top:1.5em;">
+                <a class="bold18" style="color:#29807c;" ng-click="vm.closeModal(); vm.redir();" aria-label="Close">Return to what I was doing</a>
+            </div>
+            <div style="margin-top:1.5em;">
+                <a
+                    class="bold18"
+                    style="color:#29807c;"
+                    ui-sref="hotels"
+                    ng-click="vm.closeModal();">
+                    Start Searching for Hotel Deals
+                </a>
+            </div>
+        </div>
+        <!-- end: candidate for directive -->
+    </div>
+
+</div>

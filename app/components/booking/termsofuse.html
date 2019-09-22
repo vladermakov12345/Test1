@@ -1,0 +1,40 @@
+<div ng-controller="bookingTermsofuseController as terms" ng-cloak>
+
+	<!-- waiting -->
+<!-- 	<div ng-if="booking.isValidSearchCriteria === undefined" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+	    <div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">One moment please...</div>
+	    <i class="fa fa-spinner fa-spin" style="font-size:4em;color:#299b7c;" aria-hidden="true"></i>
+	</div> -->
+
+
+	<div
+		id="bookingDetailsSection"
+		class="wrapper-common wrapper-common-width wrapper-column"
+		style="background-color:#fff;padding:1em;justify-content: flex-start;min-height: 26em;">
+		<h1>Terms of Use</h1>
+
+		<!-- notice of email -->
+		<!-- <span class="semibold14">We've sent a confirmation email to: {{booking.details.itinerary_details.customer.email }}</span> -->
+
+		<!-- print -->
+		<div class="light16" style="margin:1em 0;">
+			<a
+				ng-click="terms.print()"
+				class="fa fa-print"
+				aria-hidden="true"
+				alt="print this page">
+				<span style="font-family:'Source Sans Pro', Tahoma, Geneva, sans-serif;"> print this page</span>
+			</a>
+		</div>
+
+		<div>
+			<div ng-repeat="data in terms.block_data">
+				<span ng-bind-html="data.title" class="bold16" /><br>
+				<div ng-repeat="paragraph in data.paragraph_data">
+					<span ng-bind-html="terms.getSubstitutes(paragraph)" class="light14" /><br>
+				</div>
+				<br>
+			</div>
+		</div>
+	</div>
+</div>

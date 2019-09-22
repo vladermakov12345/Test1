@@ -1,0 +1,50 @@
+<div class="container-fluid">
+
+    <div class="row" style="background-color: #29807c;height:154px;">
+
+        <div class="container align-self-center text-white">
+
+            <div style="font-size: 1.875em;line-height: 30.5px;letter-spacing: .77px;">Find Ideas or Travel Topics</div>
+
+            <form ng-submit="travelIdeaSearchBar.searchIdeas()">
+                <div class="input-group" style="margin-top:14px;">
+                    <!-- <div class="input-group-prepend">
+                        <span class="input-group-text" id="validationTooltipUsernamePrepend"><img src="https://accessiblego.azureedge.net/travel/location-icons.png" aria-hidden="true" /></span>
+                    </div> -->
+                    
+                        <input
+                            type="text"
+                            name="searchInput"
+                            class="form-control form-control-lg accessible-input-on-white"
+                            ng-model="travelIdeaSearchBar.searchphrase"
+                            style="margin-right: 12px;background: url(https://accessiblego.azureedge.net/travel/location-icons.png) no-repeat scroll 7px 7px;padding-left:50px;background-color: #fff;"
+                            id="validationTooltipUsername"
+                            placeholder="Enter a city or travel topic. e.g. 'San Diego' or 'Cruises' or 'Scooter'"
+                            aria-label="search all travel ideas"
+                            aria-describedby="validationTooltipUsernamePrepend"
+                            required="" />
+                        <span class="input-group-btn">
+                            <button
+                                type="submit"
+                                class="d-none d-sm-block text-white accessible-button-solid-dark"
+                                style="width: 209px;height:100%;border: solid 1.9px #ffffff;padding:0 8px;font-size: 1.250em;"
+                                xng-click="travelIdeaSearchBar.searchIdeas()"
+                                >SEARCH
+                            </button>
+                            <button
+                                type="submit"
+                                class="d-xs-block d-sm-none text-white accessible-button-solid-dark"
+                                style="height:100%;border: solid 1.9px #ffffff;padding:0 8px;"
+                                xng-click="travelIdeaSearchBar.searchIdeas()"
+                                ><i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </span>
+                    
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

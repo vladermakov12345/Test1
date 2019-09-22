@@ -1,0 +1,1825 @@
+<script src="https://code.iconify.design/1/1.0.0/iconify.min.js"></script>
+<div ng-controller="hotelsController as vm" class="hotel_mainCls background-light-gray" ng-cloak>
+
+	<div class="overlay"></div>
+
+	<!-- <div class="container">
+
+		<div class="row">
+
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb breadcrumbs-light">
+					<li class="breadcrumb-item"><a ui-sref="home">home</a></li>
+					<li class="breadcrumb-item"><a ui-sref="hotels">hotels</a></li>
+					<li class="breadcrumb-item active" aria-current="page">search</li>
+				</ol>
+			</nav>
+
+		</div>
+
+	</div> -->
+	<br />
+
+	<!-- results -->
+
+
+	<div class="container main-container">
+
+
+		<!--
+
+		<div ng-if="vm.isWaiting" style="text-align:center;margin-top:1.75em;margin-bottom:1.75em;">
+			<div class="wrapper-common wrapper-common-width wrapper-row" style="justify-content:center;margin-bottom:1.5em;font-size:2em;">
+				<div>
+					<i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true" style="color:#299b7c;margin-right:.25em;"></i>
+				</div>
+				<div style="align-self:center;">
+					 <div
+					 	 ng-show="vm.destination.type==='city'"
+					 	 style="color:#010101;">Searching for accessible hotels in <span style="font-weight: bold;">{{vm.destination.display}}</span> ...
+					 </div>
+					 <div
+				 		 ng-show="vm.destination.type==='hotel'"
+				 		 style="color:#010101;">Looking up <span style="font-weight: bold;">{{vm.destination.display}}</span> ...
+					 </div>
+				</div>
+			</div>
+			<div class="wrapper-common wrapper-common-width" style="background-color:#fcfcfc;padding:1em;border:1px solid #000;">
+				<div style="text-align: center;width:100%;">
+					<img
+						hide-until-good
+						src="https://accessiblego.azureedge.net/img/pre-loader-join-clubGO.png"
+						aria-hidden="true"
+						alt="" />
+				</div>
+			</div>
+		</div>
+
+		-->
+
+
+		<div class="row">
+
+			<div style="padding:0;" class="container hotels-page" role="search">
+
+				<!--<div ng-hide="vm.isWaiting" ng-include="'hotelSearchBar.html'"></div>-->
+
+				<!-- desktop -->
+				<div class="d-none d-sm-block" ng-show="!vm.isWaiting" ng-include="'hotelSearchBar.html'"></div>
+
+				<!-- mobile -->
+				<div class="d-block d-sm-none" ng-show="!vm.isWaiting && !vm.searchInitiated" ng-include="'hotelSearchBar.html'"></div>
+
+				<!-- validation errors -->
+				<div ng-show="vm.showErrors && vm.errs.length>0" class="wrapper-common wrapper-common-width wrapper-row" style="background-color:#fff;padding:1em;justify-content: flex-start;">
+					<div
+							ng-if="vm.errs"
+							role="alert"
+							class="card bg--light"
+							style="font-weight:600;text-align: left;width:100%;">
+						<div class="card-header">
+							<h4>Please correct {{vm.errs.length}} errors:</h4>
+						</div>
+						<div class="card-body">
+							<ul>
+								<li ng-repeat="err in vm.errs | limitTo:1">
+									{{err}}
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<!-- waiting -->
+
+				<!-- <div  style="text-align:center;margin-top:1.75em;margin-bottom:1.75em;"> -->
+				<div ng-if="vm.isWaiting" class="waiting-banner text-center">
+					<h3>
+						Searching for:
+					</h3>
+
+					<div class="results">
+
+						<p>Accessible accommodations</p>
+
+						<!-- <div class="amenities">near hospitals</div> -->
+
+						<span ng-show="['hospital','poi'].indexOf(hotelSearchService.params.type)===-1">in</span>
+						<span ng-show="['hospital','poi'].indexOf(hotelSearchService.params.type)>-1">near</span>
+
+						<div class="destination">{{vm.destination.display}}</div>
+
+					</div>
+
+					<div class="logo"><img hide-until-good
+						ng-src="{{vm.env.cdn_static}}/i/logo/logo-black.png"
+						aria-hidden="true" alt="" /></div>
+
+					<img class="priceline" hide-until-good
+						ng-src="{{vm.env.cdn_static}}/i/booking/powered-by-ppn-black.png"
+						aria-hidden="true" alt="" />
+
+					<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+		<!-- no matches -->
+		<div ng-if="!vm.isWaiting && vm.allResults.length=== 0 && vm.searchCriteriaDestination" style="text-align:center;margin-top:3em;margin-bottom:3em;">
+			<div style="font-size:2em;font-weight: 600;margin-bottom:.5em;" xng-bind-html="vm.noRecordsFoundReason || 'No results found'">
+				<i class="fa fa-exclamation-circle" aria-hidden="true"></i> No availability for the dates you've entered.
+			</div>
+		</div>
+
+
+		<!-- marketing: discount image -->
+		<!--
+		<div ng-if="!vm.isWaiting && vm.allResults.length === 0" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+			<input
+					id="joinModalImage"
+					ng-show="vm.showJoinModalImage===true"
+					type="image"
+					ng-disabled="vm.disableJoinModalImage===true"
+					src="https://accessiblego.azureedge.net/img/accessible-hotel-room-discounts.png"
+					ng-click="vm.launchJoinModal()"
+					aria-hidden="true"
+					alt="clubGO promotion"
+					style="max-width:100%;"
+					xstyle="height:30em;width:100%;z-index:40;min-height: 31em;" />
+		</div>
+		-->
+
+		<!-- results -->
+		<div ng-if="!vm.isWaiting" class="wrapper-common wrapper-common-width wrapper-row" style="justify-content: space-between;flex-shrink:1;">
+
+
+			<!--
+            <div xclass="d-none d-xs-block d-sm-none" ng-if="vm.allResults.length>0" style="margin: 1em 0em; border: 1px solid #29807c4d;background: #E8F1F3; padding: 1em; text-align: center;width:100%;">
+                <span>
+                    The <b>biggest discounts</b> for hotels are right here with <b>clubGO</b>, the free travel discounts club for people with disabilities!
+                </span>
+            </div>
+            -->
+		</div>
+
+		<!--<div ng-if="!vm.isWaiting && vm.filteredResults.length>0" class="row no-gutters mt-4">-->
+
+
+		<div ng-if="!vm.isWaiting" class="row no-gutters">
+
+			<div
+				id="hotelsFilters"
+				class="col sidebar"
+				ng-show="vm.allResults.length>0">
+
+				<!-- column 1: begin -->
+				<!-- Desktop -->
+				<div id="desktopFilter" class="mt-4">
+
+					<div class="item toggle-filters">
+						<button type="button" class="text-left" style="width:100%;" ng-click="vm.toggleFilters()">
+							<i class="fa fa-filter"></i> Close Filters
+							<i class="fa fa-chevron-left float-right" style="float: right; margin-top:7px;"></i>
+						</button>
+					</div>
+
+					<!-- BETTER COMMUNICATION -->
+					<div class="item text-center background-white box-shadow m-hide">
+
+						<p class="heading text-bold">Better Communication</p>
+
+						<img ng-src="{{vm.image_headphones}}" style="margin:25px 10px 20px 0px;">
+
+						<img ng-src="{{vm.image_building}}" style="margin:25px 0px 20px 10px;">
+
+						<p class="mt-1 text-black">
+							We take your request seriously.<br> We personally email and call the hotel to convey your needs.
+
+							<span class="small text-gray">For reservations made more than 48-hours before your check-in date.</span>
+
+						</p>
+
+					</div>
+
+					<!-- SORT --> 
+					<div class="item m-1">
+						<button class="btn toggle-section" type="button" data-toggle="collapse" data-target="#hotel-sortby" aria-expanded="true">
+							<b>Sort By</b>
+						</button>
+						<div class="collapse show" id="hotel-sortby">
+							<div class="item-inner">
+								<select
+									class="form-control p-2"
+									ng-model="vm.selectedSortOption"
+									ng-change="vm.sortOptionChanged()"
+									ng-options="item as item.label for item in vm.sortOptions track by item.id">
+								</select>
+							</div>
+						</div>
+					</div>
+				
+
+
+					<!-- HOTEL NAME FILTER -->
+					<div class="item m-1">
+						<button class="btn toggle-section" type="button" data-toggle="collapse" data-target="#hotel-filters" aria-expanded="true">
+							<b>Hotel Filters</b>
+						</button>
+						<div class="collapse show" id="hotel-filters">
+							<div class="item-inner">
+
+								<!-- filter  :: hotel name -->
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Hotel Name" ng-model="vm.filterText" ng-change="vm.handleHotelNameSearchTextChange()">
+									<button type="submit" class="btn btn-default text-bold">Go</button>
+								</div>
+							</div>
+
+								<!-- filter :: hotel chain -->
+								<!-- <div class="dropdown">
+									<button class="btn dropdown-toggle text-left background-white" type="button" id="select-hotel-chain" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Select Hotel Chain
+									</button>
+									<div class="dropdown-menu" aria-labelledby="select-hotel-chain">
+										<a class="dropdown-item" href="#">Action</a>
+										<a class="dropdown-item" href="#">Another action</a>
+										<a class="dropdown-item" href="#">Something else here</a>
+									</div>
+								</div> -->
+							  	<!-- <div class="dropdown" xstyle="width:100%;border:1px solid #ccc;xmin-height:50px;" uib-dropdown keyboard-nav="true"> -->
+
+							<!-- FILTER :: HOTEL CHAIN -->
+							<div class="item-inner">
+								<ui-select
+								  id="hotelResultsFilterChain"
+								  name="hotelResultsFilterChain"
+								  ng-model="vm.filters.hotelChain"
+								  class=""
+								  theme="bootstrap"
+								  ng-required="false"
+								  search-enabled="true"
+								  reset-search-input="true"
+								  xon-select="vm.selectedOptionChanged()"
+								  spinner-enabled="false"
+								  spinner-class="fa fa-redo-alt">
+								  	<ui-select-match
+										id="hotelResultsFilterChain-match"
+										class=""
+										placeholder="{{!$select.selected?'Select Hotel Chain':''}}"
+										allow-clear="true"
+										aria-hidden="false"
+										xng-click="vm.showForm()">{{$select.selected.name}}
+									</ui-select-match>
+								  <ui-select-choices
+								    id="hotelResultsFilterChain-citySelector"
+								    repeat="chain in vm.chains | propsFilter: { name: $select.search } | orderBy: 'name'"
+								    xrefresh="vm.refreshOptions($select.search,$select.open)"
+								    refresh-delay="10"
+								    position="down"
+								    style="padding:0;">
+								      <div>
+								        <span>
+								          <i ng-class="{'fa fa-building width2em':option.type==='hotel', 'fa fa-map-marker width2em':option.type==='city', 'fa fa-flag width2em':option.type==='directory', 'fa fa-plane width2em':option.type==='airport'}" aria-hidden="true"></i> 
+								        </span>
+								        <span ng-bind-html="chain.name | highlight: $select.search"></span>
+								      </div>
+								  </ui-select-choices>
+								  <!--
+								  	<ui-select-no-choice style="padding:0;">
+									    <div
+									      ng-show="$select.search.length>1"
+									      role="alert"
+									      style="color: red;font-weight:600;text-align: left;padding:0 1em;">
+									      <span ng-bind="vm.message"><span>
+									    </div>
+									  </ui-select-no-choice>
+									-->
+								</ui-select>
+								<button
+									ng-show="vm.filters.hotelChain"
+									type="button"
+									class="btn btn-default btn-xs float-right"
+									ng-click="vm.filters.hotelChain=undefined">
+									<i class="fa fa-times"></i>
+								</button>
+							</div>
+
+						</div>
+					</div>
+
+					<!-- MY HOTELS -->
+					<!-- <div class="item p-2-0">
+
+						<button class="btn toggle-section" type="button" data-toggle="collapse" data-target="#my-hotels" aria-expanded="false">
+							<b>My Hotels </b> (sign in)
+						</button>
+
+						<div class="collapse" id="my-hotels">
+
+							<div class="item-inner">
+
+								<div class="check-box">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox">
+											<span class="checkmark"></span>
+											<p>My Favorites</p>
+										</label>
+										<span class="count">(72)</span>
+									</div>
+								</div>
+
+								<div class="check-box">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox">
+											<span class="checkmark"></span>
+											<p>Hotels I've Reviewed</p>
+										</label>
+										<span class="count">(72)</span>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div> -->
+
+					<!-- PROMOTIONS -->
+					<div class="item p-2-0">
+
+						<button class="btn toggle-section" type="button" data-toggle="collapse" data-target="#promotions" aria-expanded="true">
+							<b>Promotions </b>
+						</button>
+
+						<div class="collapse show" id="promotions">
+
+							<div class="item-inner">
+
+								<div class="check-box">
+									<div class="checkbox">
+										<label>
+											<i class="fa fa-tags" aria-hidden="true"></i> 
+											<input
+												type="checkbox"
+												id="cugCheck"
+												ng-model="vm.filters.isCugFilter"
+												ng-disabled="!vm.isCUGResultsReturned">
+											<span class="checkmark"></span>
+											<p style="padding-left:.5em;">clubGO Deals</p>
+										</label>
+										<span class="count">({{vm.totalClubgoDeals}})</span>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+
+
+					<!-- PRICE RANGE PER NIGHT -->
+					<div
+						class="item p-2-0"
+						ng-if="vm.absMinPrice !== vm.absMaxPrice">
+						<button class="btn toggle-section" type="button" data-toggle="collapse" data-target="#price-range" aria-expanded="true">
+							<b>Price Range per Night</b>
+						</button>
+
+						<div class="collapse show" id="price-range">
+							<!-- ex bootstrap range
+								<label for="customRange1">Example range</label>
+								<input type="range" class="custom-range" id="customRange1" min="1" max="20">
+							-->
+
+							<div class="item-inner">
+								<!-- <div id="pleasework" style="padding: 7px;margin: 15px 5px 5px;"></div> -->
+
+								<div class="values">
+									<div id="val-1">{{vm.minPrice | number:2 }}</div>
+									<div id="avg">Avg: <span>${{vm.avgPrice | number:2 }}</span></div>
+									<div id="val-2">{{vm.maxPrice | number:2 }}</div>
+								</div>
+								<!-- <input class="slider" type="text" class="span2" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"/> -->
+								<div
+									id="myCoolSlider"
+									no-ui-slider
+									slider-options="vm.optionsWithStart"
+									slider-created="vm.onSliderCreated(api)">
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- ACCESSIBILITY -->
+					<div class="item p-2-0">
+						<button
+							class="btn toggle-section"
+							style="width:100%;"
+							type="button"
+							data-toggle="collapse"
+							data-target="#accessibility"
+							aria-expanded="true">
+							<b>Accessibility </b><img src="web/public/resources/go.png" aria-hidden="true" />
+						</button>
+
+						<div
+							class="collapse show"
+							id="accessibility">
+							<div class="item-inner">
+
+								<!-- HAS REVIEWS -->
+								<div class="check-box">
+									<div class="checkbox">
+										<label ng-style="{'color': vm.totalReviews===0?'#d6d3d3':'#000'}">
+											<input
+												id="has_accessibility_reviews"
+												type="checkbox"
+												ng-model="vm.filters.hasReviews"
+												aria-label="Filter on accessibility reviews"
+												ng-disabled="vm.totalReviews===0" />
+											<span class="checkmark"></span>
+											<p>Has accessibility reviews</p>
+										</label>
+
+										<span class="count">({{vm.totalReviews}})</span>
+									</div>
+								</div>
+								<!-- <div
+									ng-show="!vm.totalReviews || vm.totalReviews.length===0">
+									<p>No reviews for this search</p>
+								</div> -->
+
+
+								<!-- ACCESSIBILITY AMENITIES -->
+								<div
+									class="item mb-1"
+									style="padding:0!important;"
+									ng-repeat="(key, value) in vm.filters.accessibleAmenityMap"
+									ng-class="{'open': value.checked}">
+									<button class="btn toggle-section" type="button" ng-click="value.checked=!value.checked">
+										<b ng-bind-html="key"></b>
+									</button>
+
+
+									<div ng-show="value.checked">
+										<div
+											ng-repeat="(k,v) in value.items track by $index">
+											<div
+												class="check-box"
+												ng-show="vm.collapseSection[key]==='open' || $index < 4">
+												<div class="checkbox">
+													<label>
+														<img
+															hide-until-good
+															ng-if="v.img"
+															ng-src="https://accessiblego.azureedge.net/img/accessibility/{{v.img}}"
+															style="width: 18px; height: auto;margin-right:8px;"
+															aria-hidden="true"
+															alt="" /> 
+
+														<input id="{{k}}" type="checkbox" ng-model="v.checked" xng-click="vm.setFilteredResults()" aria-label="{{k}}" />
+														<span class="checkmark"></span>
+														<p ng-bind-html="v.title" style="font-style: 1em;"></p>
+													</label>
+
+													<span class="count">({{v.total}})</span>
+													
+												</div>
+											</div>
+											
+										</div>
+
+										<!-- show more for this section -->
+										<div ng-show="vm.collapseSection[key]!=='open' && vm.utilities.getObjectCount(value.items)>4">
+											<button
+												type="button"
+												class="ml-4 mt-1"
+												style="color:#29807c;font-weight: bold;"
+												ng-click="vm.collapseSection[key]='open'">More for {{key}}
+											</button>
+										</div>
+									</div>
+									<!-- <a  href="#" class="text-green mt-1">More for <span ng-bind-html="key"></span></a> -->
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+
+					<!-- GENERAL AMENITIES -->
+					<div class="item p-2-0">
+						<button class="btn toggle-section" style="width:100%;font-weight: bold;" type="button" data-toggle="collapse" data-target="#generalamenities" aria-expanded="true">
+							Amenities
+						</button>
+
+						<div class="collapse show" id="generalamenities">
+							
+							<div class="item-inner">
+								<div
+									class="check-box"
+									ng-repeat="(key, val) in vm.generalAmenityTracker track by $index"
+									ng-show="vm.collapseGeneralAmenitySection==='open' || $index < 4">
+									<div class="checkbox">
+										<label ng-style="{'color': val.count===0?'#d6d3d3':'#000'}">
+											<!-- <img
+												hide-until-good
+												ng-if="v.img"
+												xng-src="https://accessiblego.azureedge.net/img/accessibility/{{v.img}}"
+												style="width: 22px; height: auto;margin-right:8px;"
+												aria-hidden="true"
+												alt="" />  -->
+											<i ng-if="val.fa" class="{{val.fa}}" style="padding-right:8px;" aria-hidden="true"></i>
+											<span ng-if="val.iconify" class="iconify" style="margin-right:8px;" data-icon="{{val.iconify}}" data-inline="false" aria-hidden="true"></span>
+											<input
+												id="{{key}}"
+												type="checkbox"
+												ng-model="val.checked"
+												aria-label="{{key}}"
+												ng-disabled="val.count===0" />
+											<span class="checkmark"></span>
+											<p ng-bind-html="key"></p>
+										</label>
+
+										<span class="count">({{val.count}})</span>
+									</div>
+
+								</div>
+
+								<!-- show more for this section -->
+								<div ng-show="vm.collapseGeneralAmenitySection!=='open'">
+									<button
+										type="button"
+										class="ml-4 mt-1"
+										style="color:#29807c;font-weight: bold;"
+										ng-click="vm.collapseGeneralAmenitySection='open'">More Amenity Filters
+									</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+
+					<!-- PLACES NEARBY -->
+					<!-- <div class="item p-2-0">
+						<button class="btn toggle-section" style="width:100%;" type="button" data-toggle="collapse" data-target="#generalamenities" aria-expanded="true">
+							<b>Places Nearby</b><img src="web/public/resources/go.png" />
+						</button>
+
+						<div class="collapse show" id="generalamenities">
+							
+							<div class="item-inner">
+								
+							</div>
+						</div>
+					</div> -->
+
+
+				</div>
+
+			</div>
+
+
+			<!-- SEARCH RESULTS -->
+			<div
+				ng-show="vm.allResults.length>0"
+				class="col results-list" style="padding:1em;">
+
+				<!-- SEARCHED CRITERIA (MOBILE) -->
+				<div class="d-block d-sm-none results-header">
+					<div class="summary-bar align-bottom" style="padding:0 18px;">
+						<div xng-show="vm.filteredResults.length>0" style="width:100%;">
+							<span style="font-weight: 400;margin-left:0px;" class="allow-wrap" ng-bind-html="vm.searchCriteriaDestination"></span><br/>
+							<span style="font-weight: 400;margin-left:0px;" ng-bind-html="vm.searchCriteriaDates"></span>
+							<span style="font-weight: 400;margin-left:0px;" class="float-right" ng-bind-html="vm.searchCriteriaRooms"></span>
+						</div>
+						<br/>
+						<a
+							type="button"
+							class="btn btn-sm"
+							style="background-color: #fff;color: #29807c;border: 0px;"
+							ng-click="vm.toggleSearch()">
+							<i class="fa fa-search"></i> change search
+						</a>
+					</div>
+				</div>
+
+				<div class="results-header">
+					<div class="summary-bar align-bottom">
+						<h1 xng-show="vm.filteredResults.length>0">
+							<span class="m-hide" ng-bind-html="vm.searchCriteriaDestination"></span>
+							<!-- <span class="m-hide" style="font-weight: 400;margin-left:0px;" ng-bind-html="vm.searchCriteriaDates"></span> -->
+							<span class="m-hide" xng-show="vm.filteredResults.length>0"> -</span>
+							<span class="m-hide"> {{vm.filteredResults.length}} </span>
+							<span class="m-hide" xng-if="vm.isAccessibleFilter === true"></span>
+							<span class="m-hide">hotels</span>
+							<span class="m-hide" ng-show="hotelSearchService.params.type==='hospital'">nearby</span>
+							<span class="m-hide" xng-show="vm.filteredResults.length>0">:</span>
+						</h1>
+
+						<div class="stats">
+							<div><i class="fa fa-dollar"></i> {{vm.totalClubgoDeals}} deals</div>
+							<div><i class="fa fa-user"></i> {{vm.totalReviews}} with reviews</div>
+							<!-- <div><i class="fa fa-wheelchair-alt"></i> 105 with details</div> -->
+							<div><i class="fa fa-check-circle-o"></i> {{vm.totalAccessibleHotels}} determined as accessible</div>
+						</div>
+
+						<div class="filters" ng-show="vm.allResults.length>0">
+							<button type="button" class="btn toggle-filters-desktop" ng-click="vm.toggleFilters()">
+								<i class="fa fa-filter"></i> Filter <i class="fa fa-plus"></i>
+							</button>
+
+							<div class="filter-range badge_filter" ng-repeat="badge in vm.badges track by $index">
+								<span>{{badge.heading}}: {{ badge.name}}
+									<button ng-click="vm.removeBadge(badge,badge.id)" style="text-decoration: none;background-color:transparent;border:0px;" role="button" aria-label="Remove filter">
+										<i class="fa fa-times-circle"></i>
+									</button>
+								</span>
+							</div>
+
+							<div class="filter-range badge_filter" ng-repeat="p in vm.filterPriceBadge track by $index">
+								<span>Price: {{p.title}}
+									<button ng-click="vm.removeBadge(p,'price')" style="text-decoration: none;background-color:transparent;border:0px;" role="button" aria-label="Remove filter">
+										<i class="fa fa-times-circle"></i>
+									</button>
+								</span>
+							</div>
+
+							<div class="filter-range badge_filter" ng-repeat="a in vm.filterAmenityMapBadge track by $index">
+								<span>{{a.title}}
+									<button ng-click="vm.removeBadge(a,'amenity')" role="button" aria-label="Remove filter">
+										<i class="fa fa-times-circle"></i>
+									</button>
+								</span>
+							</div>
+
+							<div
+								class="filter-range badge_filter"
+								ng-repeat="amenity in vm.generalAmenityTracker track by $index"
+								ng-show="amenity.checked===true">
+								<span>{{amenity.name}}
+									<button ng-click="amenity.checked=false" role="button" aria-label="Remove filter for {[amenity.name}}">
+										<i class="fa fa-times-circle"></i>
+									</button>
+								</span>
+							</div>
+						</div>
+
+						
+						<button
+							ng-disabled="vm.filteredResults.length===0"
+							id="mapView"
+							ng-click="vm.toggleMap()"
+							type="button"
+							class="btn button-toggle-search float-right">
+							<i class="fa fa-map" style="display: block;"></i>
+							<span style="font-size:.85em;">{{vm.showMap?'Close':'Map'}}</span>
+						</button>
+
+					</div>
+				</div>
+
+				<div
+					xng-if="vm.allResults.length>0"
+					ng-show="vm.filteredResults.length>0"
+					class="float-left mt-1"
+					style="display:flex;flex-direction: row;justify-content: space-between;width:100%">
+
+					<!-- SORT -->
+					<!-- augmented accessibility data 
+					<div>
+						<button
+							type="button"
+							class="btn btn-default"
+							ng-click="vm.setSortedResultsTopPicks()"
+							ng-style="vm.sortBy === 'OurTopPicks' ? {'background-color':'#db6744', 'color':'#fff' } : {'color':'#000' }">Our Top Picks
+						</button>
+					</div>
+					-->
+
+					<!-- price 
+					<div style="flex-grow:1;" class="float-left">
+						<button
+							type="button"
+							class="btn btn-default"
+							ng-click="vm.setSortedResultsLowestFirst()"
+						 	ng-style="vm.sortBy === 'LowestPriceFirst' ? {'background-color':'#db6744', 'color':'#fff' } : {'color':'#000' }">Lowest Price First
+						</button>
+					</div>
+					-->
+
+					<!-- star rating -->
+					<!-- <li role="presentation">
+						<div xclass="input-group-btn">
+							<button type="button" class="btn btn-default dropdown-toggle" ng-style="vm.sortString === '-review_rating' || vm.sortString === '+review_rating'? {'background-color':'#db6744', 'color':'#fff' } : {'color':'#000' }" data-toggle="dropdown" aria-haspopup="true"
+							 aria-expanded="false">Rating
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li>
+									<a ng-click="vm.setSortedResults('-review_rating')">high to low</a>
+								</li>
+								<li>
+									<a ng-click="vm.setSortedResults('+review_rating')">low to high</a>
+								</li>
+							</ul>
+						</div>
+					</li> -->
+
+
+					<!-- hotel name
+					<li role="presentation" class="active">
+						<button
+							type="button"
+							class="btn btn-default"
+							ng-click="vm.setSortedResults('name')"
+							ng-style="vm.sortString === 'name' ? {'background-color':'#db6744', 'color':'#fff' } : {'color':'#000' }">Hotel Name</button>
+					</li>
+					 -->
+				
+				</div>
+
+
+				<!-- show google map -->
+				<div class="hotel-content" ng-cloak>
+					<div
+					 	ng-show="vm.showMap && vm.filteredResults.length>0"
+						map-lazy-load="https://maps.google.com/maps/api/js"
+						map-lazy-load-params="{{vm.googleMapsUrl}}">
+					  <ng-map
+					  	id="googleMap"
+					  	center="{{hotelSearchService.params.type==='hospital' ?hotelSearchService.params.geo.latitude+','+hotelSearchService.params.geo.longitude :vm.mapCenter.latitude+','+vm.mapCenter.longitude}}"
+					  	zoom="10"
+					  	xstyles="[{featureType:'all',stylers:[{visibility:'simplified'}]}]"></ng-map>
+					</div>
+
+
+						<!--<div ng-if="vm.showMap && vm.filteredResults.length>0">
+							<div map-type-control="false" lazy-init="true">
+								 <ng-map
+									id="googleMap"
+									center="{{hotelSearchService.params.type==='hospital' ?hotelSearchService.params.geo.latitude+','+hotelSearchService.params.geo.longitude :vm.mapCenter.latitude+','+vm.mapCenter.longitude}}"
+									zoom="10"> -->
+									<!-- <marker
+									 	ng-show="hotelSearchService.params.type==='hospital'"
+										id="hospital"
+										position="{{hotelSearchService.params.geo.latitude+','+hotelSearchService.params.geo.longitude}}"
+										icon="http://maps.google.com/mapfiles/kml/shapes/hospitals.png"
+										title="{{hotelSearchService.params.display}}">
+									</marker> -->
+									<!-- <marker
+										ng-repeat="(id, hotel) in vm.filteredResults track by $index | limitTo:10"
+										id="{{id}}"
+										position="{{hotel.geo.latitude+','+hotel.geo.longitude}}"
+										title="{{hotel.name}}"
+										xon-click="vm.gotoHotel(event, id)"
+										on-click="vm.showDetail(hotel)">
+									</marker> -->
+								<!-- </ng-map> 
+							</div>
+							</div>
+						-->
+				</div>
+
+
+				<div class="hotel-content" ng-cloak>
+
+					<div ng-show="vm.searchInitiated===true && vm.allResults.length===0">
+
+							<span>No matching hotels found.</span>
+
+					</div>
+
+					<!-- <div
+						style="margin-right: 1em;margin-top:.5em;border:1px solid #00509f;border-radius:4px;"
+						class='light18'>
+						<p style="color:#333;font-size:14px;padding:6px;">
+							Have questions about this hotel's accessibility? Send us your questions, we'll find the answers.
+						</p>
+						<button
+							type="button"
+							class="btn btn-primary text-left"
+							style="width:100%;background-color:#00509f;font-size:18px;" ng-click="vm.goToAccessCheck(hotel.id)">
+							<i class="fa fa-phone" aria-hidden="true" style="margin-right:.5em;"></i> <span style="text-decoration:none;">Call the hotel for me!<span style="font-weight:normal;font-size:12px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Free)</span></span> <span class="float-right"><i class="fa fa-chevron-right"></i></span>
+						</button>
+					</div> -->
+
+					<div
+						class="container-fluid hotel desktop"
+						style=""
+						ng-repeat="hotel in vm.filteredResults | startFrom:vm.getStartFrom() | limitTo:vm.resultsLimit">
+
+						<div class="hotel-inner" xng-class="{featured:hotel.accessiblego.cug}">
+
+							<div ng-hide="true" xng-show="hotel.accessiblego.cug" class="featured-title">
+
+								<i class="fa fa-check-circle-o"></i>
+
+								{{hotel.name | uppercase}}
+
+							</div>
+
+							<div class="row">
+
+								<div class="col col-auto">
+
+									<div class="img-wrapper">
+										<img
+											hide-until-good
+											ng-if="hotel.thumbnail"
+											ng-src="https:{{hotel.thumbnail_hq.three_hundred_square.replace('https:','')}}"
+											alt="" />
+
+									</div>
+
+									<!-- ACCESSIBILITY SCORE -->
+									<div
+										ng-if="hotel.accessiblego.reviews" class="acc-score">
+
+										<p>Accessibility Score</p>
+
+										<a ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+										   xng-click="vm.viewHotel(hotel.id)" class="star-rating-wrapper" style="text-decoration:underline;">
+											<div>
+												<ul>
+													<li>
+														<i ng-class="vm.getGuestAccessibilityScore(hotel)>0 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+													</li>
+													<li>
+														<i ng-class="vm.getGuestAccessibilityScore(hotel)>1 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+													</li>
+													<li>
+														<i ng-class="vm.getGuestAccessibilityScore(hotel)>2 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+													</li>
+													<li>
+														<i ng-class="vm.getGuestAccessibilityScore(hotel)>3 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+													</li>
+													<li>
+														<i ng-class="vm.getGuestAccessibilityScore(hotel)>4 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+													</li>
+												</ul>
+											</div>
+
+											<span>({{hotel.accessiblego.reviews.length}})</span>
+										</a>
+									</div>
+
+									<div class="write-review-button">
+
+										<a class="text-bold" ng-click="vm.review(hotel.id)" ui-sref="reviewHotel({hid:hotel.id})">Write a review
+										</a>
+
+									</div>
+
+								</div>
+
+								<div class="col">
+
+									<div class="row">
+
+										<div class="col p-0">
+
+											<a ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+											   xng-click="vm.viewHotel(hotel.id)"
+											   class="hotel-link">
+												<span ng-bind-html="hotel.name" />
+											</a>
+
+											<div class="hotel-address">
+												{{hotel.address.address_line_one}}, {{hotel.address.city_name}}, {{hotel.address.state_code}}, <span xng-show="hotel.address.country_name!=='United States'">{{hotel.address.country_name}}</span>
+											</div>
+
+										</div>
+
+										<div class="col col-2 p-0">
+
+											<favorite-directive type="hotel" referenceid="{{hotel.id}}"></favorite-directive>
+
+										</div>
+
+									</div>
+
+									<!-- distance from -->
+									<!-- <div class="hotel-address" style="color:#29807c;font-weight: bold;" ng-show="hotelSearchService.params.type==='hospital'">
+										<i class="fa fa-map" aria-hidden="true"></i> about {{ vm.getDistanceFrom(hotel.geo) }} miles from {{hotelSearchService.params.display}}
+										
+									</div> -->
+
+									<!-- ANON :: CLUBGO DEAL -->
+									<div
+										ng-show="hotel.accessiblego.cug"
+										class="clubgo-wrapper">
+
+										<div class="dropdown">
+											<button ng-show="!isAuthenticated" class="ribbon" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<i class="left"></i>
+												<span>clubGO Deal! <i class="fa fa-question-circle"></i></span>
+											</button>
+
+											<div class="dropdown-menu clubgo-modal" aria-labelledby="dropdownMenuButton">
+
+											<button type="button" role="button" id="clubgo-modal-close" class="float-right" style="width:100%;">
+												<span class="fa-stack fa-1x">
+												  <i class="fa fa-times-circle fa-stack-2x"></i>
+												  <span  class="fa fa-stack-1x">close</span>
+												</span>
+												<!-- <i class="fa fa-times-circle" aria-hidden="true">close</i> -->
+											</button>
+
+											<div ng-show="!isAuthenticated" id="clubgo-modal">
+
+												
+
+												<p><b>clubGO</b> is accessibleGO's free travel club for people with disabilities.</p>
+
+												<p>clubGO deals beat public deals and rates 96% of the time!</p>
+
+												<p>This hotel is running a clubGO deal today.</p>
+
+												<p class="text-bold text-center">Join free to view this deal.</p>
+
+												<a ng-click="main.showJoinModal()">Join</a>
+
+												<a ng-click="main.showLoginModal()">Login</a>
+
+											</div>
+
+											</div>
+
+										</div>
+
+
+										<div ng-show="isAuthenticated" class="ribbon clubgo-deal">
+											<i class="left"></i>
+											<span>clubGO Deal!</span>
+										</div>
+
+
+
+
+											<!--<div class="club_img_div" ng-if="hotel.accessiblego.cug">
+												<img hide-until-good ng-show="vm.displayState === 'club'" ng-src="{{vm.CUG_listing_Club_Deal}}" style="xmax-width: 150px;">
+
+												<a ng-click="vm.unlockDeals()">
+													<img hide-until-good ng-show="vm.displayState === 'unlock'" ng-src="{{vm.CUG_listing_Unlock_Club_Deal}}" style="xmax-width: 150px;">
+												</a>
+
+											</div>-->
+
+									</div>
+
+									<div class="hotel-features">
+
+										<!-- case: none -->
+										<div class="float-left w-100" ng-show="!hotel.hasAugmentedData">
+
+											<div class="features-wrapper text-left" style="font-size: 1em;">
+
+												<p class="text-bold text-dark-blue m-1">
+
+													<i class="fa fa-wheelchair-alt"></i>
+
+													<i class="fa fa-exclamation-triangle red"></i>
+
+													Accessibility not yet determined.
+
+												</p>
+
+												<div class="inner no-acc">
+
+													<p><img class="m-1" src="web/public/resources/not-determined.png"></p>
+
+													<p class="text-center">You can book this hotel & enjoy great rates! We just don't know yet how accessible it is.</p>
+
+													<!-- <button class="background-blue text-white" onclick="location.href='https://go.accessiblego.com/access-check'">
+
+														<span>
+
+															<img src="web/public/resources/headphones-blue.png">
+
+														</span>
+
+														Call the hotel for me!
+
+														<small>(free)</small>
+
+													</button> -->
+
+												</div>
+
+											</div>
+
+
+										</div>
+
+										<!-- case: hotel amenities -->
+										<div class="float-left w-100" ng-show="hotel.hasAugmentedData && (ha.length>0 || ra.length>0)" style="width:100%">
+
+											<div class="features-wrapper" style="font-size:1em;">
+
+												<p class="text-bold text-dark-blue m-1">
+
+													<i class="fa fa-wheelchair-alt"></i>
+
+													<i class="fa fa-check-circle-o"></i>
+
+													Accessible
+
+												</p>
+
+												<div class="inner">
+
+													<div class="feature" ng-repeat="amenity in (ha = (hotel.augmentedData | filter: { category: 'hotel' } | limitTo: 4 ))">
+														<img
+															hide-until-good
+															ng-if="amenity.img"
+															ng-src="https://accessiblego.azureedge.net/img/accessibility/{{amenity.img}}"
+															style="width: 18px; height: auto;"
+															aria-hidden="true"
+															alt="" /> {{amenity.name}}
+													</div>
+
+													<div class="feature" ng-repeat="amenity in (ra = (hotel.augmentedData | filter: { category: 'room' } | limitTo: (ha.length>4?0:4-ha.length) ))">
+														<img
+															hide-until-good
+															ng-if="amenity.img"
+															ng-src="https://accessiblego.azureedge.net/img/accessibility/{{amenity.img}}"
+															style="width: 18px; height: auto;"
+															aria-hidden="true"
+															alt="" /> {{amenity.name}}
+													</div>
+
+													<p class="text-center" ng-show="ha.length + ra.length>4">
+														<a
+															ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+												   			class="text-bold">+ {{ha.length + ra.length - 4}} more features
+												   		</a>
+												   	</p>
+												</div>
+
+											</div>
+
+
+										</div>
+
+									</div>
+
+									<div class="pricing">
+
+
+										<div class="price_box" ng-show="isAuthenticated && vm.displayState==='club'">
+
+											<div class="row">
+												<div style="font-weight: bold;" class="col-6 text-center" ng-class="{'old-price':hotel.accessiblego.cug}">
+													<span class="price">{{hotel.rate_data.price_details.display_price | currency: "$": 0}}</span>
+													<span class="currency">{{hotel.rate_data.price_details.display_currency}}</span>
+													<span class="unit">per night</span>
+												</div>
+
+												<div class="col-6 text-center"
+													ng-show="hotel.accessiblego.cug">
+													<span class="price text-bold">{{hotel.accessiblego.cug.price_details.display_price | currency: "$": 0}}</span>
+													<span class="currency">{{hotel.rate_data.price_details.display_currency}}</span>
+													<span class="unit">per night</span>
+												</div>
+
+												<div class="col-12">
+													<button
+														class="text-bold"
+														style="cursor: pointer;"
+														ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+															xng-click="vm.viewHotel(hotel.id)" >
+														Choose a Room
+														<span
+															ng-show="hotel.accessiblego.cug"
+															class="text-center">
+															{{hotel.accessiblego.cug.saving_percentage}} % OFF
+														</span>
+													</button>
+												</div>
+
+											</div>
+										</div>
+
+										<div class="price_box" ng-show="vm.displayState==='unlock'">
+
+											<div class="row">
+												<div class="col-6 text-center">
+													<span class="price text-bold" ng-style="{'text-decoration': hotel.accessiblego.cug && vm.displayState==='club'?'line-through':'none'}">{{hotel.rate_data.price_details.display_price | currency: "$": 0}}</span>
+													<span class="currency">{{hotel.rate_data.price_details.display_currency}}</span>
+													<span class="unit">per night</span>
+												</div>
+
+												<div class="col-6 text-center text-dark-blue"
+												ng-show="hotel.accessiblego.cug">
+													<span class="price text-bold" ng-style="{'text-decoration': hotel.accessiblego.cug && vm.displayState==='club'?'line-through':'none'}">$???</span>
+													<span class="currency">{{hotel.rate_data.price_details.display_currency}}</span>
+													<span class="unit">per night</span>
+												</div>
+
+												<div class="col-6" style="padding:0px 10px;">
+													<button
+														type="button"
+														class="book-clubgo"
+														style="cursor: pointer;"
+														ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+															xng-click="vm.viewHotel(hotel.id)" >
+																Book
+															<span
+																ng-show="hotel.accessiblego.cug"
+																class="text-center">
+																{{hotel.rate_data.price_details.display_price | currency: "$": 0}}
+															</span>
+													</button>
+												</div>
+
+												<div
+													class="col-6" style="padding:0px 10px;"
+													ng-show="hotel.accessiblego.cug">
+													<button
+														type="button"
+														style="cursor: pointer;"
+														class="join-clubgo"
+														ng-click="vm.unlockDeals()"
+														xui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+														xng-click="vm.viewHotel(hotel.id)" >
+														<i class="left"></i>
+														Join <span>clubGO</span>
+													</button>
+												</div>
+
+											</div>
+										</div>
+
+
+										<!-- <div class="price_box default" ng-show="isAuthenticated && vm.displayState==='unlock'">
+
+											<div class="row">
+												<div class="col-6 text-center">
+													<span class="price text-bold" ng-style="{'text-decoration': hotel.accessiblego.cug && vm.displayState==='club'?'line-through':'none'}">{{hotel.rate_data.price_details.display_price | currency: "$": 0}}</span>
+													<span class="currency">{{hotel.rate_data.price_details.display_currency}}</span>
+													<span class="unit">per night</span>
+												</div>
+
+												<div class="col-12">
+													<button
+														class="text-bold"
+														style="cursor: pointer;"
+														ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+															xng-click="vm.viewHotel(hotel.id)" >
+														Choose a Room 2
+													</button>
+												</div>
+
+											</div>
+										</div> -->
+
+
+
+									</div>
+
+								</div>
+
+							</div>
+
+							<div
+								ng-show="hotel.accessiblego.reviews.length>0"
+								class="review">
+
+								<div
+									class="row"
+									ng-repeat="review in hotel.accessiblego.reviews">
+
+									<div class="col-auto"><i class="fa fa-user"></i></div>
+
+									<div class="col">
+
+										<p>{{review.description | limitWords: 16 }} ...</p>
+
+									</div>
+
+									<div class="col-auto review-button">
+
+										<a ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+										   xng-click="vm.viewHotel(hotel.id)" class="text-green" style="font-weight: normal;">Read more</a>
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+
+				<!-- MOBILE -->
+					<div
+						class="container-fluid hotel mobile"
+						style="padding-bottom:8em;"
+						ng-repeat="hotel in vm.filteredResults | startFrom:vm.getStartFrom() | limitTo:vm.resultsLimit">
+
+						<div class="hotel-inner" xng-class="{featured:hotel.accessiblego.cug}">
+
+							<div ng-hide="true" xng-show="hotel.accessiblego.cug" class="featured-title">
+
+								<i class="fa fa-check-circle-o"></i>
+
+								{{hotel.name | uppercase}}
+							</div>
+
+							<div class="row">
+
+								<div class="col col-auto">
+
+									<div class="img-wrapper">
+										<img
+												hide-until-good
+												ng-if="hotel.thumbnail"
+												ng-src="https:{{hotel.thumbnail_hq.three_hundred_square.replace('https:','')}}"
+												style="max-width:300px;"
+												alt="" />
+
+										<favorite-directive type="hotel" referenceid="{{hotel.id}}"></favorite-directive>
+
+									</div>
+
+									<!-- CLUBGO BANNER -->
+									<!-- <div class="clubgo-wrapper" ng-show="vm.displayState === 'club'">
+
+
+										<button ng-show="!isAuthenticated" class="ribbon">
+											<span>clubGO Deal!!! <i class="fa fa-question-circle"></i></span>
+										</button>
+
+										<div ng-show="isAuthenticated && hotel.accessiblego.cug" class="ribbon clubgo-deal text-center">
+											<span>clubGO Deal!!!</span>
+										</div>
+
+										!--<div class="club_img_div" ng-if="hotel.accessiblego.cug">
+											<img hide-until-good ng-show="vm.displayState === 'club'" ng-src="{{vm.CUG_listing_Club_Deal}}" style="xmax-width: 150px;">
+
+											<a ng-click="vm.unlockDeals()">
+												<img hide-until-good ng-show="vm.displayState === 'unlock'" ng-src="{{vm.CUG_listing_Unlock_Club_Deal}}" style="xmax-width: 150px;">
+											</a>
+
+										</div>--
+
+									</div> -->
+
+
+									<!-- CLUBGO BANNER -->
+									<div class="clubgo-wrapper no-auth" ng-show="hotel.accessiblego.cug">
+
+										<!-- :: LEFT SIDE :: NOT LOGGED IN-->
+										<div
+											ng-show="!isAuthenticated"
+											class="dropdown">
+											<button type="button" class="ribbon" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<span><i class="fa fa-question-circle"></i> clubGO Deal!!</span>
+											</button>
+
+											<div class="dropdown-menu clubgo-modal" aria-labelledby="dropdownMenuButton">
+
+												<div id="clubgo-modal">
+
+													<button id="clubgo-modal-close"><i class="fa fa-times-circle"></i></button>
+													<p><b>clubGO</b> is accessibleGO's free travel club for people with disabilities.</p>
+													<p>clubGO deals beat public deals and rates 96% of the time!</p>
+													<p>This hotel is running a clubGO deal today.</p>
+													<p class="text-bold text-center">Join free to view this deal.</p>
+													<a ng-click="main.showJoinModal()">Join</a>
+													<a ng-click="main.showLoginModal()">Login</a>
+
+												</div>
+
+											</div>
+										</div>
+
+										<!-- :: LEFT SIDE :: LOGGED IN-->
+										<div
+											ng-show="isAuthenticated"
+											class="ribbon"
+											style="padding-top: 0.7em;">
+											<span>clubGO Deal!</span>
+										</div>
+
+										<!-- :: RIGHT SIDE :: NOT LOGGED IN -->
+										<div ng-show="!isAuthenticated">
+
+											<div class="vertical-middle">
+												<span>
+												<button type="button" ng-click="main.showJoinModal()">
+													Join
+												</button>
+												</span>
+												<span style="padding-left:5px;">clubGO</span>
+											</div>
+											<div class="vertical-middle">
+												<span>
+												or
+												</span>
+											</div>
+											<div class="vertical-middle">
+												<span>
+												<button type="button" ng-click="main.showLoginModal()">
+													Log in
+												</button>
+												</span>
+											</div>
+										</div>
+
+										<!-- :: RIGHT SIDE :: LOGGED IN BUT NOT CLUBGO MEMBER -->
+										<div ng-show="isAuthenticated && vm.displayState!=='club'">
+											<div class="vertical-middle">
+												<span>
+												<button type="button" ng-click="main.showJoinModal()">
+													Join
+												</button>
+												</span>
+												<span style="padding-left:5px;">clubGO</span>
+											</div>
+										</div>
+
+										<!-- :: RIGHT SIDE :: LOGGED IN AND CLUBGO MEMBER -->
+										<div ng-show="isAuthenticated && vm.displayState==='club'">
+											<div class="vertical-middle">
+												<span style="padding-left:5px;">Save {{hotel.accessiblego.cug.saving_percentage}}%</span>
+											</div>
+										</div>
+
+									</div>
+
+
+
+									<!--<div class="club_img_div" ng-if="hotel.accessiblego.cug">
+										<img hide-until-good ng-show="vm.displayState === 'club'" ng-src="{{vm.CUG_listing_Club_Deal}}" style="xmax-width: 150px;">
+
+										<a ng-click="vm.unlockDeals()">
+											<img hide-until-good ng-show="vm.displayState === 'unlock'" ng-src="{{vm.CUG_listing_Unlock_Club_Deal}}" style="xmax-width: 150px;">
+										</a>
+
+									</div>-->
+
+								</div>
+
+								<!-- HOTEL NAME -->
+								<div class="row">
+									<div class="col p-0">
+										<a ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+										   xng-click="vm.viewHotel(hotel.id)"
+										   class="hotel-link">
+											<span ng-bind-html="hotel.name" />
+										</a>
+									</div>
+								</div>
+
+
+							</div>
+
+							<div class="row">
+								<div class="col">
+
+									<div class="hotel-features">
+
+										<!-- case: none -->
+										<div class="float-left w-100" ng-show="!hotel.hasAugmentedData">
+
+											<div class="features-wrapper text-left">
+
+												<p class="text-bold text-dark-blue m-1" style="font-size: 1em;">
+
+													<i class="fa fa-wheelchair-alt"></i>
+
+													<i class="fa fa-exclamation-triangle red"></i>
+
+													Accessibility not yet determined.
+
+												</p>
+
+											</div>
+
+
+										</div>
+
+										<!-- case: hotel amenities -->
+										<div class="float-left w-100" ng-show="hotel.hasAugmentedData && (ha.length>0 || ra.length>0)" style="width:100%">
+
+											<div class="features-wrapper" style="font-size: 1em;">
+
+												<p class="text-bold text-dark-blue m-1">
+
+													<i class="fa fa-wheelchair-alt"></i>
+
+													<i class="fa fa-check-circle-o"></i>
+
+													Accessible
+
+												</p>
+
+												<div class="inner">
+
+													<div class="feature" ng-repeat="amenity in (ha = (hotel.augmentedData | filter: { category: 'hotel' }))">
+														<img
+															hide-until-good
+															ng-if="amenity.img"
+															ng-src="https://accessiblego.azureedge.net/img/accessibility/{{amenity.img}}"
+															style="width: 18px; height: auto;font-size: .9em;"
+															aria-hidden="true"
+															alt="" /> {{amenity.name}}
+													</div>
+
+													<div class="feature" ng-repeat="amenity in (ra = (hotel.augmentedData | filter: { category: 'room' }))">
+														<img
+															hide-until-good
+															ng-if="amenity.img"
+															ng-src="https://accessiblego.azureedge.net/img/accessibility/{{amenity.img}}"
+															style="width: 18px; height: auto;font-size: .9em;"
+															aria-hidden="true"
+															alt="" /> {{amenity.name}}
+													</div>
+
+													<p class="text-center"><a href="" class="text-left" style="font-size: 1em;">{{ha.length + ra.length}} accessibility features</a></p>
+
+												</div>
+
+											</div>
+
+
+										</div>
+
+									</div>
+
+									<!-- ACCESSIBILITY SCORE -->
+									<div
+										ng-if="hotel.accessiblego.reviews" class="acc-score">
+
+										<p>Accessibility Score</p>
+
+										<a ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+										   xng-click="vm.viewHotel(hotel.id)" class="star-rating-wrapper" style="text-decoration:underline;">
+											<div>
+												<ul>
+													<li>
+														<i ng-class="vm.getGuestAccessibilityScore(hotel)>0 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+													</li>
+													<li>
+														<i ng-class="vm.getGuestAccessibilityScore(hotel)>1 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+													</li>
+													<li>
+														<i ng-class="vm.getGuestAccessibilityScore(hotel)>2 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+													</li>
+													<li>
+														<i ng-class="vm.getGuestAccessibilityScore(hotel)>3 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+													</li>
+													<li>
+														<i ng-class="vm.getGuestAccessibilityScore(hotel)>4 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+													</li>
+												</ul>
+											</div>
+
+											<span>({{hotel.accessiblego.reviews.length}})</span>
+
+										</a>
+
+									</div>
+
+
+									<!-- NO ACCESSIBILITY SCORE -->
+									<div class="float-left w-100" ng-show="!hotel.hasAugmentedData">
+
+										<div class="features-wrapper text-center">
+
+											<div class="inner no-acc">
+
+												<p><img class="m-1" src="web/public/resources/not-determined.png"></p>
+
+												<p class="text-center">You can book this hotel & enjoy great rates! We just don't know yet how accessible it is.</p>
+
+												<!-- <button class="background-blue text-white">
+
+													<span>
+
+														<img src="web/public/resources/headphones-blue.png">
+
+													</span>
+
+													Call the hotel for me!
+
+													<small>(free)</small>
+
+												</button> -->
+
+											</div>
+
+										</div>
+
+									</div>
+
+									<div
+										ng-show="hotel.accessiblego.reviews.length>0"
+										class="review">
+
+										<div
+											ng-repeat="review in hotel.accessiblego.reviews"
+											class="row">
+
+											<div class="col-auto"><i class="fa fa-user"></i></div>
+
+											<div class="col">
+
+												<p>{{review.description | limitWords: 16 }} ...</p>
+
+											</div>
+
+											<div class="col-auto review-button">
+
+												<a ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+												   xng-click="vm.viewHotel(hotel.id)" class="text-green">Read more</a>
+
+											</div>
+
+										</div>
+
+									</div>
+
+								</div>
+
+							</div>
+
+							<div class="pricing" style="box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);">
+
+								<div class="price_box" ng-show="isAuthenticated && vm.displayState==='club'" style="padding:0 8px;">
+
+									<a ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})">
+										<div class="row align-items-center">
+
+											<div class="col text-right old-price">
+												<span
+													class="price"
+													ng-style="{'text-decoration': hotel.accessiblego.cug && vm.displayState==='club'?'line-through':'none'}"
+													style="color:#fff;">{{hotel.rate_data.price_details.display_price | currency: "$": 0}}
+												</span>
+											</div>
+
+											<div class="col text-center">
+												<span class="price text-bold">{{hotel.accessiblego.cug.price_details.display_price | currency: "$": 0}}</span>
+											</div>
+
+											<div class="col-auto">
+												<span
+													style="font-size: 1.2em;color:#fff;"
+													xng-click="vm.viewHotel(hotel.id)" >
+													Choose Room
+												</span>
+											</div>
+
+											<div class="col-auto text-center">
+												<span class=""><i class="fa fa-chevron-right"></i></span>
+											</div>
+
+										</div>
+									</a>
+								</div>
+
+								<div class="price_box" ng-show="!isAuthenticated" style="padding:0 8px;">
+
+									<a ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})">
+										<div class="row align-items-center">
+
+											<div class="col text-right old-price">
+												<span
+													class="price"
+													ng-style="{'text-decoration': hotel.accessiblego.cug && vm.displayState==='club'?'line-through':'none'}"
+													style="color:#fff;">{{hotel.rate_data.price_details.display_price | currency: "$": 0}}
+												</span>
+											</div>
+
+											<div
+												class="col text-center"
+												ng-show="hotel.accessiblego.cug">
+												<span class="price clubGo">$???<span>clubGO</span><img
+													ng-src="{{vm.env.cdn_static}}/i/booking/ribbon.png"
+													aria-hidden="true" alt="" /></span>
+											</div>
+
+											<div class="col-auto">
+												<span style="font-size: 1.2em;color:#fff;"
+													xui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+													xstyle="cursor: pointer;"
+													xng-click="vm.viewHotel(hotel.id)" >
+													Choose Room
+												</span>
+											</div>
+
+											<div class="col-auto text-center">
+												<span class=""><i class="fa fa-chevron-right"></i></span>
+											</div>
+
+										</div>
+									</a>
+								</div>
+
+
+								<!-- ng-show="isAuthenticated && !vm.displayState==='club'" -->
+
+								<!--<div class="price_box default" >
+
+									<div class="row align-items-center">
+
+										<div class="col-auto">
+											<button ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+													xng-click="vm.viewHotel(hotel.id)" >
+												Choose Room
+											</button>
+										</div>
+
+										<div class="col text-center">
+											<span class="price">{{hotel.rate_data.price_details.display_price | currency: "$": 0}}</span>
+										</div>
+
+										<div class="col-auto text-center">
+											<span class=""><i class="fa fa-chevron-right"></i></span>
+										</div>
+
+									</div>
+								</div></!-->
+
+
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+
+				<!-- PAGINATION -->
+				<div ng-show="vm.filteredResults.length > {{vm.pageSize}}" class="text-center">
+
+					<p class="text-left">Showing results {{(vm.currentPage*vm.pageSize)+1}}-{{Math.min(vm.pageSize*(vm.currentPage+1),vm.hotelsToShow().length)}}
+						of {{vm.hotelsToShow().length}}</p>
+
+					<div class="pagination">
+							<button ng-disabled="vm.currentPage == 0" ng-click="vm.ShowPrev()">Prev</button>
+							<button ng-repeat="page in vm.getPages() track by $index" ng-class="$index===vm.currentPage ? 'selected' : 'defaultInspirationPage'"
+									style="" ng-click="vm.goToPage($index)">
+								{{$index+1}}</button>
+							<button ng-disabled="vm.currentPage >= vm.hotelsToShow().length/vm.pageSize - 1" class="defaultInspirationPage"
+									ng-click="vm.ShowNext()">Next</button>
+					</div>
+
+				</div>
+
+
+			</div>
+		
+		</div>
+
+
+		<div
+			ng-show="!vm.isWaiting && vm.allResults.length>0"
+			class="row"
+			style="padding:1em;">
+			<div style="padding:0;font-size: 1.25em;" class="container text-center" role="search">
+				<span style="font-weight: bold;color:#2c9792;">Get 10-60% Off!</span> Join <span style="font-weight: bold;">clubGO</span> - the free travel club for people with disabilities.  <a style="text-decoration: underline;color:#2c9792;" ng-show="!isAuthenticated" ng-click="main.showLoginModal()">Access deals.</a><a ng-show="isAuthenticated" ui-sref="accountPageUi({t:'club'})">Access deals.</a>
+			</div>
+		</div>
+
+
+
+		<!-- section :: popular cities -->
+		<div style="padding:1em;" ng-if="!vm.isWaiting && !vm.searchInitiated">
+			<popular-cities
+				title="Search Popular Destinations"
+				subtitle=""
+				mode="search"
+				background-img="false">
+			</popular-cities>
+		</div>
+
+				<!-- small|med|large -->
+			<!-- 				
+				<div
+					style="width:12em;text-align: center;border-left:1px solid #d4d4d4;xmargin-right:1.25em;padding:1em;"
+					class="d-none d-sm-block price_box">
+
+					<div style="line-height:.75em;display: flex; flex-direction: row;align-items:center;justify-content:space-between;">
+						<div>
+							<span ng-style="{'text-decoration': hotel.accessiblego.cug && vm.displayState==='club'?'line-through':'none'}" style="font-weight: 600;font-size:1.875em;">{{hotel.rate_data.price_details.display_price | currency: "$": 0}}</span>
+							<span style="font-weight: 600;font-size:.875em;vertical-align: super;">{{hotel.rate_data.price_details.display_currency}}</span>
+							<br />
+							<span style="font-weight:400;font-size:.875em;">per night</span>
+						</div>
+
+						-- CUG & CLUB :: desktop --
+						<div ng-if="hotel.accessiblego.cug && vm.displayState==='club'" style="line-height:.75em;color:#27799f;padding:1em;">
+							<span style="font-weight: 600;font-size:1.875em;">{{hotel.accessiblego.cug.price_details.display_price | currency: "$": 0}}</span>
+							<span style="font-weight: 600;font-size:.875em;vertical-align: super;">{{hotel.accessiblego.cug.price_details.display_currency}}</span>
+							<br />
+							<span style="font-weight:400;font-size:.875em;">per night</span>
+						</div>
+						
+						
+					</div>
+
+					<div xstyle="width:5em;">
+						<button
+							id="home-booking-form-hotels_searchbutton"
+							style="margin-top:10px;min-height: 40px;cursor:pointer;line-height: 1.25em;padding: .5em;left-padding:.25em;font-weight: normal;font-size:1em;width:100%;"
+							xclass="hotel-book-button"
+							class="buttonBlue"
+							type="button"
+							ui-sref="hotel({hid: hotel.id, checkin: vm.utilities.getUrlSafeDate(vm.hotelDateCheckin), checkout: vm.utilities.getUrlSafeDate(vm.hotelDateCheckout), rooms: vm.hotelSearchRooms, adults: vm.hotelSearchAdults, children: vm.hotelSearchChildren, destination: vm.destination.display})"
+							xng-click="vm.viewHotel(hotel.id)">
+							Book-- <br/>{{hotel.rate_data.price_details.display_price | currency:'$':0}} --
+						</button>
+					</div>
+
+					<div
+						ng-if="hotel.accessiblego.cug && vm.displayState==='unlock'"
+						style="line-height:.75em;display: flex; flex-direction: row;align-items:center;margin-top:.25em;justify-content:space-between;color:#0062cc;width:5em;">
+						<div>
+							<span ng-style="{'text-decoration': hotel.accessiblego.cug && vm.displayState==='club'?'line-through':'none'}" style="font-weight: 600;font-size:1.875em;">
+								$??
+							</span>
+							<span style="font-weight: 600;font-size:.875em;vertical-align: super;">{{hotel.rate_data.price_details.display_currency}}</span>
+							<br />
+							<span style="font-weight:400;font-size:.875em;">per night</span>
+						</div>
+						<div class="float-right">
+							<button
+								id="joinClubGoButton"
+								class="btn btn-primary"
+								style="font-size:1em;color:#fff;width:100%;"
+								ng-click="vm.launchJoinModal()">
+								Join<br/>clubGO
+							</button>
+						</div>
+					</div>
+
+					<div
+						ng-if="hotel.accessiblego.cug && vm.displayState==='unlock'"
+						style="margin-top:1.25em;">
+						<div style="width:100%;color:#0062cc;font-weight: bold;">
+							To see clubGO rates, <a ng-click="main.showJoinModal()" style="text-decoration:underline;">join</a> clubGO or <a ng-click="main.showLoginModal()" style="text-decoration:underline;">log in</a>.  It's free.
+						</div>
+					</div>
+					
+
+					
+				</div>
+				-- <div
+					ng-if="hotel.accessiblego.cug"
+					style="width:6em;text-align: center;color:#27799f;font-size:1.25em;"
+					class="price_box">
+					<span ng-if="vm.displayState === 'unlock'">Unlock Secret Deals</span>
+					<span ng-if="vm.displayState === 'club'">Travelers Club Deal</span>
+				</div> --
+			</div>
+			-- END LISTING --
+		
+		-- results: end --
+
+
+		-- PAGING: BEGIN --
+		<div ng-show="vm.filteredResults.length > {{vm.pageSize}}" class="wrapper-common wrapper-common-width wrapper-row paging_row"
+		 style="justify-content:flex-end;width:44.625em;">
+			<div style="">
+				Showing results {{(vm.currentPage*vm.pageSize)+1}}-{{Math.min(vm.pageSize*(vm.currentPage+1),vm.hotelsToShow().length)}}
+				of {{vm.hotelsToShow().length}}
+				<button ng-disabled="vm.currentPage == 0" class="defaultInspirationPage" style="margin-left: 3em;" ng-click="vm.ShowPrev()">Prev</button>
+				<button ng-repeat="page in vm.getPages() track by $index" ng-disabled="$index===vm.currentPage" ng-class="$index===vm.currentPage ? 'selectedInspirationPage' : 'defaultInspirationPage'"
+				 style="" ng-click="vm.goToPage($index)">
+					{{$index+1}}</button>
+				<button ng-disabled="vm.currentPage >= vm.hotelsToShow().length/vm.pageSize - 1" class="defaultInspirationPage"
+				 ng-click="vm.ShowNext()">Next</button>
+
+				
+					</div>
+
+		</div>
+		-->
+
+	</div>
+
+
+
+
+	<!-- vision -->
+	<div ng-if="vm.env.name === 'production' && !vm.isWaiting && vm.allResults.length>0">
+		<script src="https://www.powr.io/powr.js?external-type=html"></script>
+		<div class="powr-popup" id="8dba539d_1543169663"></div>
+	</div>
+
+</div>

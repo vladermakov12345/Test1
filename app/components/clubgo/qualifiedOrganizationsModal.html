@@ -1,0 +1,44 @@
+<div class="text-center xlogin-modal register-modal" ng-controller="qualifiedOrganizationsModalController as vm">
+
+    <!-- modal header -->
+    <div
+        class="modal-header">
+        <img
+            ng-src="{{env.cdn_static}}/i/logo/logo_175_42_trans.png"
+            class="login-modal-logo modal-title" alt="accessibleGO logo">
+        <!-- <button type="button" class="close" ng-click="vm.closeModal()" aria-label="Close">&times;</button> -->
+        <button type="button" class="close p-0" data-dismiss="modal" ng-click="vm.closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+
+    <div
+        class="modal-body wrapper-common wrapper-common-width wrapper-column p-4">
+        <div>
+            <h3>Organizations participating in our clubGO Traveler's Program</h3>
+        </div>
+
+        <div class="center-block text-left">
+            <p class="pageDesc">If you are a member of an organization that you think should be on this list, you can:
+                <ul>
+                    <li>
+                        Send them this link containing information about our partner program: <a href="https://clubgo.accessiblego.com/partners" target="_win_partners">https://clubgo.accessiblego.com/partners</a>
+                    </li>
+                    <li>
+                        <a ui-sref="contact" style="text-decoration: underline;">Send us their contact information and we'll reach out to them.</a>
+                    </li>
+                </ul>
+            </p>
+
+            <hr/>
+
+            <div class="form-group">
+                list goes here
+            </div>
+        </div>
+
+        
+    </div>
+
+</div>

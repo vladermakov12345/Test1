@@ -1,0 +1,43 @@
+<div ng-controller="confirmationController as confirmation" ng-cloak>
+	<div id="city-top">
+		<div id="city-top-image">
+			<!-- top image: begin -->
+			<!-- <img src="{{about.getMainImage()}}" style="height:16.313em;" alt="Photo of New York City" /><br /> -->
+			<!-- top image: end -->
+		</div>
+	</div>
+
+	<div id="articles-main">
+		<div class="articles-main-flex">
+
+			<!-- COLUMN 1: BEGIN -->
+			<div style="width:38.875em;" xid="articles-main-col-content">
+				<div style="padding-top:1.75em">
+					<span style="font-weight: 600;font-size:1.875em;color:#299b7c;">You're all set to GO!</span>
+				</div>
+				<div style="font-weight: 600;font-size: 1.5em;padding-bottom:1em;">anything we could have done better?
+				<br />
+				Please reach out to us with suggestions, feedback and any concerns by emailing <a href="mailto:contact@accessibleGO.com">contact@accessibleGO.com
+					<span class="visuallyhidden">click to email us</span>
+				</a>
+				</div>
+
+				
+			</div>
+			
+			<!-- COLUMN 2: BEGIN -->
+			<div id="city-bookbox" style="margin-left:1.875em;width:16em;">
+				<bookbox type="hotels" city="{{city.city.Name}}"></bookbox>
+			</div>
+			<!-- COLUMN 2: END -->
+		</div>
+	</div>
+
+	<div id="about-articleCarousel">
+		<article-carousel />
+	</div>
+
+	<div id="about-tripplanner">
+		<trip-planner cityoptions="main.cities" isTripPlannerPage="false" />
+	</div>
+</div>

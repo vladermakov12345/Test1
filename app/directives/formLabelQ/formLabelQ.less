@@ -1,0 +1,73 @@
+
+@import (reference) "../../../resources/style_new/global/colors";
+
+.form-label-q {
+  float: none!important;
+  width: auto!important;
+  display: block!important;
+  clear: right;
+}
+
+.label-form-q .popover {
+  background: none;
+  border-radius: 0px;
+  left:0px!important;
+  min-width: 260px;
+  width:100%;
+  max-width:440px;
+
+  .pop-content {
+    background: rgba(0, 0, 0, .8);
+    width: 100%!important;
+    max-width: 440px!important;
+    xborder-radius: 0px;
+    padding: 25px 10px;
+    font-size: 1.2em;
+
+    button.close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      display: block;
+      border: 1px solid @text-gray;
+      width:40px;
+      height: 40px;
+      background: @background-white;
+      border-radius: 100%;
+      opacity:1;
+
+      i {
+        color: @text-gray;
+        box-shadow:none;
+        -webkit-text-stroke: 2px #fff;
+        font-size: 1.2em;
+      }
+
+    }
+
+    button.join {
+
+      color: @text-footer-green;
+      text-decoration: underline;
+
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    p {
+      margin: 0px 0px 10px 0px;
+      text-align: left;
+      height: auto;
+    }
+
+  }
+
+}
+
+
+
+.label-form-q label:hover {
+  text-decoration:underline;
+}

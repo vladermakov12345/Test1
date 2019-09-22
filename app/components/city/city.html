@@ -1,0 +1,439 @@
+
+
+<div ng-controller="cityController as vm" ng-cloak class="cityMain">
+
+	<city-search-bar></city-search-bar>
+
+	<breadcrumbs crumbs="vm.breadcrumbs"></breadcrumbs>
+
+	<!-- CITY IMAGE
+	<div class="wrapper-common wrapper-common-width">
+		<div>
+			<img src="{{vm.getMainImagePath()}}" style="height:auto;;max-width:100%;" alt="" /><br />
+			<span class="pull-right" style="font-size:.75em;font-weight: 400; text-align:right;">{{vm.getImageCredit(vm.city.Name)}}</span>
+		</div>
+	</div>
+	-->
+
+	<one-moment-please is-page-ready="vm.isPageReady===true"></one-moment-please>
+	
+	
+	<!-- CITY DATA DOES NOT EXIST -->
+	<div
+		ng-show="vm.isPageReady && vm.providers.length===0"
+		class="container-fluid">
+
+		<!-- OUR HEARRS ARE ... -->
+		<div class="section background-light-gray">
+			<div class="row">
+				<div class="container">
+					<div class="heading">
+						<h2>Our hearts are in {{vm.cityname}} too.</h2>
+
+						<h5>We have not yet gathered travel information for {{vm.cityname}}, but it’s in our sights.</h5>
+
+						<div class="green-line"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="container">
+
+					<div
+						class="row text-center"
+						style="display: flex;flex-direction: row;flex-wrap: wrap;justify-content: space-evenly;align-content: space-evenly;height:10em;">
+						<!-- <button
+							class="choose-city btn button-big button-green text-white text-uppercase"
+							style="max-width:280px;width:100%;"
+							ui-sref="contact">update me when it's ready</button> -->
+						<button
+							class="choose-city btn button-big button-green text-white text-uppercase"
+							style="max-width:280px;width:100%;"
+							ng-click="main.goVoteInTheForum()">Vote to Add this City</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- section :: cities -->
+    	<popular-cities
+    		title="Popular Cities with Full Information"
+    		subtitle="Choose a city to see accessible travel information and resources."
+    		background-img="true">
+   		</popular-cities>
+	</div>
+
+	<!-- CITY HERE WE COME! -->
+	<div ng-if="vm.isPageReady===true && vm.providers.length>0" class="container-fluid">
+		<div class="section background-light-gray" style="background-color: ##c8c8c82e;">
+			<div class="row">
+				<div class="container">
+					<div class="row heading">
+						<h2 style="font-size:2.25em;">{{vm.cityname}}, Here We Come!</h2>
+						<p style="color:#666;">Plan your trip with accessibility information for {{vm.cityname}}.</p>
+						<div class="green-line"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="container" style="display: flex; flex-direction: row;justify-content: space-evenly;flex-wrap: nowrap;">
+
+					<!-- TOP 10 ATTRACTIONS -->
+					<button
+						style="margin-bottom: 20px; height: 220px;max-width:220px;background-color:#fff;border-radius:15px;box-shadow:0 0 20px 0px #888888;"
+						class="keyboard-hover-light text-center"
+						ui-sref="articles({title:vm.attractionsArticle.URLSafeTitle})" tabindex="0">
+						<div class="">
+							<img
+								ng-src="{{vm.env.cdn_static}}/i/icon-attractions.png"
+							    xsrcset="{{vm.env.cdn_static}}/i/icon-attractions@2x.png 2x, {{vm.env.cdn_static}}/i/icon-attractions@3x.png 3x"
+							    style="margin-bottom:12px;">
+							<div class="d-none d-md-block" style="font-size:1.25em;">
+								Top 10 Accessible <span style="font-weight:bold;">Attractions</span> in {{vm.cityname}}
+							</div>
+							<div class="d-block d-md-none" style="font-size:1em;line-height: 1.25;">
+								Top 10 <span style="font-weight:bold;">Attractions</span> in {{vm.cityname}}
+							</div>
+							<div style="margin-top:.25em;text-decoration: underline;color:#29807c;font-size: .85em;">Read More</div>
+						</div>
+					</button>
+
+					<!-- TOP 10 HOTELS -->
+					<button
+						style="margin: 0 8px 20px;height: 220px;width:220px;background-color:#fff;border-radius:15px;box-shadow:0 0 20px 0px #888888;"
+						class="keyboard-hover-light text-center"
+						ui-sref="articles({title:vm.hotelsArticle.URLSafeTitle})" tabindex="0">
+						<div class="">
+							<img
+								ng-src="{{vm.env.cdn_static}}/i/icon-hotel.png"
+							    xsrcset="{{vm.env.cdn_static}}/i/icon-hotel@2x.png 2x, {{vm.env.cdn_static}}/i/icon-hotel@3x.png 3x"
+							    style="margin-bottom:12px;">
+							<div class="d-none d-md-block" style="font-size:1.25em;">
+								Top 10 Accessible <span style="font-weight:bold;">Hotels</span> in {{vm.cityname}}
+							</div>
+							<div class="d-block d-md-none" style="font-size:1em;line-height: 1.25;">
+								Top 10 <span style="font-weight:bold;">Hotels</span> in {{vm.cityname}}
+							</div>
+							<div style="margin-top:.75em;text-decoration: underline;color:#29807c;font-size: .85em;">Read More</div>
+						</div>
+					</button>
+
+					<!-- TOP 10 ITINERARY -->
+					<button
+						style="margin-bottom: 20px;height: 220px;width:220px;background-color:#fff;border-radius:15px;box-shadow:0 0 20px 0px #888888;"
+						class="keyboard-hover-light text-center" ui-sref="articles({title:vm.itineraryArticle.URLSafeTitle})" tabindex="0">
+						<div class="">
+							<img
+								ng-src="{{vm.env.cdn_static}}/i/icon-itinerary.png"
+							    xsrcset="{{vm.env.cdn_static}}/i/icon-itinerary@2x.png 2x, {{vm.env.cdn_static}}/i/icon-itineraryt@3x.png 3x"
+							    style="margin-bottom:12px;">
+							<div class="d-none d-md-block" style="font-size:1.25em;">
+								<span style="font-weight:bold;">48 Hour Itinerary</span> for {{vm.cityname}}
+							</div>
+							<div class="d-block d-md-none" style="font-size:1em;line-height: 1.25;">
+								<span style="font-weight:bold;">48 Hour Itinerary</span> for {{vm.cityname}}
+							</div>
+							<div style="margin-top:.75em;text-decoration: underline;color:#29807c;font-size: .85em;">Read More</div>
+						</div>
+					</button>
+
+					<!-- LATEST FORUM QUESTIONS 10 ITINERARY -->
+					<div
+						style="margin-bottom: 20px;height: 220px;width:400px;background-color:#fff;border-radius:15px;padding:12px;box-shadow:0 0 20px 0px #888888;"
+						class="d-none d-sm-block">
+						<div class="">
+							<div style="font-size:1.25em;font-weight: bold;">
+								Latest Forum Questions:
+							</div>
+							<div
+								style="font-size: 1em;overflow-y: scroll;height: 160px;text-align: left;">
+								<div ng-hide="vm.latestForumTopics.length>0">
+									Loading questions...
+								</div>
+								<div
+									ng-repeat="topic in vm.latestForumTopics | limitTo:5"
+									style="border-bottom:solid 1px #2b2b2b4a;padding:10px 0;">
+									<span style="font-size:.75em;color:#2c9792;font-weight: bold;">{{topic.last_posted_at | date : 'shortDate' }} | {{ topic.last_poster_username }}</span><br />
+									<a style="color:#4b4b4b;" href="https://community.accessiblego.com/t/{{topic.slug}}" class="anchor-hover">{{topic.title}}</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- ACCESSIBLE TRAVEL RESOURCES -->
+	<div ng-hide="vm.isPageReady===false || vm.providers.length===0" xclass="container-fluid">
+		<div id="travelresources" class="container-fluid section background-light-gray">
+			<div class="row">
+				<div class="container">
+					<div class="row heading">
+						<h2 style="font-size:2.25em;">Accessible Travel Resources</h2>
+						<p style="color:#666;">Getting there starts here.  Find accessibility resources for {{vm.cityname}}.</p>
+						<div class="green-line"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="container xaccessible_travel_res_wrap">
+					<div class="travelresources">
+
+						<!-- ATTRACTIONS -->
+						<button
+							id="buttonAttractions"
+							type="button"
+							class="keyboard-hover-light text-center accessible_travel_res_tiles"
+							ng-style="{'border': vm.showType==='attractions'?'2px solid #29807c':'none'}"
+							xui-sref="city({name: vm.cityname, state: vm.citystate, country: vm.citycountry, type: 'attractions' })"
+							xng-click="vm.showType='attractions'"
+							tabindex="0">
+							<div class="accessible_travel_res_wrap">
+								<img
+									ng-src="{{vm.env.cdn_static}}/i/icon-attractions.png"
+								    xsrcset="{{vm.env.cdn_static}}/i/icon-attractions@2x.png 2x, {{vm.env.cdn_static}}/i/icon-attractions@3x.png 3x"
+								    style="margin-bottom:12px;height:38px;" />
+								<div style="font-size:1em;font-weight:bold;width:100%;">Attractions</div>
+								<div style="text-decoration: underline;color:#29807c;font-size: 1em;">
+									{{ vm.getTypeCount('attractions') }} Results
+								</div>
+							</div>
+						</button>
+
+						<!-- EQUIPMENT RENTAL -->
+						<button
+							id="buttonEquipmentRental"
+							type="button"
+							class="keyboard-hover-light text-center accessible_travel_res_tiles"
+							ng-style="{'border': vm.showType==='equipment rental'?'2px solid #29807c':'none'}"
+							xui-sref="city({name: vm.cityname, state: vm.citystate, country: vm.citycountry, type: 'equipment rental' })"
+							xng-click="vm.showType='equipment rental'"
+							tabindex="0">
+							<div class="accessible_travel_res_wrap">
+								<img
+									ng-src="{{vm.env.cdn_static}}/i/icon-category-equipment.png"
+								    ng-srcset="{{vm.env.cdn_static}}/i/icon-category-equipment@2x.png 2x, {{vm.env.cdn_static}}/i/icon-category-equipment@3x.png 3x"
+								    style="margin-bottom:12px;" />
+								<div style="font-size:1em;font-weight:bold;width:100%;">Equipment Rental</div>
+								<div style="text-decoration: underline;color:#29807c;font-size: 1em;">
+									{{ vm.getTypeCount('Equipment Rental') }} Results
+								</div>
+							</div>
+						</button>
+
+						<!-- TRANSPORTATION -->
+						<button
+							id="buttonTransportation"
+							type="button"
+							class="keyboard-hover-light text-center accessible_travel_res_tiles"
+							ng-style="{'border': vm.showType==='transportation'?'2px solid #29807c':'none'}"
+							previously-ui-sref="tripPlanner({city: vm.cityname, type: 'Attractions', category: 'transportation' })"
+							xng-click="vm.showType='transportation'"
+							tabindex="0">
+							<div class="accessible_travel_res_wrap">
+								<img
+									ng-src="{{vm.env.cdn_static}}/i/icon-category-transportation.png"
+								    ng-srcset="{{vm.env.cdn_static}}/i/icon-category-transportation@2x.png 2x, {{vm.env.cdn_static}}/i/icon-category-transportation@3x.png 3x"
+								    style="margin-bottom:12px;" />
+								<div style="font-size:1em;font-weight:bold;width:100%;">Transportation</div>
+								<div style="text-decoration: underline;color:#29807c;font-size: 1em;">
+									{{ vm.getTypeCount('transportation') }} Results
+								</div>
+							</div>
+						</button>
+
+						<!-- TOUR COMPANIES -->
+						<button
+							id="buttonTourCompanies"
+							class="keyboard-hover-light text-center accessible_travel_res_tiles"
+							ng-style="{'border': vm.showType==='tour companies'?'2px solid #29807c':'none'}"
+							previously-ui-sref="tripPlanner({city: vm.cityname, type: 'Attractions', category: 'Tour_Companies' })"
+							ng-click="vm.showType='Tour Companies'"
+							tabindex="0">
+							<div class="accessible_travel_res_wrap">
+								<img
+									ng-src="{{vm.env.cdn_static}}/i/icon-category-tourcompany.png"
+								    ng-srcset="{{vm.env.cdn_static}}/i/icon-category-tourcompany@2x.png 2x, {{vm.env.cdn_static}}/i/icon-category-tourcompany@3x.png 3x"
+								    style="margin-bottom:12px;" />
+								<div style="font-size:1em;font-weight:bold;width:100%;">Tour Companies</div>
+								<div style="text-decoration: underline;color:#29807c;font-size: 1em;">
+									{{ vm.getTypeCount('Tour Companies') }} Results
+								</div>
+							</div>
+						</button>
+
+						<!-- Caregiver Agencies -->
+						<button
+							id="buttonCaregiverAgencies"
+							class="keyboard-hover-light text-center accessible_travel_res_tiles"
+							ng-style="{'border': vm.showType==='caregiver agencies'?'2px solid #29807c':'none'}"
+							previously-ui-sref="tripPlanner({city: vm.cityname, type: 'Attractions', category: 'Caregiver_Agencies' })"
+							ng-click="vm.showType='Caregiver Agencies'"
+							tabindex="0">
+							<div class="accessible_travel_res_wrap">
+								<img
+									ng-src="{{vm.env.cdn_static}}/i/icon-category-tourcompany.png"
+								    ng-srcset="{{vm.env.cdn_static}}/i/icon-category-tourcompany@2x.png 2x, {{vm.env.cdn_static}}/i/icon-category-tourcompany@3x.png 3x"
+								    style="margin-bottom:12px;" />
+								<div style="font-size:1em;font-weight:bold;width:100%;">Caregivers</div>
+								<div style="text-decoration: underline;color:#29807c;font-size: 1em;">
+									{{ vm.getTypeCount('Caregiver Agencies') }} Results
+								</div>
+							</div>
+						</button>
+
+					</div>
+
+					<div class="slick-navigation text-center">
+
+						<div class="travelresources-nav slick-navigation-wrapper"></div>
+
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-if="vm.isPageReady===true && vm.providers.length>0" class="background-light-gray" xclass="container-fluid">
+		<div class="container">
+
+			<div
+				ng-show="p.length===0" class="text-center">
+				<h3>No resources found for <span style="text-decoration: underline;">{{ vm.showType }}</span> in <span style="text-decoration: underline;">{{ vm.cityname }}</span></h3>
+			</div>
+
+			<div
+				ng-show="p.length>0"
+				style="display: flex;flex-direction: row;flex-wrap: wrap;justify-content: space-between;align-content: space-evenly;">
+
+				<!-- cards -->
+				<div
+					class="col-xs-12 col-sm-12 col-md-8 col-auto"
+					style="display: flex;flex-direction: row;flex-wrap: wrap;justify-content: space-between;">
+					<div
+					 	ng-repeat="item in ( p = (vm.providers | filter: { type: vm.showType } ))"
+						style="height: 310px;width:344px;background-color:#fff;border-radius:15px;margin:0 0 15px 0;cursor: default;"
+						class="keyboard-hover-light"
+						previously-ui-sref="tripPlanner({city: vm.cityname, type: 'Attractions', category: 'Equipment_Rental' })"
+						tabindex="0">
+
+						<a
+							ui-sref="provider({city: item.city.nameSlug, state: item.city.stateSlug, country: item.city.countrySlug, slug: item.slug })"
+							was-ui-sref="businessIndividual({city:vm.cityname, type:item.type, category:item.category, slug:item.slug})"
+							style="text-decoration: underline;">
+							<div ng-bind-html="item.name" class="semibold18"></div>
+						</a>
+
+						<div ng-bind-html="item.address" style="font-size: 0.906em;color:#29807c;"></div>
+
+						<hr/>
+
+						<div class="light16 text-left" style="height:3.5em;">
+							{{ item.description | limitWords:10 }}... <a 
+							ui-sref="provider({city: item.city.nameSlug, state: item.city.stateSlug, country: item.city.countrySlug, slug: item.slug })"
+							was-ui-sref="businessIndividual({city:vm.cityname, type:item.type, category:item.category, slug:item.slug})"
+							style="color:#299b7c;text-decoration: underline;">more</a>
+						</div>
+
+						<hr/>
+
+						<!-- CONTACT DETAILS -->
+						<div
+							ng-if="item.email || item.website || item.phone || item.facebook"
+							class="semibold16 text-left"
+							style="line-height: 2;">Contact Details:
+						</div>
+						<div ng-if="item.email" class="text-left" style="font-size: 0.813em;">
+							<i class="fa fa-envelope" style="color:#37bed6;padding-right:8px;" aria-hidden="true"></i> <a href="mailto:{{item.email}}" alt="Send email to {{item.email}}"> email</a>
+						</div>
+						<div ng-if="item.website" class="text-left" style="font-size: 0.813em;">
+							<i class="fa fa-globe" style="color:#37bed6;padding-right:8px;" aria-hidden="true"></i> <a style="color:#299b7c;text-decoration: underline;" ng-attr-href="{{item.website}}" target="_newWindow"> website</a>
+						</div>
+						<div ng-if="item.phone" class="text-left" style="font-size: 0.813em;">
+							<i class="fa fa-phone" style="color:#37bed6;padding-right:8px;" aria-hidden="true"></i> {{item.phone}}
+						</div>
+						<div ng-if="item.facebook" class="text-left" style="font-size: 0.813em;">
+							<i class="fa fa-facebook" style="color:#29807c;padding-right:8px;" aria-hidden="true"></i> <a style="color:#299b7c;text-decoration: underline;" ng-attr-href="{{item.facebook}}" target="_newWindow_facebook_{{item.directoryId}}"> facebook</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- google map -->
+				<div class="container col-md-4 col-lg-4">
+
+					<div
+						map-lazy-load="https://maps.google.com/maps/api/js"
+						map-lazy-load-params="{{vm.googleMapsUrl}}">
+						<ng-map
+							id="googleMap"
+							center="{{vm.mapCenter}}"
+							zoom="{{vm.mapCenter?'10':'2'}}"
+							style="height:784px;">
+							<marker
+								ng-repeat="provider in vm.providers | filter : isNational===0 | filter : addressFilter | filter: { type: vm.showType }"
+								ng-if="provider.address"
+								position="{{provider.address}}"
+								title="{{provider.name}}"
+								on-click="vm.showDirectoryEntryBubble(event, provider)">
+							</marker>
+							<info-window id="providerInfoWindow">
+					          <div ng-non-bindable="">
+					          	<a
+					          		style="color:#299b7c;font-size:1.25em;font-weight:600;text-decoration: underline;"
+					          		ng-attr-href="vm.selectedProvider.website"
+					          		target="_newWindow">
+					            	<span ng-bind="vm.selectedProvider.name"></span>
+							 	</a>
+							 	<div style="margin-top:.5em;" class="light16">
+					            	<span ng-bind="vm.selectedProvider.description"></span>
+								</div>
+								<!-- <div style="margin-top:.5em;" class="light14 ng-binding">
+					            	<span ng-bind="vm.selectedProvider.address"></span>
+								</div>  -->
+								<div style="margin-top:.5em;" class="light14">
+					            	<span ng-bind="vm.selectedProvider.phone"></span>
+								</div>
+
+								<div style="margin-top:.5em;" class="light14 text-center float-left">
+					            	<button
+					            		type="button"
+					            		class="btn button-green text-white"
+						          		style="font-size:1.25em;"
+						          		ng-click="main.goToProviderDetail(vm.selectedProvider.slug)"
+						          		target="_newWindow">
+						            	view detail
+								 	</button>
+								</div>
+								<div style="margin-top:.5em;" class="light14 float-right">
+					            	<button ng-click="vm.closeInfoWindow(this)" class="btn btn-default btn-sm">close</button>
+								</div>
+
+					          </div>
+					        </info-window>
+						</ng-map>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- booking search bar -->
+	<div ng-show="vm.isPageReady===true" class="container-fluid">
+		<div style="padding-top: 100px;">
+			<search-bar></search-bar>
+		</div>
+	</div>
+
+</div>
+

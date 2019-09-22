@@ -1,0 +1,53 @@
+.logo {
+
+  padding-left:0px;
+
+  @media(min-width:@small) {
+    padding-left:15px;
+  }
+
+}
+
+.navbar-brand {
+  margin:0;
+  padding:0;
+  display: table;
+  height: 100%;
+
+  a {
+    display: table-cell;
+    height:100%;
+    vertical-align: middle;
+  }
+
+  a:focus {
+    border: 1px solid #fff;
+  }
+
+  img {
+    max-width:125px;
+
+    @media(max-width:370px) {
+      max-width: 105px;
+    }
+
+    @media(min-width:@x-small) {
+      max-width: 135px;
+    }
+  }
+
+}
+
+.skip {
+  position: absolute;
+  left: -999em;
+  width: 990em;
+  padding: .25em 1em;
+  font-size:1.25em;
+  color:@background-darker;
+}
+a.skip:active,  a.skip:focus {
+  left: -8.5em;
+  border: 2px #3399cc solid;
+  background-color: #fff;
+}

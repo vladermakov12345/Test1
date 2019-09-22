@@ -1,0 +1,46 @@
+<div class="social-icon">
+
+	<div id="social-links-instagram" class="instagram">
+		<a href="https://www.instagram.com/accessiblego/" target="_win_instagram"><img src="https://accessiblego.azureedge.net/img/social/instagram_dark_gray.png" style="padding:0 8px 0 0;margin:0;" alt="Instagram" /></a>
+	</div>
+
+	<div id="social-links-linkedin" class="linkedin">
+		<a href="https://www.linkedin.com/company-beta/11022578/" target="_win_linkedin"><img src="https://accessiblego.azureedge.net/img/social/linkedin_dark_gray.png" style="padding:0 8px 0 0;margin:0;" alt="Linked In" /></a>
+	</div>
+
+	<div
+		id="social-links-facebook"
+		xclass="fb-share-button"
+		class="facebook"
+		href="javascript:;"
+		ng-click="socialIcon.popupFacebookShareWindow()"
+		data-layout="button"
+		data-size="large"
+		data-media="https://static01.nyt.com/images/2017/09/07/us/07Irma-1/07Irma-1-jumbo.jpg"
+		data-mobile-iframe="false">
+		<a
+			class="fb-xfbml-parse-ignore"
+			target="_win_facebook"
+			xhref="{{socialIcon.getFacebookShareLink()}}">
+			<img src="https://accessiblego.azureedge.net/img/social/facebook_dark_gray.png" style="padding:0 8px 0 0;margin:0;" alt="Facebook" />
+		</a>
+	</div>
+
+	<div
+		id="social-links-twitter"
+		class="twitter-share-button"
+		xclass="twitter"
+		href="javascript:;"
+		ng-click="socialIcon.popupTwitterShareWindow()"
+		data-size="large"
+		data-show-count="false"
+		data-media="https://static01.nyt.com/images/2017/09/07/us/07Irma-1/07Irma-1-jumbo.jpg"
+		xclass="popup">
+		<a
+			target="_win_twitter"
+			xhref="{{socialIcon.getTwitterShareLink()}}">
+			<img src="https://accessiblego.azureedge.net/img/social/twitter_dark_gray.png" style="padding:0 8px 0 0;margin:0px;" alt="Share on Twitter" />
+		</a>
+	</div>
+
+</div>

@@ -1,0 +1,424 @@
+<div ng-controller="reviewHotelController as reviewHotel" ng-cloak>
+
+<style>
+	.accessibilityChoice {
+	  background-color: #00002d;
+	  color:#fff;
+	}
+</style>
+
+	<!-- state :: pending -->
+	<div
+		ng-show="reviewHotel.reviewState === 'pending'"
+		class="wrapper-base"
+		style="background-color:#bababa;height:18.125em;">
+			<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+				<h2>One moment while we look up hotel details...</h2>
+			</div>
+	</div>
+	
+
+	<!-- state :: no hotel id -->
+	<div
+		ng-show="reviewHotel.reviewState === 'missing_hotel_id'"
+		xng-show="!reviewHotel.hid"
+		class="wrapper-base"
+		style="background-color:#bababa;height:18.125em;">
+			<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+				<h2>No hotel specified</h2>
+				<div>
+					<h4><strong><a style="color:#000;text-decoration: underline;" ui-sref="review">Search for a hotel to review here</a></strong></h4>
+				</div>
+			</div>
+	</div>
+
+	<!-- state :: hotel id provided -->
+	<div 
+		ng-show="reviewHotel.reviewState !== 'missing_hotel_id'">
+		<div id="scrollHotelID" class="wrapper-base" style="background-color:#bababa;xheight:8.125em;">
+			<div class="wrapper-common wrapper-common-width wrapper-row" style="flex-wrap: nowrap;">
+				<div>
+					<img hide-until-good ng-src="{{reviewHotel.hotelDetail.thumbnail}}" alt="" style="max-height:10em;margin-right:1.25em;" />
+				</div>
+				<div style="margin: 0 0 1em 0;">
+					<a
+						ui-sref="hotel({hid:reviewHotel.hotelDetail.hotel_ppn, checkin: reviewHotel.getDefaultCheckinDate(), checkout: reviewHotel.getDefaultCheckoutDate(), rooms:1, guests:1, destination: reviewHotel.hotelDetail.hotel_name})">
+						<span class="bold18" style="font-size: 2.5em;" ng-bind-html="reviewHotel.hotelDetail.hotel_name"></span>
+					</a><br/>
+					<span class="light18" ng-bind-html="reviewHotel.hotelDetail.hotel_address"></span>,
+					<span class="light18" ng-bind-html="reviewHotel.hotelDetail.city"></span>,
+					<span class="light18" ng-bind-html="reviewHotel.hotelDetail.state"></span>
+					<span class="light18" ng-bind-html="reviewHotel.hotelDetail.postal_code"></span>
+				</div>
+			</div>
+	        <div style="text-align:center" ng-if="reviewHotel.errs.length>0 && reviewHotel.hotelDetail.hotel_ppn==null " ng-repeat="err in reviewHotel.errs | limitTo:1">
+	            <p style="color:red">{{err.message}}</p>
+	        </div>
+		</div>
+	</div>
+
+
+	<!-- state :: not logged in -->
+	<div
+		ng-show="reviewHotel.reviewState === 'unauthenticated'"
+		class="wrapper-base"
+		style="background-color:#fff;">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+			<h2>You're almost there... <img class="header-img" ng-src="{{reviewHotel.image_together_icon}}" alt="" /></h2>
+
+			<div>
+				<h4><strong>We want to give you proper credit for your accessibility review.</strong></h4>
+				<h4>Please log in (or sign up) to add a review</h4>
+			</div>
+
+			<div>
+				<input  
+	      			id="login"
+	      			style="margin-top:10px;min-height: 40px;width:10em;"
+	      			class="buttonBlue"
+	      			type="button"
+	      			value="Log in"
+	      			ng-click="reviewHotel.login()" />
+			</div>
+			
+			<!-- <div style="display: flex;">
+				<div class="flex-row" style="justify-content: space-between;">
+					<div style="border: 1px solid #000; border-radius: 1em;height: 10em;padding:.5em 1em;text-align: center;">
+						<h3>Already have an account?</h3>
+						<input  
+			      			id="login"
+			      			style="margin-top:10px;min-height: 40px;width:3em;"
+			      			class="buttonBlue"
+			      			type="button"
+			      			value="Log in"
+			      			ng-click="reviewHotel.login()" />
+					</div>
+					<div style="border: 1px solid #000; border-radius: 1em;height: 10em;padding:.5em 1em;text-align: center;">
+						<h3>Don't yet have an account?</h3>
+			      		<input  
+			      			id="login"
+			      			style="margin-top:10px;min-height: 40px;width:3em;"
+			      			class="buttonBlue"
+			      			type="button"
+			      			value="Join"
+			      			ng-click="reviewHotel.join()" />
+		      		</div>
+		      	</div>
+	     	</div> -->
+		</div>
+	</div>
+
+
+	<!-- state :: already reviewed -->
+	<div
+		ng-show="reviewHotel.reviewState === 'reviewed_already'"
+		xng-show="isAuthenticated && reviewHotel.isAlreadyReviewed()"
+		class="wrapper-base"
+		style="background-color:#fff;height:18.125em;">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">			
+			<h3>You reviewed this hotel on {{ reviewHotel.review.reviewDateFormatted }}.</h3>
+			Rating: {{reviewHotel.review.rating}} of 5 stars<br>
+			Title: {{reviewHotel.review.title}}<br>
+			Description: {{reviewHotel.review.description}}<br>
+			Travel Date: {{reviewHotel.review.travelDate}}
+		</div>            
+	</div>
+
+
+	<!-- state :: ready to review -->
+	<div
+		ng-show="reviewHotel.reviewState === 'show_review_form'"
+		xng-show="reviewHotel.hid && !reviewHotel.isSubmitted">        
+
+		<!-- not signed in -->
+		<!-- <div
+			ng-hide="isAuthenticated"
+			class="wrapper-base">
+			<div class="wrapper-common wrapper-common-width wrapper-column">
+				<h3>To review this hotel, please <a ng-click="main.login(true,true);" style="text-decoration: underline;">sign in</a></h3>
+			</div>
+		</div> -->
+
+		<!-- already reviewed -->
+
+       
+		<!-- review -->
+		<div id='scrollRating'
+			xng-show="!reviewHotel.isAlreadyReviewed()"
+		 	class="wrapper-base">
+			<div  class="wrapper-common wrapper-common-width wrapper-column">
+                
+				<!-- rating -->
+				<div id='scrollTitle' style="">
+					<span style="color:red;font-weight: 600;">*</span><span for="review_title" class="bold22"> Overall Rating:</span>
+				</div>                
+   				<div  ng-if="reviewHotel.errs.length>0 && reviewHotel.hotelDetail.hotel_ppn!=null && reviewHotel.rating==0 " ng-repeat="err in reviewHotel.errs | limitTo:1"  >
+                    <p style="color:red">{{err.message}}</p>
+				</div>
+				
+				<div style="margin: 0 0 1em 0;">
+					<div
+					 star-rating 
+					 rating="reviewHotel.rating"
+					 read-only="false"
+					 max-rating="5"
+                     ng-click="reviewHotel.errorCheck()"                       
+					 click="click1(param)"
+					 mouse-hover="mouseHover1(param)"
+					 mouse-leave="mouseLeave1(param)"></div>
+ 				</div>
+
+				<!-- title -->
+				<div id='scrollDescription' style="">
+					<span style="color:red;font-weight: 600;">*</span><span xfor="review_title" class="bold22"> Title of your review:</span>
+				</div>
+                <div
+                	ng-if="reviewHotel.errs.length>0 && reviewHotel.hotelDetail.hotel_ppn!=null && reviewHotel.rating!=0 && reviewHotel.title==''"
+                	ng-repeat="err in reviewHotel.errs | limitTo:1">
+                    <p style="color:red">{{err.message}}</p>
+                </div>
+				<div style="margin: 0 0 1em 0;">
+					<input id="review_title" type="text" ng-change="reviewHotel.errorCheck()" ng-model="reviewHotel.title" multiple="true" style="width:100%;max-width:30em;" maxlength="100" />
+				</div>
+
+				<!-- description -->
+				<div style="">
+					<span style="color:red;font-weight: 600;">*</span><span xfor="review_description" class="bold22"> Your review:</span>
+				</div>
+                <div ng-if="reviewHotel.errs.length>0  && reviewHotel.hotelDetail.hotel_ppn!=null && reviewHotel.rating!=0 && reviewHotel.title!=''&& reviewHotel.description.length<50 " ng-repeat="err in reviewHotel.errs | limitTo:1">
+                    <p style="color:red">{{err.message}}</p>
+                </div>
+				<div  id='scrollTravelDate' style="margin: 0 0 1em 0;">
+					<textarea ng-change="reviewHotel.errorCheck()" id="review_description" ng-model="reviewHotel.description" rows="4" maxlength="2000" style="width:100%;max-width:30em;" ></textarea>
+				</div>
+
+				<div  style="margin: 0 0 1em 0;">
+					<span style="color:red;font-weight: 600;">*</span><span class="bold22"> When did you travel?</span>
+					<date-picker 
+                        ng-click="reviewHotel.errorCheck()"                                          
+						id="review_whenTravel"
+						placeholder="Month/Year"
+						ng-model="reviewHotel.travelDate"
+						mode="month" />
+				</div>
+                <div ng-if="reviewHotel.errs.length>0  && reviewHotel.hotelDetail.hotel_ppn!=null && reviewHotel.rating!=0 && reviewHotel.title!=''&& reviewHotel.description.length>50 && reviewHotel.travelDate =='' " ng-repeat="err in reviewHotel.errs | limitTo:1">
+                    <p style="color:red">{{err.message}}</p>
+                </div>
+				<!-- accessibility -->
+				<div style="margin: 0 0 1em 0;">
+					<span class="bold22">This hotel is suitable for:</span><br />
+
+					<label for="review_suitable_wheelchairUsers" class="bold16">
+						<input
+							type="checkbox"
+							id="review_suitable_wheelchairUsers"
+							ng-model="reviewHotel.accWheelchairUsers" />
+							<span class="semibold16"> Visitors who are wheelchair users</span>
+					</label><br />
+
+					<label for="review_suitable_lowVision" class="bold16">
+						<input
+							type="checkbox"
+							id="review_suitable_lowVision"
+							ng-model="reviewHotel.accLowVision" />
+							<span class="semibold16"> Visitors who are blind or have low vision</span>
+					</label><br />
+
+					<label for="review_suitable_lowHearing" class="bold16">
+						<input
+							type="checkbox"
+							id="review_suitable_lowHearing"
+							ng-model="reviewHotel.accLowHearing" />
+							<span class="semibold16"> Visitors who are deaf or hard of hearing</span>
+					</label><br />
+
+					<label for="review_suitable_lowMobility" class="bold16">
+						<input
+							type="checkbox"
+							id="review_suitable_lowMobility"
+							ng-model="reviewHotel.accLowMobility" />
+							<span class="semibold16"> Visitors with mobility disabilities</span>
+					</label><br />
+				</div>
+
+				<div style="margin: 0 0 1em 0;">
+					<span xfor="review_whenTravel" class="bold22">Hotel accessibility:</span>
+
+					<table class="table">
+						<tr>
+							<td><h4>entrance and main areas</h4></td>
+							<td>
+								<div xclass="btn-group">
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.entranceandmainareas" uib-btn-radio="1">yes</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.entranceandmainareas" uib-btn-radio="0">no</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.entranceandmainareas" uib-btn-radio="">not sure</label>
+							    </div>
+							</td>
+						</tr>
+
+						<tr>
+							<td><h4>parking</h4></td>
+							<td>
+								<div xclass="btn-group">
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.parking" uib-btn-radio="1">yes</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.parking" uib-btn-radio="0">no</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.parking" uib-btn-radio="">not sure</label>
+							    </div>
+							</td>
+						</tr>
+
+						<tr>
+							<td><h4>elevator</h4></td>
+							<td>
+								<div xclass="btn-group">
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.elevator" uib-btn-radio="1">yes</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.elevator" uib-btn-radio="0">no</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.elevator" uib-btn-radio="">not sure</label>
+							    </div>
+							</td>
+						</tr>
+
+						<tr>
+							<td><h4>restaurant</h4></td>
+							<td>
+								<div xclass="btn-group">
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.restaurant" uib-btn-radio="1">yes</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.restaurant" uib-btn-radio="0">no</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.restaurant" uib-btn-radio="">not sure</label>
+							    </div>
+							</td>
+						</tr>
+
+						<tr>
+							<td><h4>room</h4></td>
+							<td>
+								<div xclass="btn-group">
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.room" uib-btn-radio="1">yes</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.room" uib-btn-radio="0">no</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.room" uib-btn-radio="">not sure</label>
+							    </div>
+							</td>
+						</tr>
+
+						<tr>
+							<td><h4>pool</h4></td>
+							<td>
+								<div xclass="btn-group">
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.pool" uib-btn-radio="1">yes</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.pool" uib-btn-radio="0">no</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.pool" uib-btn-radio="">not sure</label>
+							    </div>
+							</td>
+						</tr>
+
+						<tr>
+							<td><h4>fitness center</h4></td>
+							<td>
+								<div xclass="btn-group">
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.fitnesscenter" uib-btn-radio="1">yes</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.fitnesscenter" uib-btn-radio="0">no</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.fitnesscenter" uib-btn-radio="">not sure</label>
+							    </div>
+							</td>
+						</tr>
+
+						<tr>
+							<td><h4>business center</h4></td>
+							<td>
+								<div xclass="btn-group">
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.businesscenter" uib-btn-radio="1">yes</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.businesscenter" uib-btn-radio="0">no</label>
+							        <label class="btn btn-default btn-lg" ng-model="reviewHotel.acc.businesscenter" uib-btn-radio="">not sure</label>
+							    </div>
+							</td>
+						</tr>
+					</table>
+				</div>
+
+				<div style="margin: 0 0 1em 0;">
+					<h3 xfor="review_whenTravel" class="bold22">Add Photos:</h3>
+					<input  
+		      			id="addPhotos"
+		      			style="margin:10px 0;min-height: 20px;"
+		      			class="buttonBlue"
+		      			type="button"
+		      			value="Add a Photo"
+		      			ng-click="reviewHotel.addPhotos()" />
+		      		<div ng-repeat="f in reviewHotel.photos">
+		      			<img ng-src="{{f.url}}" style="max-width: 200px;">
+		      			<span class="light18">{{f.description}}</span>
+                		<button ng-click="reviewHotel.removeFile(f.name);" class="pull-right">
+                			<i class="fa fa-remove" style="font-size:24px;"></i> remove
+                		</button>
+                		<hr>
+		      		</div>
+				</div>
+
+				<div style="margin: 0 0 1em 0;">
+					<h3 xfor="review_whenTravel" class="bold22">Add a tip to help travelers choose an accessible room:</h3>
+					<textarea
+						ng-model="reviewHotel.tip"
+						rows="4"
+						maxlength="1000"
+						style="width:100%;max-width:30em;">
+					</textarea>
+				</div>
+
+				<div style="margin: 0 0 1em 0;">
+					<h3 xfor="review_whenTravel" class="bold22">Share thoughts on hotel’s efforts to accommodate people with disabilities:</h3>
+					<textarea
+						ng-model="reviewHotel.accomodationEffort"
+						rows="3"
+						maxlength="1000"
+						style="width:100%;max-width:30em;">
+					</textarea>
+				</div>
+
+				<!-- submit review -->
+				<div style="padding:3px;xflex-basis: 7.125em;">
+					<input  
+		      			id="submitReview"
+		      			style="margin-top:10px;min-height: 40px;"
+		      			class="buttonBlue"
+		      			type="button"
+		      			value="Submit Review"
+		      			ng-click="reviewHotel.submit()" />
+				</div>
+
+				<!-- errors? -->
+				<div
+					ng-if="reviewHotel.errs.length>0"
+					style="background-color: #872f2c;padding:1em;color:#fff;">
+					<h4>Please resolve the following.</h4>
+					<!-- If you are unsure why you are getting this message, we kindly request that you sign out and then sign back in.  We apologize for the inconvenience. -->
+					<ul>
+	   					<li ng-repeat="err in reviewHotel.errs">
+							{{err.message}}
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- state :: just submitted -->
+	<div
+		ng-show="reviewHotel.reviewState === 'submitted'"
+		xng-show="reviewHotel.hid && reviewHotel.isSubmitted"
+		class="wrapper-base"
+		style="background-color:#fff;height:18.125em;">
+		<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+			<h2>Thank you for your review!</h2>
+			<div>
+				<h3>Check out...</h3>
+				<ul>
+					<li><strong><a style="color:#000;" ui-sref="hotels">Search Hotels</a></strong></li>
+					<li><strong><a style="color:#000;" ui-sref="ideas">Read Travel Articles</a></strong></li>
+					<li><strong><a style="color:#000;" ui-sref="contact">Send us Feedback</a></strong></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+</div>

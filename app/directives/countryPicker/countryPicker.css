@@ -1,0 +1,20 @@
+/*.styleInnerSpan > span {
+	border:1px solid #ccc;
+	box-shadow:none;
+	xpadding:14px 12px;
+	outline:none;
+	xmin-height:50px;
+}*/
+
+
+/* not sure if we need these 2 */
+  .full button span {
+    background-color: limegreen;
+    border-radius: 32px;
+    color: black;
+  }
+  .partially button span {
+    background-color: orange;
+    border-radius: 32px;
+    color: black;
+  }

@@ -1,0 +1,144 @@
+
+  .section-heading {
+    font-size: 25px;
+    font-weight: 600;
+    padding: 20px 0px;
+  }
+
+  .attractions-item {
+    .attraction-detail {
+      &:after {
+        content: "";
+        background-color: #D8D8D8;
+        position: absolute;
+        width: 1px;
+        height: 100px;
+        top: 10px;
+        right: 0;
+        display: block;
+      }
+    }
+    background-color: white;
+    width: 100%;
+    padding: 15px;
+    float: left;
+    margin-bottom: 20px;
+    .attraction-title {
+      margin-bottom: 15px;
+      .attraction-name {
+        border-bottom: 1px solid #78b4a9;
+        color: #78b4a9;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+      .attraction-ratings {
+        display: inline-block;
+        .rating-star {
+          display: inline-block;
+          margin-right: 5px;
+        }
+        span {
+          display: inline-block;
+          border-bottom: 1px solid #78b4a9;
+          color: #78b4a9;
+        }
+      }
+      .attraction-name {
+        font-weight: 600;
+        margin-right: 10px;
+      }
+    }
+    .attraction-description {
+      text-align: justify;
+      margin-bottom: 20px;
+      color: #444444;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .attraction-review {
+      margin-bottom: 10px;
+      i {
+        font-size: 18px;
+        margin-right: 5px;
+        color: #78b4a9;
+      }
+      .write-review {
+        border-bottom: 1px solid #78b4a9;
+        color: #78b4a9;
+        font-weight: 600;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+    .attraction-review-desc {
+      text-align: justify;
+      color: #969696;
+      font-size: 15px;
+      a {
+        color: #78b4a9;
+        border-bottom: 1px solid #78b4a9;
+        &:hover {
+          text-decoration: none !important;
+        }
+      }
+    }
+    .attraction-details {
+      margin-bottom: 5px;
+      i {
+        color: #969696;
+        margin-right: 10px;
+      }
+      span {
+        color: #969696;
+        font-size: 14px;
+      }
+    }
+  }
+/*=============27-2-2018============*/
+.address_info a {
+  color: #969696;
+  font-size: 14px;
+}
+
+.attraction-title .attraction-ratings .rating-star div img {
+    max-width: 20px;
+}
+.attraction-description {
+  font-weight: 500 !important;
+}
+
+/*=================*/
+.national_flag {
+  font-weight: 600;
+  font-size: 14px;
+  color: #000;
+}
+.attraction-review-desc {
+  text-decoration: none !important;
+}
+.attraction-review-desc a:focus, .attraction-review-desc a:visited, {
+  text-decoration: none;
+}
+
+.attraction-title > a,.attraction-review > a {
+  text-decoration: underline;
+}
+.attraction-title > a {
+  color: #299b7c;
+  font-weight: bold;
+  font-size: 21px;
+  margin-right: 10px;
+  display: inline-block;
+  text-decoration: underline;
+  position: relative;
+  top: 3px;
+}
+.attraction-review > a {
+  color: #299b7c;
+  text-decoration: underline;
+}
+.attraction-ratings .rating-star img{
+  cursor: auto;
+}

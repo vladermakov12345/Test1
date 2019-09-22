@@ -1,0 +1,511 @@
+<div ng-controller="articlesController as articles" ng-cloak>
+
+	<!-- ARTICLE SEARCH BAR: BEGIN -->
+	<div id="articles-search" class="wrapper-base" xstyle="background-color:#fff;min-height: 4.5em;">
+
+		<!-- white search bar: begin -->
+		<div class="wrapper-common wrapper-common-width wrapper-row" style="justify-content: space-between;">
+
+			<div>
+				<span style="font-size:1.875em;color:#000;">
+					<!-- FIGURE OUT HOW TO REMOVE A FROM BEING AUTO CSSED! -->
+					<!-- <a name="skipLinkAnchor" id="skipLinkContent" tabIndex="-1"> -->
+					<span style="font-weight:600;">Travel Ideas</span>
+					<span style="font-weight:400;">Accessible Possibilities</span>
+					<!-- </a> -->
+				</span>
+			</div>
+			<div style="vertical-align: center;align-self: flex-end;">
+				<idea-search-box />
+			</div>
+		</div>
+		<!-- white search bar: end -->
+	</div>
+	<!-- ARTICLE SEARCH BAR: END -->
+
+
+	<!-- grey search bar: begin 
+	<div id="articles-search">
+		<div id="articles-search-flex">
+			<span style="font-size:1.875em;">
+				<span style="font-weight:600;">Travel Ideas</span> <span style="font-weight:400;"">Accessible Possibilities</span>
+			</span>
+		</div>
+	</div>
+	-->
+	<!-- grey search bar: end -->
+
+
+	<!-- main content: begin -->
+	<div id="articles-main">
+		<div class="articles-main-flex">
+
+			<!-- COLUMN 1: BEGIN -->
+			<div style="width:38.875em;" id="articles-main-col-content">
+
+				<!-- breadcrubms:begin -->
+				<div class="light16">
+					<a ui-sref="home">Home</a> >
+					<a ui-sref="ideas">Travel Ideas</a> >
+					<a ui-sref="city({name:articles.article.City.Name.replace(' ','_')})"> {{articles.article.City.Name}}</a> > {{articles.article.Title}}
+				</div>
+				<!-- breadcrubms:end -->
+
+				<!-- title:begin -->
+				<div style="padding-top:1.75em">
+					<!--Add favorite directive -->
+					<div class="favDir_class">
+						<favorite-directive type="article" referenceid="{{articles.article.Id}}"></favorite-directive>
+					</div>
+					<span style="font-weight: 600;font-size:1.875em;color:#299b7c;">{{articles.article.Title}}</span>
+				</div>
+				<!-- title:end -->
+
+				<!-- byline: begin -->
+				<div class="wrapper" style="justify-content:flex-end;text-align:left;flex-direction: row;padding-bottom:1.25em;">
+					<div style="width:100%">
+						<span class="light14">By: {{articles.article.Author.FName}} {{articles.article.Author.LName}} | {{articles.parseJsonDate(articles.article.Published)
+							| date:'short'}}</span>
+					</div>
+
+					<div id="social-links-instagram" style="margin-left:2em;color:#000;">
+						<a href="https://www.instagram.com/accessiblego/" target="_win_instagram">
+							<img src="https://accessiblego.azureedge.net/img/social/instagram_dark_gray.png" style="padding:0 4px 0px 4px;margin:0;" alt="Instagram" />
+						</a>
+					</div>
+
+					<div id="social-links-linkedin" style="margin-left:.1em;color:#000;">
+						<a href="https://www.linkedin.com/company-beta/11022578/" target="_win_linkedin">
+							<img src="https://accessiblego.azureedge.net/img/social/linkedin_dark_gray.png" style="padding:0 4px 0px 4px;margin:0;" alt="Linked In" />
+						</a>
+					</div>
+
+					<div class="custom" xclass="fb-share-button" style="vertical-align: top;margin:0 4px;" href="javascript:;" ng-click="articles.popupFacebookShareWindow()"
+					 data-href="{{articles.getFacebookDataRef(articles.article.Title)}}" data-layout="button" data-size="large" data-media="https://static01.nyt.com/images/2017/09/07/us/07Irma-1/07Irma-1-jumbo.jpg"
+					 data-mobile-iframe="false">
+						<a class="fb-xfbml-parse-ignore" target="_blank" xhref="{{articles.getFacebookShareLink(articles.article.Title)}}">
+							<img src="https://accessiblego.azureedge.net/img/social/facebook_dark_gray.png" style="padding:0 4px 0px 4px;margin:0;" alt="Facebook" />
+						</a>
+					</div>
+
+					<div id="social-links-twitter" style="margin-left:.1em;color:#000;">
+						<a href="javascript:;" xhref="https://twitter.com/share?url={{articles.getFacebookDataRef(articles.article.Title)}}" ng-click="articles.popupTwitterShareWindow()"
+						 xclass="popup" xclass="twitter-share-button" data-size="large" data-show-count="false" data-media="https://static01.nyt.com/images/2017/09/07/us/07Irma-1/07Irma-1-jumbo.jpg"
+						 target="_win_twitter" style="vertical-align: top;">
+							<img src="https://accessiblego.azureedge.net/img/social/twitter_dark_gray.png" style="padding:0 4px 0px 4px;margin:0px;" alt="Share on Twitter" />
+						</a>
+					</div>
+				</div>
+				<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+				<!-- byline: end -->
+
+				<!-- main description: begin -->
+				<div style="border-top:1px solid #ccc;padding-top:1.25em;padding-bottom:1.9em;">
+					<span class="light16" ng-bind-html="articles.formatText(articles.article.IntroText)" />
+				</div>
+				<!-- main description: end -->
+
+				<!-- main image: begin -->
+				<div style="padding-bottom:2.3em;margin-bottom:1.2em;">
+					<img ng-src="{{articles.env.BASEURL_CONTENT}}/Image/GetImage?assetId={{articles.article.IntroImage.Id}}&Size=medium" alt=""
+					 style="max-width: 100%;height: auto;" />
+					<br />
+					<p style="font-size:.75em;font-weight: 400;">
+						{{articles.article.IntroImage.Caption}}
+						<span ng-if="articles.article.IntroImage.Caption && articles.article.IntroImage.Credit">|</span>
+						{{articles.article.IntroImage.Credit}}
+					</p>
+				</div>
+				<!-- main image: end -->
+
+				<!-- article entries: begin -->
+				<div class="persist-area" ng-repeat="entry in articles.article.ArticleEntries" style="border-top:1px solid #ccc;margin-top:1.875em;margin-bottom:1.375em;">
+					<div class="persist-header" id="persist-header_{{$index}}" style="background-color:#e9e9e9;xpadding-top:.5em; xpadding-bottom:.5em;max-width:100%;">
+						<div style="padding:.75em;border-left: 5px solid #00509f;">
+							<div ng-if="entry.PreTitle">
+								<span style="font-weight: 600;font-size:1.5em;">{{entry.PreTitle}}</span>
+							</div>
+							<a ng-if="entry.TitleLink" href="{{entry.TitleLink}}" target="newWindow_{{entry.Title}}" style="color:#333; font-weight: 600;font-size:1.5em;text-decoration: none;">{{entry.Title}}</a>
+							<span ng-if="!entry.TitleLink" style="font-weight: 600;font-size:1.5em;">{{entry.Title}}</span>
+							<div class="light16">{{entry.Address}}</div>
+
+						</div>
+						<!-- start review section  -->
+
+						<div class="review_stickyheader" id="review_stickyheader_{{$index}}" style="display:none">
+
+							<div ng-if="entry.DirectoryId || entry.ppnId">
+
+								<!-- summary of all reviews -->
+								<div ng-if="entry.numUserReviews===0" class="light12" style="display: inline-block;">
+									Be the first to review!
+								</div>
+								<div ng-if="entry.numUserReviews>0" class="rating-star" style="display: inline-block;" star-rating rating="entry.avgUserReview" read-only="true" max-rating="5"></div>
+
+								<!-- link for directory -->
+								<a
+									ng-if="entry.numUserReviews>0 && articles.article.Type.Flag==='a'" class="link" ui-sref="businessIndividual({city:entry.directory.CityName, type:entry.directory.Type, slug:entry.directory.slug})">
+									{{entry.numUserReviews}} </a>
+								<!-- link for hotel -->
+								<a
+									ng-if="entry.numUserReviews>0 && articles.article.Type.Flag==='h'" class="link" ui-sref="hotel({hid:entry.ppnId})">
+									{{entry.numUserReviews}} </a>
+
+								<!-- user's review -->
+								<h3 class="rating">Your rating:</h3>
+								<!-- <div ng-if="!articles.hasUserAlreadyReviewed(entry.Id)" class="rating-star" style="display: inline-block;" ng-click="articles.addRemoveCancelBtn($index,'addbtn',entry)"
+								 id="rating_Review_{{$index}}" star-rating rating="entry.reviewUser.rating" max-rating="5"></div> -->
+								<div read-only="{{articles.hasUserAlreadyReviewed(entry)}}" class="rating-star" style="display: inline-block;" ng-click="articles.addRemoveCancelBtn($index,'addbtn',entry)"
+								 id="rating_Review_{{$index}}" star-rating rating="entry.reviewUser.rating" max-rating="5" xread-only="true"></div>
+
+								<h3 class="rating">Add to favorite</h3>
+								<div class="favDir_class" ng-if="articles.article.Type.Flag==='a'">
+									<favorite-directive type="business" referenceid="{{entry.DirectoryId}}"></favorite-directive>
+								</div>
+								<div class="favDir_class" ng-if="articles.article.Type.Flag==='h'">
+									<favorite-directive type="hotel" referenceid="{{entry.ppnId}}"></favorite-directive>
+								</div>
+
+								<button type="button" class="cancelBtn" ng-click="articles.addRemoveCancelBtn($index,'removeBtn',entry)" ng-style="{'display': entry.reviewUser.isVisibleForm ? 'block':'none'}"
+								 id="cancelButton_forForm_{{$index}}">&times;</button>
+								<!-- <h3 class="share">Share</h3>
+
+								<social-icon
+	                                            url="{{'https://accessiblego.com/articles/'}}"
+	                                            slug="{{articles.article.Title}}"
+												title="{{articles.article.Title}}" style="display: inline-block;">
+	                                        </social-icon> -->
+
+								<!-- <div ng-show="showReviewform"> -->
+								<div class="reviewFormClass" ng-style="{'display': entry.reviewUser.isVisibleForm ? 'block':'none'}">
+									<form name="myForm_{{$index}}" ng-submit="articles.submitReview(articles.article.Type, entry,$index)" class="form_sec">
+										<!-- <fieldset ng-disabled="entry.reviewUser.isFormDisable?true:false"> -->
+										<fieldset ng-disabled="articles.hasUserAlreadyReviewed(entry)">
+											<div class="row">
+												<div class="col-xs-6 col-sm-8">
+													<label>Title:<br />
+														<input style="border-radius: 0;" type="text" id="tittle_Review_{{$index}}" ng-model="entry.reviewUser.tittle_Review" required placeholder="Summarize your visit or share an interesting detail."
+														/>
+													</label>
+												</div>
+												<div class="col-xs-6 col-sm-4">
+													<div style="max-width:12em;">
+													<date-picker 
+														id="review_whenTravel"
+														label="When did you travel?"
+														placeholder="Month/Year"
+														ng-model="entry.reviewUser.travelDate"
+														mode="month"" />
+													</div>
+												</div>
+											</div>
+											<br />
+										
+
+											<!-- hotel accessibility features -->
+											<!-- <label ng-if="entry.ppnId">This hotel is suitable for:</label>
+												<div ng-if="entry.ppnId" class="row">
+													<div class="col-sm-12">
+														<input type="checkbox" ng-model="entry.reviewUser.suitability.accWheelchairUsers"> Visitors who are wheelchair users 
+													</div>
+												</div> -->
+
+											<!-- accessibility features :: service provider -->
+											<div ng-if="entry.DirectoryId || entry.ppnId" class="row light14" style="margin-bottom:1em;">
+												<div class="col-xs-12 col-sm-5">
+													<label>This is suitable for visitors who:</label>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.accWheelchairUsers"> Are wheelchair users
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.accLowVision"> Are blind or have low vision
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.accLowHearing"> Are deaf or hard of hearing
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.accLowMobility"> Who have mobility disabilities
+													<br/>
+												</div>
+												<!-- accessibility features :: hotel provider -->
+												<div ng-if="entry.ppnId" class="col-xs-12 col-sm-7">
+													<label>Hotel Accessibility:</label>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.entranceAndMainAreas"> Entrance and Main Areas
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.parking"> Parking
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.elevator"> Elevator
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.restaurant"> Restaurant
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.room"> Room
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.pool"> Pool
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.fitnessCenter"> Fitness Center
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.businessCenter"> Business Center
+													<br/>
+												</div>
+
+											</div>
+
+											
+
+											<label>Your review:</label>
+											<div class="row">
+												<div class="col-sm-10">
+													<textarea type="text" id="data_Review_{{$index}}" ng-model="entry.reviewUser.data_Review" required placeholder="Tell others how your experience was. What did you like and/or not like about the accessibility of this venue? How was the experience in general?"
+													/>
+												</div>
+												<div class="col-sm-2">
+													<button type="submit" style="background: #337ab7;">Post Review</button>
+												</div>
+											</div>
+
+											<!-- validation errors -->
+											<div id="errormsg_{{$index}}" ng-show="entry.reviewUser.errs.length > 0" class="wrapper-common wrapper-common-width wrapper-row"
+											 style="background-color:#fff;padding:1em;justify-content: flex-start;">
+												<div style="color: red;font-weight:600;text-align: left;" ng-if="entry.reviewUser.errs.length">
+													<div ng-repeat="err in entry.reviewUser.errs">
+														{{err}}
+													</div>
+												</div>
+											</div>
+
+										</fieldset>
+									</form>
+								</div>
+								<h5 class="afterCreatedReview" ng-style="{'display': entry.afterCreatedReview ? 'block':'none'}">Thanks for adding to the community!  Your review is pending approval. You can see your reviews by visiting your <a ui-sref="accountPageUi({t:'reviews'})">account settings</a>.</h5>
+							</div>
+						</div>
+
+						<!-- end review section -->
+					</div>
+
+            <div class="review_stickyheader" id="review_stickyheader_{{$index}}" style="background-color: rgb(233, 233, 233);display:block">
+
+							<div ng-if="entry.DirectoryId || entry.ppnId">
+
+								<!-- overall -->
+								<div ng-if="entry.numUserReviews===0" class="light12" style="display: inline-block;">
+									Be the first to review!
+								</div>
+								<div ng-if="entry.numUserReviews>0" class="rating-star" style="display: inline-block;" star-rating rating="entry.avgUserReview" read-only="true" max-rating="5">
+								</div>
+								<!-- link for directory -->
+								<a
+									ng-if="entry.numUserReviews>0 && articles.article.Type.Flag==='a'" class="link" ui-sref="businessIndividual({city:entry.directory.CityName, type:entry.directory.Type, slug:entry.directory.slug})">
+									{{entry.numUserReviews}} </a>
+								<!-- link for hotel -->
+								<a
+									ng-if="entry.numUserReviews>0 && articles.article.Type.Flag==='h'" class="link" ui-sref="hotel({hid:entry.ppnId})">
+									{{entry.numUserReviews}} </a>
+
+								<!-- user's rating -->
+								<h3 class="rating">Your rating:</h3>
+								<!-- <div ng-if="entry.numUserReviews===0" class="rating-star" style="display: inline-block;" ng-click="articles.addRemoveCancelBtn($index,'addbtn',entry)"
+								 id="rating_Review_{{$index}}" star-rating rating="entry.reviewUser.rating" max-rating="5"></div> -->
+
+								<div read-only="{{articles.hasUserAlreadyReviewed(entry)}}" class="rating-star" style="display: inline-block;" ng-click="articles.addRemoveCancelBtn($index,'addbtn',entry)"
+								 id="rating_Review_{{$index}}" star-rating rating="entry.reviewUser.rating" max-rating="5"></div>
+
+								<h3 class="rating">Add to favorite</h3>
+								<div class="favDir_class" ng-if="articles.article.Type.Flag==='a'">
+									<favorite-directive type="business" referenceid="{{entry.DirectoryId}}"></favorite-directive>
+								</div>
+								<div class="favDir_class" ng-if="articles.article.Type.Flag==='h'">
+									<favorite-directive type="hotel" referenceid="{{entry.ppnId}}"></favorite-directive>
+								</div>
+
+								<button type="button" class="cancelBtn" ng-click="articles.addRemoveCancelBtn($index,'removeBtn',entry)" ng-style="{'display': entry.reviewUser.isVisibleForm ? 'block':'none'}"
+								 id="cancelButton_forForm_{{$index}}">&times;</button>
+								<!-- <h3 class="share">Share</h3>
+
+								<social-icon
+	                                            url="{{'https://accessiblego.com/articles/'}}"
+	                                            slug="{{articles.article.Title}}"
+												title="{{articles.article.Title}}" style="display: inline-block;">
+	                                        </social-icon> -->
+
+								<!-- <div ng-show="showReviewform"> -->
+								<div class="reviewFormClass" ng-style="{'display': entry.reviewUser.isVisibleForm ? 'block':'none'}">
+									<form name="myForm_{{$index}}" ng-submit="articles.submitReview(articles.article.Type, entry,$index)" class="form_sec">
+										<!-- <fieldset ng-disabled="entry.reviewUser.isFormDisable?true:false"> -->
+										<fieldset ng-disabled="articles.hasUserAlreadyReviewed(entry)">
+											<div class="row">
+												<div class="col-xs-6 col-sm-8">
+													<label>Title:<br />
+														<input style="border-radius: 0;" type="text" id="tittle_Review_{{$index}}" ng-model="entry.reviewUser.tittle_Review" required placeholder="Summarize your visit or share an interesting detail."
+														/>
+													</label>
+												</div>
+												<div class="col-xs-6 col-sm-4">
+													<div style="max-width:12em;">
+													<date-picker 
+														id="review_whenTravel"
+														label="When did you travel?"
+														placeholder="Month/Year"
+														ng-model="entry.reviewUser.travelDate"
+														mode="month"" />
+													</div>
+												</div>
+											</div>
+											<br />
+										
+
+											<!-- hotel accessibility features -->
+											<!-- <label ng-if="entry.ppnId">This hotel is suitable for:</label>
+												<div ng-if="entry.ppnId" class="row">
+													<div class="col-sm-12">
+														<input type="checkbox" ng-model="entry.reviewUser.suitability.accWheelchairUsers"> Visitors who are wheelchair users 
+													</div>
+												</div> -->
+
+											<!-- service provider accessibility features -->
+											<div ng-if="entry.DirectoryId || entry.ppnId" class="row light14" style="margin-bottom:1em;">
+												<div class="col-xs-12 col-sm-5">
+													<label>This is suitable for visitors who:</label>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.accWheelchairUsers"> Are wheelchair users
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.accLowVision"> Are blind or have low vision
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.accLowHearing"> Are deaf or hard of hearing
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.accLowMobility"> Who have mobility disabilities
+													<br/>
+												</div>
+
+												<!-- accessibility features :: hotel provider -->
+												<div ng-if="entry.ppnId" class="col-xs-12 col-sm-7">
+													<label>Hotel Accessibility:</label>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.entranceAndMainAreas"> Entrance and Main Areas
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.parking"> Parking
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.elevator"> Elevator
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.restaurant"> Restaurant
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.room"> Room
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.pool"> Pool
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.fitnessCenter"> Fitness Center
+													<br/>
+													<input type="checkbox" ng-model="entry.reviewUser.suitability.businessCenter"> Business Center
+													<br/>
+												</div>
+
+											</div>
+
+											
+											<label>Your review:</label>
+											<div class="row">
+												<div class="col-sm-10">
+													<textarea type="text" id="data_Review_{{$index}}" ng-model="entry.reviewUser.data_Review" required placeholder="Tell others how your experience was. What did you like and/or not like about the accessibility of this venue? How was the experience in general?"
+													/>
+												</div>
+												<div class="col-sm-2">
+													<button type="submit" style="background: #337ab7;">Post Review</button>
+												</div>
+											</div>
+
+											<!-- validation errors -->
+											<div id="errormsg_{{$index}}" ng-show="entry.reviewUser.errs.length > 0" class="wrapper-common wrapper-common-width wrapper-row"
+											 style="background-color:#fff;padding:1em;justify-content: flex-start;">
+												<div style="color: red;font-weight:600;text-align: left;" ng-if="entry.reviewUser.errs.length">
+													<div ng-repeat="err in entry.reviewUser.errs">
+														{{err}}
+													</div>
+												</div>
+											</div>
+
+										</fieldset>
+									</form>
+								</div>
+								<h5 class="afterCreatedReview" ng-style="{'display': entry.afterCreatedReview ? 'block':'none'}">Thanks for adding to the community!  Your review is pending approval.<br/>You can see your reviews on accessibleGO by visiting your account settings.</h5>
+							</div>
+						</div>
+
+					<div style="padding-top:1.25em;" ng-if="entry.Image.Id">
+						<img ng-if="entry.Image.Id" ng-src="{{articles.env.BASEURL_CONTENT}}/Image/GetImage?assetId={{entry.Image.Id}}&Size=medium"
+						 style="max-width: 100%;height: auto;" alt="" />
+						<br />
+						<p style="font-size:.75em;font-weight: 400;">
+							{{entry.Image.Caption}}
+							<span ng-if="entry.Image.Caption && entry.Image.Credit">|</span>
+							{{entry.Image.Credit}}
+						</p>
+					</div>
+
+					<!-- hotel first photo -->
+					<div style="padding-top:1.25em;" ng-if="entry.photoURL">
+						<img ng-src="{{entry.photoURL}}" style="max-width: 100%;height: auto;" alt="" />
+						<br />
+					</div>
+
+					<div style="padding-top:1.25em;">
+						<div style="padding-top:1.375em;" class="light16" ng-bind-html="articles.formatText(entry.Description)"></div>
+					</div>
+				</div>
+
+				<!-- Active Campaign -->
+				<div class="_form_13"></div>
+				<script src="https://accessiblego.activehosted.com/f/embed.php?id=13" ; type="text/javascript" charset="utf-8" crossorigin></script>
+
+				<!-- comments (MUUT) -->
+				<!-- <div id="muut_container" style="background-color:#ffffff;">
+					<div id="muut_accessiblego">
+					</div>
+				</div> -->
+
+
+				<div style="margin-top:2em;">
+					<!-- <a ui-sref=".muut_login">muut_login</a> -->
+					<i aria-hidden="true"></i>
+					<a ui-sref="methods" class="semibold18" style="color:#29817c;text-decoration: underline;">
+						<em>Learn about our venue selection process and accessibility.</em>
+					</a>
+				</div>
+			</div>
+			<!-- COLUMN 1: END -->
+
+			<!-- COLUMN 2: BEGIN -->
+			<div style="margin-top:7.5em;" xid="articles-main-col-search">
+				<div style="margin-left:1.875em;width:14em;">
+
+					<!-- choose other city -->
+					<div style="border:2px solid #cccccc;background-color:#ffffff;margin:1.125em 0;padding:1em;">
+						<label for="otherCitiesMenu" class="control-label" style="font-size:1.125em;font-weight:400;width:100%;">Choose other City</label>
+						<select id="otherCitiesMenu" ng-model="articles.selectedCity" class="bookbox-form-input" style="width:100%;">
+							<option ng-repeat="city in articles.cityoptions" value="{{city.Name}}">
+								{{city.Name}}
+							</option>
+						</select>
+						<div style="margin-left: auto;margin-top: auto;">
+							<!-- <label for="bookbox-searchbutton">&nbsp;</label> -->
+							<br />
+							<input id="bookbox-searchbutton" class="btn-aqua" type="button" value="Go" ng-click="articles.goToOtherCity()" style="width:100%;font-size: 1.25em;font-weight: 600;"
+							/>
+						</div>
+					</div>
+
+					<!-- book travel box: begin -->
+					<bookbox type="hotels" city="New York" />
+					<!-- book travel box: end -->
+
+					<!-- article boxes: begin -->
+					<div style="margin-top:1.125em;">
+						<div style="font-weight: 600;font-size:1.125em;margin-bottom:.75em;">You may be interested in:</div>
+						<articlebox ng-repeat="box in articles.articleboxes | filter: {City: { Id: articles.articleboxFilter} } | limitTo:4" articleid="{{box.Id}}"
+						 introimageid="{{box.IntroImage.Id}}" title="{{box.Title}}" urlsafetitle="{{box.URLSafeTitle}}" />
+					</div>
+					<!-- article boxes: begin -->
+				</div>
+			</div>
+			<!-- COLUMN 2: END -->
+		</div>
+	</div>
+	<!-- main content: end -->
+
+	<div id="articles-tripplanner">
+		<trip-planner cityoptions="articles.cityoptions" istripplannerpage="false" />
+	</div>
+</div>

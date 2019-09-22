@@ -1,0 +1,84 @@
+/* generic styling for a high level section of content */
+
+
+
+
+
+
+
+
+xheader {
+	background-color:#fff;
+    xmin-height: 30em;
+    padding-top:1.5em;
+    padding-bottom:1.5em;
+}
+
+/* FLEX
+
+
+do we need these first 1? */
+
+  .flex-wrapper-base {
+    width: 975px !important;
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0
+  }
+
+  .flex-wrapper_DOWENEEDTHIS {
+    display: -webkit-box;
+    display: -webkit-flex;
+    /* 
+     in ie edge these were a problem:
+     display: -ms-flexbox;
+     display: flex;
+     */
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 0 0 0;
+    padding: 0; 
+    align-items: center;
+    justify-content: center;
+    
+    /* mozilla & opera */
+    margin-left: auto;
+    /* mozilla & opera */
+    margin-right: auto;
+
+    text-align: center; /* needed for ie edge horizontal centering */
+
+    flex-direction: column;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    justify-content: space-between;
+    max-width: 70.938em; 
+    width:100%;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: wrap;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+    /* align-self: flex-start; */
+  justify-content: left;
+  max-width: 60.938em;  /* 975px */
+  width:100%;
+  margin-left: auto;  /* mozilla & opera */
+  margin-right: auto; /* mozilla & opera */
+  flex-wrap:wrap;
+}
+
+@media (max-width:767px){
+    .flex-row {
+      padding-left: 15px;
+      padding-right: 15px;
+  }
+}

@@ -1,0 +1,85 @@
+<div role="tabpanel" class="tab-pane" id="current_member">
+
+    <div class="tabpane1 tabpane2">
+
+        <h5>I am Currently a Member of: </h5>
+       
+        <div class="row">
+            <div class="col-sm-6 bdr_rit">
+                <div>
+                    <form
+                        novalidate
+                        ng-submit="$event.preventDefault();"
+                        class="form-horizontal">
+                        <div class="form-group">
+                           <div class="col-sm-12">
+                            <select
+                            class="form-control"
+                            ng-model="accountPageUi.cugOrganizationId"
+                            ng-options="option.name for option in accountPageUi.participating_organizations track by option.cugOrganizationId">  
+                            <option label="-- Select Organization --"></option>
+                        </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 label-control">
+                                First Name:
+                            </label>
+                            <div class="col-md-8 ">
+                                <input
+                                    ng-model="firstName"
+                                    class="form-control"
+                                    data-val="true"
+                                    data-val-required="First Name."
+                                    id="firstName"
+                                    name="firstName"
+                                    placeholder="Enter First Name"
+                                    value="{{userProfile.given_name}}"
+                                    type="text"
+                                    autocomplete="first_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 label-control">
+                                    Last Name:
+                            </label>
+                            <div class="col-md-8 ">
+                                <input
+                                ng-model="lastName"
+                                class="form-control"
+                                data-val="true"
+                                data-val-required="Last Name."
+                                id="lastName"
+                                name="lastName"
+                                placeholder="Enter Last Name"
+                                type="text"
+                                autocomplete="last_name">
+                            </div>
+                        </div>
+                        <div class="btm_action">
+                            <!-- begin: buttons -->
+                            <button
+                                type="button"
+                                ng-click="accountPageUi.submitOrgMembership()"
+                                class="btn btn-ar btn-primary pull-right semibold18"
+                                style="background-color: #29807c;padding:.5em;">Submit</button>
+                            <!-- end: buttons -->
+                        </div>
+
+                        <!-- begin: validation errors -->
+                        <div class="panel panel-danger-dark" ng-show="submitOrgMembershipErrs.length>0">
+                            <br />
+                            <div class="panel-heading semibold18" style="color:red;">
+                                <ul ng-repeat="error in submitOrgMembershipErrs">
+                                    <li ng-bind-html="error.message" style="text-align:left;"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- end: validation errors -->
+                    </form>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>

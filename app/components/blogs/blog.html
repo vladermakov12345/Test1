@@ -1,0 +1,111 @@
+<div ng-controller="blogController as blog" ng-cloak>
+    <blog-search search-text="blog.searchText"></blog-search>
+    <div class="main-body">
+        <div class="container body-inner">
+            <div class="row">
+
+                <div class="col-md-9 body-content">
+                    <div class="bloggerList_MobileView d-xs-block d-md-none">
+                        <select ng-change="blog.onChangeBloggerList(selectedAuthor)" ng-model="selectedAuthor">
+                            <option value="">Popular bloggers</option>
+                            <option ng-repeat="author in blog.authorData" value="{{author.last_name}}">
+                                    {{author.first_name}} {{author.last_name}}
+                                </option>
+                        </select>
+                    </div>
+                    <!--                     <div class="blog-tabs">
+                        <a class="nav-tabs-dropdown" href="#" ></a>
+                        <ul class="nav nav-tabs nav-tabs-horizontal clearfix">
+                            <li class="nav-item first_item">
+                                <a class="nav-link active" href data-toggle="tab">Featured</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href data-toggle="tab">Latest</a>
+                            </li>
+                        </ul>
+                    </div> -->
+                    <div class="blogger-info clearfix" ng-if="blog.user">
+                        <h4 class="title-block">{{::blog.user.name}}</h4>
+                        <div class="col-sm-2 left-block clearfix">
+                            <img ng-src="{{blog.user.image_url}}" alt="blogger-img" />
+                        </div>
+                        <div class="col-sm-10 right-block clearfix">
+                            <p>{{blog.user.about}}</p>
+                            <div class="social-blogger">
+                                <span class="mail">
+                                    <i class="fa fa-envelope" aria-hidden="true">&nbsp;&nbsp;{{blog.user.email}}</i>
+                                </span>
+                                <span class="facebook">
+                                    <i class="fa fa-facebook" aria-hidden="true">&nbsp;&nbsp;Greaid`s facebook</i>
+                                </span>
+                                <span class="website">
+                                    <i class="fa fa-globe" aria-hidden="true">&nbsp;&nbsp;Go to website</i>
+                                </span>
+                                <span class="rss">
+                                    <i class="fa fa-rss" aria-hidden="true">&nbsp;&nbsp;RSS</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- search in progress -->
+                    <div ng-show="blog.searchText && blog.isLookupInProcess">
+                        <h3>Searching for blogs containing
+                            <strong>{{blog.searchText}}</strong>...</h3>
+                    </div>
+
+                    <!-- no results found -->
+                    <div ng-show="blog.searchText && !blog.isLookupInProcess" style="margin-bottom: 2em;">
+                        <h3>{{blog.blogs.length}} blogs found containing
+                            <strong>{{blog.searchText}}</strong>
+                        </h3>
+                    </div>
+
+                    <!-- repeated on blogAuthor page -->
+                    <div class="blog-post clearfix" ng-repeat="blogData in blog.blogs">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <div class="blog-image-holder" ng-if="blogData.post_thumbnail.URL">
+                                    <a ui-sref="blogDetail({slug: blogData.slug})">
+                                        <img ng-show="{{blogData.post_thumbnail.URL !== ''}}" ng-src="{{blogData.post_thumbnail.URL}}" alt="" class="feat_img_small">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8">
+                                <div class="blog-content">
+                                    <div class="blog-inner">
+                                        <a class="post-title" ui-sref="blogDetail({slug: blogData.slug})" ng-bind-html="blogData.title"></a>
+                                        <div class="smartblog-info">
+                                            <span class="author">By: {{ blogData.author.name }} | </span>
+                                            <span class="author">{{ blog.getDate(blogData.date) }}</span>
+                                        </div>
+                                        <!-- <social-icon url="{{blogData.URL}}" title="{{blogData.title}}"></social-icon> -->
+                                        <social-icon url="{{'https://accessiblego.com/blogDetail/'+vm.blogData.slug}}" slug="{{blogData.slug}}" title="{{blogData.title}}">
+                                        </social-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="popular-bloggers d-none d-md-block">
+                        <span class="blogger-title">Popular bloggers</span>
+                        <ul class="blogger-list">
+                            <li class="blogger-name" ng-repeat="author in blog.authorData">
+                                <a ui-sref="blogAuthor({ lastname: author.last_name.replace('.','') })" style='color:#000;'>{{author.first_name}} {{author.last_name}}</a>
+                            </li>
+                            <!--                             <li class="blogger-name" ng-click="blog.getBlogByBloggers()">John Doe</li>
+                            <li class="blogger-name" ng-click="blog.getBlogByBloggers()">Felecia Jones</li>
+                            <li class="blogger-name" ng-click="blog.getBlogByBloggers()">Rose Cole</li>
+                            <li class="blogger-name" ng-click="blog.getBlogByBloggers()">Lucy Ward</li>
+ -->
+                        </ul>
+                    </div>
+                    <bookbox type="hotels" city="New York" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <script src="https://accessiblego.activehosted.com/f/embed.php?id=5" type="text/javascript" charset="utf-8"></script> -->

@@ -1,0 +1,125 @@
+<!-- planner:begin -->
+<div id="planner" class="section-wrapper">
+	<!-- <a name="planner">&nbsp;</a> -->
+
+	<!-- mobile -->
+	<div class="planner-topline d-md-none">
+		<div class="wrapper-common wrapper-column">
+			<div style="text-align: left;">
+				<div class="planner-caption" style="border-right:0;">
+					<img class="planner-icon" ng-src="{{planner.image_homePlannerCompass}}" aria-hidden="true" alt="" />
+					<span style="display:flex-inline;">Accessible Trip Resources</span>
+				</div>
+			</div>
+			<div style="text-align: left;margin-top:1em;">
+
+			</div>
+			<div style="text-align: left;margin-top:1em;flex-wrap: nowrap;width:100%;align-self: center;" id="planner-selectcity">
+				<span class="planner-travelingto" style="padding: 0px;">I'm travelling to:</span>
+				<ui-select ng-model="planner.selectedCity" theme="bootstrap" search-enabled="true" reset-search-input="true" on-select="planner.selectedCityChanged()">
+					<ui-select-match id="planner-selectcity-match" placeholder="select a city..." allow-clear="false" aria-hidden="true">
+						{{$select.selected.Name}}
+					</ui-select-match>
+					<ui-select-choices repeat="city in planner.cityoptions | filter: $select.search">
+						<span ng-bind-html="city.Name | highlight: $select.search" xtabindex="21"></span>
+						<!-- <small ng-bind-html="city.code | highlight: $select.search"></small> -->
+					</ui-select-choices>
+				</ui-select>
+			</div>
+			<div style="text-align: left;margin-top:1em;padding: 1px;" class="planner-findText">and I'd like to find:</div>
+
+			<div style="text-align: left;margin-bottom:1em;flex-wrap: nowrap;width:100%;align-self: center;" id="planner-selectcity">
+
+				<ui-select ng-model="planner.selectedDirectory" theme="bootstrap" search-enabled="true" reset-search-input="true" on-select="planner.onChangeDirectoryType()">
+					<ui-select-match placeholder="select a category..." allow-clear="false" aria-hidden="true">
+						{{type}}
+					</ui-select-match>
+					<ui-select-choices repeat="type in planner.directoryTypes | filter: $select.search">
+						<span ng-bind-html="type | highlight: $select.search"></span>
+					</ui-select-choices>
+				</ui-select>
+
+			</div>
+
+		</div>
+	</div>
+
+	<!-- desktop -->
+	<div class="planner-topline d-none d-md-flex">
+		<img class="planner-icon" ng-src="{{planner.image_homePlannerCompass}}" aria-hidden="true" alt="" />
+		<div class="planner-caption">Accessible Trip Resources</div>
+		<div class="planner-travelingto">I'm travelling to:</div>
+		<div id="planner-selectcity">
+			<ui-select ng-model="planner.selectedCity" theme="bootstrap" search-enabled="true" reset-search-input="true" on-select="planner.selectedCityChanged()">
+				<ui-select-match id="planner-selectcity-match" placeholder="select a city..." allow-clear="false" aria-hidden="true">
+					{{$select.selected.Name}}
+				</ui-select-match>
+				<ui-select-choices repeat="city in planner.cityoptions | filter: $select.search">
+					<span ng-bind-html="city.Name | highlight: $select.search" xtabindex="21"></span>
+					<!-- <small ng-bind-html="city.code | highlight: $select.search"></small> -->
+				</ui-select-choices>
+			</ui-select>
+		</div>
+		<div class="planner-findText">and I'd like to find:</div>
+	</div>
+
+	<div class="d-none d-md-flex" id="planner-options" style="justify-content: center;">
+
+		<div style="width:9em;word-wrap: break-word;" ng-class="planner.isSelectedAttractions() ? 'planner-option-active, planner-option-active-attraction' : 'planner-option'">
+			<a style="display:inline-grid;text-align: -webkit-center;" id="type-option-planner" ui-sref="tripPlanner({city: planner.city.replace(' ','_'), type: 'Attractions', category: 'Museums_and_Galleries' })"
+			 xonClick="ga('send', 'event', 'tripPlanner_links','click','attractions')" xng-click="planner.updateType('Attractions')">
+				<div>
+					<img src="{{planner.image_attractions}}" alt="" />
+				</div>
+				<div>Attractions</div>
+			</a>
+		</div>
+		<div style="width:9em;word-wrap: break-word;" ng-class="planner.isSelectedItineraries() ? 'planner-option-active, planner-option-active-itineraries' : 'planner-option'">
+			<a style="display:inline-grid;text-align: -webkit-center;" ui-sref="tripPlanner({city: planner.city.replace(' ','_'), type: 'Itineraries', category: '' })"
+			 xonClick="ga('send', 'event', 'tripPlanner_links','click','itineraries')" xng-click="planner.updateType('Itineraries')">
+				<div>
+					<img src="{{planner.image_itineraries}}" alt="" style="margin:0 2em;" />
+				</div>
+				<div>Itineraries</div>
+			</a>
+		</div>
+		<div style="width:9em;word-wrap: break-word;" ng-class="planner.isSelectedCaregivers() ? 'planner-option-active, planner-option-active-caregivers' : 'planner-option'">
+			<a style="display:inline-grid;text-align: -webkit-center;" ui-sref="tripPlanner({city: planner.city.replace(' ','_'), type: 'Caregiver_Agencies', category: '' })"
+			 xonClick="ga('send', 'event', 'tripPlanner_links','click','caregivers')">
+				<div>
+					<img src="{{planner.image_caregivers}}" alt="" />
+				</div>
+				<div>Caregivers</div>
+			</a>
+		</div>
+		<div style="width:9em;word-wrap: break-word;" ng-class="planner.isSelectedTransportation() ? 'planner-option-active, planner-option-active-transportation' : 'planner-option'">
+			<a style="display:inline-grid;text-align: -webkit-center;" ui-sref="tripPlanner({city: planner.city.replace(' ','_'), type: 'Transportation', category: '' })"
+			 xonClick="ga('send', 'event', 'tripPlanner_links','click','transportation')" xng-click="planner.updateType('Transportation')">
+				<div>
+					<img src="{{planner.image_transportation}}" alt="" />
+				</div>
+				<div>Transportation</div>
+			</a>
+		</div>
+		<div style="width:9em;word-wrap: break-word;" ng-class="planner.isSelectedTourCompanies() ? 'planner-option-active, planner-option-active-tourcompanies' : 'planner-option'">
+			<a style="display:inline-grid;text-align: -webkit-center;" ui-sref="tripPlanner({city: planner.city.replace(' ','_'), type: 'Tour_Companies', category: '' })"
+			 xonClick="ga('send', 'event', 'tripPlanner_links','click','tourCompanies')">
+				<div>
+					<img src="{{planner.image_tourCompanies}}" alt="" xstyle="margin:0 2em;" />
+				</div>
+				<div>Tour Companies</div>
+			</a>
+		</div>
+		<div style="width:9em;word-wrap: break-word;" ng-class="planner.isSelectedEquipmentRental() ? 'planner-option-active, planner-option-active-equipment' : 'planner-option'">
+			<a style="display:inline-grid;text-align: -webkit-center;" ui-sref="tripPlanner({city: planner.city.replace(' ','_'), type: 'Equipment_Rental', category: '' })"
+			 xonClick="ga('send', 'event', 'tripPlanner_links','click','equiptmentRental')" xng-click="planner.updateType('Equipment Rental')">
+				<div>
+					<img src="{{planner.image_equiptmentRental}}" alt="" style="margin:0 2em;" />
+				</div>
+				<div>Equipment Rental</div>
+			</a>
+		</div>
+	</div>
+
+</div>
+<!-- planner:end -->

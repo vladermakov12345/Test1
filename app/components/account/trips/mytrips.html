@@ -1,0 +1,58 @@
+<div ng-controller="mytripsController as mytrips" ng-cloak>
+
+	<!-- grey search bar: begin -->
+	<div id="articles-search">
+		<div id="articles-search-flex">
+			<span style="font-size:1.875em;">
+				<span style="font-weight:600;">Account</span> <span style="font-weight:400;">My Trips</span>
+			</span>
+		</div>
+	</div>
+	<!-- grey search bar: end -->
+
+
+	<!-- main content: begin -->
+	<div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;flex-shrink:1;margin-top:2.5em;min-height:20em;">
+
+		<div class="articles-main-flex">
+		
+			<!-- COLUMN 1: BEGIN -->
+			<div style="width:5.875em;" xid="articles-main-col-content">
+
+			<!-- Name: <span ng-bind-html="mytrips.name"/>
+			Profile:<br>
+			<code>{{mytrips.profile}}</code>
+
+			<h2>Welcome, {{ mytrips.profile.name }}</h2>
+  			<img ng-src="{{ mytrips.profile.picture }}"> -->
+
+			</div>
+			<!-- COLUMN 1: END -->
+
+			<!-- COLUMN 2: BEGIN -->
+			<div style="width:38.875em;">
+
+				<span
+					ng-show="mytrips.trips.length===0"
+					class="semibold18">
+					You do not currently have any trips. <a ui-sref="hotels" style="text-decoration: underline;">Book one today!</a>
+				</span>				
+
+				<div style="margin-left:1.875em;width:14em;">
+					
+					<!-- article boxes: begin -->
+					<div style="margin-top:1.125em;">
+
+					</div>
+					<!-- article boxes: begin -->
+				</div>
+			</div>
+			<!-- COLUMN 2: END -->
+		</div>
+	</div>
+	<!-- main content: end -->
+	
+	<div id="articles-tripplanner">
+		<trip-planner cityoptions="articles.cityoptions" istripplannerpage="false" />
+	</div>
+</div>

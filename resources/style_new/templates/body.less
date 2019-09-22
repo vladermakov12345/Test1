@@ -1,0 +1,273 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+body, html {
+  margin:0;
+  padding:0;
+
+}
+
+body {
+  font-size:16px;
+  font-size: calc(~'16px + 1vw');
+  padding-top: 93px;
+
+  &.constrastGrayscale {
+    filter: none;
+
+    a, button, .header, #maincontainer, footer {
+      -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+      filter: grayscale(100%);
+
+    }
+
+  }
+
+  &.textSizeSmall {
+
+  }
+
+  &.textSizeDefault {
+
+    .search {
+
+      .dropdown-menu {
+
+        label {
+          font-size:20px!important;
+        }
+
+        input {
+          font-size: 20px;
+        }
+
+      }
+
+    }
+
+    .close-dropdown-button {
+
+      button {
+
+        font-size: 1.2em!important;
+
+      }
+
+    }
+
+    .bottom {
+
+      .main-menu-item {
+        height: auto;
+        max-height: none;
+
+        &:before, &:after {
+          display: none!important;
+        }
+
+      }
+
+      .dropdown {
+
+        .dropdown-toggle {
+          width: 100%;
+
+          span {
+            font-size: 1.1em;
+          }
+
+        }
+
+        .dropdown-menu {
+
+          margin-top: 10px;
+
+          a {
+            font-size: 1.2em!important;
+          }
+
+        }
+
+      }
+
+    }
+
+    .ui-select-placeholder {
+     font-size:1.2em!important;
+    }
+
+    .booking-section {
+
+      .location {
+        flex: 0 0 431px;
+      }
+
+      .home-booking-form-searchbutton {
+        font-size: 20px;
+      }
+
+      .timePickerWrapper {
+
+        .dropdown-toggle {
+          font-size:20px;
+          padding-right:10px!important;
+
+          &:after {
+            right:0px;
+          }
+
+        }
+
+        .dropdown-menu {
+
+          li {
+
+            a {
+              font-size: 20px;
+              text-decoration: none;
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+    .hotel_mainCls {
+
+      .location {
+        width: calc(~'100% - 386px');
+      }
+
+    }
+
+  }
+
+  &.textSizeLarge {
+
+    .search {
+
+      .dropdown-menu {
+
+        label {
+          font-size:22px!important;
+        }
+
+        input {
+          font-size: 22px;
+        }
+
+      }
+
+    }
+
+    .bottom {
+
+      .main-menu-item {
+        height: auto;
+        max-height: none;
+
+        &:before, &:after {
+          display: none!important;
+        }
+
+      }
+
+      .dropdown {
+
+        .dropdown-toggle {
+          width: 100%;
+        }
+
+        .dropdown-menu {
+
+          margin-top: 10px;
+
+          a {
+            font-size: 1.5em!important;
+          }
+
+        }
+
+      }
+
+    }
+
+    .hotel_mainCls {
+
+      .location {
+        width: calc(~'100% - 388px');
+      }
+
+    }
+
+    .ui-select-placeholder {
+      font-size: 1.5em!important;
+    }
+
+    .close-dropdown-button {
+
+      button {
+
+        font-size: 22px!important;
+
+      }
+
+    }
+
+    .booking-section {
+
+      .location {
+        flex: 0 0 431px;
+      }
+
+
+
+      .home-booking-form-searchbutton {
+        font-size: 22px;
+      }
+
+      .timePickerWrapper {
+
+        .dropdown-toggle {
+          font-size:22px;
+          padding-right:10px!important;
+          padding-left: 9px!important;
+
+          &:after {
+            right:-2px;
+          }
+
+        }
+
+        .dropdown-menu {
+
+          li {
+
+            a {
+              font-size: 22px;
+              text-decoration: none;
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+  @media(min-width:@small) {
+    padding-top: 100px;
+  }
+
+  @media(min-width:@large) {
+    padding-top: 104px;
+  }
+
+}

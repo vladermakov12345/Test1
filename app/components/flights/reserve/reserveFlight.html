@@ -1,0 +1,963 @@
+<div ng-controller="reserveFlightController as reserve" id="oReserveFlightController" ng-cloak>
+    <div class="flight-reserve-inner">
+        <div class="container wrapper-base">
+
+            <!-- error while fetching contract -->
+            <div ng-show="reserve.contractLookupErrs.length>0" class="wrapper-base" style="height:18.125em;">
+                <div class="wrapper-common wrapper-common-width wrapper-column" style="justify-content: space-between;">
+                    <h2>Hmm... something unexpected happened...</h2>
+                    <ul ng-repeat="err in reserve.contractLookupErrs">
+                        <li ng-bind-html="err.message" />
+                    </ul>
+                    <!-- <div>
+                        <h4>
+                            <strong>
+                                <a style="color:#000;" ui-sref="flights">Go to the search page</a>
+                            </strong>
+                        </h4>
+                    </div> -->
+                </div>
+            </div>
+
+            <!-- waiting -->
+            <div ng-if="reserve.isWaitingContract" style="text-align:center;margin-top:3em;margin-bottom:10em;">
+                <div style="font-size:2em;font-weight: 600;margin-bottom:.5em;">One moment please...</div>
+                <i class="fa fa-spinner fa-spin" style="font-size:4em;color:#299b7c;" aria-hidden="true"></i>
+            </div>
+
+            <div
+                ng-show="!reserve.isWaitingContract && reserve.contractLookupErrs.length===0"
+                class="row">
+                    <!-- <div class="col-md-12 col-xs-12"> -->
+
+                    <!-- HEADING -->
+                    <div class="flight-details clearfix">
+                        <div class="col-md-1 col-xs-2 text-center aeroplane-icon">
+                            <span>
+                                <i class="fa fa-plane fa-2x aeroplane" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="col-md-11 col-xs-9 p0">
+                            <h4 class="flight-deatils-heading">
+                                Your flight from {{reserve.contract.itinerary_data.slice_data[0].departure.airport.city }}, {{reserve.contract.itinerary_data.slice_data[0].departure.airport.state }} {{reserve.contract.itinerary_data.slice_data[0].departure.airport.country }} to {{reserve.contract.itinerary_data.slice_data[0].arrival.airport.city }}, {{reserve.contract.itinerary_data.slice_data[0].arrival.airport.state }} {{reserve.contract.itinerary_data.slice_data[0].arrival.airport.country }}
+                            </h4>
+                            <p class="flight-deatils-day">
+                                ({{reserve.contract.itinerary_data.slice_data[0].departure.datetime.date_display}} <span ng-if="reserve.contract.itinerary_data.search_type!=='OneWay'">- {{reserve.contract.itinerary_data.slice_data[reserve.contract.itinerary_data.slice_data.length-1].arrival.datetime.date_display}}</span>)
+                                <span ng-if="reserve.showReservationForm===true">
+                                    <a
+                                        ng-if="reserve.showFlightDetails===false"
+                                        ng-click="reserve.showFlightDetails=true">Show Flight Details</a>
+                                    <a
+                                        ng-if="reserve.showFlightDetails===true"
+                                        ng-click="reserve.showFlightDetails=false">Hide Flight Details</a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- FLIGHT DETAILS & RESERVATION FORM -->
+                    <div class="col-xs-12 col-md-8 xcol-md-pull-4">
+                        <div xclass="row">
+
+                            <!-- FLIGHT DETAILS -->
+                            <div xclass="col-md-8 col-xs-12" ng-if="reserve.showFlightDetails===true">
+                                <div ng-repeat="slice in reserve.contract.itinerary_data.slice_data" class="full-box">
+                                    <div class="border-box">
+                                        <div class="box-wrapper">
+                                            <div class="box box-1">
+                                                <div class="box-heading text-center ">
+                                                    <h3 class="heading">
+                                                        {{slice.departure.airport.code }} <i class="fa fa-arrow-right" aria-hidden="true"></i> {{slice.arrival.airport.code }}
+                                                    </h3>
+                                                    <p>{{ slice.departure.datetime.date_display }}</p>
+                                                    <p>
+                                                        {{ reserve.formatDuration(slice.info.duration) }}, <span ng-if="slice.flight_data.length===1">non-stop</span>
+                                                        <span ng-if="slice.flight_data.length===2">1 stop</span>
+                                                        <span ng-if="slice.flight_data.length>2">{{ reserve.contract.itinerary_data.slice_data.length-1 }} stops</span>
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    ng-repeat="flight in slice.flight_data" 
+                                                    class="box-content clearfix">
+                                                    <div class="col-md-12 box-details col-xs-12">
+                                                        <div class="col-md-2 col-xs-12">
+                                                            <div class="box-img">
+                                                                <img 
+                                                                    ng-src="{{slice.airline.logo}}"
+                                                                    alt="{{slice.airline.name}}"
+                                                                    aria-hidden="true" />
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-10 col-xs-12">
+                                                            <div class="box-data">
+                                                                <ul class="clearfix">
+                                                                    <li>
+                                                                        {{slice.airline.name}}
+                                                                    </li>
+                                                                    <li>
+                                                                        Flight {{ flight.info.flight_number}}
+                                                                    </li>
+                                                                    <li>
+                                                                        {{ reserve.formatDuration(flight.info.duration) }}
+                                                                    </li>
+                                                                </ul>
+                                                                <ul class="clearfix">
+                                                                    <li>
+                                                                        {{flight.info.cabin_name}}
+                                                                    </li>
+                                                                    <li>
+                                                                        {{flight.info.aircraft}}
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-xs-12 box-details">
+                                                        <div class="col-md-2 col-xs-12">
+                                                            <div class="box-img">
+                                                                <p>{{ flight.departure.datetime.time_12h }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-10 col-xs-12">
+                                                            <div class="box-data">
+                                                                <p>{{ flight.departure.airport.city }}, {{ flight.departure.airport.state }} {{ flight.departure.airport.country }} ({{ flight.departure.airport.code }})</p>
+                                                                <p>{{ flight.departure.airport.name }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-xs-12 box-details">
+                                                        <div class="col-md-2">
+                                                            <div class="box-img">
+                                                                <p>{{ flight.arrival.datetime.time_12h }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                            <div class="box-data">
+                                                                <p>{{ flight.arrival.airport.city }}, {{ flight.arrival.airport.state }} {{ flight.arrival.airport.country }} ({{ flight.arrival.airport.code }})</p>
+                                                                <p>{{ flight.arrival.airport.name }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            ng-if="flight.info.notes.length>0"
+                                                            ng-repeat="note in flight.info.notes"
+                                                            class="col-md-12 col-xs-12 flight-warning">
+                                                            <div
+                                                                class="warning"
+                                                                style="width:100%;padding:3px;">
+                                                                <i class="fa fa-exchange" aria-hidden="true"></i>
+                                                                {{note.value}} <span ng-if="note.type==='connection'" class="pull-right">Layover: {{reserve.formatDuration(note.duration)}}</span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-bottom-link">
+                                        <button
+                                            type="button"
+                                            class="btn btn-default pull-right"
+                                            ng-click="reserve.openAirlineBaggageFeesModal()"
+                                            xng-click="window.open('{{ reserve.contract.itinerary_data.baggage_carrier.popup_url }}', '_blank', 'location=yes,height=670,width=600,scrollbars=yes,status=yes');">
+                                            <i class="fa fa-suitcase" aria-hidden="true"></i> Baggage Fees
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- TRIP PROTECTION -->
+                                <!--<div class="full-box trip-protection">
+                                    <div class="border-box">
+                                        <div class="box-wrapper">
+                                            <div class="box box-3">
+                                                <div class="box-heading">
+                                                    <p class="heading teal-bg">Add Trip Protection</p>
+                                                </div>
+                                                <div class="box-content clearfix">
+                                                    <div class="col-md-12 col-xs-12 box-details">
+                                                        <div class="col-md-1 col-xs-1">
+                                                            <div class="box-img">
+                                                                <i class="fa fa-check teal" aria-hidden="true"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-11 col-xs-10">
+                                                            <div class="box-data">
+                                                                <p>
+                                                                    Get reimbursed up to 100% if you have to cancel plans due to
+                                                                    reasons like covered illness, injury, job layoff and more
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 box-details">
+                                                        <div class="col-md-1 col-xs-1">
+                                                            <div class="box-img">
+                                                                <i class="fa fa-check teal" aria-hidden="true"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-11 col-xs-10">
+                                                            <div class="box-data">
+                                                                <p>Reimburses unexpected costs associated with trip
+                                                                    interruption </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 box-details">
+                                                        <div class="col-md-1 col-xs-1">
+                                                            <div class="box-img">
+                                                                <i class="fa fa-check teal" aria-hidden="true"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-11 col-xs-10">
+                                                            <div class="box-data">
+                                                                <p>24-hour emergency hotline assistance</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-xs-12 flight-warning">
+                                                        <div class="terms-link">
+                                                            <a href="" class="teal">
+                                                                <span>Terms, conditions and exclusions</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-xs-12 box-details add-protection">
+                                                        <div class="col-md-1 col-xs-1">
+                                                            <div class="box-radio-btn text-center">
+                                                                <input type="radio" name="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-11 col-xs-10 p0">
+                                                            <div class="box-data">
+                                                                <p><strong> Yes, </strong> add protection for a total price of
+                                                                    $47.25 for all passengers. <strong> <i class="fa fa-check" aria-hidden="true"></i>
+                                                                        Highly Recommended </strong>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-xs-12 box-details add-protection">
+                                                        <div class="col-md-1 col-xs-1">
+                                                            <div class="box-radio-btn text-center">
+                                                                <input type="radio" name="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-11 col-xs-10 p0">
+                                                            <div class="box-data">
+                                                                <p> No, I choose not to protect my trip.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-xs-12 box-details add-protection">
+                                                        <div class="col-md-11 col-md-offset-1 p0">
+                                                            <div class="box-data">
+                                                                <small> Offered through Allianz Global Assistance. Insurance
+                                                                    underwritten by BCS Insurance Company or Jefferson Insurance
+                                                                    Company, depending on insured's state of residence. Recommended
+                                                                    by AGA Service Company, the licensed producer and administrator
+                                                                    of this plan.
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                            </div>
+
+                            <!-- RESERVATION FORM -->
+                            <div xxclass="col-md-8 col-xs-12" ng-if="reserve.showReservationForm===true">
+
+                                <div class="wrapper-base">
+
+                                    <div
+                                        class="wrapper-common wrapper-common-width wrapper-row"
+                                        style="flex-wrap:wrap;justify-content: space-between;flex-shrink:1;xmargin-top:1.125em;align-items: center;">
+
+                                        <div
+                                            style="max-width:100%;justify-content:flex-start;align-self: flex-start;xpadding:0em 1em;">
+
+                                            <div style="border:1px solid #dddddd;padding:1em 1.625em;background-color:#fff;">
+
+                                                <!-- AUTHORIZATION -->
+                                                <div ng-show="!isAuthenticated" style="max-width:34em;justify-content:flex-start;align-self: flex-start;padding:0em;">
+
+                                                    <div ng-if="!isAuthenticated">
+                                                        <embedded-modal modal="login" embedded="true" redirect="reserve.redirect"></embedded-modal>
+                                                    
+                                                        <!-- <span class="bold18" >
+                                                            Already registered? <a ng-click="reserve.login()" style="text-decoration: underline;">Sign In</a>
+                                                        </span>
+                                                        <div style="margin-top:1.25em;">&nbsp;</div>
+                                                        <span class="bold18" >
+                                                            Not yet registered? <a ng-click="reserve.join()" style="text-decoration: underline;">Join</a>
+                                                        </span> -->
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- YOUR INFORMATION 
+                                                style="max-width:34em;justify-content:flex-start;align-self: flex-start;padding:0em;" -->
+                                                <div ng-show="isAuthenticated"
+                                                    style="margin-bottom: 1em;">
+                                                    <div class="credite-h">
+                                                        <h3>Your Information</h3>
+                                                    </div>
+
+                                                    <!-- first name -->
+                                                    <div class="form-group">
+                                                        <label for="purchaseFirstName" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>First Name
+                                                        </label>
+                                                        <input id="purchaseFirstName" type="text" class="form-control" ng-model="reserve.bookRequestParams.purchaser.name_first">
+                                                        <ul
+                                                            ng-if="reserve.showValidations && !reserve.bookRequestParams.purchaser.name_first"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Please enter your first name.</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- last name -->
+                                                    <div class="form-group">
+                                                        <label for="purchaseLastName" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Last Name
+                                                        </label>
+                                                        <input id="purchaseLastName" type="text" class="form-control" ng-model="reserve.bookRequestParams.purchaser.name_last">
+                                                        <ul
+                                                            ng-if="reserve.showValidations && !reserve.bookRequestParams.purchaser.name_last"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Please enter your last name.</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <!-- PASSENGER INFORMATION 
+                                                style="max-width:34em;justify-content:flex-start;align-self: flex-start;padding:0em;" -->
+                                                <div ng-show="isAuthenticated"
+                                                    style="margin-bottom: 1em;">
+                                                    <div class="credite-h">
+                                                        <h3>Passenger Information</h3>
+                                                    </div>
+                                                    
+                                                    <!-- <span class="number">&#9312;</span> <span class="semibold24" style="vertical-align: middle;">Driver Information</span> -->
+
+                                                    <p class="light14">Please enter passenger names <strong>exactly as they appear</strong> on the passenger's passport/government issued ID.</p>
+
+                                                    <div ng-repeat="n in [] | rangeToRepeat:0:reserve.contract.itinerary_data.number_of_passengers-1"
+                                                    style="margin-top:1em;">
+
+                                                        <div
+                                                            ng-if="reserve.contract.itinerary_data.number_of_passengers>1"
+                                                            style="background-color:#405454;color:#fff;padding:5px;font-size: 1.125em;width:100%;">Passenger {{n+1}}
+                                                        </div>
+
+                                                        <!-- first & middle name -->
+                                                        <div class="wrapper-common wrapper-common-width wrapper-row" style="width:100%;">
+                                                            <div class="form-group" style="margin-right:1em;">
+                                                                <label for="passengerFirstName_{{$index}}" class="semibold14">
+                                                                    <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>First Name
+                                                                </label>
+                                                                <input id="passengerFirstName_{{$index}}" type="text" class="form-control" ng-model="reserve.bookRequestParams.passengers[n].name_first" maxlength="50">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="passengerMiddleName_{{$index}}" class="semibold14">
+                                                                    Middle Name
+                                                                </label>
+                                                                <input id="passengerMiddleName_{{$index}}" type="text" class="form-control" ng-model="reserve.bookRequestParams.passengers[n].name_middle" maxlength="50">
+                                                            </div>
+                                                            <ul
+                                                                ng-if="reserve.showValidations && !reserve.bookRequestParams.passengers[n].name_first"
+                                                                class="semibold12"
+                                                                style="color:#c00;">
+                                                                <li>Please enter the first name and middle name (if applicable) exactly as it appears on the passenger's passport/government issued ID.</li>
+                                                            </ul>
+                                                        </div>
+
+                                                        <!-- last name -->
+                                                        <div class="form-group">
+                                                            <label for="passengerLastName_{{$index}}" class="semibold14">
+                                                                <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Last Name
+                                                            </label>
+                                                            <input id="passengerLastName_{{$index}}" type="text" class="form-control" ng-model="reserve.bookRequestParams.passengers[n].name_last">
+                                                            <ul
+                                                                ng-if="reserve.showValidations && !reserve.bookRequestParams.passengers[n].name_last"
+                                                                class="semibold12"
+                                                                style="color:#c00;">
+                                                                <li>Please enter the last name exactly as it appears on the passenger's passport/government issued ID.</li>
+                                                            </ul>
+                                                        </div>
+
+                                                        <!-- suffix -->
+                                                        <div class="form-group" style="width:100%;">
+                                                            <label for="passengerSuffix_{{$index}}" class="semibold14">
+                                                                Suffix
+                                                            </label>
+
+                                                            <div class="input-group" style="max-width:18em;">
+                                                                <select
+                                                                    id="passengerSuffix_{{$index}}"
+                                                                    class="form-control" 
+                                                                    ng-model="reserve.bookRequestParams.passengers[n].suffix"
+                                                                    aria-label="Passenger's first name" aria-describedby="whatIsSuffixAppended">
+                                                                    <option selected="selected" value="">Suffix</option>
+                                                                    <option value="SR">Senior</option>
+                                                                    <option value="JR">Junior</option>
+                                                                    <option value="II">II</option>
+                                                                    <option value="III">III</option>
+                                                                    <option value="IV">IV</option>
+                                                                </select>
+                                                                <span class="input-group-addon light12" id="whatIsSuffixAppended">
+                                                                    <i class="fa fa-info-circle" aria-hidden="true"></i> If applicable <a ng-click="reserve.openWhatIsSuffixModal()" class="teal">What is this?</a>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- date of birth -->
+                                                        <div class="form-group" style="width:100%;">
+                                                            <label for="passengerDOBMonth" class="semibold14">
+                                                                <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Date of Birth
+                                                            </label>
+
+                                                            <div class="wrapper-common wrapper-common-width wrapper-row" style="width:100%;">
+                                                                <div class="input-group" style="max-width:6em;">
+                                                                    <select
+                                                                        id="passengerDOBMonth"
+                                                                        class="form-control" 
+                                                                        ng-model="reserve.bookRequestParams.passengers[n].dob.month"
+                                                                        aria-label="Passenger's date of birth - month">
+                                                                        <option disabled="disabled" selected="selected" value="">Month</option>
+                                                                        <option value="01">01 - January</option>
+                                                                        <option value="02">02 - February</option>
+                                                                        <option value="03">03 - March</option>
+                                                                        <option value="04">04 - April</option>
+                                                                        <option value="05">05 - May</option>
+                                                                        <option value="06">06 - June</option>
+                                                                        <option value="07">07 - July</option>
+                                                                        <option value="08">08 - August</option>
+                                                                        <option value="09">09 - September</option>
+                                                                        <option value="10">10 - October</option>
+                                                                        <option value="11">11 - November</option>
+                                                                        <option value="12">12 - December</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="input-group" style="max-width:6.5em;">
+                                                                    <select
+                                                                        id="passengerDOBDay"
+                                                                        class="form-control" 
+                                                                        ng-model="reserve.bookRequestParams.passengers[n].dob.day"
+                                                                        aria-label="Passenger's date of birth - day">
+                                                                        <option disabled="disabled" selected="selected" value="">Day</option>
+                                                                        <option ng-repeat="n in [] | rangeToRepeat:1:31" ng-value="{{n}}">{{n}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="input-group" style="max-width:6em;">
+                                                                    <select
+                                                                        id="passengerDOBYear"
+                                                                        class="form-control" 
+                                                                        ng-model="reserve.bookRequestParams.passengers[n].dob.year"
+                                                                        aria-label="Passenger's date of birth - year">
+                                                                        <option disabled="disabled" selected="selected" value="">Year</option>
+                                                                        <option ng-repeat="n in [] | rangeToRepeat:1910:2018:true" ng-value="{{n}}">{{n}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <ul
+                                                                ng-if="reserve.showValidations && (!reserve.bookRequestParams.passengers[n].dob.month || !reserve.bookRequestParams.passengers[n].dob.day || !reserve.bookRequestParams.passengers[n].dob.year)"
+                                                                class="semibold12"
+                                                                style="color:#c00;">
+                                                                <li>Please enter date of birth as it appears on the passenger's passport/government issued ID.</li>
+                                                                <li>Passengers <a ng-click="reserve.openTravelWithInfantModal()" class="teal">under the age of 15</a> must be accompanied by an adult who is 18 years of age or older.</li>
+                                                            </ul>
+                                                        </div>
+
+                                                        <!-- gender -->
+                                                        <div class="form-group" style="width:100%;">
+                                                            <label for="passengerGender_{{$index}}"  class="semibold14">
+                                                                Gender
+                                                            </label>
+
+                                                            <div class="input-group" style="max-width:22em;">
+                                                                <select
+                                                                    id="passengerGender_{{$index}}"
+                                                                    class="form-control" 
+                                                                    ng-model="reserve.bookRequestParams.passengers[n].gender"
+                                                                    aria-label="Passenger's gender" aria-describedby="whyAskGender">
+                                                                    <option disabled="disabled" selected="selected" value="">Gender</option>
+                                                                    <option value="F">Female</option>
+                                                                    <option value="M">Male</option>
+                                                                </select>
+                                                                <span class="input-group-addon light12" id="whyAskGender">
+                                                                    <i class="fa fa-info-circle" aria-hidden="true"></i> <a ng-click="reserve.openWhyAskGenderModal()" class="teal">Why do we collect this information?</a>
+                                                                </span>
+                                                            </div>
+                                                            <ul
+                                                                ng-if="reserve.showValidations && !reserve.bookRequestParams.passengers[n].gender"
+                                                                class="semibold12"
+                                                                style="color:#c00;">
+                                                                <li>Please specify the passenger's gender.</li>
+                                                            </ul>
+                                                        </div>
+
+                                                        <!-- frequent flyer -->
+                                                        <div ng-if="reserve.contract.itinerary_data.frequent_flyer_data[0]" class="form-group">
+                                                            <label for="passengerFrequentFlyer_{{$index}}" class="semibold14">
+                                                                Frequent Flyer - {{ reserve.contract.itinerary_data.frequent_flyer_data[0].name }}
+                                                            </label>
+                                                            <input id="passengerFrequentFlyer_{{$index}}" type="text" class="form-control" ng-model="reserve.bookRequestParams.passengers[n].frequentFlyerNumber">
+                                                        </div>
+
+                                                        <!-- traveling with infant -->
+                                                        <div ng-if="reserve.contract.itinerary_data.lap_infants_allowed>0" class="form-group">
+                                                            <input
+                                                                type="checkbox"
+                                                                ng-model="reserve.bookRequestParams.passengers[n].travellingWithInfant"
+                                                                class="semibold12"> Please indicate if this passenger will be <a ng-click="reserve.openTravelWithInfantModal()" class="teal">travelling with an infant</a> who does not require their own seat.
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="credite-h">
+                                                        <h3>Payment Information</h3>
+                                                    </div>
+
+                                                    <!-- card name -->
+                                                    <div class="form-group">
+                                                        <label for="paymentCardholderName" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Card holder name
+                                                        </label>
+                                                        <input id="paymentCardholderName" type="text" class="form-control" ng-model="reserve.bookRequestParams.payment.name">
+                                                        <ul
+                                                            ng-if="reserve.showValidations && !reserve.bookRequestParams.payment.name"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Please enter the first and last name as it appears on your credit card.</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- card address -->
+                                                    <div class="form-group">
+                                                        <label for="paymentCardAddress" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Address
+                                                        </label>
+                                                        <input id="paymentCardAddress" type="text" class="form-control" ng-model="reserve.bookRequestParams.payment.address">
+                                                        <ul
+                                                            ng-if="reserve.showValidations && !reserve.bookRequestParams.payment.address"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Please enter your billing address. (example: 123 Main St)</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- card country -->
+                                                    <div class="form-group">
+                                                        <label for="paymentCardCountry" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Country
+                                                        </label>
+                                                        <country-picker
+                                                            id="paymentCardCountry"
+                                                            placeholder="select your country..."
+                                                            countrydata="reserve.contract.itinerary_data.customer_locations.country_data"
+                                                            ng-model="reserve.bookRequestParams.payment.country"
+                                                            selection-changed="reserve.countryChanged()"
+                                                            style="xwidth:20em;" />
+                                                        <ul
+                                                            ng-if="reserve.showValidations && !reserve.bookRequestParams.payment.country"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Please select a country.</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- card state -->
+                                                    <div ng-if="reserve.bookRequestParams.payment.country.region_data" class="form-group">
+                                                        <label for="paymentCardState" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>State
+                                                        </label>
+                                                        <country-picker
+                                                            id="paymentCardState"
+                                                            placeholder="select your state..."
+                                                            countrydata="reserve.bookRequestParams.payment.country.region_data"
+                                                            ng-model="reserve.bookRequestParams.payment.state"
+                                                            style="xwidth:20em;" />
+                                                        <ul
+                                                            ng-if="reserve.showValidations && !reserve.bookRequestParams.payment.state"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Please select a state.</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- card city/town -->
+                                                    <div class="form-group">
+                                                        <label for="paymentCardCity" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>City/Town
+                                                        </label>
+                                                        <input id="paymentCardCity" type="text" class="form-control" ng-model="reserve.bookRequestParams.payment.city">
+                                                        <ul
+                                                            ng-if="reserve.showValidations && !reserve.bookRequestParams.payment.city"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Please enter your city.</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- card zip -->
+                                                    <div class="form-group">
+                                                        <label for="paymentZip" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Zip
+                                                        </label>
+                                                        <input id="paymentZip" type="text" class="form-control" ng-model="reserve.bookRequestParams.payment.zip">
+                                                        <ul
+                                                            ng-if="reserve.showValidations && !reserve.bookRequestParams.payment.zip"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Please type in your postal code.</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- email -->
+                                                    <div class="form-group">
+                                                        <label for="paymentEmail" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Email
+                                                        </label>
+                                                        <input id="paymentEmail" type="text" class="form-control" ng-model="reserve.bookRequestParams.payment.email">
+                                                        <ul
+                                                            ng-if="reserve.showValidations && (!reserve.bookRequestParams.payment.email || !reserve.utilities.isValidEmail(reserve.bookRequestParams.payment.email))"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>A valid email address is required (example: john.smith@email.com).</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- phone -->
+                                                    <div class="form-group">
+                                                        <label for="paymentPhone" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Phone Number
+                                                        </label>
+                                                        <input id="paymentPhone" type="text" class="form-control" ng-model="reserve.bookRequestParams.payment.phone">
+                                                        <ul
+                                                            ng-if="reserve.showValidations && (!reserve.bookRequestParams.payment.phone || !reserve.utilities.isValidPhone(reserve.bookRequestParams.payment.phone))"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Please enter a valid phone number where you can be reached.</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- card number -->
+                                                    <div class="form-group">
+                                                        <label for="paymentCardNumber" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Card Number
+                                                        </label>
+                                                        <input id="paymentCardNumber" type="text" class="form-control" maxlength="16" ng-model="reserve.bookRequestParams.payment.number">
+                                                        <ul
+                                                            ng-if="reserve.showValidations && !reserve.bookRequestParams.payment.number"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Your card number appears to be invalid, or the incorrect card type was selected (below).</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- card type -->
+                                                    <div class="form-group">
+                                                        <label for="paymentCardType" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Card Type
+                                                        </label>
+                                                        <select
+                                                            id="paymentCardType"
+                                                            class="form-control"
+                                                            ng-model="reserve.bookRequestParams.payment.type">
+                                                            <option disabled="disabled" selected="selected" value="">Card Type</option>
+                                                            <option ng-repeat="card in reserve.contract.itinerary_data.credit_card_data" value="{{card.code}}">{{card.name}}</option>
+                                                        </select>
+                                                        <ul
+                                                            ng-if="reserve.showValidations && !reserve.bookRequestParams.payment.type"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Please select a credit card type.</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- card expiration -->
+                                                    <div class="form-group" style="width:100%;">
+                                                        <label for="passengerCardExpirationMonth" class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>Expiration
+                                                        </label>
+
+                                                        <div class="wrapper-common wrapper-common-width wrapper-row" style="width:100%;">
+                                                            <div class="input-group" style="max-width:10em;">
+                                                                <select
+                                                                    id="passengerCardExpirationMonth"
+                                                                    class="form-control" 
+                                                                    ng-model="reserve.bookRequestParams.payment.expiration.month"
+                                                                    aria-label="Credit card expiration month">
+                                                                    <option disabled="disabled" selected="selected" value="">Month</option>
+                                                                    <option value="01">01 - January</option>
+                                                                    <option value="02">02 - February</option>
+                                                                    <option value="03">03 - March</option>
+                                                                    <option value="04">04 - April</option>
+                                                                    <option value="05">05 - May</option>
+                                                                    <option value="06">06 - June</option>
+                                                                    <option value="07">07 - July</option>
+                                                                    <option value="08">08 - August</option>
+                                                                    <option value="09">09 - September</option>
+                                                                    <option value="10">10 - October</option>
+                                                                    <option value="11">11 - November</option>
+                                                                    <option value="12">12 - December</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="input-group" style="max-width:6em;">
+                                                                <select
+                                                                    id="passengerCardExpirationYear"
+                                                                    class="form-control" 
+                                                                    ng-model="reserve.bookRequestParams.payment.expiration.year"
+                                                                    aria-label="Credit card expiration year">
+                                                                    <option disabled="disabled" selected="selected" value="">Year</option>
+                                                                    <option ng-repeat="n in [] | rangeToRepeat:reserve.currentYear:reserve.currentYear+15:false" ng-value="{{n}}">{{n}}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <ul
+                                                            ng-if="reserve.showValidations && (!reserve.bookRequestParams.payment.expiration.month || !reserve.bookRequestParams.payment.expiration.year)"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Please enter the credit card expiration month and year.</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- card cvv -->
+                                                    <div class="form-group" style="width:100%;">
+                                                        <label for="paymentCardCVV"  class="semibold14">
+                                                            <i class="fa fa-asterisk" aria-hidden="true" style="color:red;font-size: .75em;margin-right: .5em;"></i>CVV
+                                                        </label>
+
+                                                        <div class="input-group" style="max-width:22em;">
+                                                            <input
+                                                                id="paymentCardCVV"
+                                                                type="text"
+                                                                class="form-control"
+                                                                ng-model="reserve.bookRequestParams.payment.cvv"
+                                                                aria-label="Credit Card CVV"
+                                                                aria-describedby="lastCardDigits"
+                                                                maxlength="4" />
+                                                            <span class="input-group-addon light12" id="lastCardDigits">
+                                                                <i class="fa fa-info-circle" aria-hidden="true"></i> <a ng-click="reserve.openCVVModal()" class="teal">last 3 or 4 digits on back of your card</a>
+                                                            </span>
+                                                        </div>
+                                                        <ul
+                                                            ng-if="reserve.showValidations && !reserve.utilities.isValidCVV(reserve.bookRequestParams.payment.cvv)"
+                                                            class="semibold12"
+                                                            style="color:#c00;">
+                                                            <li>Your security code appears to be invalid, or you did not pick the correct card type (above). What is this?</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- verifications -->
+                                                    <div class="form-group" style="width:100%;">
+                                                        <div ng-if="reserve.bookRequestParams.passengers[0].name_first">
+                                                            <p>Please verify these names match your travel documents:</p>
+                                                            <ul>
+                                                                <li
+                                                                    ng-repeat="passenger in reserve.bookRequestParams.passengers"
+                                                                    class="semibold14"
+                                                                    ng-if="passenger.name_first || passenger.name_last">
+                                                                    {{passenger.name_first}} {{passenger.name_middle}} {{passenger.name_last}} {{passenger.suffix}}
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div ng-if="reserve.bookRequestParams.payment.email">
+                                                            <p>Please verify this email is correct:</p>
+                                                            <ul>
+                                                                <li>{{ reserve.bookRequestParams.payment.email }}</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <!-- SEAT SELECTION -->
+                                                <div ng-show="isAuthenticated && reserve.SEAT_MAP_IS_IMPLEMENTED"
+                                                    style="margin-top: 2.5em;">
+                                                    <div class="credite-h">
+                                                        <h3>Choose Your Seats</h3>
+                                                    </div>
+                                                    <p class="light14">Seat selection is requested however not guaranteed.</p>
+
+                                                    Seat map available: {{ reserve.contract.itinerary_data.seat_map_available }}
+
+                                                    <article id="js_choose_seat">
+
+                                                        <div class="panel panel-primary">
+                                                            <div class="panel-heading">
+                                                                <h3 class="panel-title"><i class="fa fa-loveseat"></i> Choose your seats (optional)</h3>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                Seat Preference
+
+                                                                <!-- TODO: for each passenger! -->
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 col-md-3">
+                                                                        Passenger 1
+                                                                    </div>
+                                                                    <div class="col-xs-6 col-md-3">
+                                                                        <select ng-model="reserve.bookRequestParams.passenger.seatPref">
+                                                                            <option selected="selected" value="">none</option><option value="aisle">Aisle</option><option value="window">Window</option><option value="adjacent">Together</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-md-3">
+                                                                        <span class="semibold24">OR</span>
+                                                                    </div>
+                                                                    <div class="col-xs-6 col-md-3">
+                                                                        Select a specific seat
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <footer class="rs_choose_seat__footer">
+                                                        </footer>
+
+                                                    </article>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ERRORS -->
+                            <div ng-if="reserve.showValidations && !reserve.inputIsValid" class="col-xs-12" style="margin-top: 1em;">
+                                <div class="alert alert-danger" role="alert">
+                                    <strong>You're almost there.</strong> Item(s) above need your attention.
+                                </div>
+                            </div>
+                            <div ng-if="reserve.showValidations && reserve.inputIsValid" class="col-xs-12" style="margin-top: 1em;">
+                                <div class="alert alert-success" role="alert">
+                                    <strong>You're ready to book!</strong>
+                                </div>
+                            </div>
+
+                            <!-- CONTINUE BOOKING -->
+                            <div class="col-xs-12 continue-btn">
+                                <div class="center-btn">
+                                    <div class="text-center">
+                                        <button
+                                            ng-if="reserve.continueState==='INITIAL'"
+                                            type="text"
+                                            ng-click="reserve.continueBooking()"
+                                            class="teal-bg">
+                                            <span>Continue Booking </span>
+                                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                        </button>
+                                        <button
+                                            ng-if="reserve.showReservationForm && reserve.continueState==='BOOK'"
+                                            type="text"
+                                            ng-click="reserve.book()"
+                                            class="teal-bg"
+                                            ng-disabled="reserve.showValidations && !reserve.inputIsValid"
+                                            ng-style="{'opacity': reserve.showValidations && !reserve.inputIsValid?.4:1}">
+                                            <span>Book Flight Now</span>
+                                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TERMS DISCLAIMER -->
+                            <div
+                                ng-show="reserve.showReservationForm && reserve.continueState==='BOOK'"
+                                class="col-xs-12 text-center">
+                                <span class="light12" style="margin-top:.5em;text-align: center;">
+                                    By selecting "Book Flight Now", I agree to this purchase of {{ reserve.contract.itinerary_data.price_details.display_symbol }}<span class="price">{{ reserve.contract.itinerary_data.price_details.display_total_fare | number : 2  }}</span>
+                                    <small>{{ reserve.contract.itinerary_data.price_details.display_currency }}</small>. I have read, accept, and agree to the <a class="teal" ng-click="reserve.openTermsAndConditionsModal()" style="text-decoration: underline;">terms and conditions</a>, <a class="teal" ng-click="reserve.openPrivacyPolicyModal()" style="text-decoration: underline;">privacy policy</a>, and important terms.
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- SUMMARY OF CHARGES -->
+                    <div class="col-xs-12 col-md-4 xcol-md-push-8" style="margin-top:25px;">
+                        <div class="col-md-12 summary-charges">
+                            <div class="heading">Summary of Charges</div>
+                            <div class="float-left width-100 ticket-price">
+                                <div class="float-left">Ticket Price:</div>
+                                <div class="float-right">{{ reserve.contract.itinerary_data.price_details.display_base_fare | currency : reserve.contract.itinerary_data.price_details.display_symbol : 2 }}</div>
+                            </div>
+                            <div class="float-left width-100 ticket-price">
+                                <div class="float-left">
+                                    <a class="teal" xng-if="reserve.contract.pricing.taxes_and_fees" ng-click="reserve.openTaxesAndFeesModal()" style="text-decoration: underline;">Taxes & Fees</a>
+                                </div>
+                                <div class="float-right">{{ reserve.contract.itinerary_data.price_details.display_taxes_and_ppn_fees | currency : reserve.contract.itinerary_data.price_details.display_symbol : 2  }}</div>
+                            </div>
+                            <div class="float-left width-100 ticket-price">
+                                <div class="float-left">Total per Ticket:</div>
+                                <div class="float-right">{{ reserve.contract.itinerary_data.price_details.display_total_fare_per_ticket | currency : reserve.contract.itinerary_data.price_details.display_symbol : 2  }}</div>
+                            </div>
+                            <div class="float-left width-100 ticket-price">
+                                <div class="float-left">Number of E-Tickets:</div>
+                                <div class="float-right">{{ reserve.contract.itinerary_data.number_of_passengers }}</div>
+                            </div>
+                            <div class="width-100 clearfix total-charges">
+                                <div class="border-heading">
+                                    <p class="heading text-center">
+                                        <span> Total Charges </span>
+                                    </p>
+                                </div>
+                                <div class="price-div">
+                                    <p class="text-center">
+                                        <sup>{{ reserve.contract.itinerary_data.price_details.display_symbol }}</sup>
+                                        <span class="price">{{ reserve.contract.itinerary_data.price_details.display_total_fare | number : 2  }}</span>
+                                        <small>{{ reserve.contract.itinerary_data.price_details.display_currency }}</small>
+                                    </p>
+                                </div>
+                                <div class="terms-conditions">
+                                    <p class="text-center light14">
+                                        Total price includes taxes and fees. Prices are not guaranteed until purchase is
+                                        complete. <br/>
+                                        <a class="teal" xng-if="reserve.contract.pricing.taxes_and_fees" ng-click="reserve.openBaggageFeesModal()" style="text-decoration: underline;">Baggage fees</a> are not included in your trip cost.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="flight-canceling float-left width-100 clearfix">
+                            <div class="canceling-detail light14">
+                                <span class="circle teal-bg">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </span>
+                                <span>Every flight is cancelable within 24 hours</span>
+                            </div>
+                        </div> -->
+                        <div class="imp-info clearfix light14">
+                            <div class="imp-info-heading">
+                                <p>Important Information</p>
+                            </div>
+                            <div class="information">
+                                <ul>
+                                    <li ng-repeat="sentence in reserve.contract.itinerary_data.important_info_data.step1.paragraph_data">
+                                        <p ng-bind-html='reserve.substitutions(sentence)'></p>
+                                    </li>
+                                </ul>
+
+                                <ul>
+                                    <li ng-repeat="sentence in reserve.contract.itinerary_data.important_info_data.step2.paragraph_data">
+                                        <p ng-bind-html='reserve.substitutions(sentence)'></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div>

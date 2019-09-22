@@ -1,0 +1,57 @@
+<div id="setemailaddressView" ng-controller="setemailaddressController as vm" ng-cloak="">
+
+	<!-- if not a social login, this page does not apply -->
+	<div
+		ng-if="!vm.pageIsRelevant"
+		class="wrapper-common wrapper-common-width"
+		style="padding-bottom: 10em;">
+		<div style="padding-top:5em">
+			<h3>This page is not relevant for your account.</h3>
+		</div>
+	</div>
+
+	<!-- if social login, this page applies -->
+	<div
+		ng-show="vm.pageIsRelevant"
+		class="wrapper-common wrapper-common-width"
+		style="padding-bottom: 10em;">
+
+		<div style="padding-top:1.75em">
+			<span style="font-weight: 600;font-size:1.875em;color:#299b7c;">Email Address Needed</span><br />
+			<br />
+			<p>Your account was created successfully but there was no email address provided by your social login.  Please specify an email address below.  For security purposes, you will not have access to any account feature until we have a valid email address from you.</p>
+		</div>
+
+		<!-- no email provided -->
+		<div
+			ng-if="!vm.emailSet"
+			class="background"
+			style="padding:10px 12px;">
+			<label for="email" style="font-weight: 600;">Your Email Address</label><br>
+		    <input
+		    	id="email"
+		    	style="width:20em;"
+		    	type="email"
+		    	ng-model="vm.emailAddress" />
+		    <button
+		    	ng-disabled="vm.emailAddress===''"
+				class="btn btn-primary"
+				ng-click="vm.submitEmailAddress()">GO
+			</button>
+
+			<div
+				class="flex-col">
+				<div ng-repeat="err in vm.errs">
+					<span class="semibold18">{{err}}</span>
+				</div>
+			</div>
+		</div>
+
+		<div
+			ng-if="vm.emailSet">
+			<h3>You're all set!</h3>
+			<button type="button" class="btn btn-default" ng-click="vm.cont()">Continue</button>
+		</div>
+
+	</div>
+</div>

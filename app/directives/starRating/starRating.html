@@ -1,0 +1,16 @@
+<div
+	style='display: inline-block; margin: 0px; padding: 0px; cursor:pointer;'
+	uib-tooltip="{{ _rating + ' out of 5 Stars' }}"
+	tooltip-trigger="mouseenter"
+	tooltip-placement="left"
+	tooltip-enable="{{ _rating>0 && readOnly==='true' }}"
+	tooltip-animation="true"
+	ng-repeat='idx in maxRatings track by $index'>
+	<img
+		ng-src='{{((hoverValue + _rating) <= $index) && "/web/public/resources/star-empty-lg.png" || "/web/public/resources/star-fill-lg.png"}}'
+		ng-Click='isolatedClick($index + 1)'
+		ng-mouseenter='isolatedMouseHover($index + 1)'
+		ng-mouseleave='isolatedMouseLeave($index + 1)'
+		aria-hidden="false">
+	</img>
+</div>

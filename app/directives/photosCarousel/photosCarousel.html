@@ -1,0 +1,69 @@
+<div ng-if="vm.nav==='bottom'" style="background-color:#fff;xwidth:31.250em;xheight:20.813em;">
+	<img
+		image-on-load
+		hide-until-good
+		ng-src="https:{{vm.currentImage.url.replace('https:','')}}"
+		xstyle="width:31.250em;max-height:20.813em;"
+		style="max-width:100%;width:31.250em;height:auto;max-height:20.813em;" /><br />
+	<span ng-if="vm.showDescription==='true'" class="semibold16">{{vm.currentImage.description}}</span>
+</div>
+<div style="display: flex; flex-direction: row;flex-wrap: nowrap;">
+	<button
+		type="button"
+		style="margin: 2px;border: solid 1px  #000;background-color: #fff;width:8em;"
+		alt="Previous photo"
+		ng-disabled="!vm.canShiftLeft()"
+		ng-click="vm.shiftGalleryLeft()">
+		<i class="fa fa-caret-left fa-2x" aria-hidden="true"></i>
+	</button> 
+	<!-- <img
+		ng-disabled="!vm.canShiftLeft()"
+		ng-click="vm.shiftGalleryLeft()"
+		style="font-size:3em;margin:2px 0 0 0;max-height:78px;width:9%;max-width:40px;height:100%;background-color:#fcfcfc;border:1px solid #000;"
+		src="/web/public/resources/less_than.jpg"
+		alt="Go to the previous photo" /> -->
+		<div ng-repeat="img in vm.collection">
+			<img
+				image-on-load
+				hide-until-good
+				ng-show="$index>=vm.firstPhotoIndex && $index<vm.firstPhotoIndex+4"
+				ng-click="vm.setCurrentIndex($index)"
+				ng-src="https:{{img.url.replace('https:','')}}" 
+				onerror="angular.element(this).scope().imgError(this.src);"
+				style="width:100%;max-width:6.3em;height:100%;max-height:62.48px;/*intentional distortion*/ margin:1px;vertical-align: top;"
+				ng-class="vm.currentPhotoIndex===$index ? 'currentPhoto' : ''"
+				onerror="this.style.visibility='hidden';"
+				alt="Hotel photo"
+				aria-label="Previous Photo" /><br/>
+		</div>
+	<button
+		type="button"
+		style="margin: 2px;border: solid 1px  #000;background-color: #fff;width:8em;"
+		alt="Next photo"
+		ng-disabled="!vm.canShiftRight()"
+		ng-click="vm.shiftGalleryRight()">
+		<i class="fa fa-caret-right fa-2x" aria-hidden="true"></i>
+
+	<!-- <img
+		ng-disabled="!vm.canShiftRight()"
+		ng-click="vm.shiftGalleryRight()"
+		style="font-size:3em;margin:2px 0 0 0;max-height:78px;width:9%;max-width:40px;height:100%;background-color:#fcfcfc;border:1px solid #000;"
+		src="/web/public/resources/greater_than.jpg"
+		alt="Go to the next photo"
+		aria-label="Next Photo" /> -->
+
+</div>
+<div ng-show="vm.nav==='top'" style="background-color:#fff;width:400px;height:400px;max-width:100%;">
+
+	<img
+		image-on-load
+		hide-until-good
+		imageCheckComplete="vm.postOrientationCheckCB"
+		id="example1"
+		ng-src="https:{{vm.currentImage.url.replace('https:','')}}"
+		xstyle="max-width:100%;width:31.250em;height:auto;max-height:20.813em;"
+		style="width:100%;height:100%;object-fit: scale-down;background-color:#f9f9f9;border:1px solid darkgreen;"
+		 /><br />
+
+	<span ng-if="vm.showDescription==='true'" class="semibold16" style="position:absolute;">{{vm.currentImage.description}}</span>
+</div>

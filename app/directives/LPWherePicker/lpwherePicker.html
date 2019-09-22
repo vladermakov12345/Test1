@@ -1,0 +1,43 @@
+<label for="popup1Id" style="font-weight: 400;">{{vm.label}}</label><br />
+<div style="display: flex;flex-direction: row;">
+  <ui-select
+    id="citySelector"
+    ng-model="vm.selectedValue"
+    class="wherePickerInput"
+    style="width:100%;"
+    theme="bootstrap"
+    ng-required="true"
+    search-enabled="true"
+    reset-search-input="false"
+    on-select="vm.selectedOptionChanged()"
+    title="{{vm.placeholder}}"
+    spinner-enabled="true">
+    <ui-select-match
+       id="planner-selectcity-match"
+       class="styleInnerSpan"
+       placeholder="{{vm.placeholder}}"
+       allow-clear="false"
+       aria-hidden="false">
+        {{$select.selected.display}}
+     </ui-select-match>
+    <ui-select-choices
+      repeat="option in vm.options | filter: $select.search"
+      refresh="vm.refreshOptions($select.search)"
+      refresh-delay=".01"
+      position="down">
+        <span>
+          <i ng-if="option.type==='hotel'" class="fa fa-bed" style="width:2em;" aria-hidden="true"></i>
+          <i ng-if="option.type==='city'" class="fa fa-map-marker" style="width:2em;" aria-hidden="true"></i>
+          <i ng-if="option.type==='airport'" class="fa fa-plane" style="width:2em;" aria-hidden="true"></i>
+          <i ng-if="option.type==='poi'" class="fa fa-map-marker" style="width:2em;" aria-hidden="true"></i>
+          <!-- <i ng-if="type==='region'" class="fa fa-map-o" aria-hidden="true"></i> -->
+        </span>
+        <span style="padding-left:.25em;" ng-bind-html="option.display | highlight: $select.search"></span>
+    </ui-select-choices>
+  </ui-select>
+</div>
+<div
+  ng-show="$select.search"
+  style="color: red;font-weight:600;text-align: left;">
+  No results found for "{{$select.search}}"
+</div>

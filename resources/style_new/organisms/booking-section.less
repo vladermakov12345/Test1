@@ -1,0 +1,835 @@
+.booking-section {
+
+  background-image: linear-gradient(to top, #d7d7d7, #ffffff), linear-gradient(to bottom, #ffffff, #ffffff);
+  background-color:#faf8f8;
+  position: relative;
+  border-bottom: 1px solid @border-mobile-menu;
+  padding: 20px 0px;
+
+  &:before {
+    content:'';
+    display: block;
+    position: absolute;
+    left:0px;
+    top:-1px;
+    width:100%;
+    height:1px;
+    background: @border-mobile-menu;
+  }
+
+  ul.nav-tabs {
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    position: absolute;
+    top: -34px;
+    background: none;
+
+
+    @media(max-width:@small) {
+      width:100%!important;
+      left:0px;
+      top:-34px;
+      justify-content:unset;
+    }
+
+    li {
+      margin-right: 3px;
+      box-shadow: none;
+
+      @media(max-width:@small) {
+        width:20%;
+        margin-right:0px;
+        padding-right:3px;
+        text-align:center;
+
+        &:last-child {
+          padding-right:0px;
+        }
+
+      }
+
+      &:last-child {
+        margin-right:0px;
+      }
+
+      @media(max-width:@x-small) {
+        padding-right:0px;
+      }
+
+
+    }
+
+    a {
+      border: none;
+      margin: 0px 5px 0px 0px;
+      width:100%;
+      background: rgba(0,0,0,.6);
+      color: @text-white;
+      padding:0px;
+      border-bottom: 1px solid @border-mobile-menu;
+      height:34px;
+      line-height:34px;
+      border-radius:0px;
+
+      font-size: 1.1em;
+
+      &.active {
+        background: @background-white;
+        color: @text-green;
+        border: 1px solid @border-mobile-menu;
+        border-bottom: 1px solid @border-white;
+      }
+
+      @media(min-width:@small) {
+        padding: 0px 50px;
+      }
+
+    }
+
+  }
+
+  .tab-content {
+    width: 100%;
+  }
+
+  #hotels-checkin, #hotels-checkout,  #hotel-search-rooms, #hotel-search-adults, #hotel-search-children {
+      float: left;
+  }
+
+  #hotels-checkin {
+    margin-right: 10px;
+  }
+
+  #hotel-search-rooms, #hotel-search-adults, #hotel-search-children {
+
+    .dropdown-menu {
+      max-height:150px;
+      overflow: scroll;
+    }
+
+  }
+
+
+
+  #checkin, #checkout {
+
+    button {
+      //background: @background-white;
+      border-radius:0px;
+      border:1px solid @border-mobile-menu;
+    }
+
+  }
+
+  .col, .row {
+    padding:0px;
+  }
+
+  .col {
+    margin-top:10px;
+    margin-bottom:10px;
+
+    &.col-lg-3, &.col-lg-2 {
+      padding-left:20px;
+
+      @media(max-width:@x-large) {
+        padding-left:0px;
+      }
+
+    }
+
+    .x-2 {
+        padding-right: 5px;
+        float: left;
+
+        &:last-child {
+          padding-right: 0px;
+          padding-left: 5px;
+        }
+
+      }
+
+    .x-3 {
+      float: left;
+    }
+
+    .search-button {
+
+      .align-bottom {
+        text-align:center;
+      }
+
+    }
+
+    @media(min-width:@large) {
+
+      .priceline {
+        margin-top: 20px;
+      }
+
+    }
+
+    @media(min-width:@small) {
+
+      &.location {
+        padding-right:20px!important;
+      }
+
+    }
+
+    @media(min-width:@small) and (max-width: @large) {
+
+      &.location {
+
+        flex: 0 0 ~'calc(100% - 494px)';
+
+      }
+
+    }
+
+
+
+    &.rooms-guests {
+
+      & > div {
+        float: left;
+      }
+
+    }
+
+    @media(max-width:@x-large) {
+
+      .location {
+        padding-right:20px;
+      }
+
+      .rooms-guests {
+        padding-left:20px;
+      }
+
+      .search-button {
+        padding-left:20px;
+      }
+
+    }
+
+    @media(max-width:@large) {
+
+      .location {
+        padding-right:5px;
+        padding-left:5px;
+      }
+
+      .rooms-guests {
+        padding-left:0px;
+      }
+
+      .check-box {
+        padding:5px;
+      }
+
+    }
+
+    @media(min-width:@x-large) {
+
+      &.location {
+        flex: 0 0 431px;
+      }
+
+    }
+
+
+
+  }
+
+
+  button {
+    width:100%;
+
+    &.home-booking-form-searchbutton {
+      border-radius:20px;
+      padding:0;
+      min-height:0px;
+      height:40px;
+      line-height:40px;
+      font-size:15px;
+      font-weight:400;
+      display: inline-block;
+      vertical-align: middle;
+      float: none;
+      width:155px;
+
+      &:hover {
+        background: darken(@background-green, 5%);
+      }
+
+    }
+
+  }
+
+  .wherePickerInput {
+    min-height:0px;
+    height:40px!important;
+
+    .styleInnerSpan > span {
+      min-height:0px;
+      padding: .375rem .75rem;
+      border-radius:0px;
+      border: none;
+      border: 1px solid @border-mobile-menu;
+    }
+
+    input {
+      min-height:0px;
+    }
+
+    i.caret {
+      display: none;
+    }
+
+    .ui-select-placeholder {
+      padding-left: 20px;
+      height: 100%;
+      position: absolute;
+      left:10px;
+      top:0px;
+      line-height: 1.5;
+      display: inline-block;
+      vertical-align: middle;
+      padding-top:8px;
+
+/* REM JEFF - this is blocking other text
+      &:before {
+        content:'';
+        display: block;
+        width:13px;
+        height:100%;
+        top: 0px;
+        left:0px;
+        position: absolute;
+        background: url("@{cdn}/i/booking/location.png") no-repeat center;
+        background-size: contain;
+      }
+*/
+
+    }
+
+
+  }
+
+  .date-picker-wrapper {
+    position:relative;
+    width:140px;
+
+    .popupDatePickerTrigger, .clear {
+      background: none!important;
+      position: absolute;
+      width: auto;
+      top: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+      height: 100%;
+      min-width: 20px;
+      border: none!important;
+
+      &:after {
+        content:'';
+        position: absolute;
+        width:100%;
+        height:100%;
+        top:0px;
+        left:0px;
+      }
+
+    }
+
+
+
+    .popupDatePickerTrigger {
+      left:5px;
+
+      &:after {
+        background: url("@{cdn}/i/booking/calendar-in.png") no-repeat center;
+        background-size:15px;
+      }
+
+      &.cal-out {
+
+        &:after {
+          background: url("@{cdn}/i/booking/calendar-out.png") no-repeat center;
+          background-size: 15px;
+        }
+
+
+      }
+
+
+
+    }
+
+    .clear {
+       right:5px;
+
+        &:after {
+          background: url("@{cdn}/i/booking/close.png") no-repeat center;
+          background-size:10px;
+        }
+
+      }
+
+    .datePickerInput {
+      min-height:0px;
+      height:40px;
+      width:100%;
+      text-align:center;
+
+      border: 1px solid @border-mobile-menu;
+
+    }
+
+
+  }
+
+  .timePickerWrapper {
+    width:auto;
+
+    .dropdown {
+      width:7em;
+
+      .dropdown-toggle {
+
+        height:40px;
+        line-height:38px;
+        padding:0px 30px 0px 12px!important;
+        border-radius: 0px;
+        border: 1px solid @border-mobile-menu;
+        background: @background-white;
+      }
+
+    }
+
+  }
+
+  .person-select-wrapper {
+    float: left;
+    width:100%;
+    max-width:80px;
+
+  }
+
+  .dropdown {
+
+    .dropdown-toggle {
+      min-height:0px!important;
+      height:38px;
+      line-height:38px;
+      padding-left:10px!important;
+      text-align:left;
+
+      @media(min-width:@small) {
+        padding-left:22px!important;
+      }
+
+      &:after {
+        border:none;
+        content:"\f078";
+        font-family: FontAwesome;
+        color: @text-green;
+        font-size: 12px;
+        position: absolute;
+        height: 100%;
+        width:20px;
+        right:5px;
+
+      }
+    }
+
+    .dropdown-menu {
+      border-radius:0px;
+      width:~"calc(100% + 2px)";
+      min-width:0px;
+      left:-1px;
+      border-top: none;
+
+      .dropdown-item {
+        padding: 6px 22px;
+      }
+
+    }
+
+
+
+  }
+
+
+  .checkbox {
+
+    @media(min-width:@small) {
+      margin: 30px 0px 0px 20px;
+    }
+
+    @media(max-width:@large) {
+     margin: 0px 20px 0px 0px;
+    }
+
+    @media(min-width:@large) {
+      margin: 0px;
+    }
+
+  }
+
+
+
+
+
+  .countries {
+    padding-right: 20px;
+
+    @media(max-width:@small) {
+      padding-right: 0px;
+    }
+
+
+
+  }
+
+  #cars {
+
+    .col {
+      padding-right: 10px;
+    }
+
+    .car-location {
+
+      @media(max-width:@large) {
+        width: auto;
+        flex-basis: inherit;
+      }
+
+      @media(min-width:@small) and (max-width:@large) {
+        width: 100%;
+      }
+
+      @media(max-width:@x-small) {
+        width: 100%;
+        padding-right: 0px;
+      }
+
+    }
+
+
+    .car-pickup-time {
+      padding-right: 0px;
+    }
+
+  }
+
+
+
+  .form-input {
+    border: 1px solid @border-mobile-menu;
+    height: 38px;
+    padding: 0px 20px;
+    width: 100%;
+
+  }
+
+  .persons {
+    padding-right: 0px;
+  }
+
+
+  #hotels {
+
+    .search-button {
+
+      @media(min-width:@large) {
+        position: relative;
+        margin-top: 42px;
+      }
+
+      @media(max-width:@large) {
+        order:1;
+
+        img {
+          display: none;
+        }
+
+
+      }
+
+
+
+
+    }
+
+  }
+
+  .validation-errors {
+
+    color: red;
+    font-weight: 600;
+
+  }
+
+  .switcher {
+
+    &.selected {
+
+      .btn-group {
+        background: @background-green;
+
+        label.active {
+          background: @background-white;
+        }
+
+      }
+
+    }
+
+  }
+
+
+}
+.wherePickerInput {
+  min-height:0px;
+  height:40px!important;
+
+  .styleInnerSpan > span {
+    min-height:0px;
+    padding: .375rem .75rem;
+    border-radius:0px;
+    border: none;
+    border: 1px solid @border-mobile-menu;
+    position: relative;
+  }
+
+  input {
+    height:40px!important;
+  }
+
+  i.caret {
+    display: none;
+  }
+
+  .ui-select-toggle {
+    position: relative;
+    border: 1px solid red;
+  }
+
+  .ui-select-placeholder {
+    padding: 0px 0px 0px 20px;
+    height: 100%;
+    position: absolute;
+    left:10px;
+    top:0px;
+    line-height: 35px;
+    display: inline-block!important;
+    vertical-align: middle;
+    font-size: 1em;
+
+/* REM JEFF - this is blocking other text
+    &:before {
+      content:'';
+      display: block;
+      width:13px;
+      height:100%;
+      top: 0px;
+      left:0px;
+      position: absolute;
+      background: url('../../../resources/img_new/booking/location.png') no-repeat center;
+      background-size: contain;
+    }
+*/
+
+  }
+
+  .ui-select-search {
+
+    height:40px!important;
+
+  }
+
+
+}
+
+.date-picker-wrapper {
+  position:relative;
+  width:140px;
+
+  .popupDatePickerTrigger, .clear {
+    background: none!important;
+    position: absolute;
+    width: auto;
+    top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    height: 100%;
+    min-width: 20px;
+    border: none!important;
+
+    &:after {
+      content:'';
+      position: absolute;
+      width:100%;
+      height:100%;
+      top:0px;
+      left:0px;
+    }
+
+  }
+
+  .popupDatePickerTrigger {
+    left:5px;
+
+    &:after {
+      background: url('../../../resources/img_new/booking/calendar-in.png') no-repeat center;
+      background-size:15px;
+    }
+
+    &.cal-out {
+
+      &:after {
+        background: url('../../../resources/img_new/booking/calendar-out.png') no-repeat center;
+        background-size: 15px;
+      }
+
+
+    }
+
+
+
+  }
+
+  .clear {
+    right:5px;
+
+    &:after {
+      background: url('../../../resources/img_new/booking/close.png') no-repeat center;
+      background-size:10px;
+    }
+
+  }
+
+  .datePickerInput {
+    min-height:0px;
+    height:40px;
+    width:100%;
+    text-align:center;
+
+    border: 1px solid @border-mobile-menu;
+
+  }
+
+}
+
+
+
+
+
+.timePickerWrapper {
+  width:auto;
+
+  .dropdown {
+    width:100px;
+
+    .dropdown-toggle {
+
+      height:40px;
+      line-height:38px;
+      padding:0px 30px 0px 12px!important;
+      border-radius: 0px;
+      border: 1px solid @border-mobile-menu;
+      background: @background-white;
+    }
+
+  }
+
+}
+
+.person-select-wrapper {
+  float: left;
+  width:100%;
+  max-width:80px;
+
+}
+
+.departures {
+
+  & > div {
+    float: left;
+    padding-right: 10px;
+
+    &:last-child {
+      padding-right: 0px;
+    }
+
+  }
+
+  @media(min-width:@large) {
+    padding-right: 20px;
+  }
+
+  @media(max-width:@x-small) {
+
+    .x-2 {
+      width: 100%;
+      padding:0px!important;
+
+      &:last-child {
+        margin-top: 20px;
+
+      }
+
+    }
+  }
+
+}
+
+.persons {
+  //padding: 0px 20px;
+
+  & > div {
+    float: left;
+  }
+
+}
+
+.departure-dates {
+  padding-left: 0px!important;
+  margin-right: 20px;
+
+  & > div {
+    float: left;
+  }
+
+}
+
+button {
+  /* REM JEFF - negatively affecting button style across site width:100%; */
+
+  &.home-booking-form-searchbutton {
+    border-radius:20px;
+    padding:0;
+    min-height:0px;
+    height:40px;
+    line-height:40px;
+    font-size:15px;
+    font-weight:400;
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+    width:155px;
+
+    @media(min-width:@small) {
+      float: right;
+    }
+
+    &:hover {
+      background: darken(@background-green, 5%);
+    }
+
+  }
+
+}

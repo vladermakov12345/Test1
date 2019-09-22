@@ -1,0 +1,159 @@
+<div class="text-center xlogin-modal register-modal" xng-controller="loginController as vm" tabindex="-1">
+
+    <div
+        ng-if="::!vm.IsEmbedded()"
+        class="modal-header"
+        style="font-size:1.5em;">
+        <img
+            ng-src="{{env.cdn_static}}/i/logo/logo_175_42_trans.png"
+            class="login-modal-logo modal-title"
+            alt="accessibleGO logo" />
+        <!-- <button type="button" class="close" ng-click="vm.closeModal()" aria-label="Close">&times;</button> -->
+        <button type="button" class="close p-0" data-dismiss="modal" ng-click="vm.closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <!-- <h4 class="modal-title text-center">woohoo! Exclusive low rates for members coming in 2018.</h4> -->
+    </div>
+    
+    <!-- not signed in -->
+    <div
+        xng-if="!vm.isUserLoggedIn"
+        class="modal-body" style="">
+        <div class="center-block" style="border:0px solid #29817c;max-width:26em;padding:.5em;">
+
+            <div
+                class="bold28"
+                style="font-size: 1.8em;color:#29807c;font-weight: 900;"
+                ng-bind-html="vm.text.heading || 'Welcome Back!'">
+            </div>
+
+            <div
+                class="bold18"
+                style="margin:.5em 0 1em 0;"
+                ng-bind-html="vm.text.subHeadingLogin || 'Log in to your accessibleGO account'">
+            </div>
+
+        <!-- </div>
+        <div style="margin:1em;border:0px solid #29817c;max-width:26em;width:100%;padding:.5em;"> -->
+            <!-- <div class="center-block login-form text-left" style=""> -->
+                    <!-- <div class="panel-heading"></leftdiv> -->
+            <div class="form-group center-block" xstyle="width:15.5em;">
+
+                <!-- login :: FB -->
+                <div style="margin:.25em 0">
+                    <img
+                        lazy-load="'https://accessiblego.azureedge.net/img/social/logInWithFacebook.png'"
+                        ng-click="vm.loginFacebook()"
+                        src=""
+                        style="margin-bottom:.5em;height:2.5em;height:40px;"
+                        alt="Login with Facebook" />
+                </div>
+                <div style="margin:.25em 0;">
+                    <img
+                        ng-click="vm.loginGoogle()"
+                        src="https://accessiblego.azureedge.net/img/social/continueWithGoogle.png"
+                        style="margin-bottom:.25em;max-width:250px;height:59px;"
+                        alt="Login with Google" />
+                </div>
+
+                <!--              
+                    <div class="fb-login-button" data-width="100px" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true" ng-click="vm.loginFacebook()"></div>
+
+                    <button class="btn btn-primary" ng-click="login()" ng-disabled="loginStatus.status === 'connected'">Connect with Facebook</button>
+                    <div fb-login>
+                        <fb:login-button 
+                          scope="public_profile,email"
+                          size="large"
+                          width="100px"
+                          maxRows="1"
+                          buttonType="login_with"
+                          useContinueAs="{{vm.IsUserConnectedToFB()}}"
+                          onlogin="rootScopeBroadcast('fbLoginCB');">
+                        </fb:login-button>
+                    </div>
+                    <button ng-click="vm.logoutFB()">Logout FB</button>
+                -->
+
+                <form>
+                    <!-- begin: email -->
+                    <div class="input-group login-input">
+                        <span class="input-group-prepend input-group-text"><i class="fa fa-user" aria-hidden="true"></i></span>
+                        <input ng-model="vm.username" class="form-control form-control-sm" id="UserName" name="UserName" placeholder="Email address" type="text" autocomplete="email" aria-label="Email address">
+                        <span class="field-validation-valid text-danger"></span>
+                    </div>
+                    <!-- end: email -->
+
+                    <br />
+
+                    <!-- begin: password -->
+                    <div class="input-group login-input">
+                        <span class="input-group-prepend input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                        <input ng-model="vm.password" class="form-control form-control-sm" id="Password" name="Password" placeholder="Password" type="password" autocomplete="current-password" aria-label="Password">
+                        <span class="field-validation-valid text-danger"></span>
+                    </div>
+                    <!-- end: password -->
+
+                    <br />
+
+                    <!-- begin: remember me -->
+                    <!-- <div class="checkbox">
+                        <label>
+                            <input ng-model="vm.rememberMe" id="RememberMe" name="RememberMe" type="checkbox" value="false"> Remember me
+                        </label>
+                    </div> -->
+                    <!-- end: remember me -->
+
+                    <!-- begin: buttons -->
+                    <div class="btm_action">
+                        <button ng-click="vm.login()" class="btn btn-ar btn-primary" style="width:100%;background-color: #29807c;padding:.5em;font-size:1.5em;font-weight: bold;"
+                            ng-disabled="vm.isButtonDisable">
+                            {{vm.isButtonDisable?'logging in':'Log in'}}
+                            <span ng-show="vm.isButtonDisable">
+                                <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+                            </span>
+                        </button>
+                    </div>
+                    <!-- end: buttons -->
+
+                    <!-- begin: email does not exist error -->
+                    <div
+                        ng-if="vm.showEmailNotExist===true"
+                        class="panel panel-danger-dark">
+                        <br />
+                        <div class="panel-heading">
+                            <p>The email and password you've entered doesn't match any account.  <a ng-click="vm.goToSignUp()" style="text-decoration: underline;font-weight: 600;">Sign up for an account</a>.</p>
+                        </div>
+                    </div>
+                    <!-- end: email does not exist error -->
+
+                
+                    <!-- begin: validation errors -->
+                    <div
+                        ng-show="vm.errs.length>0"
+                        class="panel panel-danger-dark">
+                        <br />
+                        <div class="panel-heading">
+                            <p>Please correct the following:</p>
+                            <ul ng-repeat="loginError in vm.errs track by $index">
+                                <li ng-bind="loginError" />
+                            </ul>
+                            <!-- <a ui-sref='join'>Click here to create a new account</a> -->
+                        </div>
+                    </div>
+                    <!-- end: validation errors -->
+                </form>
+
+                <div class="clearfix"></div>
+            </div>
+        
+            <div style="margin:.25em 0;">
+                <a
+                ng-click="vm.goToResetPassword()"
+                style="text-decoration: underline;color:#29807c;font-size: 1.125em;">Forgot Password?</a>
+            </div>
+
+            <p class="pageDesc" style="color:color:#29807c;font-size: 1.125em;">New to accessibleGO? <a ng-click="vm.goToSignUp()" style="text-decoration: underline;">Join Today</a>!</p>
+        </div>
+    </div>
+</div>
