@@ -1,6 +1,6 @@
 describe('example test', function() {
   it('should be true', function() {
-    expect('foo').toBe('foo2');
+    expect('foo').toBe('foo');
  
   });    
 });
